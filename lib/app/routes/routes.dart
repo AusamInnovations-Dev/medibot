@@ -46,6 +46,7 @@ class RouteHelper {
     GetPage(
       name: RoutePaths.userInformation,
       page: () => const UserInfo(),
+      binding: AuthBinding(),
     ),
     GetPage(
       name: RoutePaths.caretakerInformation,
