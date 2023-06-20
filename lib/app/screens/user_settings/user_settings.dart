@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
-
+import 'package:get/get.dart';
+import 'package:medibot/app/routes/route_path.dart';
 import '../../widgets/text_field.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+class UserSetting extends GetView {
+  const UserSetting({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,15 @@ class MainPage extends StatelessWidget {
               ),
             ]),
         Container(
-          margin: EdgeInsets.only(top: 100.h, left: 7.w, bottom: 10.h),
+          margin: EdgeInsets.only(top: 110.h, left: 7.w, bottom: 10.h),
           width: 320.w,
           height: 250.h,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
                 onPressed: () {
+                  Get.toNamed(RoutePaths.editUserInformation);
                   // controller.handleSigning();
                 },
                 style: ElevatedButton.styleFrom(
@@ -58,6 +61,7 @@ class MainPage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
+                  Get.toNamed(RoutePaths.editCaretakerInformation);
                   // controller.handleSigning();
                 },
                 style: ElevatedButton.styleFrom(
@@ -72,7 +76,31 @@ class MainPage extends StatelessWidget {
                   ),
                 ),
                 child: CustomTextField(
-                  text: "Change PIN",
+                  text: "Change CareTaker Info",
+                  fontFamily: 'Sansation',
+                  size: 13.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // controller.handleSigning();
+                  Get.toNamed(RoutePaths.editEmergencyInformation);
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 0),
+                  backgroundColor: Color(0xffE1EDFF),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 13.h,
+                    // horizontal: 100.w,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7.r),
+                  ),
+                ),
+                child: CustomTextField(
+                  text: "Change Emergency Info",
                   fontFamily: 'Sansation',
                   size: 13.sp,
                   fontWeight: FontWeight.w700,
@@ -95,7 +123,7 @@ class MainPage extends StatelessWidget {
                   ),
                 ),
                 child: CustomTextField(
-                  text: "Change Care Taker Info",
+                  text: "Change PIN",
                   fontFamily: 'Sansation',
                   size: 13.sp,
                   fontWeight: FontWeight.w700,

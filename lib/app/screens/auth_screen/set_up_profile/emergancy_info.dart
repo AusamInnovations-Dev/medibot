@@ -3,15 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:get/get.dart';
+import '../getx_helper/auth_controller.dart';
 import '../../../widgets/backward_button.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/custom_input.dart';
 import '../../../widgets/custom_input_button.dart';
 import '../../../widgets/forward_button.dart';
 import '../../../widgets/text_field.dart';
+import 'package:medibot/app/routes/route_path.dart';
 
-class EmergencyInfo extends StatelessWidget {
+class EmergencyInfo extends GetView<AuthController> {
   const EmergencyInfo({Key? key}) : super(key: key);
 
   @override
@@ -40,9 +42,9 @@ class EmergencyInfo extends StatelessWidget {
         toolbarHeight: 80.h,
       ),
       body: Center(
-          child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: CustomBox(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: CustomBox(
             boxHeight: 363.h,
             boxWidth: 264.w,
             margin: const EdgeInsets.symmetric(horizontal: 48),
@@ -53,25 +55,29 @@ class EmergencyInfo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                    margin: EdgeInsets.only(bottom: 15.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(bottom: 3.w),
-                          child: CustomTextField(
-                              size: 13.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300,
-                              text: "What’s your emergency contact’s name?"),
+                  margin: EdgeInsets.only(bottom: 15.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(bottom: 3.w),
+                        child: CustomTextField(
+                          size: 13.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                          text: "What’s your emergency contact’s name?",
                         ),
-                        CustomInputField(
-                            boxHeight: 36.h,
-                            boxWidth: 240.w,
-                            hintText: "",
-                            fontTheme: 'Sansation')
-                      ],
-                    )),
+                      ),
+                      CustomInputField(
+                        boxHeight: 36.h,
+                        boxWidth: 240.w,
+                        hintText: "",
+                        fontTheme: 'Sansation',
+                        textController: controller.emergencynameController,
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15.w),
                   child: Column(
@@ -80,26 +86,36 @@ class EmergencyInfo extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(bottom: 3.w),
                         child: CustomTextField(
-                            size: 13.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                            text: "Emergency contact’s Address"),
+                          size: 13.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                          text: "Emergency contact’s Address",
+                        ),
                       ),
                       Row(
                         //mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CustomInputField(
-                              boxHeight: 36.h,
-                              boxWidth: 172.w,
-                              hintText: "",
-                              fontTheme: 'Sansation'),
-                          InputButton(
+                            boxHeight: 36.h,
+                            boxWidth: 172.w,
+                            hintText: "",
+                            fontTheme: 'Sansation',
+                            textController: controller.emergencylocationController,
+                          ),
+                          Obx(
+                            () => InputButton(
                               height: 27.5.h,
-                              width: 57.w,
-                              text: "Fetch current location",
+                              width: 56.w,
+                              text: controller.fetchingLocation.value
+                                  ? '...'
+                                  : "Fetch current location",
                               fontWeight: FontWeight.w500,
                               textsize: 9.sp,
-                              onPressed: (() {}))
+                              onPressed: () async {
+                                controller.emergencylocationController.text =await controller.getCurrentLocation();
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ],
@@ -113,63 +129,73 @@ class EmergencyInfo extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(bottom: 3.w),
                         child: CustomTextField(
-                            size: 13.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                            text: "Emergency contact’s Contact Number"),
+                          size: 13.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                          text: "Emergency contact’s Contact Number",
+                        ),
                       ),
                       Row(
                         //mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CustomInputField(
-                              boxHeight: 36.h,
-                              boxWidth: 172.w,
-                              hintText: "",
-                              fontTheme: 'Sansation'),
+                            boxHeight: 36.h,
+                            boxWidth: 172.w,
+                            hintText: "",
+                            fontTheme: 'Sansation',
+                            textController: controller.emergencycontactController,
+                          ),
                           InputButton(
-                              height: 27.5.h,
-                              width: 57.w,
-                              text: "Select Contact",
-                              fontWeight: FontWeight.w500,
-                              textsize: 9.sp,
-                              onPressed: (() {}))
+                            height: 27.5.h,
+                            width: 57.w,
+                            text: "Select Contact",
+                            fontWeight: FontWeight.w500,
+                            textsize: 9.sp,
+                            onPressed: () {},
+                          )
                         ],
                       ),
                     ],
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(bottom: 15.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(bottom: 3.w),
-                          child: CustomTextField(
-                              size: 13.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300,
-                              text: "Emergency contact’s relation with you?"),
+                  margin: EdgeInsets.only(bottom: 15.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(bottom: 3.w),
+                        child: CustomTextField(
+                          size: 13.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                          text: "Emergency contact’s relation with you?",
                         ),
-                        CustomInputField(
-                            boxHeight: 36.h,
-                            boxWidth: 240.w,
-                            hintText: "",
-                            fontTheme: 'Sansation')
-                      ],
-                    )),
+                      ),
+                      CustomInputField(
+                        boxHeight: 36.h,
+                        boxWidth: 240.w,
+                        hintText: "",
+                        fontTheme: 'Sansation',
+                        textController: controller.emergencyrelationController,
+                      )
+                    ],
+                  ),
+                ),
                 ForwardButton(
                   width: 255.w,
                   text: 'Continue',
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 18.h,
                   onPressed: () {
-                    log('HelloWorld');
+                    Get.toNamed(RoutePaths.qrScan);
                   },
                 ),
               ],
-            )),
-      )),
+            ),
+          ),
+        ),
+      ),
       bottomNavigationBar: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,7 +208,13 @@ class EmergencyInfo extends StatelessWidget {
             margin: EdgeInsets.only(right: 15.w),
             child: BackwardButton(
               text: 'Go Back',
-              onPressed: () {},
+              onPressed: () {
+                if (controller.haveCaretaker.value) {
+                  Get.offAndToNamed(RoutePaths.caretakerInformation);
+                } else {
+                  Get.offAndToNamed(RoutePaths.userInformation);
+                }
+              },
               iconSize: 18.w,
               padding: EdgeInsets.symmetric(vertical: 11.h),
               width: 120.w,

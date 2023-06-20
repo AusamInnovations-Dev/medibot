@@ -20,18 +20,6 @@ class EmergencyInfoSettings extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextField(
-                  text: "Edit User Profile",
-                  fontFamily: 'Sansation',
-                  size: 23.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ]),
           CustomBox(
               boxHeight: 367.h,
               boxWidth: 265.w,
@@ -79,6 +67,8 @@ class EmergencyInfoSettings extends StatelessWidget {
                           //mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CustomInputField(
+                                topr: Radius.zero,
+                                bottomr: Radius.zero,
                                 boxHeight: 36.h,
                                 boxWidth: 172.w,
                                 hintText: "",
@@ -112,6 +102,8 @@ class EmergencyInfoSettings extends StatelessWidget {
                           //mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CustomInputField(
+                                topr: Radius.zero,
+                                bottomr: Radius.zero,
                                 boxHeight: 36.h,
                                 boxWidth: 172.w,
                                 hintText: "",

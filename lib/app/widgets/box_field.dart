@@ -6,7 +6,11 @@ class CustomBox extends StatelessWidget {
   final Radius? topLeft;
   final Radius? topRight;
   final Radius? bottomLeft;
+  final List<BoxShadow>? boxShadow;
+  final BoxBorder? borders;
   final Radius? bottomRight;
+  final Color? color;
+  final double? offset;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final Widget body;
@@ -16,9 +20,13 @@ class CustomBox extends StatelessWidget {
       this.padding,
       this.margin,
       this.topLeft,
+      this.boxShadow,
+      this.borders,
       this.topRight,
       this.bottomLeft,
       this.bottomRight,
+      this.color,
+      this.offset,
       required this.body,
       Key? key})
       : super(key: key);
@@ -31,12 +39,13 @@ class CustomBox extends StatelessWidget {
       margin: margin ?? EdgeInsets.zero,
       padding: padding ?? EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        boxShadow: [
+        color: color ?? Theme.of(context).colorScheme.primaryContainer,
+        border: borders ,
+        boxShadow: boxShadow?? [
           BoxShadow(
             color: Colors.black.withOpacity(0.25),
             blurRadius: 4,
-            offset: const Offset(0, 4),
+            offset: Offset(0, offset ?? 4),
           )
         ],
         borderRadius: BorderRadius.only(

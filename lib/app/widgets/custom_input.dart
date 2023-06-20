@@ -5,15 +5,23 @@ class CustomInputField extends StatelessWidget {
   final double boxWidth;
   final double boxHeight;
   final String hintText;
-  final String fontTheme;
+  final String? fontTheme;
+  final Radius? topl;
+  final Radius? topr;
+  final Radius? bottoml;
+  final Radius? bottomr;
 
   final TextEditingController? textController;
-  const CustomInputField(
+  CustomInputField(
       {required this.boxHeight,
       required this.boxWidth,
       required this.hintText,
+      this.topl,
+      this.topr,
+      this.bottoml,
+      this.bottomr,
       this.textController,
-      required this.fontTheme,
+      this.fontTheme = 'Sansation',
       Key? key})
       : super(key: key);
 
@@ -22,7 +30,12 @@ class CustomInputField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(5.r),
+        borderRadius: BorderRadius.only(
+          topLeft: topl ?? Radius.circular(7.r),
+          topRight: topr ?? Radius.circular(7.r),
+          bottomLeft: bottoml ?? Radius.circular(7.r),
+          bottomRight: bottomr ?? Radius.circular(7.r),
+        ),
       ),
       width: boxWidth,
       height: boxHeight,

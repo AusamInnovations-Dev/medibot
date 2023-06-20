@@ -8,8 +8,13 @@ class UserModel with _$UserModel{
   
   const factory UserModel({
     required String uid,
-    required String password,
     required String phoneNumber,
+    required int age,
+    required String address,
+    required CareTakerModel careTaker,
+    required EmergencyPersonModel emergencyPerson,
+    required String cabinetDetail,
+    required String physicalDeviceLink,
     required String email,
     required String username,
     required String userProfile,
@@ -17,10 +22,35 @@ class UserModel with _$UserModel{
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, Object?> json)  => _$UserModelFromJson(json);
-
 }
 
 enum AuthStatus{
   newUser,
   existingUser
+}
+
+@freezed
+class CareTakerModel with _$CareTakerModel{
+  
+  const factory CareTakerModel({
+    required String uid,
+    required String careTakerName,
+    required String careTakerAddress,
+    required String caretakerPhone,
+  }) = _CareTakerModel;
+
+  factory CareTakerModel.fromJson(Map<String, Object?> json)  => _$CareTakerModelFromJson(json);
+}
+
+@freezed
+class EmergencyPersonModel with _$EmergencyPersonModel{
+  
+  const factory EmergencyPersonModel({
+    required String emergencyName,
+    required String emergencyAddress,
+    required String emergencyPhone,
+    required String emergencyRelation,
+  }) = _EmergencyPersonModel;
+
+  factory EmergencyPersonModel.fromJson(Map<String, Object?> json)  => _$EmergencyPersonModelFromJson(json);
 }

@@ -50,10 +50,10 @@ class UserInfo extends GetView<AuthController> {
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: CustomBox(
-              boxHeight: 400.h,
+              boxHeight: 350.h,
               boxWidth: 264.w,
-              margin: const EdgeInsets.symmetric(horizontal: 48),
-              padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 30),
+              margin: EdgeInsets.symmetric(horizontal: 42.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
               topRight: Radius.circular(17.r),
               bottomLeft: Radius.circular(17.r),
               body: Column(
@@ -108,7 +108,9 @@ class UserInfo extends GetView<AuthController> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 22.w),
+                    margin: EdgeInsets.only(
+                      bottom: 22.w,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -124,23 +126,26 @@ class UserInfo extends GetView<AuthController> {
                         Row(
                           children: [
                             CustomInputField(
+                              topr: Radius.zero,
+                              bottomr: Radius.zero,
                               boxHeight: 36.h,
-                              boxWidth: 167.w,
+                              boxWidth: 176.w,
                               hintText: "",
                               fontTheme: 'Sansation',
                               textController: controller.locationController,
                             ),
                             Obx(
                               () => InputButton(
-                                height: 27.5.h,
-                                width: 57.w,
+                                height: 27.h,
+                                width: 54.w,
                                 text: controller.fetchingLocation.value
                                     ? '...'
                                     : "Fetch current location",
                                 fontWeight: FontWeight.w500,
-                                textsize: 9.sp,
+                                textsize: 8.sp,
                                 onPressed: () async {
-                                  await controller.getCurrentLocation();
+                                  controller.locationController.text =
+                                      await controller.getCurrentLocation();
                                 },
                               ),
                             )
@@ -185,14 +190,14 @@ class UserInfo extends GetView<AuthController> {
                     ),
                   ),
                   ForwardButton(
-                    width: 255.w,
+                    width: 240.w,
                     text: 'Continue',
                     padding: EdgeInsets.symmetric(vertical: 9.w),
                     iconSize: 18.h,
                     onPressed: () {
-                      if(controller.haveCaretaker.value){
+                      if (controller.haveCaretaker.value) {
                         Get.toNamed(RoutePaths.caretakerInformation);
-                      }else{
+                      } else {
                         Get.toNamed(RoutePaths.emergencyInformation);
                       }
                     },

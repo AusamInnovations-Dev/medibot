@@ -43,7 +43,7 @@ class CreateAccount extends GetView<AuthController> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: CustomBox(
-            boxHeight: 332,
+            boxHeight: 350,
             boxWidth: 264,
             margin: const EdgeInsets.symmetric(horizontal: 48),
             padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 30),

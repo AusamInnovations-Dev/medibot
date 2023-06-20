@@ -1,184 +1,409 @@
-import 'dart:ui';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:get/get.dart';
+import 'package:medibot/app/screens/reminder/getx_helper/set_reminder_controller.dart';
+import 'package:medibot/app/screens/reminder/widgets/time_interval.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
-import 'package:medibot/app/widgets/box_field.dart';
-import 'package:medibot/app/widgets/circular_button.dart';
-import 'package:medibot/app/widgets/custom_checkbox.dart';
-import 'package:medibot/app/widgets/forward_button.dart';
-
-import '../../widgets/custom_input.dart';
+import '../../routes/route_path.dart';
+import '../../sampledata/medicines.dart';
+import '../../widgets/box_field.dart';
 import '../../widgets/text_field.dart';
+import 'widgets/select_duration.dart';
 
-class SetReminder extends StatelessWidget {
-  final List<String> interval = ["Morning", "Afternoon", "Evening", "Night"];
-  SetReminder({Key? key}) : super(key: key);
+class SetReminderScreen extends GetView<SetReminderController> {
+  const SetReminderScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
-      bottomButtonText: 'Continue',
+      bottomButtonText: '',
+      onbottomButtonPressed: () async {
+        log('Hello world');
+        if (await controller.uploadPillsReminderData()) {
+          Get.snackbar(
+            "Pills Reminder",
+            "Your pill is scheduled successfully.",
+            icon: const Icon(
+              Icons.check_sharp,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+          Get.offAndToNamed(RoutePaths.homeScreen);
+        } else {
+          Get.snackbar(
+            "Pills Reminder",
+            "Some error has occurred while uploading the data.",
+            icon: const Icon(
+              Icons.check_sharp,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      },
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextField(
-                text: "Add Reminder",
-                fontFamily: 'Sansation',
-                size: 23.sp,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-              CustomTextField(
-                fontWeight: FontWeight.w700,
-                text: "Add Pills",
-                color: Colors.black,
-                fontFamily: 'Sansation',
-                size: 18.sp,
-              )
-            ],
+          CustomTextField(
+            text: "Add Reminder",
+            fontFamily: 'Sansation',
+            size: 23.sp,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
           ),
-          CustomBox(
-              margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 9.h),
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-              topLeft: Radius.circular(17.r),
-              bottomRight: Radius.circular(17.r),
-              boxHeight: 304.h,
-              boxWidth: 320.w,
-              body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(bottom: 3.w),
-                          child: CustomTextField(
-                            text: "Pill Name",
-                            fontFamily: 'Sansation',
-                            size: 13.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
+          Container(
+            margin: EdgeInsets.only(top: 20.h, right: 5.w, left: 5.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: 12.w),
+                  child: TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      style: TextStyle(
+                        fontFamily: 'Sansation',
+                        fontSize: 16.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      controller: controller.pillName,
+                      decoration: InputDecoration(
+                        fillColor: Theme.of(context).colorScheme.primary,
+                        focusColor: Theme.of(context).colorScheme.primary,
+                        filled: true,
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black26,
                           ),
                         ),
-                        CustomInputField(
-                          boxHeight: 39.h,
-                          boxWidth: 293.w,
-                          hintText: "",
-                          fontTheme: 'Sansation',
+                        errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                          ),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                          ),
+                        ),
+                        hintText: 'Pill Name',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Sansation',
+                          fontSize: 16.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    itemBuilder: (BuildContext context, itemData) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 14.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          border: Border.all(
+                            color: Colors.white12,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              blurRadius: 5.r,
+                              offset: const Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: CustomTextField(
+                          fontWeight: FontWeight.w700,
+                          text: itemData,
+                          color: Colors.black,
+                          size: 16.sp,
+                        ),
+                      );
+                    },
+                    hideOnEmpty: true,
+                    onSuggestionSelected: (Object? suggestion) {
+                      controller.pillName.text = suggestion as String;
+                    },
+                    suggestionsCallback: (String pattern) {
+                      return SampleMedicine.sampleMedicines
+                          .where((element) => element.startsWith(pattern));
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 15.h, right: 12.w, bottom: 15.h),
+                  child: DropdownButtonFormField(
+                    dropdownColor: Theme.of(context).colorScheme.primary,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    style: TextStyle(
+                      fontFamily: 'Sansation',
+                      fontSize: 16.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    decoration: InputDecoration(
+                      fillColor: Theme.of(context).colorScheme.primary,
+                      focusColor: Theme.of(context).colorScheme.primary,
+                      filled: true,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      errorBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      hintText: 'Dosage',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Sansation',
+                        fontSize: 16.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    items: SampleMedicine.medicinePower
+                        .map(
+                          (element) => DropdownMenuItem(
+                            value: element,
+                            child: SizedBox(
+                              width: 280.w,
+                              child: Text(
+                                element,
+                                style: TextStyle(
+                                  fontFamily: 'Sansation',
+                                  fontSize: 16.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {},
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20.h, right: 12.w),
+                  child: DropdownButtonFormField(
+                    value: 'Once a Day',
+                    dropdownColor: Theme.of(context).colorScheme.primary,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    style: TextStyle(
+                      fontFamily: 'Sansation',
+                      fontSize: 16.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    decoration: InputDecoration(
+                      fillColor: Theme.of(context).colorScheme.primary,
+                      focusColor: Theme.of(context).colorScheme.primary,
+                      filled: true,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      errorBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      hintText: 'Interval',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Sansation',
+                        fontSize: 16.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    items:
+                        ['Once a Day', 'Twice a Day', 'Thrice a Day', 'Custom']
+                            .map(
+                              (element) => DropdownMenuItem(
+                                value: element,
+                                child: SizedBox(
+                                  width: 280.w,
+                                  child: Text(
+                                    element,
+                                    style: TextStyle(
+                                      fontFamily: 'Sansation',
+                                      fontSize: 16.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      controller.interval.value = value!;
+                      if (controller.interval.value == 'Custom') {
+                        controller.gererateCustomTimeInterval();
+                      } else {
+                        controller.selectingTimeIntervals();
+                      }
+                    },
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(bottom: 20.h),
+                  child: CustomTextField(
+                    fontWeight: FontWeight.w400,
+                    text: 'Set Time',
+                    color: Colors.black,
+                    size: 14.sp,
+                  ),
+                ),
+                Obx(
+                  () => TimeInterval(
+                    interval: controller.interval.value,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      fontWeight: FontWeight.w400,
+                      text: "Quantity",
+                      color: Colors.black,
+                      size: 15.sp,
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: 7.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (controller.pillQuantity.value != 1) {
+                              controller.pillQuantity.value--;
+                            }
+                          },
+                          child: CustomBox(
+                            borders: Border.all(
+                              color: Colors.black26,
+                            ),
+                            offset: 0,
+                            color: Theme.of(context).colorScheme.primary,
+                            boxHeight: 29.h,
+                            boxWidth: 35.w,
+                            topLeft: Radius.circular(4.r),
+                            topRight: Radius.circular(4.r),
+                            bottomLeft: Radius.circular(4.r),
+                            bottomRight: Radius.circular(4.r),
+                            body: CustomTextField(
+                              color: Colors.black,
+                              textAlign: TextAlign.center,
+                              text: '-',
+                              fontWeight: FontWeight.w400,
+                              size: 25.sp,
+                            ),
+                            boxShadow: [],
+                          ),
+                        ),
+                        Obx(
+                          () => CustomBox(
+                            borders: Border.all(
+                              color: Colors.black26,
+                            ),
+                            offset: 0,
+                            boxHeight: 29.h,
+                            boxWidth: 240.w,
+                            topLeft: Radius.circular(4.r),
+                            topRight: Radius.circular(4.r),
+                            bottomLeft: Radius.circular(4.r),
+                            bottomRight: Radius.circular(4.r),
+                            color: Theme.of(context).colorScheme.primary,
+                            body: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomTextField(
+                                  size: 17.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  text:
+                                      controller.pillQuantity.value.toString(),
+                                )
+                              ],
+                            ),
+                            boxShadow: [],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (controller.pillQuantity.value != 10) {
+                              controller.pillQuantity.value++;
+                            }
+                          },
+                          child: CustomBox(
+                              borders: Border.all(
+                                color: Colors.black26,
+                              ),
+                              offset: 0,
+                              color: Theme.of(context).colorScheme.primary,
+                              boxHeight: 29.h,
+                              boxWidth: 35.w,
+                              topLeft: Radius.circular(4.r),
+                              topRight: Radius.circular(4.r),
+                              bottomLeft: Radius.circular(4.r),
+                              bottomRight: Radius.circular(4.r),
+                              body: CustomTextField(
+                                color: Colors.black,
+                                textAlign: TextAlign.center,
+                                text: '+',
+                                fontWeight: FontWeight.w400,
+                                size: 25.sp,
+                              ),
+                              boxShadow: []),
                         )
                       ],
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 12.h),
-                    child: CustomTextField(
-                      text: "Interval",
-                      fontFamily: 'Sansation',
-                      size: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 18.w),
-                    child: Wrap(
-                      runSpacing: 10.w,
-                      spacing: 20.w,
-                      children: List.generate(
-                        4,
-                        (index) => CustomCheckBox(
-                          text: interval[index],
-                          checked: true,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 12.h),
-                    child: CustomTextField(
-                      text: "Duration",
-                      fontFamily: 'Sansation',
-                      size: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 140.w,
-                        height: 39.h,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomTextField(
-                                color: Colors.black,
-                                size: 11.sp,
-                                fontWeight: FontWeight.w100,
-                                text: "Start Date"),
-                            Icon(Icons.calendar_today_outlined)
-                          ],
-                        ),
-                      ),
-                      Container(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 140.w,
-                        height: 39.h,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomTextField(
-                                color: Colors.black,
-                                size: 11.sp,
-                                fontWeight: FontWeight.w100,
-                                text: "End Date"),
-                            Icon(Icons.calendar_today_outlined)
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              )),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 9.h),
-            child: ElevatedButton(
-              onPressed: () {
-                // controller.handleSigning();
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 0),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                padding: EdgeInsets.symmetric(
-                  vertical: 11.h,
-                  // horizontal: 100.w,
+                  ],
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.r),
+                SizedBox(
+                  height: 20.h,
                 ),
-              ),
-              child: CustomTextField(
-                text: "Add new pill +",
-                fontFamily: 'Sansation',
-                size: 13.sp,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
+                CustomTextField(
+                  fontWeight: FontWeight.w400,
+                  text: "Duration",
+                  color: Colors.black,
+                  size: 15.sp,
+                  textAlign: TextAlign.start,
+                ),
+                SizedBox(
+                  height: 7.h,
+                ),
+                const SelectDuration()
+              ],
             ),
           ),
         ],

@@ -21,8 +21,14 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserModel {
   String get uid => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
+  int get age => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
+  CareTakerModel get careTaker => throw _privateConstructorUsedError;
+  EmergencyPersonModel get emergencyPerson =>
+      throw _privateConstructorUsedError;
+  String get cabinetDetail => throw _privateConstructorUsedError;
+  String get physicalDeviceLink => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get userProfile => throw _privateConstructorUsedError;
@@ -41,12 +47,20 @@ abstract class $UserModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String uid,
-      String password,
       String phoneNumber,
+      int age,
+      String address,
+      CareTakerModel careTaker,
+      EmergencyPersonModel emergencyPerson,
+      String cabinetDetail,
+      String physicalDeviceLink,
       String email,
       String username,
       String userProfile,
       AuthStatus userStatus});
+
+  $CareTakerModelCopyWith<$Res> get careTaker;
+  $EmergencyPersonModelCopyWith<$Res> get emergencyPerson;
 }
 
 /// @nodoc
@@ -63,8 +77,13 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   @override
   $Res call({
     Object? uid = null,
-    Object? password = null,
     Object? phoneNumber = null,
+    Object? age = null,
+    Object? address = null,
+    Object? careTaker = null,
+    Object? emergencyPerson = null,
+    Object? cabinetDetail = null,
+    Object? physicalDeviceLink = null,
     Object? email = null,
     Object? username = null,
     Object? userProfile = null,
@@ -75,13 +94,33 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      age: null == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      careTaker: null == careTaker
+          ? _value.careTaker
+          : careTaker // ignore: cast_nullable_to_non_nullable
+              as CareTakerModel,
+      emergencyPerson: null == emergencyPerson
+          ? _value.emergencyPerson
+          : emergencyPerson // ignore: cast_nullable_to_non_nullable
+              as EmergencyPersonModel,
+      cabinetDetail: null == cabinetDetail
+          ? _value.cabinetDetail
+          : cabinetDetail // ignore: cast_nullable_to_non_nullable
+              as String,
+      physicalDeviceLink: null == physicalDeviceLink
+          ? _value.physicalDeviceLink
+          : physicalDeviceLink // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -101,6 +140,22 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
               as AuthStatus,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CareTakerModelCopyWith<$Res> get careTaker {
+    return $CareTakerModelCopyWith<$Res>(_value.careTaker, (value) {
+      return _then(_value.copyWith(careTaker: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $EmergencyPersonModelCopyWith<$Res> get emergencyPerson {
+    return $EmergencyPersonModelCopyWith<$Res>(_value.emergencyPerson, (value) {
+      return _then(_value.copyWith(emergencyPerson: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -112,12 +167,22 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String uid,
-      String password,
       String phoneNumber,
+      int age,
+      String address,
+      CareTakerModel careTaker,
+      EmergencyPersonModel emergencyPerson,
+      String cabinetDetail,
+      String physicalDeviceLink,
       String email,
       String username,
       String userProfile,
       AuthStatus userStatus});
+
+  @override
+  $CareTakerModelCopyWith<$Res> get careTaker;
+  @override
+  $EmergencyPersonModelCopyWith<$Res> get emergencyPerson;
 }
 
 /// @nodoc
@@ -132,8 +197,13 @@ class __$$_UserModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uid = null,
-    Object? password = null,
     Object? phoneNumber = null,
+    Object? age = null,
+    Object? address = null,
+    Object? careTaker = null,
+    Object? emergencyPerson = null,
+    Object? cabinetDetail = null,
+    Object? physicalDeviceLink = null,
     Object? email = null,
     Object? username = null,
     Object? userProfile = null,
@@ -144,13 +214,33 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      age: null == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      careTaker: null == careTaker
+          ? _value.careTaker
+          : careTaker // ignore: cast_nullable_to_non_nullable
+              as CareTakerModel,
+      emergencyPerson: null == emergencyPerson
+          ? _value.emergencyPerson
+          : emergencyPerson // ignore: cast_nullable_to_non_nullable
+              as EmergencyPersonModel,
+      cabinetDetail: null == cabinetDetail
+          ? _value.cabinetDetail
+          : cabinetDetail // ignore: cast_nullable_to_non_nullable
+              as String,
+      physicalDeviceLink: null == physicalDeviceLink
+          ? _value.physicalDeviceLink
+          : physicalDeviceLink // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -177,8 +267,13 @@ class __$$_UserModelCopyWithImpl<$Res>
 class _$_UserModel implements _UserModel {
   const _$_UserModel(
       {required this.uid,
-      required this.password,
       required this.phoneNumber,
+      required this.age,
+      required this.address,
+      required this.careTaker,
+      required this.emergencyPerson,
+      required this.cabinetDetail,
+      required this.physicalDeviceLink,
       required this.email,
       required this.username,
       required this.userProfile,
@@ -190,9 +285,19 @@ class _$_UserModel implements _UserModel {
   @override
   final String uid;
   @override
-  final String password;
-  @override
   final String phoneNumber;
+  @override
+  final int age;
+  @override
+  final String address;
+  @override
+  final CareTakerModel careTaker;
+  @override
+  final EmergencyPersonModel emergencyPerson;
+  @override
+  final String cabinetDetail;
+  @override
+  final String physicalDeviceLink;
   @override
   final String email;
   @override
@@ -204,7 +309,7 @@ class _$_UserModel implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, password: $password, phoneNumber: $phoneNumber, email: $email, username: $username, userProfile: $userProfile, userStatus: $userStatus)';
+    return 'UserModel(uid: $uid, phoneNumber: $phoneNumber, age: $age, address: $address, careTaker: $careTaker, emergencyPerson: $emergencyPerson, cabinetDetail: $cabinetDetail, physicalDeviceLink: $physicalDeviceLink, email: $email, username: $username, userProfile: $userProfile, userStatus: $userStatus)';
   }
 
   @override
@@ -213,10 +318,18 @@ class _$_UserModel implements _UserModel {
         (other.runtimeType == runtimeType &&
             other is _$_UserModel &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.careTaker, careTaker) ||
+                other.careTaker == careTaker) &&
+            (identical(other.emergencyPerson, emergencyPerson) ||
+                other.emergencyPerson == emergencyPerson) &&
+            (identical(other.cabinetDetail, cabinetDetail) ||
+                other.cabinetDetail == cabinetDetail) &&
+            (identical(other.physicalDeviceLink, physicalDeviceLink) ||
+                other.physicalDeviceLink == physicalDeviceLink) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -228,8 +341,20 @@ class _$_UserModel implements _UserModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, password, phoneNumber,
-      email, username, userProfile, userStatus);
+  int get hashCode => Object.hash(
+      runtimeType,
+      uid,
+      phoneNumber,
+      age,
+      address,
+      careTaker,
+      emergencyPerson,
+      cabinetDetail,
+      physicalDeviceLink,
+      email,
+      username,
+      userProfile,
+      userStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -248,8 +373,13 @@ class _$_UserModel implements _UserModel {
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
       {required final String uid,
-      required final String password,
       required final String phoneNumber,
+      required final int age,
+      required final String address,
+      required final CareTakerModel careTaker,
+      required final EmergencyPersonModel emergencyPerson,
+      required final String cabinetDetail,
+      required final String physicalDeviceLink,
       required final String email,
       required final String username,
       required final String userProfile,
@@ -261,9 +391,19 @@ abstract class _UserModel implements UserModel {
   @override
   String get uid;
   @override
-  String get password;
-  @override
   String get phoneNumber;
+  @override
+  int get age;
+  @override
+  String get address;
+  @override
+  CareTakerModel get careTaker;
+  @override
+  EmergencyPersonModel get emergencyPerson;
+  @override
+  String get cabinetDetail;
+  @override
+  String get physicalDeviceLink;
   @override
   String get email;
   @override
@@ -275,5 +415,416 @@ abstract class _UserModel implements UserModel {
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CareTakerModel _$CareTakerModelFromJson(Map<String, dynamic> json) {
+  return _CareTakerModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CareTakerModel {
+  String get uid => throw _privateConstructorUsedError;
+  String get careTakerName => throw _privateConstructorUsedError;
+  String get careTakerAddress => throw _privateConstructorUsedError;
+  String get caretakerPhone => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CareTakerModelCopyWith<CareTakerModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CareTakerModelCopyWith<$Res> {
+  factory $CareTakerModelCopyWith(
+          CareTakerModel value, $Res Function(CareTakerModel) then) =
+      _$CareTakerModelCopyWithImpl<$Res, CareTakerModel>;
+  @useResult
+  $Res call(
+      {String uid,
+      String careTakerName,
+      String careTakerAddress,
+      String caretakerPhone});
+}
+
+/// @nodoc
+class _$CareTakerModelCopyWithImpl<$Res, $Val extends CareTakerModel>
+    implements $CareTakerModelCopyWith<$Res> {
+  _$CareTakerModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+    Object? careTakerName = null,
+    Object? careTakerAddress = null,
+    Object? caretakerPhone = null,
+  }) {
+    return _then(_value.copyWith(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      careTakerName: null == careTakerName
+          ? _value.careTakerName
+          : careTakerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      careTakerAddress: null == careTakerAddress
+          ? _value.careTakerAddress
+          : careTakerAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      caretakerPhone: null == caretakerPhone
+          ? _value.caretakerPhone
+          : caretakerPhone // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CareTakerModelCopyWith<$Res>
+    implements $CareTakerModelCopyWith<$Res> {
+  factory _$$_CareTakerModelCopyWith(
+          _$_CareTakerModel value, $Res Function(_$_CareTakerModel) then) =
+      __$$_CareTakerModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String uid,
+      String careTakerName,
+      String careTakerAddress,
+      String caretakerPhone});
+}
+
+/// @nodoc
+class __$$_CareTakerModelCopyWithImpl<$Res>
+    extends _$CareTakerModelCopyWithImpl<$Res, _$_CareTakerModel>
+    implements _$$_CareTakerModelCopyWith<$Res> {
+  __$$_CareTakerModelCopyWithImpl(
+      _$_CareTakerModel _value, $Res Function(_$_CareTakerModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+    Object? careTakerName = null,
+    Object? careTakerAddress = null,
+    Object? caretakerPhone = null,
+  }) {
+    return _then(_$_CareTakerModel(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      careTakerName: null == careTakerName
+          ? _value.careTakerName
+          : careTakerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      careTakerAddress: null == careTakerAddress
+          ? _value.careTakerAddress
+          : careTakerAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      caretakerPhone: null == caretakerPhone
+          ? _value.caretakerPhone
+          : caretakerPhone // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CareTakerModel implements _CareTakerModel {
+  const _$_CareTakerModel(
+      {required this.uid,
+      required this.careTakerName,
+      required this.careTakerAddress,
+      required this.caretakerPhone});
+
+  factory _$_CareTakerModel.fromJson(Map<String, dynamic> json) =>
+      _$$_CareTakerModelFromJson(json);
+
+  @override
+  final String uid;
+  @override
+  final String careTakerName;
+  @override
+  final String careTakerAddress;
+  @override
+  final String caretakerPhone;
+
+  @override
+  String toString() {
+    return 'CareTakerModel(uid: $uid, careTakerName: $careTakerName, careTakerAddress: $careTakerAddress, caretakerPhone: $caretakerPhone)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CareTakerModel &&
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.careTakerName, careTakerName) ||
+                other.careTakerName == careTakerName) &&
+            (identical(other.careTakerAddress, careTakerAddress) ||
+                other.careTakerAddress == careTakerAddress) &&
+            (identical(other.caretakerPhone, caretakerPhone) ||
+                other.caretakerPhone == caretakerPhone));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, uid, careTakerName, careTakerAddress, caretakerPhone);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CareTakerModelCopyWith<_$_CareTakerModel> get copyWith =>
+      __$$_CareTakerModelCopyWithImpl<_$_CareTakerModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CareTakerModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CareTakerModel implements CareTakerModel {
+  const factory _CareTakerModel(
+      {required final String uid,
+      required final String careTakerName,
+      required final String careTakerAddress,
+      required final String caretakerPhone}) = _$_CareTakerModel;
+
+  factory _CareTakerModel.fromJson(Map<String, dynamic> json) =
+      _$_CareTakerModel.fromJson;
+
+  @override
+  String get uid;
+  @override
+  String get careTakerName;
+  @override
+  String get careTakerAddress;
+  @override
+  String get caretakerPhone;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CareTakerModelCopyWith<_$_CareTakerModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+EmergencyPersonModel _$EmergencyPersonModelFromJson(Map<String, dynamic> json) {
+  return _EmergencyPersonModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$EmergencyPersonModel {
+  String get emergencyName => throw _privateConstructorUsedError;
+  String get emergencyAddress => throw _privateConstructorUsedError;
+  String get emergencyPhone => throw _privateConstructorUsedError;
+  String get emergencyRelation => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $EmergencyPersonModelCopyWith<EmergencyPersonModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $EmergencyPersonModelCopyWith<$Res> {
+  factory $EmergencyPersonModelCopyWith(EmergencyPersonModel value,
+          $Res Function(EmergencyPersonModel) then) =
+      _$EmergencyPersonModelCopyWithImpl<$Res, EmergencyPersonModel>;
+  @useResult
+  $Res call(
+      {String emergencyName,
+      String emergencyAddress,
+      String emergencyPhone,
+      String emergencyRelation});
+}
+
+/// @nodoc
+class _$EmergencyPersonModelCopyWithImpl<$Res,
+        $Val extends EmergencyPersonModel>
+    implements $EmergencyPersonModelCopyWith<$Res> {
+  _$EmergencyPersonModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? emergencyName = null,
+    Object? emergencyAddress = null,
+    Object? emergencyPhone = null,
+    Object? emergencyRelation = null,
+  }) {
+    return _then(_value.copyWith(
+      emergencyName: null == emergencyName
+          ? _value.emergencyName
+          : emergencyName // ignore: cast_nullable_to_non_nullable
+              as String,
+      emergencyAddress: null == emergencyAddress
+          ? _value.emergencyAddress
+          : emergencyAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      emergencyPhone: null == emergencyPhone
+          ? _value.emergencyPhone
+          : emergencyPhone // ignore: cast_nullable_to_non_nullable
+              as String,
+      emergencyRelation: null == emergencyRelation
+          ? _value.emergencyRelation
+          : emergencyRelation // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_EmergencyPersonModelCopyWith<$Res>
+    implements $EmergencyPersonModelCopyWith<$Res> {
+  factory _$$_EmergencyPersonModelCopyWith(_$_EmergencyPersonModel value,
+          $Res Function(_$_EmergencyPersonModel) then) =
+      __$$_EmergencyPersonModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String emergencyName,
+      String emergencyAddress,
+      String emergencyPhone,
+      String emergencyRelation});
+}
+
+/// @nodoc
+class __$$_EmergencyPersonModelCopyWithImpl<$Res>
+    extends _$EmergencyPersonModelCopyWithImpl<$Res, _$_EmergencyPersonModel>
+    implements _$$_EmergencyPersonModelCopyWith<$Res> {
+  __$$_EmergencyPersonModelCopyWithImpl(_$_EmergencyPersonModel _value,
+      $Res Function(_$_EmergencyPersonModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? emergencyName = null,
+    Object? emergencyAddress = null,
+    Object? emergencyPhone = null,
+    Object? emergencyRelation = null,
+  }) {
+    return _then(_$_EmergencyPersonModel(
+      emergencyName: null == emergencyName
+          ? _value.emergencyName
+          : emergencyName // ignore: cast_nullable_to_non_nullable
+              as String,
+      emergencyAddress: null == emergencyAddress
+          ? _value.emergencyAddress
+          : emergencyAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      emergencyPhone: null == emergencyPhone
+          ? _value.emergencyPhone
+          : emergencyPhone // ignore: cast_nullable_to_non_nullable
+              as String,
+      emergencyRelation: null == emergencyRelation
+          ? _value.emergencyRelation
+          : emergencyRelation // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_EmergencyPersonModel implements _EmergencyPersonModel {
+  const _$_EmergencyPersonModel(
+      {required this.emergencyName,
+      required this.emergencyAddress,
+      required this.emergencyPhone,
+      required this.emergencyRelation});
+
+  factory _$_EmergencyPersonModel.fromJson(Map<String, dynamic> json) =>
+      _$$_EmergencyPersonModelFromJson(json);
+
+  @override
+  final String emergencyName;
+  @override
+  final String emergencyAddress;
+  @override
+  final String emergencyPhone;
+  @override
+  final String emergencyRelation;
+
+  @override
+  String toString() {
+    return 'EmergencyPersonModel(emergencyName: $emergencyName, emergencyAddress: $emergencyAddress, emergencyPhone: $emergencyPhone, emergencyRelation: $emergencyRelation)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_EmergencyPersonModel &&
+            (identical(other.emergencyName, emergencyName) ||
+                other.emergencyName == emergencyName) &&
+            (identical(other.emergencyAddress, emergencyAddress) ||
+                other.emergencyAddress == emergencyAddress) &&
+            (identical(other.emergencyPhone, emergencyPhone) ||
+                other.emergencyPhone == emergencyPhone) &&
+            (identical(other.emergencyRelation, emergencyRelation) ||
+                other.emergencyRelation == emergencyRelation));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, emergencyName, emergencyAddress,
+      emergencyPhone, emergencyRelation);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_EmergencyPersonModelCopyWith<_$_EmergencyPersonModel> get copyWith =>
+      __$$_EmergencyPersonModelCopyWithImpl<_$_EmergencyPersonModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_EmergencyPersonModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _EmergencyPersonModel implements EmergencyPersonModel {
+  const factory _EmergencyPersonModel(
+      {required final String emergencyName,
+      required final String emergencyAddress,
+      required final String emergencyPhone,
+      required final String emergencyRelation}) = _$_EmergencyPersonModel;
+
+  factory _EmergencyPersonModel.fromJson(Map<String, dynamic> json) =
+      _$_EmergencyPersonModel.fromJson;
+
+  @override
+  String get emergencyName;
+  @override
+  String get emergencyAddress;
+  @override
+  String get emergencyPhone;
+  @override
+  String get emergencyRelation;
+  @override
+  @JsonKey(ignore: true)
+  _$$_EmergencyPersonModelCopyWith<_$_EmergencyPersonModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:medibot/app/models/user_model/user_model.dart';
+import 'package:medibot/app/API/api_client.dart';
 import 'package:medibot/app/services/firestore.dart';
 import 'package:medibot/app/services/storage.dart';
 import 'package:medibot/app/services/user.dart';
@@ -18,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Get.put<ApiClient>(ApiClient());
   Get.put<FirebaseFireStore>(FirebaseFireStore());
   await Get.putAsync<StorageService>(() => StorageService().init());
   Get.put<UserStore>(UserStore());
@@ -59,12 +60,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(
-      const Duration(milliseconds: 30),
+      const Duration(seconds: 5),
       () => (FirebaseAuth.instance.currentUser == null)
           ? Get.offAllNamed(RoutePaths.signInScreen)
-          : UserStore.to.profile.userStatus == AuthStatus.newUser
-              ? Get.offAllNamed(RoutePaths.userInformation)
-              : Get.offAllNamed(RoutePaths.homeScreen),
+          : Get.offAllNamed(RoutePaths.homeScreen),
     );
     super.initState();
   }

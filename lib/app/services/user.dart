@@ -22,8 +22,23 @@ class UserStore extends GetxController {
     email: '',
     phoneNumber: '',
     username: '',
-    password: '',
-    userStatus: AuthStatus.newUser
+    address: '',
+    age: 0,
+    cabinetDetail: '',
+    emergencyPerson: EmergencyPersonModel(
+      emergencyAddress: '',
+      emergencyName: '',
+      emergencyPhone: '',
+      emergencyRelation: '',
+    ),
+    careTaker: CareTakerModel(
+      careTakerAddress: '',
+      careTakerName: '',
+      caretakerPhone: '',
+      uid: '',
+    ),
+    userStatus: AuthStatus.newUser,
+    physicalDeviceLink: '',
   ).obs;
 
   bool get isLogin => _isLogin.value;
@@ -43,11 +58,19 @@ class UserStore extends GetxController {
 
   Future<void> getProfile() async {
     uid = StorageService.to.getString(userIdKey);
-    if (uid.isNotEmpty) {
-      _profile(await FirebaseFireStore.to.getUser(uid));
+    try {
+      if (uid.isNotEmpty) {
+        _profile(await FirebaseFireStore.to.getUser(uid));
+      }
+      log('user data: $_profile');
+      _isLogin.value = true;
+      if(Get.currentRoute != RoutePaths.splashScreen && profile.userStatus == AuthStatus.newUser ){
+        Get.offAllNamed(RoutePaths.userInformation);
+      }
+    } catch (err) {
+      log(err.toString());
+      _isLogin.value = false;
     }
-    log('user data: $_profile');
-    _isLogin.value = true;
   }
 
   Future<void> saveProfile(String profile) async {

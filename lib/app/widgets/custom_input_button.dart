@@ -24,29 +24,27 @@ class InputButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        //minimumSize: Size(MediaQuery.of(context).size.width / 5, 0),
         shadowColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 6.w),
+        padding: EdgeInsets.symmetric(vertical: 3.9.h, horizontal: 2.w),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(6.r),
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(6.r),
+            topRight: Radius.circular(6.r),
           ),
         ),
       ),
-      child: SizedBox(
+      child: Container(
         width: width,
         height: height,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: CustomTextField(
-            textAlign: TextAlign.center,
-            color: Colors.black,
-            size: textsize,
-            fontWeight: fontWeight,
-            text: text,
-            maxLines: 2,
-          ),
+        alignment: Alignment.center,
+        child: CustomTextField(
+          textAlign: TextAlign.center,
+          color: Colors.black,
+          size: textsize,
+          fontWeight: fontWeight,
+          text: text,
+          maxLines: 2,
         ),
       ),
     );

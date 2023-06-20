@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +24,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
   Widget build(BuildContext context) {
     var code = "";
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -45,14 +45,14 @@ class OtpVerificationScreen extends GetView<AuthController> {
             ),
           ],
         ),
-        toolbarHeight: 80.h,
+        toolbarHeight: 79.h,
       ),
       body: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: CustomBox(
-            boxHeight: 270.h,
-            boxWidth: 160.w,
+            boxHeight: 245.h,
+            boxWidth: 170.w,
             margin: const EdgeInsets.symmetric(horizontal: 30),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
             topRight: Radius.circular(17.r),
@@ -68,9 +68,11 @@ class OtpVerificationScreen extends GetView<AuthController> {
                       color: Colors.black,
                     ),
                     children: [
-                      const TextSpan(text: 'An One Time Password has been sent to '),
+                      const TextSpan(
+                          text: 'An One Time Password has been sent to '),
                       TextSpan(
-                        text: '+91 XXXXXX ${controller.phoneController.text.substring(7, 10)}',
+                        text:
+                            '+91 XXXXXX ${controller.phoneController.text.substring(6, 10)}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Sansation',
@@ -82,9 +84,10 @@ class OtpVerificationScreen extends GetView<AuthController> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 25.w, bottom: 15.w, left: 10.w, right: 10.w),
+                      top: 25.w, bottom: 15.w, left: 5.w, right: 5.w),
                   child: Center(
                     child: PinCodeTextField(
+                      autoDisposeControllers: false,
                       autoFocus: true,
                       length: 6,
                       obscureText: false,
@@ -93,7 +96,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
                       enableActiveFill: true,
                       pinTheme: PinTheme(
                         fieldOuterPadding:
-                            const EdgeInsets.symmetric(horizontal: 5),
+                            EdgeInsets.symmetric(horizontal: 2.w),
                         inactiveColor: Colors.transparent,
                         selectedColor: Colors.transparent,
                         // borderWidth: 0,
@@ -137,20 +140,14 @@ class OtpVerificationScreen extends GetView<AuthController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 18.h,
                   onPressed: () async {
-                    try {
+                    
                       await controller.otpVerification();
                       if (UserStore.to.profile.userStatus != AuthStatus.newUser) {
                         Get.offAllNamed(RoutePaths.homeScreen);
                       } else {
                         Get.offAllNamed(RoutePaths.userInformation);
                       }
-                    } catch (e) {
-                      log('This is the error $e');
-                      Get.snackbar(
-                        "Authentication",
-                        "invalid otp entered",
-                      );
-                    }
+                    
                   },
                 ),
               ],

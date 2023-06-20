@@ -1,16 +1,16 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:get/get.dart';
+import '../getx_helper/auth_controller.dart';
 import '../../../widgets/backward_button.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/custom_input.dart';
 import '../../../widgets/forward_button.dart';
 import '../../../widgets/text_field.dart';
+import 'package:medibot/app/routes/route_path.dart';
 
-class Qrcode extends StatelessWidget {
+class Qrcode extends GetView<AuthController> {
   const Qrcode({Key? key}) : super(key: key);
 
   @override
@@ -39,9 +39,9 @@ class Qrcode extends StatelessWidget {
         toolbarHeight: 80.h,
       ),
       body: Center(
-          child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: CustomBox(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: CustomBox(
             boxHeight: 370.h,
             boxWidth: 264.w,
             margin: const EdgeInsets.symmetric(horizontal: 48),
@@ -52,37 +52,42 @@ class Qrcode extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                    margin: EdgeInsets.only(bottom: 10.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(bottom: 3.w),
-                          child: CustomTextField(
-                              size: 13.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              text: "Have a physical device? Scan QR"),
+                  margin: EdgeInsets.only(bottom: 10.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(bottom: 3.w),
+                        child: CustomTextField(
+                          size: 13.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          text: "Have a physical device? Scan QR",
                         ),
-                        CustomInputField(
-                            boxHeight: 200.h,
-                            boxWidth: 232.w,
-                            hintText: "",
-                            fontTheme: 'Sansation')
-                      ],
-                    )),
+                      ),
+                      CustomInputField(
+                        boxHeight: 200.h,
+                        boxWidth: 232.w,
+                        hintText: "",
+                        fontTheme: 'Sansation',
+                        textController: controller.qrscancodeController,
+                      )
+                    ],
+                  ),
+                ),
                 ForwardButton(
                   width: 255.w,
                   text: 'Continue',
                   padding: EdgeInsets.symmetric(vertical: 8.w),
                   iconSize: 18.h,
                   onPressed: () {
-                    log('HelloWorld');
+                    // Get.toNamed(RoutePaths.setupFinished);
                   },
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // controller.handleSigning();
+                  onPressed: () async {
+                    await controller.updateUserData();
+                    Get.toNamed(RoutePaths.setupFinished);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width, 0),
@@ -95,28 +100,44 @@ class Qrcode extends StatelessWidget {
                       borderRadius: BorderRadius.circular(17.r),
                     ),
                   ),
-                  child: CustomTextField(
-                    text: "No thanks, Skip",
-                    fontFamily: 'Sansation',
-                    size: 13.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                  child: Obx(
+                    () => !controller.uploadingData.value
+                        ? CustomTextField(
+                            text: "No thanks, Skip",
+                            fontFamily: 'Sansation',
+                            size: 13.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          )
+                        : Container(
+                            alignment: Alignment.center,
+                            height: 13.h,
+                            width: 13.h,
+                            child: const CircularProgressIndicator(),
+                          ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 7),
-                  child: Text(
-                    "Purchase Device",
-                    style: TextStyle(
-                      fontFamily: 'Sansation',
-                      fontSize: 13.sp,
-                      decoration: TextDecoration.underline,
+                  margin: const EdgeInsets.only(top: 7),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RoutePaths.createUser);
+                    },
+                    child: Text(
+                      "Purchase Device",
+                      style: TextStyle(
+                        fontFamily: 'Sansation',
+                        fontSize: 13.sp,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 )
               ],
-            )),
-      )),
+            ),
+          ),
+        ),
+      ),
       bottomNavigationBar: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,7 +150,9 @@ class Qrcode extends StatelessWidget {
             margin: EdgeInsets.only(right: 15.w),
             child: BackwardButton(
               text: 'Go Back',
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
               iconSize: 18.w,
               padding: EdgeInsets.symmetric(vertical: 11.h),
               width: 120.w,
