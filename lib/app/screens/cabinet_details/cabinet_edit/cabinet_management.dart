@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import '../../../../routes/route_path.dart';
-import '../../../../sampledata/medicines.dart';
-import '../../../../widgets/box_field.dart';
-import '../../../../widgets/custom_input.dart';
-import '../../../../widgets/custom_input_button.dart';
-import '../../../../widgets/text_field.dart';
-import '../cabinet_controller.dart';
+import '../../../routes/route_path.dart';
+import '../../../sampledata/medicines.dart';
+import '../../../widgets/box_field.dart';
+import '../../../widgets/custom_input.dart';
+import '../../../widgets/text_field.dart';
+import '../getx_helper/cabinet_controller.dart';
 
 class CabinetManagement extends GetView<CabinetController> {
   const CabinetManagement({Key? key}) : super(key: key);
@@ -70,82 +66,7 @@ class CabinetManagement extends GetView<CabinetController> {
                           color: Colors.black,
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(right: 2.w),
-                        child: TypeAheadField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                            style: TextStyle(
-                              fontFamily: 'Sansation',
-                              fontSize: 16.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            controller: controller.pillName,
-                            decoration: InputDecoration(
-                              fillColor: Theme.of(context).colorScheme.primary,
-                              focusColor: Theme.of(context).colorScheme.primary,
-                              filled: true,
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.black12,
-                                ),
-                              ),
-                              errorBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.black12,
-                                ),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.black12,
-                                ),
-                              ),
-                              hintText: 'Pill Name',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Sansation',
-                                fontSize: 16.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          itemBuilder: (BuildContext context, itemData) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 14.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                border: Border.all(
-                                  color: Colors.white12,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.5),
-                                    blurRadius: 5.r,
-                                    offset: const Offset(0, 3),
-                                  )
-                                ],
-                              ),
-                              child: CustomTextField(
-                                fontWeight: FontWeight.w400,
-                                text: itemData,
-                                color: Colors.black,
-                                size: 16.sp,
-                              ),
-                            );
-                          },
-                          hideOnEmpty: true,
-                          onSuggestionSelected: (Object? suggestion) {
-                            controller.pillName.text = suggestion as String;
-                          },
-                          suggestionsCallback: (String pattern) {
-                            return SampleMedicine.sampleMedicines.where(
-                                (element) => element.startsWith(pattern));
-                          },
-                        ),
-                      ),
+                      //TODO: Have to complete layout.
                     ],
                   ),
                   Column(

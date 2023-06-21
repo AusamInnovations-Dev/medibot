@@ -50,8 +50,7 @@ class CabinetDetail extends GetView<CabinetController> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          controller.itemSelected = index;
-                          Get.toNamed(RoutePaths.viewslot);
+                          Get.toNamed(RoutePaths.viewslot, arguments: {'pill': controller.cabinetPillsList[index]});
                         },
                         child: CustomBox(
                           margin: EdgeInsets.only(

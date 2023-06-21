@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_controller.dart';
+import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_add_pill_controller.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../widgets/box_field.dart';
 import '../../../widgets/text_field.dart';
 
-class CabinetDurationPicker extends GetView<CabinetController> {
+class CabinetDurationPicker extends GetView<AddCabinetPill> {
   const CabinetDurationPicker({super.key});
 
   @override

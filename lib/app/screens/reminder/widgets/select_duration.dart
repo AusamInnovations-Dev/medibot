@@ -157,7 +157,36 @@ class SelectDuration extends GetView<SetReminderController> {
               ),
             ),
           ),
-        )
+        ),
+        Container(
+          alignment: Alignment.bottomCenter,
+          margin: EdgeInsets.symmetric(vertical: 20.h),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              fixedSize: Size(110.w, 20.h),
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              padding: EdgeInsets.symmetric(
+                vertical: 1.h,
+                //horizontal: 100.w,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(2.r),
+              ),
+            ),
+            onPressed: () async {
+              if (await controller.uploadPillsReminderData()) {
+                Get.back();
+              }
+            },
+            child: CustomTextField(
+              fontWeight: FontWeight.bold,
+              text: "Add Pill",
+              size: 12.sp,
+              color: Colors.black,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
       ],
     );
   }

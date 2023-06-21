@@ -4,10 +4,8 @@ import 'package:medibot/app/screens/auth_screen/getx_helper/auth_binding.dart';
 import 'package:medibot/app/screens/auth_screen/otp_verification_page.dart';
 import 'package:medibot/app/screens/auth_screen/sign_in_page.dart';
 import 'package:medibot/app/screens/cabinet_details/cabinet.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_edit/add_pill_to_cabinet.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_edit/cabinet_management.dart';
-
-import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_edit/view_slot.dart';
+import 'package:medibot/app/screens/cabinet_details/getx_helper/add_cabinet_pill_binding.dart';
+import 'package:medibot/app/screens/cabinet_details/getx_helper/view_pills_binding.dart';
 import 'package:medibot/app/screens/home_screen/home_page.dart';
 import 'package:medibot/app/screens/reminder/set_reminder.dart';
 import 'package:medibot/app/screens/reminder/set_reminder.dart';
@@ -23,6 +21,9 @@ import '../screens/auth_screen/set_up_profile/emergancy_info.dart';
 import '../screens/auth_screen/set_up_profile/qr_page.dart';
 import '../screens/auth_screen/set_up_profile/setupfinished.dart';
 import '../screens/auth_screen/set_up_profile/user_info.dart';
+import '../screens/cabinet_details/cabinet_edit/add_pill_to_cabinet.dart';
+import '../screens/cabinet_details/cabinet_edit/cabinet_management.dart';
+import '../screens/cabinet_details/cabinet_edit/view_slot.dart';
 import '../screens/cabinet_details/getx_helper/cabinet_binding.dart';
 import '../screens/history/getx_helper/history_binding.dart';
 import '../screens/history/history_page.dart';
@@ -92,32 +93,32 @@ class RouteHelper {
     ),
     GetPage(
       name: RoutePaths.historyPage,
-      page: () => HistoryPage(),
-      binding: HistoryBinding()
+      page: () => const HistoryPage(),
+      binding: HistoryBinding(),
     ),
     GetPage(
-        name: RoutePaths.cabinetdetail,
-        page: () => const CabinetDetail(),
-        binding: CabinetBinding()),
+      name: RoutePaths.cabinetdetail,
+      page: () => const CabinetDetail(),
+      binding: CabinetBinding(),
+    ),
     GetPage(
-        name: RoutePaths.newreminder,
-        page: () => const SetReminderScreen(),
-        binding: SetReminderBinding()),
+      name: RoutePaths.newreminder,
+      page: () => const SetReminderScreen(),
+      binding: SetReminderBinding(),
+    ),
     GetPage(
       name: RoutePaths.cabinetmanagement,
       page: () => const CabinetManagement(),
-      //binding: CabinetBinding()
     ),
     GetPage(
       name: RoutePaths.addpillcabinet,
       page: () => const AddPill(),
-      //binding: CabinetBinding()
+      binding: AddCabinetPillBinding(),
     ),
-     GetPage(
+    GetPage(
       name: RoutePaths.viewslot,
       page: () => const ViewSlot(),
-      //binding: CabinetBinding()
+      binding: ViewPillsBinding(),
     ),
-    
   ];
 }

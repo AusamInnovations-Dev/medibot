@@ -151,23 +151,21 @@ class HomePage extends GetView<HomepageController> {
                                           size: 11.sp,
                                         ),
                                       ),
-                                      Container(
-                                        child: Column(
-                                          children: [
-                                            CustomTextField(
-                                              fontWeight: FontWeight.bold,
-                                              text: "Pill Name",
-                                              color: Colors.black,
-                                              size: 15.sp,
-                                            ),
-                                            CustomTextField(
-                                              fontWeight: FontWeight.bold,
-                                              text: "1 Tablet(s)",
-                                              color: Colors.black,
-                                              size: 9.sp,
-                                            ),
-                                          ],
-                                        ),
+                                      Column(
+                                        children: [
+                                          CustomTextField(
+                                            fontWeight: FontWeight.bold,
+                                            text: "Pill Name",
+                                            color: Colors.black,
+                                            size: 15.sp,
+                                          ),
+                                          CustomTextField(
+                                            fontWeight: FontWeight.bold,
+                                            text: "1 Tablet(s)",
+                                            color: Colors.black,
+                                            size: 9.sp,
+                                          ),
+                                        ],
                                       ),
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
@@ -307,15 +305,15 @@ class HomePage extends GetView<HomepageController> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                       Get.toNamed(RoutePaths.historyPage);
+                                      Get.toNamed(RoutePaths.historyPage);
                                     },
                                     child: CustomBox(
                                       boxHeight: 90.h,
                                       boxWidth: 140.w,
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 5.w),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 20.w),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.w),
                                       body: Align(
                                         alignment: Alignment.center,
                                         child: CustomTextField(
@@ -341,7 +339,26 @@ class HomePage extends GetView<HomepageController> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(RoutePaths.cabinetdetail);
+                                      if (UserStore.to.profile.cabinetDetail ==
+                                          '') {
+                                        Get.snackbar(
+                                          "Cabinet",
+                                          "Please link with a cabinet for using this feature",
+                                          icon: const Icon(
+                                            Icons.person,
+                                            color: Colors.black,
+                                          ),
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: const Color(0xffA9CBFF),
+                                          margin: EdgeInsets.symmetric(
+                                            vertical: 10.h,
+                                            horizontal: 10.w,
+                                          ),
+                                          colorText: Colors.black,
+                                        );
+                                      } else {
+                                        Get.toNamed(RoutePaths.cabinetdetail);
+                                      }
                                     },
                                     child: CustomBox(
                                       boxHeight: 90.h,
@@ -349,7 +366,8 @@ class HomePage extends GetView<HomepageController> {
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 5.w),
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 20.w),
+                                        horizontal: 20.w,
+                                      ),
                                       body: Align(
                                         alignment: Alignment.center,
                                         child: CustomTextField(
@@ -402,7 +420,9 @@ class HomePage extends GetView<HomepageController> {
                       ),
                       CustomBox(
                         margin: EdgeInsets.symmetric(
-                            vertical: 20.h, horizontal: 10.h),
+                          vertical: 20.h,
+                          horizontal: 10.h,
+                        ),
                         topLeft: Radius.circular(17.r),
                         bottomRight: Radius.circular(17.r),
                         boxHeight: 58.h,

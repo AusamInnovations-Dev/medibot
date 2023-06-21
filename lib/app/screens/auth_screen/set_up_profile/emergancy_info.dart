@@ -19,6 +19,7 @@ class EmergencyInfo extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -45,10 +46,10 @@ class EmergencyInfo extends GetView<AuthController> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: CustomBox(
-            boxHeight: 363.h,
+            boxHeight: 353.h,
             boxWidth: 264.w,
             margin: const EdgeInsets.symmetric(horizontal: 48),
-            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
             topRight: Radius.circular(17.r),
             bottomLeft: Radius.circular(17.r),
             body: Column(
@@ -97,7 +98,7 @@ class EmergencyInfo extends GetView<AuthController> {
                         children: [
                           CustomInputField(
                             boxHeight: 36.h,
-                            boxWidth: 172.w,
+                            boxWidth: 165.w,
                             hintText: "",
                             fontTheme: 'Sansation',
                             textController: controller.emergencylocationController,
@@ -140,7 +141,7 @@ class EmergencyInfo extends GetView<AuthController> {
                         children: [
                           CustomInputField(
                             boxHeight: 36.h,
-                            boxWidth: 172.w,
+                            boxWidth: 165.w,
                             hintText: "",
                             fontTheme: 'Sansation',
                             textController: controller.emergencycontactController,

@@ -129,7 +129,7 @@ class UserInfo extends GetView<AuthController> {
                               topr: Radius.zero,
                               bottomr: Radius.zero,
                               boxHeight: 36.h,
-                              boxWidth: 176.w,
+                              boxWidth: 166.w,
                               hintText: "",
                               fontTheme: 'Sansation',
                               textController: controller.locationController,

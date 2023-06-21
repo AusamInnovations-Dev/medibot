@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_controller.dart';
+import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_add_pill_controller.dart';
 
-import '../../../../routes/route_path.dart';
-import '../../../../sampledata/medicines.dart';
-import '../../../../widgets/background_screen_decoration.dart';
-import '../../../../widgets/box_field.dart';
-import '../../../../widgets/text_field.dart';
+import '../../../sampledata/medicines.dart';
+import '../../../widgets/background_screen_decoration.dart';
+import '../../../widgets/box_field.dart';
+import '../../../widgets/text_field.dart';
+import '../widgets/cabinet_duration_widget.dart';
+import '../widgets/cabinet_time_interval.dart';
 
-class AddPill extends GetView<CabinetController> {
+
+class AddPill extends GetView<AddCabinetPill> {
   const AddPill({Key? key}) : super(key: key);
 
   @override
@@ -32,9 +34,10 @@ class AddPill extends GetView<CabinetController> {
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 )
-              ]),
+              ],
+          ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 5.w),
+            padding: EdgeInsets.only(top: 50.h, right: 5.w, left: 5.w),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,93 +133,78 @@ class AddPill extends GetView<CabinetController> {
                     ),
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(bottom: 11.h, top: 11.h),
-                      child: CustomTextField(
-                        text: "Slot",
+                SizedBox(height: 20.h),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20.h, right: 12.w),
+                  child: DropdownButtonFormField(
+                    value: 'Once a Day',
+                    dropdownColor: Theme.of(context).colorScheme.primary,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    style: TextStyle(
+                      fontFamily: 'Sansation',
+                      fontSize: 16.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    decoration: InputDecoration(
+                      fillColor: Theme.of(context).colorScheme.primary,
+                      focusColor: Theme.of(context).colorScheme.primary,
+                      filled: true,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      errorBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      hintText: 'Interval',
+                      hintStyle: TextStyle(
                         fontFamily: 'Sansation',
-                        size: 16.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
                         color: Colors.black,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        bottom: 5.h,
-                        right: 11.w,
-                      ),
-                      child: DropdownButtonFormField(
-                        value: 'Slot 1',
-                        dropdownColor: Theme.of(context).colorScheme.primary,
-                        focusColor: Theme.of(context).colorScheme.primary,
-                        style: TextStyle(
-                          fontFamily: 'Sansation',
-                          fontSize: 16.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        decoration: InputDecoration(
-                          fillColor: Theme.of(context).colorScheme.primary,
-                          focusColor: Theme.of(context).colorScheme.primary,
-                          filled: true,
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black12,
+                    items:
+                    ['Once a Day', 'Twice a Day', 'Thrice a Day', 'Custom']
+                        .map(
+                          (element) => DropdownMenuItem(
+                        value: element,
+                        child: SizedBox(
+                          width: 280.w,
+                          child: Text(
+                            element,
+                            style: TextStyle(
+                              fontFamily: 'Sansation',
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
                             ),
-                          ),
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black12,
-                            ),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black12,
-                            ),
-                          ),
-                          hintText: 'Interval',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Sansation',
-                            fontSize: 16.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                        items: [
-                          'Slot 1',
-                          'Slot 2',
-                          'Slot 3',
-                          'Slot 4',
-                          'Slot 5',
-                          'Slot 6',
-                        ]
-                            .map(
-                              (element) => DropdownMenuItem(
-                                value: element,
-                                child: SizedBox(
-                                  //width: 150.w,
-
-                                  child: Text(
-                                    element,
-                                    style: TextStyle(
-                                      fontFamily: 'Sansation',
-                                      fontSize: 16.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) {},
                       ),
-                    ),
-                  ],
+                    ).toList(),
+                    onChanged: (value) {
+                      controller.interval.value = value!;
+                      if (controller.interval.value == 'Custom') {
+                        controller.generateCustomTimeInterval();
+                      } else {
+                        controller.selectingTimeIntervals();
+                      }
+                    },
+                  ),
+                ),
+                Obx(() => CabinetTimeInterval(
+                    interval: controller.interval.value,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 7),
@@ -319,20 +307,32 @@ class AddPill extends GetView<CabinetController> {
                               ),
                               boxShadow: [],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                CustomTextField(
+                  fontWeight: FontWeight.w400,
+                  text: "Duration",
+                  color: Colors.black,
+                  size: 15.sp,
+                  textAlign: TextAlign.start,
+                ),
+                SizedBox(
+                  height: 7.h,
+                ),
+                const CabinetDurationPicker()
               ],
             ),
           ),
           Container(
             alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(
-              top: 225.w,
-            ),
+            margin: EdgeInsets.symmetric(vertical: 20.h),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(210.w, 20.h),
@@ -358,7 +358,7 @@ class AddPill extends GetView<CabinetController> {
                 textAlign: TextAlign.center,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

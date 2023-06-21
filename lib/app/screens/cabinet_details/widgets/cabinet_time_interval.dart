@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/sampledata/medicines.dart';
+import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_add_pill_controller.dart';
 import 'package:medibot/app/widgets/box_field.dart';
 
 import '../../../widgets/custom_drop_down.dart';
 import '../../../widgets/text_field.dart';
 import '../getx_helper/cabinet_controller.dart';
 
-class CabinetTimeInterval extends GetView<CabinetController>{
+class CabinetTimeInterval extends GetView<AddCabinetPill>{
   final String interval;
   const CabinetTimeInterval({required this.interval, super.key});
 

@@ -402,7 +402,9 @@ class SetReminderScreen extends GetView<SetReminderController> {
                 SizedBox(
                   height: 7.h,
                 ),
-                const SelectDuration()
+                const SelectDuration(),
+
+
               ],
             ),
           ),
