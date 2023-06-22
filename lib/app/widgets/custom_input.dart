@@ -10,12 +10,14 @@ class CustomInputField extends StatelessWidget {
   final Radius? topr;
   final Radius? bottoml;
   final Radius? bottomr;
+  
 
   final TextEditingController? textController;
   CustomInputField(
       {required this.boxHeight,
       required this.boxWidth,
       required this.hintText,
+      
       this.topl,
       this.topr,
       this.bottoml,
@@ -29,7 +31,7 @@ class CustomInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color:  Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.only(
           topLeft: topl ?? Radius.circular(7.r),
           topRight: topr ?? Radius.circular(7.r),
