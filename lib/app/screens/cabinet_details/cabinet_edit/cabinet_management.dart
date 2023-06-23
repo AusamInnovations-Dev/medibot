@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
 import '../../../routes/route_path.dart';
-import '../../../sampledata/medicines.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/custom_input.dart';
 import '../../../widgets/text_field.dart';
-import '../getx_helper/cabinet_controller.dart';
+import '../getx_helper/edit_cabinet_controller.dart';
 
-class CabinetManagement extends GetView<CabinetController> {
+class CabinetManagement extends GetView<EditCabinetController> {
   const CabinetManagement({Key? key}) : super(key: key);
 
   @override
@@ -44,7 +42,11 @@ class CabinetManagement extends GetView<CabinetController> {
           CustomBox(
               margin: EdgeInsets.symmetric(vertical: 55.h, horizontal: 15.h),
               padding: EdgeInsets.only(
-                  left: 12.w, top: 10.h, right: 12.w, bottom: 15.h),
+                left: 12.w,
+                top: 10.h,
+                right: 12.w,
+                bottom: 15.h,
+              ),
               topLeft: Radius.circular(17.r),
               bottomRight: Radius.circular(17.r),
               boxHeight: 300.h,
@@ -166,12 +168,11 @@ class CabinetManagement extends GetView<CabinetController> {
                         fontFamily: 'Sansation',
                         color: Colors.black,
                       ),
-                      children: const [
-                        TextSpan(text: 'Remaining Days '),
+                      children: [
+                        const TextSpan(text: 'Remaining Days '),
                         TextSpan(
-                          text:
-                              '   controller.cabinetsList[index].remainingDays',
-                          style: TextStyle(
+                          text: '   ${controller.remainingDay}',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Sansation',

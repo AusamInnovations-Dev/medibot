@@ -166,6 +166,7 @@ class SetReminderController extends GetxController {
         pillsQuantity: pillQuantity.value.toString(),
         pillsInterval: intervalsInString,
         pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+        inCabinet: false,
       ).toJson().toString());
 
 
@@ -179,6 +180,7 @@ class SetReminderController extends GetxController {
         isRange: isRange.value,
         pillsQuantity: pillQuantity.value.toString(),
         pillsInterval: intervalsInString,
+        inCabinet: false,
         pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
         request: 1,
         slot: 0,

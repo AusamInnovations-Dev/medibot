@@ -23,6 +23,7 @@ _$_PillsModel _$$_PillsModelFromJson(Map<String, dynamic> json) =>
           .toList(),
       isRange: json['isRange'] as bool,
       isIndividual: json['isIndividual'] as bool,
+      inCabinet: json['inCabinet'] as bool,
     );
 
 Map<String, dynamic> _$$_PillsModelToJson(_$_PillsModel instance) =>
@@ -38,4 +39,5 @@ Map<String, dynamic> _$$_PillsModelToJson(_$_PillsModel instance) =>
       'pillsDuration': instance.pillsDuration,
       'isRange': instance.isRange,
       'isIndividual': instance.isIndividual,
+      'inCabinet': instance.inCabinet,
     };

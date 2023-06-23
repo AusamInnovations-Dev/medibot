@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/models/pills_models/pills_model.dart';
-import 'package:medibot/app/screens/cabinet_details/widgets/cabinet_duration_widget.dart';
-import 'package:medibot/app/widgets/custom_input.dart';
 import 'package:medibot/app/widgets/custom_text_view.dart';
 
 import '../../../widgets/background_screen_decoration.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/text_field.dart';
 import '../getx_helper/view_pills_controller.dart';
-import '../widgets/cabinet_time_interval.dart';
 
 class ViewSlot extends GetView<ViewPillsController> {
   const ViewSlot({Key? key}) : super(key: key);
@@ -57,7 +52,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: "Paracetamol",
+                        Text: controller.pill.pillName,
                       )
                     ],
                   ),
@@ -78,7 +73,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: "10 Mg",
+                        Text: controller.pill.dosage,
                       )
                     ],
                   ),
@@ -100,7 +95,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: "1",
+                        Text: controller.pill.slot.toString(),
                       )
                     ],
                   ),
@@ -120,7 +115,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: "Custom",
+                        Text: controller.pill.interval,
                         boxcolor: Theme.of(context).colorScheme.secondary,
                         textAlign: TextAlign.center,
                       )
@@ -140,44 +135,59 @@ class ViewSlot extends GetView<ViewPillsController> {
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 5.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomTextView(
-                              boxHeight: 32.h,
-                              boxWidth: 59.w,
-                              Text: "08 h",
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            CustomTextField(
-                              fontWeight: FontWeight.w700,
-                              text: ':',
-                              size: 20.sp,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            CustomTextView(
-                              boxHeight: 32.h,
-                              boxWidth: 65.w,
-                              Text: "30 m",
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            CustomTextView(
-                              boxHeight: 32.h,
-                              boxWidth: 59.w,
-                              Text: "AM",
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+                        padding: EdgeInsets.only(top: 10.h),
+                        child: MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          child: ListView.builder(
+                            itemCount: controller.pillIntervals.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(vertical: 4.h),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CustomTextView(
+                                      boxHeight: 32.h,
+                                      boxWidth: 59.w,
+                                      Text: controller.pillIntervals[index]['hour'],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    CustomTextField(
+                                      fontWeight: FontWeight.w700,
+                                      text: ':',
+                                      size: 20.sp,
+                                      color: Colors.black,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    CustomTextView(
+                                      boxHeight: 32.h,
+                                      boxWidth: 65.w,
+                                      Text: controller.pillIntervals[index]['minute'],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    CustomTextView(
+                                      boxHeight: 32.h,
+                                      boxWidth: 59.w,
+                                      Text: controller.pillIntervals[index]['period'],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          ),
                         ),
                       )
                     ],
@@ -270,32 +280,6 @@ class ViewSlot extends GetView<ViewPillsController> {
                               ),
                             );
                           },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.symmetric(vertical: 20.h),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(110.w, 20.h),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 1.h,
-                            //horizontal: 100.w,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(2.r),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: CustomTextField(
-                          fontWeight: FontWeight.bold,
-                          text: "Add Pill",
-                          size: 12.sp,
-                          color: Colors.black,
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),

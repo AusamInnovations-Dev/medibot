@@ -25,6 +25,7 @@ import '../screens/cabinet_details/cabinet_edit/add_pill_to_cabinet.dart';
 import '../screens/cabinet_details/cabinet_edit/cabinet_management.dart';
 import '../screens/cabinet_details/cabinet_edit/view_slot.dart';
 import '../screens/cabinet_details/getx_helper/cabinet_binding.dart';
+import '../screens/cabinet_details/getx_helper/edit_cabinet_binding.dart';
 import '../screens/history/getx_helper/history_binding.dart';
 import '../screens/history/history_page.dart';
 import '../screens/home_screen/getx_helper/home_page_binding.dart';
@@ -109,6 +110,7 @@ class RouteHelper {
     GetPage(
       name: RoutePaths.cabinetmanagement,
       page: () => const CabinetManagement(),
+      binding: EditCabinetBinding()
     ),
     GetPage(
       name: RoutePaths.addpillcabinet,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 import 'package:medibot/app/widgets/box_field.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../routes/route_path.dart';
 import '../../widgets/text_field.dart';
@@ -50,7 +51,12 @@ class CabinetDetail extends GetView<CabinetController> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          Get.toNamed(RoutePaths.viewslot, arguments: {'pill': controller.cabinetPillsList[index]});
+                          Get.toNamed(
+                            RoutePaths.viewslot,
+                            arguments: {
+                              'pill': controller.cabinetPillsList[index],
+                            },
+                          );
                         },
                         child: CustomBox(
                           margin: EdgeInsets.only(
@@ -83,7 +89,13 @@ class CabinetDetail extends GetView<CabinetController> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      Get.toNamed(RoutePaths.cabinetmanagement);
+                                      Get.toNamed(
+                                        RoutePaths.cabinetmanagement,
+                                        arguments: {
+                                          'pill': controller.cabinetPillsList[index],
+                                          'remainingDays': controller.remainingDay[index],
+                                        },
+                                      );
                                     },
                                     child: CustomTextField(
                                       fontWeight: FontWeight.bold,

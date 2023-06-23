@@ -135,10 +135,9 @@ class FirebaseFireStore extends GetxController {
 Future<QuerySnapshot<Map<String, dynamic>>?> getCabinetDetail() async { 
     if(UserStore.to.profile.cabinetDetail.isNotEmpty){
       return await fireStore
-      .collection('cabinet')
-      .doc(UserStore.to.profile.cabinetDetail)
-      .collection('cabinetPills')
-      .get();
+          .collection('pillsReminder')
+          .where('inCabinet', isEqualTo: true)
+          .get();
     }else{
       return null;
     }
@@ -147,9 +146,7 @@ Future<QuerySnapshot<Map<String, dynamic>>?> getCabinetDetail() async {
     var docId = fireStore.collection('pillsReminder').doc().id;
     try {
       await fireStore
-          .collection('cabinet')
-          .doc(UserStore.to.profile.cabinetDetail)
-          .collection('cabinetPills')
+          .collection('pillsReminder')
           .doc(docId)
           .set(pillsModel.copyWith(uid: docId).toJson());
       return true;

@@ -31,6 +31,7 @@ mixin _$PillsModel {
   List<String> get pillsDuration => throw _privateConstructorUsedError;
   bool get isRange => throw _privateConstructorUsedError;
   bool get isIndividual => throw _privateConstructorUsedError;
+  bool get inCabinet => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +56,8 @@ abstract class $PillsModelCopyWith<$Res> {
       List<String> pillsInterval,
       List<String> pillsDuration,
       bool isRange,
-      bool isIndividual});
+      bool isIndividual,
+      bool inCabinet});
 }
 
 /// @nodoc
@@ -82,6 +84,7 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
     Object? pillsDuration = null,
     Object? isRange = null,
     Object? isIndividual = null,
+    Object? inCabinet = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -128,6 +131,10 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
           ? _value.isIndividual
           : isIndividual // ignore: cast_nullable_to_non_nullable
               as bool,
+      inCabinet: null == inCabinet
+          ? _value.inCabinet
+          : inCabinet // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -151,7 +158,8 @@ abstract class _$$_PillsModelCopyWith<$Res>
       List<String> pillsInterval,
       List<String> pillsDuration,
       bool isRange,
-      bool isIndividual});
+      bool isIndividual,
+      bool inCabinet});
 }
 
 /// @nodoc
@@ -176,6 +184,7 @@ class __$$_PillsModelCopyWithImpl<$Res>
     Object? pillsDuration = null,
     Object? isRange = null,
     Object? isIndividual = null,
+    Object? inCabinet = null,
   }) {
     return _then(_$_PillsModel(
       uid: null == uid
@@ -222,6 +231,10 @@ class __$$_PillsModelCopyWithImpl<$Res>
           ? _value.isIndividual
           : isIndividual // ignore: cast_nullable_to_non_nullable
               as bool,
+      inCabinet: null == inCabinet
+          ? _value.inCabinet
+          : inCabinet // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -240,7 +253,8 @@ class _$_PillsModel implements _PillsModel {
       required final List<String> pillsInterval,
       required final List<String> pillsDuration,
       required this.isRange,
-      required this.isIndividual})
+      required this.isIndividual,
+      required this.inCabinet})
       : _pillsInterval = pillsInterval,
         _pillsDuration = pillsDuration;
 
@@ -281,10 +295,12 @@ class _$_PillsModel implements _PillsModel {
   final bool isRange;
   @override
   final bool isIndividual;
+  @override
+  final bool inCabinet;
 
   @override
   String toString() {
-    return 'PillsModel(uid: $uid, slot: $slot, request: $request, pillName: $pillName, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual)';
+    return 'PillsModel(uid: $uid, slot: $slot, request: $request, pillName: $pillName, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual, inCabinet: $inCabinet)';
   }
 
   @override
@@ -308,7 +324,9 @@ class _$_PillsModel implements _PillsModel {
                 .equals(other._pillsDuration, _pillsDuration) &&
             (identical(other.isRange, isRange) || other.isRange == isRange) &&
             (identical(other.isIndividual, isIndividual) ||
-                other.isIndividual == isIndividual));
+                other.isIndividual == isIndividual) &&
+            (identical(other.inCabinet, inCabinet) ||
+                other.inCabinet == inCabinet));
   }
 
   @JsonKey(ignore: true)
@@ -325,7 +343,8 @@ class _$_PillsModel implements _PillsModel {
       const DeepCollectionEquality().hash(_pillsInterval),
       const DeepCollectionEquality().hash(_pillsDuration),
       isRange,
-      isIndividual);
+      isIndividual,
+      inCabinet);
 
   @JsonKey(ignore: true)
   @override
@@ -353,7 +372,8 @@ abstract class _PillsModel implements PillsModel {
       required final List<String> pillsInterval,
       required final List<String> pillsDuration,
       required final bool isRange,
-      required final bool isIndividual}) = _$_PillsModel;
+      required final bool isIndividual,
+      required final bool inCabinet}) = _$_PillsModel;
 
   factory _PillsModel.fromJson(Map<String, dynamic> json) =
       _$_PillsModel.fromJson;
@@ -380,6 +400,8 @@ abstract class _PillsModel implements PillsModel {
   bool get isRange;
   @override
   bool get isIndividual;
+  @override
+  bool get inCabinet;
   @override
   @JsonKey(ignore: true)
   _$$_PillsModelCopyWith<_$_PillsModel> get copyWith =>

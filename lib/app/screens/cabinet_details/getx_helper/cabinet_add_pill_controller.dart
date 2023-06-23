@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_controller.dart';
 
@@ -119,7 +120,7 @@ class AddCabinetPill extends GetxController {
         var hour = timeIntervals[0]['hour'] as String;
         var minute = timeIntervals[0]['minute'] as String;
         intervalsInString.add(
-            '${timeIntervals.first['period'] == 'AM' ? (hour.substring(0,1)) : int.parse(hour.substring(0,1)) + 12}HH:${minute.substring(0,1)}MM');
+            '${timeIntervals.first['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
         intervalsInString.add('00HH:00MM');
         intervalsInString.add('00HH:00MM');
         break;
@@ -129,29 +130,29 @@ class AddCabinetPill extends GetxController {
         var hour = timeIntervals[0]['hour'] as String;
         var minute = timeIntervals[0]['minute'] as String;
         intervalsInString.add(
-            '${timeIntervals[0]['period'] == 'AM' ? (hour.substring(0,1)) : int.parse(hour.substring(0,1)) + 12}HH:${minute.substring(0,1)}MM');
+            '${timeIntervals[0]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
 
         intervalsInString.add('00HH:00MM');
         hour = timeIntervals[1]['hour'] as String;
         minute = timeIntervals[1]['minute'] as String;
         intervalsInString.add(
-            '${timeIntervals[1]['period'] == 'AM' ? (hour.substring(0,1)) : int.parse(hour.substring(0,1)) + 12}HH:${minute.substring(0,1)}MM');
+            '${timeIntervals[1]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
         break;
 
       case 3:
         var hour = timeIntervals[0]['hour'] as String;
         var minute = timeIntervals[0]['minute'] as String;
         intervalsInString.add(
-            '${timeIntervals[0]['period'] == 'AM' ? (hour.substring(0,1)) : int.parse(hour.substring(0,1)) + 12}HH:${minute.substring(0,1)}MM');
+            '${timeIntervals[0]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
         hour = timeIntervals[1]['hour'] as String;
         minute = timeIntervals[1]['minute'] as String;
         intervalsInString.add(
-            '${timeIntervals[1]['period'] == 'AM' ? (hour.substring(0,1)) : int.parse(hour.substring(0,1)) + 12}HH:${minute.substring(0,1)}MM');
+            '${timeIntervals[1]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
         intervalsInString.add('00HH:00MM');
         hour = timeIntervals[2]['hour'] as String;
         minute = timeIntervals[2]['minute'] as String;
         intervalsInString.add(
-            '${timeIntervals[2]['period'] == 'AM' ? (hour.substring(0,1)) : int.parse(hour.substring(0,1)) + 12}HH:${minute.substring(0,1)}MM');
+            '${timeIntervals[2]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
         break;
     }
 
@@ -163,6 +164,7 @@ class AddCabinetPill extends GetxController {
           pillName: pillName.text,
           dosage: dosage,
           interval: interval.value,
+          inCabinet: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.value.toString(),
@@ -173,6 +175,18 @@ class AddCabinetPill extends GetxController {
         ));
         return isUploaded;
       } else {
+        Get.snackbar(
+          "Cabinet",
+          "You don't have enough empty slot left in cabinet",
+          icon: const Icon(
+            Icons.check_sharp,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          colorText: Colors.black,
+        );
         return false;
       }
     } catch (err) {

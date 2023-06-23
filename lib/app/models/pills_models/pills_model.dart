@@ -18,6 +18,7 @@ class PillsModel with _$PillsModel{
     required List<String> pillsDuration,
     required bool isRange,
     required bool isIndividual,
+    required bool inCabinet,
   }) = _PillsModel;
 
   factory PillsModel.fromJson(Map<String, Object?> json)  => _$PillsModelFromJson(json);
