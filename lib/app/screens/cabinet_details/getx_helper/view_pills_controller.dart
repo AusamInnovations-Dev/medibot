@@ -26,7 +26,7 @@ class ViewPillsController extends GetxController {
       }else{
         pillIntervals.add(
           {
-            'hour': '${interval.substring(0, 2)} H',
+            'hour': '${int.parse(interval.substring(0, 2)) >= 12 ? int.parse(interval.substring(0, 2))-12 : interval.substring(0, 2) } H',
             'minute': '${interval.substring(5, 7)} M',
             'period': int.parse(interval.substring(0, 2)) >= 12? "PM" : "AM",
           },

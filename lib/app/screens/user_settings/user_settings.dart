@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:medibot/app/screens/user_settings/get_helper/user_setting_controller.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
-import 'package:get/get.dart';
 import 'package:medibot/app/routes/route_path.dart';
 import '../../widgets/text_field.dart';
 
-class UserSetting extends GetView {
+class UserSetting extends GetView<UserSettingController> {
   const UserSetting({Key? key}) : super(key: key);
 
   @override
@@ -85,7 +85,6 @@ class UserSetting extends GetView {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // controller.handleSigning();
                   Get.toNamed(RoutePaths.editEmergencyInformation);
                 },
                 style: ElevatedButton.styleFrom(

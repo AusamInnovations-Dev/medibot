@@ -140,54 +140,57 @@ class ViewSlot extends GetView<ViewPillsController> {
                           context: context,
                           removeTop: true,
                           child: ListView.builder(
-                            itemCount: controller.pillIntervals.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(vertical: 4.h),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CustomTextView(
-                                      boxHeight: 32.h,
-                                      boxWidth: 59.w,
-                                      Text: controller.pillIntervals[index]['hour'],
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
-                                    CustomTextField(
-                                      fontWeight: FontWeight.w700,
-                                      text: ':',
-                                      size: 20.sp,
-                                      color: Colors.black,
-                                    ),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
-                                    CustomTextView(
-                                      boxHeight: 32.h,
-                                      boxWidth: 65.w,
-                                      Text: controller.pillIntervals[index]['minute'],
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
-                                    CustomTextView(
-                                      boxHeight: 32.h,
-                                      boxWidth: 59.w,
-                                      Text: controller.pillIntervals[index]['period'],
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          ),
+                              itemCount: controller.pillIntervals.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: EdgeInsets.symmetric(vertical: 4.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CustomTextView(
+                                        boxHeight: 32.h,
+                                        boxWidth: 59.w,
+                                        Text: controller.pillIntervals[index]
+                                            ['hour'],
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      CustomTextField(
+                                        fontWeight: FontWeight.w700,
+                                        text: ':',
+                                        size: 20.sp,
+                                        color: Colors.black,
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      CustomTextView(
+                                        boxHeight: 32.h,
+                                        boxWidth: 65.w,
+                                        Text: controller.pillIntervals[index]
+                                            ['minute'],
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      CustomTextView(
+                                        boxHeight: 32.h,
+                                        boxWidth: 59.w,
+                                        Text: controller.pillIntervals[index]
+                                            ['period'],
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
                         ),
                       )
                     ],
@@ -268,7 +271,9 @@ class ViewSlot extends GetView<ViewPillsController> {
                                 borders: Border.all(color: Colors.black26),
                                 body: Container(
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 11.h, horizontal: 7.w),
+                                    vertical: 11.h,
+                                    horizontal: 7.w,
+                                  ),
                                   child: CustomTextField(
                                     fontWeight: FontWeight.w400,
                                     text:

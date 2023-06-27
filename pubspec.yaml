@@ -54,6 +54,7 @@ dependencies:
   simple_gesture_detector: ^0.2.0
   syncfusion_flutter_datepicker: ^21.2.3
   table_calendar: ^3.0.9
+  flutter_local_notifications: ^14.1.1
 
 dev_dependencies:
   build_runner: ^2.3.3

@@ -29,13 +29,14 @@ class CabinetController extends GetxController {
     isLoading.value = true;
     cabinetPillsList.clear();
     try {
-      var cabinetData = await FirebaseFireStore.to.getCabinetDetail();
-      if (cabinetData != null) {
-        for (var cabinet in cabinetData.docChanges) {
+      var cabinetData = FirebaseFireStore.to.getCabinetDetail();
+      cabinetData.listen((snapshot) {
+        for (var cabinet in snapshot.docChanges) {
           switch (cabinet.type) {
             case DocumentChangeType.added:
               if (cabinet.doc.data() != null) {
                 cabinetPillsList.add(PillsModel.fromJson(cabinet.doc.data()!));
+                log('This is new data: $cabinetPillsList');
                 if (cabinetPillsList.last.isIndividual) {
                   var difference = 0;
                   for (var date in cabinetPillsList.last.pillsDuration) {
@@ -54,32 +55,32 @@ class CabinetController extends GetxController {
             case DocumentChangeType.modified:
               if (cabinet.doc.data() != null) {
                 int changeIndex = cabinetPillsList.indexWhere(
-                    (element) => element.uid == cabinet.doc.data()!['uid']);
+                        (element) => element.uid == cabinet.doc.data()!['uid']);
                 Map<String, dynamic> modification =
-                    cabinet.doc.data() as Map<String, dynamic>;
+                cabinet.doc.data() as Map<String, dynamic>;
                 var modifiedRemainder = PillsModel.fromJson(modification);
                 cabinetPillsList[changeIndex] = cabinetPillsList[changeIndex]
                     .copyWith(
-                        uid: modifiedRemainder.uid,
-                        dosage: modifiedRemainder.dosage,
-                        inCabinet: modifiedRemainder.inCabinet,
-                        interval: modifiedRemainder.interval,
-                        isIndividual: modifiedRemainder.isIndividual,
-                        isRange: modifiedRemainder.isRange,
-                        pillName: modifiedRemainder.pillName,
-                        pillsDuration: modifiedRemainder.pillsDuration,
-                        pillsInterval: modifiedRemainder.pillsInterval,
-                        pillsQuantity: modifiedRemainder.pillsQuantity,
-                        request: modifiedRemainder.request,
-                        slot: modifiedRemainder.slot);
+                    uid: modifiedRemainder.uid,
+                    dosage: modifiedRemainder.dosage,
+                    inCabinet: modifiedRemainder.inCabinet,
+                    interval: modifiedRemainder.interval,
+                    isIndividual: modifiedRemainder.isIndividual,
+                    isRange: modifiedRemainder.isRange,
+                    pillName: modifiedRemainder.pillName,
+                    pillsDuration: modifiedRemainder.pillsDuration,
+                    pillsInterval: modifiedRemainder.pillsInterval,
+                    pillsQuantity: modifiedRemainder.pillsQuantity,
+                    request: modifiedRemainder.request,
+                    slot: modifiedRemainder.slot);
               }
               break;
             case DocumentChangeType.removed:
               break;
           }
         }
-      }
-      log("This is the data: $cabinetPillsList");
+        log("This is the data: $cabinetPillsList");
+      });
     } catch (err) {
       log(err.toString());
     }

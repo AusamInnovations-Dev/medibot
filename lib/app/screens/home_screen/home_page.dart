@@ -37,10 +37,13 @@ class HomePage extends GetView<HomepageController> {
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
-                      Stack(children: [
-                        CustomBox(
+                      Stack(
+                        children: [
+                          CustomBox(
                             margin: EdgeInsets.symmetric(
-                                vertical: 10.h, horizontal: 23.w),
+                              vertical: 10.h,
+                              horizontal: 23.w,
+                            ),
                             topLeft: Radius.circular(10.r),
                             topRight: Radius.circular(10.r),
                             bottomLeft: Radius.circular(10.r),
@@ -123,20 +126,15 @@ class HomePage extends GetView<HomepageController> {
                                     ),
                                   ),
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           fixedSize: Size(55.w, 3.h),
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
+                                          backgroundColor: Theme.of(context).colorScheme.secondary,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 1.h,
-                                            // horizontal: 100.w,
                                           ),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -170,16 +168,13 @@ class HomePage extends GetView<HomepageController> {
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           fixedSize: Size(55.w, 3.h),
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
+                                          backgroundColor: Theme.of(context).colorScheme.secondary,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 1.h,
                                             // horizontal: 100.w,
                                           ),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.r),
+                                            borderRadius: BorderRadius.circular(5.r),
                                           ),
                                         ),
                                         onPressed: () {},
@@ -193,43 +188,36 @@ class HomePage extends GetView<HomepageController> {
                                     ],
                                   ),
                                   ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        minimumSize: Size(
-                                            MediaQuery.of(context).size.width *
-                                                0.805,
-                                            0),
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 12.h,
-                                          // horizontal: 100.w,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.r),
-                                        ),
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: Size(MediaQuery.of(context).size.width * 0.805, 0,),
+                                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 12.h,
                                       ),
-                                      child: CustomTextField(
-                                        fontWeight: FontWeight.bold,
-                                        text: "Take Now",
-                                        color: Colors.white,
-                                        size: 18.sp,
-                                      )),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5.r),
+                                      ),
+                                    ),
+                                    child: CustomTextField(
+                                      fontWeight: FontWeight.bold,
+                                      text: "Take Now",
+                                      color: Colors.white,
+                                      size: 18.sp,
+                                    ),
+                                  ),
                                 ],
                               ),
-                            )),
-                        Positioned(
-                          top: 90.h,
-                          child: ElevatedButton(
+                            ),
+                          ),
+                          Positioned(
+                            top: 90.h,
+                            child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.secondary,
+                                backgroundColor: Theme.of(context).colorScheme.secondary,
                                 padding: EdgeInsets.symmetric(
                                   vertical: 2.h,
-                                  // horizontal: 100.w,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.r),
@@ -238,19 +226,18 @@ class HomePage extends GetView<HomepageController> {
                               child: const Icon(
                                 Icons.arrow_back,
                                 color: Colors.black,
-                              )),
-                        ),
-                        Positioned(
-                          top: 90.h,
-                          right: 0.w,
-                          child: ElevatedButton(
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 90.h,
+                            right: 0.w,
+                            child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.secondary,
+                                backgroundColor: Theme.of(context).colorScheme.secondary,
                                 padding: EdgeInsets.symmetric(
                                   vertical: 2.h,
-                                  // horizontal: 100.w,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.r),
@@ -259,9 +246,11 @@ class HomePage extends GetView<HomepageController> {
                               child: const Icon(
                                 Icons.arrow_forward,
                                 color: Colors.black,
-                              )),
-                        )
-                      ]),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                       Container(
                         margin: EdgeInsets.only(
                           top: 10.w,
@@ -281,10 +270,10 @@ class HomePage extends GetView<HomepageController> {
                                     child: CustomBox(
                                       boxHeight: 90.h,
                                       boxWidth: 140.w,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5.w),
+                                      margin: EdgeInsets.symmetric(horizontal: 5.w),
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 20.w),
+                                        horizontal: 20.w,
+                                      ),
                                       body: Align(
                                         alignment: Alignment.center,
                                         child: CustomTextField(
@@ -310,10 +299,10 @@ class HomePage extends GetView<HomepageController> {
                                     child: CustomBox(
                                       boxHeight: 90.h,
                                       boxWidth: 140.w,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5.w),
+                                      margin: EdgeInsets.symmetric(horizontal: 5.w),
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 20.w),
+                                        horizontal: 20.w,
+                                      ),
                                       body: Align(
                                         alignment: Alignment.center,
                                         child: CustomTextField(
@@ -333,7 +322,7 @@ class HomePage extends GetView<HomepageController> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 10.w, right: 20.w),
+                              margin: EdgeInsets.only(left: 10.w, right: 10.w),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -349,7 +338,8 @@ class HomePage extends GetView<HomepageController> {
                                             color: Colors.black,
                                           ),
                                           snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: const Color(0xffA9CBFF),
+                                          backgroundColor:
+                                              const Color(0xffA9CBFF),
                                           margin: EdgeInsets.symmetric(
                                             vertical: 10.h,
                                             horizontal: 10.w,
@@ -396,7 +386,8 @@ class HomePage extends GetView<HomepageController> {
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 5.w),
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 26.w),
+                                        horizontal: 26.w,
+                                      ),
                                       body: Align(
                                         alignment: Alignment.center,
                                         child: CustomTextField(
@@ -441,7 +432,7 @@ class HomePage extends GetView<HomepageController> {
                       )
                     ],
                   )
-                : Container()
+                : const Center(child: Text('Please check your network connection and try again'))
             : Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [

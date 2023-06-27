@@ -21,4 +21,6 @@ class RoutePaths {
   static const String cabinetmanagement = '/cabinetmanagement';
   static const String addpillcabinet = '/addpillcabinet';
   static const String viewslot = '/viewslot';
+
+  static const historyDetailsPage = '/historyDetailsPage';
 }

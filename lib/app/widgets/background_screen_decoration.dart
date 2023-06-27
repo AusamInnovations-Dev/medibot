@@ -33,7 +33,7 @@ class ScreenDecoration extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20.w, left: 10.w),
+              margin: EdgeInsets.only(top: 20.w, left: 10.w, right: 10.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -81,17 +81,15 @@ class ScreenDecoration extends StatelessWidget {
                 )
               : Container(
                   margin: EdgeInsets.only(
-                    bottom: 2.h,
+                    bottom: 10.h,
                     right: 20.w,
                     left: 20.w,
                     top: 2.h,
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
-                      
-                    },
+                    onPressed: onbottomButtonPressed,
                     child: CustomTextField(
-                      text: "Change PIN",
+                      text: bottomButtonText,
                       fontFamily: 'Sansation',
                       size: 10.sp,
                       fontWeight: FontWeight.w700,

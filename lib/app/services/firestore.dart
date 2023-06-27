@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
+import '../models/history_model/history_model.dart';
 import '../models/user_model/user_model.dart';
 import 'user.dart';
 
@@ -87,7 +88,6 @@ class FirebaseFireStore extends GetxController {
         .collection('Users')
         .doc(userModel.uid)
         .set(userModel.toJson());
-
     await UserStore.to.saveProfile(userModel.uid);
   }
 
@@ -131,21 +131,20 @@ class FirebaseFireStore extends GetxController {
     }
   }
 
-
-Future<QuerySnapshot<Map<String, dynamic>>?> getCabinetDetail() async { 
-    if(UserStore.to.profile.cabinetDetail.isNotEmpty){
-      return await fireStore
+  Stream<QuerySnapshot<Map<String, dynamic>>> getCabinetDetail() {
+      return fireStore
+          .collection('cabinets')
+          .doc(UserStore.to.profile.cabinetDetail)
           .collection('pillsReminder')
-          .where('inCabinet', isEqualTo: true)
-          .get();
-    }else{
-      return null;
-    }
+          .snapshots();
   }
-   Future<bool> uploadCabinetPills(PillsModel pillsModel) async {
-    var docId = fireStore.collection('pillsReminder').doc().id;
+
+  Future<bool> uploadCabinetPills(PillsModel pillsModel) async {
+    var docId = fireStore.collection('cabinets').doc().id;
     try {
       await fireStore
+          .collection('cabinets')
+          .doc(UserStore.to.profile.cabinetDetail)
           .collection('pillsReminder')
           .doc(docId)
           .set(pillsModel.copyWith(uid: docId).toJson());
@@ -154,6 +153,43 @@ Future<QuerySnapshot<Map<String, dynamic>>?> getCabinetDetail() async {
       log(err.toString());
       return false;
     }
+  }
+
+  Future<void> updatePillsData(PillsModel pillsModel) async {
+    log('hello in updating');
+    await fireStore
+        .collection('pillsReminder')
+        .doc(pillsModel.uid)
+        .update(pillsModel.toJson());
+    log('hello in updating');
+  }
+
+  Future<void> updateCabinetData(PillsModel pillsModel) async {
+    log('hello in updating');
+    await fireStore
+        .collection('cabinets')
+        .doc(UserStore.to.profile.cabinetDetail)
+        .collection('pillsReminder')
+        .doc(pillsModel.uid)
+        .update(pillsModel.toJson());
+    log('hello in updating');
+  }
+
+  Future<void> uploadHistoryData(HistoryModel historyModel, String docId) async {
+    await fireStore
+        .collection('History')
+        .doc(UserStore.to.uid)
+        .collection('history_data')
+        .doc(docId)
+        .set(historyModel.toJson());
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getHistoryData() async {
+    return await fireStore
+        .collection('History')
+        .doc(UserStore.to.uid)
+        .collection('history_data')
+        .get();
   }
 
 }

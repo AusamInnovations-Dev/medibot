@@ -12,6 +12,7 @@ import 'package:medibot/app/screens/reminder/set_reminder.dart';
 import 'package:medibot/app/screens/user_settings/edit_caretaker_profile.dart';
 import 'package:medibot/app/screens/user_settings/edit_profile.dart';
 import 'package:medibot/app/screens/user_settings/edit%20_emergency_info_settings.dart';
+import 'package:medibot/app/screens/user_settings/get_helper/user_setting_binding.dart';
 import 'package:medibot/app/screens/user_settings/user_settings.dart';
 import 'package:medibot/main.dart';
 
@@ -27,6 +28,8 @@ import '../screens/cabinet_details/cabinet_edit/view_slot.dart';
 import '../screens/cabinet_details/getx_helper/cabinet_binding.dart';
 import '../screens/cabinet_details/getx_helper/edit_cabinet_binding.dart';
 import '../screens/history/getx_helper/history_binding.dart';
+import '../screens/history/getx_helper/history_details_binding.dart';
+import '../screens/history/history_details_page.dart';
 import '../screens/history/history_page.dart';
 import '../screens/home_screen/getx_helper/home_page_binding.dart';
 import '../screens/reminder/getx_helper/set_reminder_binding.dart';
@@ -79,6 +82,7 @@ class RouteHelper {
     GetPage(
       name: RoutePaths.userSetting,
       page: () => const UserSetting(),
+      binding: UserSettingBinding()
     ),
     GetPage(
       name: RoutePaths.editUserInformation,
@@ -96,6 +100,11 @@ class RouteHelper {
       name: RoutePaths.historyPage,
       page: () => const HistoryPage(),
       binding: HistoryBinding(),
+    ),
+    GetPage(
+      name: RoutePaths.historyDetailsPage,
+      page: () => const HistoryDetailsPage(),
+      binding: HistoryDetailsBinding(),
     ),
     GetPage(
       name: RoutePaths.cabinetdetail,

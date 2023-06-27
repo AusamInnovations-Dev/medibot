@@ -10,6 +10,7 @@ import 'package:medibot/app/services/storage.dart';
 import 'package:medibot/app/services/user.dart';
 import 'app/routes/route_path.dart';                  
 import 'app/routes/routes.dart';
+import 'app/services/notification_service.dart';
 import 'app/widgets/text_field.dart';
 import 'firebase_options.dart';
 
@@ -20,6 +21,7 @@ void main() async {
   );
   Get.put<ApiClient>(ApiClient());
   Get.put<FirebaseFireStore>(FirebaseFireStore());
+  Get.put<NotificationService>(NotificationService());
   await Get.putAsync<StorageService>(() => StorageService().init());
   Get.put<UserStore>(UserStore());
   runApp(const MyApp());

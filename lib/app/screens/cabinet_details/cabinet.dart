@@ -45,129 +45,131 @@ class CabinetDetail extends GetView<CabinetController> {
                     removeTop: true,
                     removeLeft: true,
                     removeRight: true,
-                    child: ListView.builder(
-                      itemCount: controller.cabinetPillsList.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          Get.toNamed(
-                            RoutePaths.viewslot,
-                            arguments: {
-                              'pill': controller.cabinetPillsList[index],
-                            },
-                          );
-                        },
-                        child: CustomBox(
-                          margin: EdgeInsets.only(
-                            top: 20.h,
-                            right: 22.w,
-                            left: 8.w,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14.w,
-                            vertical: 12.h,
-                          ),
-                          topLeft: Radius.circular(17.r),
-                          bottomRight: Radius.circular(17.r),
-                          boxHeight: 230.h,
-                          boxWidth: 230.w,
-                          body: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomTextField(
-                                    fontWeight: FontWeight.w700,
-                                    size: 17.sp,
-                                    text:
-                                        "Slot ${controller.cabinetPillsList[index].slot}",
-                                    color: Colors.black,
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Get.toNamed(
-                                        RoutePaths.cabinetmanagement,
-                                        arguments: {
-                                          'pill': controller.cabinetPillsList[index],
-                                          'remainingDays': controller.remainingDay[index],
-                                        },
-                                      );
-                                    },
-                                    child: CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: "Edit",
-                                      size: 12.sp,
+                    child: Obx(
+                      () => ListView.builder(
+                        itemCount: controller.cabinetPillsList.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            Get.toNamed(
+                              RoutePaths.viewslot,
+                              arguments: {
+                                'pill': controller.cabinetPillsList[index],
+                              },
+                            );
+                          },
+                          child: CustomBox(
+                            margin: EdgeInsets.only(
+                              top: 20.h,
+                              right: 12.w,
+                              left: 8.w,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 12.h,
+                            ),
+                            topLeft: Radius.circular(17.r),
+                            bottomRight: Radius.circular(17.r),
+                            boxHeight: 230.h,
+                            boxWidth: 230.w,
+                            body: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomTextField(
+                                      fontWeight: FontWeight.w700,
+                                      size: 17.sp,
+                                      text:
+                                          "Slot ${controller.cabinetPillsList[index].slot}",
                                       color: Colors.black,
-                                      textAlign: TextAlign.center,
                                     ),
-                                  )
-                                ],
-                              ),
-                              CustomTextField(
-                                fontWeight: FontWeight.w400,
-                                size: 17.sp,
-                                text:
-                                    controller.cabinetPillsList[index].pillName,
-                                color: Colors.black,
-                                maxLines: 1,
-                              ),
-                              CustomTextField(
-                                fontWeight: FontWeight.w400,
-                                size: 17.sp,
-                                text: "Interval",
-                                color: Colors.black,
-                              ),
-                              RichText(
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    fontSize: 17.sp,
-                                    fontFamily: 'Sansation',
-                                    color: Colors.black,
-                                  ),
-                                  children: [
-                                    const TextSpan(text: 'Remaining Pills '),
-                                    TextSpan(
-                                      text:
-                                          '    ${controller.cabinetPillsList[index].pillsQuantity}',
-                                      style: const TextStyle(
-                                        color: Colors.green,
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.cabinetmanagement,
+                                          arguments: {
+                                            'pill': controller.cabinetPillsList[index],
+                                            'remainingDays': controller.remainingDay[index],
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: 'Sansation',
+                                        text: "Edit",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
-                              ),
-                              RichText(
-                                maxLines: 1,
-                                textAlign: TextAlign.start,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    fontSize: 17.sp,
-                                    fontFamily: 'Sansation',
-                                    color: Colors.black,
-                                  ),
-                                  children: [
-                                    const TextSpan(text: 'Remaining Days '),
-                                    TextSpan(
-                                      text:
-                                          '   ${controller.remainingDay[index]}',
-                                      style: const TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Sansation',
-                                      ),
-                                    ),
-                                  ],
+                                CustomTextField(
+                                  fontWeight: FontWeight.w400,
+                                  size: 17.sp,
+                                  text:
+                                      controller.cabinetPillsList[index].pillName,
+                                  color: Colors.black,
+                                  maxLines: 1,
                                 ),
-                              ),
-                            ],
+                                CustomTextField(
+                                  fontWeight: FontWeight.w400,
+                                  size: 17.sp,
+                                  text: "Interval",
+                                  color: Colors.black,
+                                ),
+                                RichText(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(text: 'Remaining Pills '),
+                                      TextSpan(
+                                        text:
+                                            '    ${controller.cabinetPillsList[index].pillsQuantity}',
+                                        style: const TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                RichText(
+                                  maxLines: 1,
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(text: 'Remaining Days '),
+                                      TextSpan(
+                                        text:
+                                            '   ${controller.remainingDay[index]}',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
