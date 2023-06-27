@@ -22,7 +22,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
       bottomButtonText: '',
       onbottomButtonPressed: () async {
         log('Hello world');
-        if (await controller.uploadPillsReminderData()) {
+        if (await controller.uploadPillsReminderData() != '') {
           Get.snackbar(
             "Pills Reminder",
             "Your pill is scheduled successfully.",
@@ -364,25 +364,26 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             }
                           },
                           child: CustomBox(
-                              borders: Border.all(
-                                color: Colors.black26,
-                              ),
-                              offset: 0,
-                              color: Theme.of(context).colorScheme.primary,
-                              boxHeight: 29.h,
-                              boxWidth: 35.w,
-                              topLeft: Radius.circular(4.r),
-                              topRight: Radius.circular(4.r),
-                              bottomLeft: Radius.circular(4.r),
-                              bottomRight: Radius.circular(4.r),
-                              body: CustomTextField(
-                                color: Colors.black,
-                                textAlign: TextAlign.center,
-                                text: '+',
-                                fontWeight: FontWeight.w400,
-                                size: 25.sp,
-                              ),
-                              boxShadow: []),
+                            borders: Border.all(
+                              color: Colors.black26,
+                            ),
+                            offset: 0,
+                            color: Theme.of(context).colorScheme.primary,
+                            boxHeight: 29.h,
+                            boxWidth: 35.w,
+                            topLeft: Radius.circular(4.r),
+                            topRight: Radius.circular(4.r),
+                            bottomLeft: Radius.circular(4.r),
+                            bottomRight: Radius.circular(4.r),
+                            body: CustomTextField(
+                              color: Colors.black,
+                              textAlign: TextAlign.center,
+                              text: '+',
+                              fontWeight: FontWeight.w400,
+                              size: 25.sp,
+                            ),
+                            boxShadow: [],
+                          ),
                         )
                       ],
                     ),
@@ -402,8 +403,6 @@ class SetReminderScreen extends GetView<SetReminderController> {
                   height: 7.h,
                 ),
                 const SelectDuration(),
-
-
               ],
             ),
           ),

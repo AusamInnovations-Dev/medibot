@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
+import 'package:medibot/app/services/notification_service.dart';
+import 'package:medibot/app/services/user.dart';
 
 import '../../../services/firestore.dart';
 
@@ -109,7 +111,7 @@ class SetReminderController extends GetxController {
     pillsTime.removeAt(index);
   }
 
-  Future<bool> uploadPillsReminderData() async {
+  Future<String> uploadPillsReminderData() async {
     List<String> intervalsInString = [];
     switch (timeIntervals.length) {
       case 1:
@@ -167,6 +169,7 @@ class SetReminderController extends GetxController {
         pillsInterval: intervalsInString,
         pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
         inCabinet: false,
+        userId: UserStore.to.uid,
       ).toJson().toString());
 
 
@@ -174,6 +177,7 @@ class SetReminderController extends GetxController {
       PillsModel(
         uid: '',
         pillName: pillName.text,
+        userId: UserStore.to.uid,
         dosage: dosage,
         interval: interval.value,
         isIndividual: isIndividual.value,
@@ -186,10 +190,29 @@ class SetReminderController extends GetxController {
         slot: 0,
       ),
     );
+     await NotificationService.to.scheduleNotification(
+       1,
+       PillsModel(
+         userId: UserStore.to.uid,
+         uid: isUploaded,
+         pillName: pillName.text,
+         dosage: dosage,
+         interval: interval.value,
+         isIndividual: isIndividual.value,
+         isRange: isRange.value,
+         pillsQuantity: pillQuantity.value.toString(),
+         pillsInterval: intervalsInString,
+         inCabinet: false,
+         pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+         request: 1,
+         slot: 0,
+       ),
+       durationDates
+     );
     return isUploaded;
     } catch (err) {
       log(err.toString());
-      return false;
+      return '';
     }
 
   }

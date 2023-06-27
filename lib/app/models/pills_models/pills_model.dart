@@ -8,6 +8,7 @@ class PillsModel with _$PillsModel{
   
   const factory PillsModel({
     required String uid,
+    required String userId,
     required int slot,
     required int request,
     required String pillName,

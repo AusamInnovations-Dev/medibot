@@ -9,6 +9,7 @@ part of 'pills_model.dart';
 _$_PillsModel _$$_PillsModelFromJson(Map<String, dynamic> json) =>
     _$_PillsModel(
       uid: json['uid'] as String,
+      userId: json['userId'] as String?? '',
       slot: json['slot'] as int,
       request: json['request'] as int,
       pillName: json['pillName'] as String,
@@ -29,6 +30,7 @@ _$_PillsModel _$$_PillsModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_PillsModelToJson(_$_PillsModel instance) =>
     <String, dynamic>{
       'uid': instance.uid,
+      'userId': instance.userId,
       'slot': instance.slot,
       'request': instance.request,
       'pillName': instance.pillName,

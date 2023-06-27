@@ -21,6 +21,7 @@ PillsModel _$PillsModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PillsModel {
   String get uid => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   int get slot => throw _privateConstructorUsedError;
   int get request => throw _privateConstructorUsedError;
   String get pillName => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $PillsModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String uid,
+      String userId,
       int slot,
       int request,
       String pillName,
@@ -74,6 +76,7 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
   @override
   $Res call({
     Object? uid = null,
+    Object? userId = null,
     Object? slot = null,
     Object? request = null,
     Object? pillName = null,
@@ -90,6 +93,10 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       slot: null == slot
           ? _value.slot
@@ -149,6 +156,7 @@ abstract class _$$_PillsModelCopyWith<$Res>
   @useResult
   $Res call(
       {String uid,
+      String userId,
       int slot,
       int request,
       String pillName,
@@ -174,6 +182,7 @@ class __$$_PillsModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uid = null,
+    Object? userId = null,
     Object? slot = null,
     Object? request = null,
     Object? pillName = null,
@@ -190,6 +199,10 @@ class __$$_PillsModelCopyWithImpl<$Res>
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       slot: null == slot
           ? _value.slot
@@ -244,6 +257,7 @@ class __$$_PillsModelCopyWithImpl<$Res>
 class _$_PillsModel implements _PillsModel {
   const _$_PillsModel(
       {required this.uid,
+      required this.userId,
       required this.slot,
       required this.request,
       required this.pillName,
@@ -263,6 +277,8 @@ class _$_PillsModel implements _PillsModel {
 
   @override
   final String uid;
+  @override
+  final String userId;
   @override
   final int slot;
   @override
@@ -300,7 +316,7 @@ class _$_PillsModel implements _PillsModel {
 
   @override
   String toString() {
-    return 'PillsModel(uid: $uid, slot: $slot, request: $request, pillName: $pillName, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual, inCabinet: $inCabinet)';
+    return 'PillsModel(uid: $uid, userId: $userId, slot: $slot, request: $request, pillName: $pillName, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual, inCabinet: $inCabinet)';
   }
 
   @override
@@ -309,6 +325,7 @@ class _$_PillsModel implements _PillsModel {
         (other.runtimeType == runtimeType &&
             other is _$_PillsModel &&
             (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.slot, slot) || other.slot == slot) &&
             (identical(other.request, request) || other.request == request) &&
             (identical(other.pillName, pillName) ||
@@ -334,6 +351,7 @@ class _$_PillsModel implements _PillsModel {
   int get hashCode => Object.hash(
       runtimeType,
       uid,
+      userId,
       slot,
       request,
       pillName,
@@ -363,6 +381,7 @@ class _$_PillsModel implements _PillsModel {
 abstract class _PillsModel implements PillsModel {
   const factory _PillsModel(
       {required final String uid,
+      required final String userId,
       required final int slot,
       required final int request,
       required final String pillName,
@@ -380,6 +399,8 @@ abstract class _PillsModel implements PillsModel {
 
   @override
   String get uid;
+  @override
+  String get userId;
   @override
   int get slot;
   @override

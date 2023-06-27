@@ -8,6 +8,7 @@ import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_controll
 
 import '../../../models/pills_models/pills_model.dart';
 import '../../../services/firestore.dart';
+import '../../../services/user.dart';
 
 class AddCabinetPill extends GetxController {
   TextEditingController pillName = TextEditingController();
@@ -163,6 +164,7 @@ class AddCabinetPill extends GetxController {
           uid: '',
           pillName: pillName.text,
           dosage: dosage,
+          userId: UserStore.to.uid,
           interval: interval.value,
           inCabinet: true,
           isIndividual: isIndividual.value,

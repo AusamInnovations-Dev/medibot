@@ -174,7 +174,7 @@ class SelectDuration extends GetView<SetReminderController> {
               ),
             ),
             onPressed: () async {
-              if (await controller.uploadPillsReminderData()) {
+              if (await controller.uploadPillsReminderData() != '') {
                 Get.back();
               }
             },

@@ -117,17 +117,17 @@ class FirebaseFireStore extends GetxController {
     }
   }
 
-  Future<bool> uploadPillsReminderData(PillsModel pillsModel) async {
+  Future<String> uploadPillsReminderData(PillsModel pillsModel) async {
     var docId = fireStore.collection('pillsReminder').doc().id;
     try {
       await fireStore
           .collection('pillsReminder')
           .doc(docId)
           .set(pillsModel.copyWith(uid: docId).toJson());
-      return true;
+      return docId;
     } catch (err) {
       log(err.toString());
-      return false;
+      return '';
     }
   }
 
@@ -189,6 +189,22 @@ class FirebaseFireStore extends GetxController {
         .collection('History')
         .doc(UserStore.to.uid)
         .collection('history_data')
+        .get();
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getHistoryDataByDay(String docId) async {
+    return await fireStore
+        .collection('History')
+        .doc(UserStore.to.uid)
+        .collection('history_data')
+        .doc(docId)
+        .get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getPillReminder(String actionId) async {
+    return await fireStore
+        .collection('pillsReminder')
+        .where('uid', isEqualTo: actionId)
         .get();
   }
 
