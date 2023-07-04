@@ -222,7 +222,6 @@ class HomepageController extends GetxController {
         }
       }
       if (index == null) {
-        var pillReminder = await FirebaseFireStore.to.getPillReminder(reminderList[pillIndex.value].uid);
         historyModel.historyData.add(
           HistoryData(
             pillId: reminderList[pillIndex.value].uid,
@@ -255,14 +254,13 @@ class HomepageController extends GetxController {
       );
     } else {
       HistoryModel historyModel = HistoryModel(
-        userId: UserStore.to.uid,
+        userId: docId,
         historyData: []
       );
-      var pillReminder = await FirebaseFireStore.to.getPillReminder(reminderList[pillIndex.value].uid);
       historyModel.historyData.add(
         HistoryData(
-          pillId: docId,
-          timeToTake: pillReminder.docs.first.data()['pillsInterval'],
+          pillId: reminderList[pillIndex.value].uid,
+          timeToTake: reminderList[pillIndex.value].pillsInterval,
           timeTaken: [DateTime.now()],
         ),
       );
