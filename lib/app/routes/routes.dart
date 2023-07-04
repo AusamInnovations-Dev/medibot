@@ -7,6 +7,7 @@ import 'package:medibot/app/screens/cabinet_details/cabinet.dart';
 import 'package:medibot/app/screens/cabinet_details/getx_helper/add_cabinet_pill_binding.dart';
 import 'package:medibot/app/screens/cabinet_details/getx_helper/view_pills_binding.dart';
 import 'package:medibot/app/screens/home_screen/home_page.dart';
+import 'package:medibot/app/screens/qr_page/getx_helper/qr_binding.dart';
 import 'package:medibot/app/screens/reminder/set_reminder.dart';
 import 'package:medibot/app/screens/reminder/set_reminder.dart';
 import 'package:medibot/app/screens/user_settings/edit_caretaker_profile.dart';
@@ -19,7 +20,7 @@ import 'package:medibot/main.dart';
 import '../screens/auth_screen/set_up_profile/caretaker_info.dart';
 import '../screens/auth_screen/set_up_profile/create_account.dart';
 import '../screens/auth_screen/set_up_profile/emergancy_info.dart';
-import '../screens/auth_screen/set_up_profile/qr_page.dart';
+import '../screens/qr_page/qr_page.dart';
 import '../screens/auth_screen/set_up_profile/setupfinished.dart';
 import '../screens/auth_screen/set_up_profile/user_info.dart';
 import '../screens/cabinet_details/cabinet_edit/add_pill_to_cabinet.dart';
@@ -74,6 +75,7 @@ class RouteHelper {
     GetPage(
       name: RoutePaths.qrScan,
       page: () => const Qrcode(),
+      binding: QrBinding()
     ),
     GetPage(
       name: RoutePaths.setupFinished,

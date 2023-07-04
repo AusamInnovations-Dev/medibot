@@ -1,21 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../getx_helper/auth_controller.dart';
-import '../../../widgets/backward_button.dart';
-import '../../../widgets/box_field.dart';
-import '../../../widgets/custom_input.dart';
-import '../../../widgets/forward_button.dart';
-import '../../../widgets/text_field.dart';
+import 'package:medibot/app/screens/qr_page/getx_helper/qr_controller.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import '../../widgets/backward_button.dart';
+import '../../widgets/box_field.dart';
+import '../../widgets/custom_input.dart';
+import '../../widgets/forward_button.dart';
+import '../../widgets/text_field.dart';
 import 'package:medibot/app/routes/route_path.dart';
 
-class Qrcode extends GetView<AuthController> {
+class Qrcode extends GetView<QrController> {
   const Qrcode({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -65,29 +69,44 @@ class Qrcode extends GetView<AuthController> {
                           text: "Have a physical device? Scan QR",
                         ),
                       ),
-                      CustomInputField(
-                        boxHeight: 200.h,
-                        boxWidth: 232.w,
-                        hintText: "",
-                        fontTheme: 'Sansation',
-                        textController: controller.qrscancodeController,
+                      Obx(
+                        () => CustomBox(
+                          boxHeight: 200.h,
+                          boxWidth: 232.w,
+                          boxShadow: [],
+                          body: !controller.isScanning.value ?
+                          MobileScanner(
+                            onDetect: (BarcodeCapture barcodes) {
+                              var data = barcodes.raw;
+                              controller.isScanning.value = true;
+                              log('QR Code scanner Id: $data');
+                              log('QR Code scanner Id: ${data.first['displayValue']}');
+                              Future.delayed(const Duration(seconds: 1), () {
+
+                              });
+                            },
+                          ) : const Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xff041c50),
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
                 ),
                 ForwardButton(
-                  width: 255.w,
+                  width: 235.w,
                   text: 'Continue',
                   padding: EdgeInsets.symmetric(vertical: 8.w),
                   iconSize: 18.h,
-                  onPressed: () {
-                    // Get.toNamed(RoutePaths.setupFinished);
+                  onPressed: () async {
+                    await controller.onScanQrCode();
                   },
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await controller.updateUserData();
-                    Get.toNamed(RoutePaths.setupFinished);
+                    await controller.onSkip();
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width, 0),

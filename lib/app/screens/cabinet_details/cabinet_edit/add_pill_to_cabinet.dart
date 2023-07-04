@@ -18,7 +18,6 @@ class AddPill extends GetView<AddCabinetPill> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
-      //bottomButtonText: "Modify Pill",
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,15 +248,16 @@ class AddPill extends GetView<AddCabinetPill> {
                     ).toList(),
                     onChanged: (value) {
                       controller.interval.value = value!;
-                      if (controller.interval.value == 'Custom') {
-                        controller.generateCustomTimeInterval();
+                      if (controller.interval.value == 'Custom' || controller.interval.value == 'Hourly') {
+                        controller.gererateCustomTimeInterval();
                       } else {
                         controller.selectingTimeIntervals();
                       }
                     },
                   ),
                 ),
-                Obx(() => CabinetTimeInterval(
+                Obx(
+                  () => CabinetTimeInterval(
                     interval: controller.interval.value,
                   ),
                 ),

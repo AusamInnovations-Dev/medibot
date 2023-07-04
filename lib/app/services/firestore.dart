@@ -139,6 +139,14 @@ class FirebaseFireStore extends GetxController {
           .snapshots();
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllCabinetPills() {
+    return fireStore
+        .collection('cabinets')
+        .doc(UserStore.to.profile.cabinetDetail)
+        .collection('pillsReminder')
+        .snapshots();
+  }
+
   Future<bool> uploadCabinetPills(PillsModel pillsModel) async {
     var docId = fireStore.collection('cabinets').doc().id;
     try {
@@ -184,21 +192,46 @@ class FirebaseFireStore extends GetxController {
         .set(historyModel.toJson());
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getHistoryData() async {
-    return await fireStore
+  Future<QuerySnapshot<Map<String, dynamic>>?> getHistoryData() async {
+    var data = await fireStore
         .collection('History')
         .doc(UserStore.to.uid)
         .collection('history_data')
         .get();
+    if(data.docs.isNotEmpty){
+      return data;
+    } else {
+      return null;
+    }
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getHistoryDataByDay(String docId) async {
-    return await fireStore
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getTodayHistory() async {
+    var history = await fireStore
+        .collection('History')
+        .doc(UserStore.to.uid)
+        .collection('history_data')
+        .doc('${DateTime.now().year}:${DateTime.now().month}:${DateTime.now().day}')
+        .get();
+
+    if(history.exists){
+      return history;
+    }else{
+      return null;
+    }
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getHistoryDataByDay(String docId) async {
+    var data = await fireStore
         .collection('History')
         .doc(UserStore.to.uid)
         .collection('history_data')
         .doc(docId)
         .get();
+    if(data.exists){
+      return data;
+    } else{
+      return null;
+    }
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getPillReminder(String actionId) async {
@@ -206,6 +239,13 @@ class FirebaseFireStore extends GetxController {
         .collection('pillsReminder')
         .where('uid', isEqualTo: actionId)
         .get();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllPillsReminder() {
+    return fireStore
+        .collection('pillsReminder')
+        .where('userId', isEqualTo: UserStore.to.uid)
+        .snapshots();
   }
 
 }

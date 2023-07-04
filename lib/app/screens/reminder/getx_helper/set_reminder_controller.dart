@@ -12,7 +12,8 @@ import '../../../services/firestore.dart';
 class SetReminderController extends GetxController {
   TextEditingController pillName = TextEditingController();
   String dosage = 'Select Dosage';
-  Rx<String> interval = 'Select Interval'.obs;
+  Rx<String> interval = 'Once a Day'.obs;
+  Rx<String> hourlyInterval = '01 H'.obs;
   List<TimeOfDay> pillsTime = [
     const TimeOfDay(
       hour: 12,
@@ -22,6 +23,7 @@ class SetReminderController extends GetxController {
   Rx<int> pillQuantity = 1.obs;
   Rx<bool> isRange = false.obs;
   Rx<bool> isIndividual = false.obs;
+  Rx<bool> increasePossible = true.obs;
   RxList<Map<String, Object>> timeIntervals = <Map<String, Object>>[
     {'hour': '12 H', 'minute': '20 M', 'period': 'PM'}
   ].obs;
@@ -79,16 +81,16 @@ class SetReminderController extends GetxController {
 
   gererateCustomTimeInterval() {
     timeIntervals.clear();
+    pillsTime.clear();
+    log('Hello : $timeIntervals');
     pillsTime.add(const TimeOfDay(
       hour: 8,
       minute: 30,
     ));
     timeIntervals.add({
-      'hour':
-          '${pillsTime[0].hour <= 9 ? '0${pillsTime[0].hour}' : pillsTime[0].hour} H',
-      'minute':
-          '${pillsTime[0].minute <= 9 ? '0${pillsTime[0].minute}' : pillsTime[0].minute} M',
-      'period': 'PM'
+      'hour': '${pillsTime.last.hour <= 9 ? '0${pillsTime.last.hour}' : pillsTime.last.hour > 12 ? pillsTime.last.hour-12 : pillsTime.last.hour } H',
+      'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+      'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
     });
   }
 
@@ -98,12 +100,103 @@ class SetReminderController extends GetxController {
       minute: 30,
     ));
     timeIntervals.add({
-      'hour':
-          '${pillsTime.last.hour <= 9 ? '0${pillsTime.last.hour}' : pillsTime.last.hour} H',
-      'minute':
-          '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-      'period': 'PM'
+      'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
+      'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+      'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
     });
+  }
+
+  addHourlyTimeInterval() {
+    log('Here Printing');
+    switch(hourlyInterval.value) {
+      case '01 H':
+        pillsTime.add(TimeOfDay(
+          hour: pillsTime.last.hour+1,
+          minute: 30,
+        ));
+        timeIntervals.add({
+          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
+          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+        });
+        if(pillsTime.last.hour+1 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '02 H':
+        pillsTime.add(TimeOfDay(
+          hour: pillsTime.last.hour+2,
+          minute: 30,
+        ));
+        timeIntervals.add({
+          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
+          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+        });
+        if(pillsTime.last.hour+2 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '03 H':
+        log(hourlyInterval.value);
+        pillsTime.add(TimeOfDay(
+          hour: pillsTime.last.hour+3,
+          minute: 30,
+        ));
+        timeIntervals.add({
+          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
+          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+        });
+        if(pillsTime.last.hour+3 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '04 H':
+        log(hourlyInterval.value);
+        pillsTime.add(TimeOfDay(
+          hour: pillsTime.last.hour+4,
+          minute: 30,
+        ));
+        timeIntervals.add({
+          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
+          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+        });
+        if(pillsTime.last.hour+4 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '06 H':
+        log(hourlyInterval.value);
+        pillsTime.add(TimeOfDay(
+          hour: pillsTime.last.hour+6,
+          minute: 30,
+        ));
+        timeIntervals.add({
+          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
+          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+        });
+        if(pillsTime.last.hour+6 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+    }
   }
 
   removeCustomTimeInterval(index) {
@@ -111,68 +204,24 @@ class SetReminderController extends GetxController {
     pillsTime.removeAt(index);
   }
 
+  removeHourlyTimeInterval(index) {
+    timeIntervals.removeAt(index);
+    pillsTime.removeAt(index);
+    checkIfIncreasePossible();
+  }
+
   Future<String> uploadPillsReminderData() async {
     List<String> intervalsInString = [];
-    switch (timeIntervals.length) {
-      case 1:
-        intervalsInString.add('00HH:00MM');
-        var hour = timeIntervals[0]['hour'] as String;
-        var minute = timeIntervals[0]['minute'] as String;
-        intervalsInString.add(
-            '${timeIntervals.first['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
-        intervalsInString.add('00HH:00MM');
-        intervalsInString.add('00HH:00MM');
-        break;
+    for(var interval in timeIntervals){
+      var hour = interval['hour'] as String;
+      var minute = interval['minute'] as String;
+      intervalsInString.add(
+          '${interval['period'] == 'AM' ? hour.substring(0,2) : int.parse(hour.substring(0,2)) == 12 ? hour.substring(0,2) :  int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM'
 
-      case 2:
-        intervalsInString.add('00HH:00MM');
-        var hour = timeIntervals[0]['hour'] as String;
-        var minute = timeIntervals[0]['minute'] as String;
-        intervalsInString.add(
-            '${timeIntervals[0]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
-
-        intervalsInString.add('00HH:00MM');
-        hour = timeIntervals[1]['hour'] as String;
-        minute = timeIntervals[1]['minute'] as String;
-        intervalsInString.add(
-            '${timeIntervals[1]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
-        break;
-
-      case 3:
-        var hour = timeIntervals[0]['hour'] as String;
-        var minute = timeIntervals[0]['minute'] as String;
-        intervalsInString.add(
-            '${timeIntervals[0]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
-        hour = timeIntervals[1]['hour'] as String;
-        minute = timeIntervals[1]['minute'] as String;
-        intervalsInString.add(
-            '${timeIntervals[1]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
-        intervalsInString.add('00HH:00MM');
-        hour = timeIntervals[2]['hour'] as String;
-        minute = timeIntervals[2]['minute'] as String;
-        intervalsInString.add(
-            '${timeIntervals[2]['period'] == 'AM' ? (hour.substring(0,2)) : int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM');
-        break;
+      );
     }
+
     try {
-      
-      log(PillsModel(
-        uid: '',
-        slot: 0,
-        request: 1,
-        pillName: pillName.text,
-        dosage: dosage,
-        interval: interval.value,
-        isIndividual: isIndividual.value,
-        isRange: isRange.value,
-        pillsQuantity: pillQuantity.value.toString(),
-        pillsInterval: intervalsInString,
-        pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
-        inCabinet: false,
-        userId: UserStore.to.uid,
-      ).toJson().toString());
-
-
      var isUploaded = await FirebaseFireStore.to.uploadPillsReminderData(
       PillsModel(
         uid: '',
@@ -212,8 +261,54 @@ class SetReminderController extends GetxController {
     return isUploaded;
     } catch (err) {
       log(err.toString());
+
       return '';
     }
 
+  }
+
+  void checkIfIncreasePossible() {
+    switch(hourlyInterval.value) {
+      case '01 H':
+        if(pillsTime.last.hour+1 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '02 H':
+        if(pillsTime.last.hour+2 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '03 H':
+
+        if(pillsTime.last.hour+3 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '04 H':
+        if(pillsTime.last.hour+4 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+
+      case '06 H':
+        if(pillsTime.last.hour+6 >= 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
+        break;
+    }
   }
 }

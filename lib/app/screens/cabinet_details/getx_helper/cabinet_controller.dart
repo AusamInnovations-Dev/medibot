@@ -40,15 +40,17 @@ class CabinetController extends GetxController {
                 if (cabinetPillsList.last.isIndividual) {
                   var difference = 0;
                   for (var date in cabinetPillsList.last.pillsDuration) {
-                    if (!DateTime.parse(date).isBefore(DateTime.now())) {
+                    if (!DateTime.parse(date).isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
                       difference++;
                     }
                   }
                   remainingDay.add(difference);
                 } else if (cabinetPillsList.last.isRange) {
+                  log('remaining day: ${cabinetPillsList.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
                   remainingDay.add(
-                    DateTime.parse(cabinetPillsList.last.pillsDuration.last).difference(DateTime.now()).inDays,
+                    DateTime.parse(cabinetPillsList.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1,
                   );
+                  log(remainingDay.toString());
                 }
               }
               break;

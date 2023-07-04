@@ -183,14 +183,20 @@ class EmergencyInfo extends GetView<AuthController> {
                     ],
                   ),
                 ),
-                ForwardButton(
-                  width: 255.w,
-                  text: 'Continue',
-                  padding: EdgeInsets.symmetric(vertical: 9.w),
-                  iconSize: 18.h,
-                  onPressed: () {
-                    Get.toNamed(RoutePaths.qrScan);
-                  },
+                Obx(
+                  () => Container(
+                    child: !controller.uploadingData.value ?
+                    ForwardButton(
+                      width: 255.w,
+                      text: 'Continue',
+                      padding: EdgeInsets.symmetric(vertical: 9.w),
+                      iconSize: 18.h,
+                      onPressed: () async {
+                        await controller.updateUserData();
+                        Get.toNamed(RoutePaths.qrScan);
+                      },
+                    ) : const Center(child: CircularProgressIndicator(),),
+                  ),
                 ),
               ],
             ),

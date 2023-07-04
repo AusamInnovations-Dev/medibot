@@ -242,7 +242,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                       ),
                     ),
                     items:
-                        ['Once a Day', 'Twice a Day', 'Thrice a Day', 'Custom']
+                        ['Once a Day', 'Twice a Day', 'Thrice a Day', 'Custom', 'Hourly']
                             .map(
                               (element) => DropdownMenuItem(
                                 value: element,
@@ -263,7 +263,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             .toList(),
                     onChanged: (value) {
                       controller.interval.value = value!;
-                      if (controller.interval.value == 'Custom') {
+                      if (controller.interval.value == 'Custom' || controller.interval.value == 'Hourly') {
                         controller.gererateCustomTimeInterval();
                       } else {
                         controller.selectingTimeIntervals();

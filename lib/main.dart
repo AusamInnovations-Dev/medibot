@@ -1,3 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:timezone/data/latest.dart' as tz;
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +11,6 @@ import 'package:medibot/app/API/api_client.dart';
 import 'package:medibot/app/services/firestore.dart';
 import 'package:medibot/app/services/storage.dart';
 import 'package:medibot/app/services/user.dart';
-import 'app/models/pills_models/pills_model.dart';
 import 'app/routes/route_path.dart';
 import 'app/routes/routes.dart';
 import 'app/services/notification_service.dart';
@@ -20,9 +22,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseMessaging.instance.getInitialMessage();
   Get.put<ApiClient>(ApiClient());
   Get.put<FirebaseFireStore>(FirebaseFireStore());
   Get.put<NotificationService>(NotificationService());
+  tz.initializeTimeZones();
   await Get.putAsync<StorageService>(() => StorageService().init());
   Get.put<UserStore>(UserStore());
   runApp(const MyApp());
