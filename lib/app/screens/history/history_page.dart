@@ -35,8 +35,8 @@ class HistoryPage extends GetView<HistoryController> {
                     Container(
                       margin: EdgeInsets.only(top: 15.h),
                       child: TableCalendar(
-                        firstDay: DateTime(DateTime.now().year),
-                        lastDay: DateTime(DateTime.now().year + 1),
+                        firstDay: DateTime(DateTime.now().year, DateTime.now().month-1),
+                        lastDay: DateTime(DateTime.now().year, DateTime.now().month+1),
                         headerVisible: true,
                         currentDay: DateTime.now(),
                         focusedDay: DateTime.now(),
@@ -45,24 +45,37 @@ class HistoryPage extends GetView<HistoryController> {
                         calendarBuilders: CalendarBuilders(
                           defaultBuilder: (context, date, date1) {
                             var state = controller.checkForSuccess(date);
-                            return Container(
-                              height: 35.h,
-                              width: 40.w,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: date.isAfter(DateTime.now())
-                                    ? Theme.of(context).colorScheme.primary
-                                    : state == 'NoPillsScheduled'
-                                    ? Colors.grey[200]
-                                    : state == 'AllPillsTaken'
-                                    ? Colors.lightGreenAccent
-                                    : state == 'NoPillsTaken'
-                                    ? Colors.red
-                                    : Colors.yellow,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Text(
-                                date.day.toString(),
+                            return GestureDetector(
+                              onTap: (){
+                                if(state != 'NoPillsScheduled' && !date.isAfter(DateTime.now())) {
+                                  Get.toNamed(
+                                      RoutePaths.historyDetailsPage,
+                                      arguments: {
+                                        'date': date,
+                                        'todayReminders': controller.todayReminders(date),
+                                      }
+                                  );
+                                }
+                              },
+                              child: Container(
+                                height: 35.h,
+                                width: 40.w,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: date.isAfter(DateTime.now())
+                                      ? Theme.of(context).colorScheme.primary
+                                      : state == 'NoPillsScheduled'
+                                      ? Colors.grey[200]
+                                      : state == 'AllPillsTaken'
+                                      ? Colors.lightGreenAccent
+                                      : state == 'NoPillsTaken'
+                                      ? Colors.red
+                                      : Colors.yellow,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child: Text(
+                                  date.day.toString(),
+                                ),
                               ),
                             );
                           },
@@ -80,24 +93,37 @@ class HistoryPage extends GetView<HistoryController> {
                           },
                           outsideBuilder: (context, date, date1) {
                             var state = controller.checkForSuccess(date);
-                            return Container(
-                              height: 35.h,
-                              width: 40.w,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: date.isAfter(DateTime.now())
-                                    ? Theme.of(context).colorScheme.primary
-                                    : state == 'NoPillsScheduled'
-                                    ? Colors.grey[200]
-                                    : state == 'AllPillsTaken'
-                                    ? Colors.lightGreenAccent
-                                    : state == 'NoPillsTaken'
-                                    ? Colors.red
-                                    : Colors.yellow,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Text(
-                                date.day.toString(),
+                            return GestureDetector(
+                              onTap: (){
+                                if(state != 'NoPillsScheduled' && !date.isAfter(DateTime.now())) {
+                                  Get.toNamed(
+                                      RoutePaths.historyDetailsPage,
+                                      arguments: {
+                                        'date': date,
+                                        'todayReminders': controller.todayReminders(date),
+                                      }
+                                  );
+                                }
+                              },
+                              child: Container(
+                                height: 35.h,
+                                width: 40.w,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: date.isAfter(DateTime.now())
+                                      ? Theme.of(context).colorScheme.primary
+                                      : state == 'NoPillsScheduled'
+                                      ? Colors.grey[200]
+                                      : state == 'AllPillsTaken'
+                                      ? Colors.lightGreenAccent
+                                      : state == 'NoPillsTaken'
+                                      ? Colors.red
+                                      : Colors.yellow,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child: Text(
+                                  date.day.toString(),
+                                ),
                               ),
                             );
                           },
@@ -105,7 +131,7 @@ class HistoryPage extends GetView<HistoryController> {
                       ),
                     ),
                     CustomBox(
-                      boxHeight: 122.h,
+                      boxHeight: 90.h,
                       boxWidth: 320.w,
                       bottomRight: Radius.circular(15.r),
                       topLeft: Radius.circular(15.r),
@@ -118,8 +144,7 @@ class HistoryPage extends GetView<HistoryController> {
                           children: [
                             Obx(
                               () => Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomTextField(
                                     fontWeight: FontWeight.bold,
@@ -129,8 +154,7 @@ class HistoryPage extends GetView<HistoryController> {
                                   ),
                                   CustomTextField(
                                     fontWeight: FontWeight.bold,
-                                    text:
-                                        '${controller.totalPillsDosage.value - controller.totalTakenPillsDosage.value}',
+                                    text: '${controller.totalPillsDosage.value - controller.totalTakenPillsDosage.value}',
                                     color: Colors.red,
                                     size: 18.sp,
                                   ),
@@ -142,32 +166,17 @@ class HistoryPage extends GetView<HistoryController> {
                               children: [
                                 CustomTextField(
                                   fontWeight: FontWeight.bold,
-                                  text: 'Missed Days',
-                                  color: Colors.black,
-                                  size: 18.sp,
-                                ),
-                                CustomTextField(
-                                  fontWeight: FontWeight.bold,
-                                  text: '${controller.daysMissed}',
-                                  color: Colors.red,
-                                  size: 18.sp,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomTextField(
-                                  fontWeight: FontWeight.bold,
                                   text: 'Upcoming Doses',
                                   color: Colors.black,
                                   size: 18.sp,
                                 ),
-                                CustomTextField(
-                                  fontWeight: FontWeight.bold,
-                                  text: '${controller.upComingDosage.value}',
-                                  color: Colors.red,
-                                  size: 18.sp,
+                                Obx(
+                                  () => CustomTextField(
+                                    fontWeight: FontWeight.bold,
+                                    text: '${controller.upComingDosage.value}',
+                                    color: Colors.red,
+                                    size: 18.sp,
+                                  ),
                                 ),
                               ],
                             ),

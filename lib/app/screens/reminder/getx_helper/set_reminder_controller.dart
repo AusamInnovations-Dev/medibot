@@ -217,7 +217,6 @@ class SetReminderController extends GetxController {
       var minute = interval['minute'] as String;
       intervalsInString.add(
           '${interval['period'] == 'AM' ? hour.substring(0,2) : int.parse(hour.substring(0,2)) == 12 ? hour.substring(0,2) :  int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM'
-
       );
     }
 

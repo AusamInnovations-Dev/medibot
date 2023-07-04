@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 import '../../../models/history_model/history_model.dart';
@@ -22,21 +23,92 @@ class HistoryController extends GetxController {
     loadingUserData.value = true;
     await getUserData();
     checkForAllHistory();
-    loadingUserData.value = false;
     super.onInit();
   }
 
   getUserData() async {
     var history = await FirebaseFireStore.to.getHistoryData();
+    var pillsReminder = FirebaseFireStore.to.getAllPillsReminder();
+    var cabinetPillsReminder = FirebaseFireStore.to.getAllCabinetPills();
     if(history != null){
       for(var history in history.docs){
         historyList.add(HistoryModel.fromJson(history.data()));
       }
-    }else{
-
     }
-    log('This is the history list: $historyList');
-    log('This is the reminder list: $reminderList');
+    pillsReminder.listen((snapshot) {
+      for(var pill in snapshot.docChanges){
+        switch(pill.type){
+          case DocumentChangeType.added:
+            PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
+            if(pillsModel.isIndividual) {
+              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
+              if(dates.contains(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
+                reminderList.add(pillsModel);
+              }
+            }else{
+              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
+              if(dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
+                reminderList.add(pillsModel);
+              }
+            }
+            break;
+          case DocumentChangeType.modified:
+          // TODO: Handle this case.
+            break;
+          case DocumentChangeType.removed:
+          // TODO: Handle this case.
+            break;
+        }
+      }
+    });
+    cabinetPillsReminder.listen((snapshot) {
+      for(var pill in snapshot.docChanges){
+        switch(pill.type) {
+          case DocumentChangeType.added:
+            PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
+            if(pillsModel.isIndividual) {
+              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
+              if(dates.contains(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
+                reminderList.add(pillsModel);
+              }
+            }else{
+              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
+              if(dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
+                reminderList.add(pillsModel);
+              }
+            }
+            break;
+          case DocumentChangeType.modified:
+          // TODO: Handle this case.
+            break;
+          case DocumentChangeType.removed:
+          // TODO: Handle this case.
+            break;
+        }
+      }
+      totalPillsDosage.value = 0;
+      for(var reminder in reminderList){
+        totalPillsDosage.value += reminder.pillsInterval.length;
+        if(reminder.isIndividual){
+          for(var time in reminder.pillsDuration){
+            DateTime date = DateTime.parse(time);
+            if(date.isAfter(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day))){
+              upComingDosage.value++;
+            }
+          }
+        }else {
+          DateTime date1 = DateTime.parse(reminder.pillsDuration.first);
+          DateTime date2 = DateTime.parse(reminder.pillsDuration.last);
+
+          if(date1.isBefore(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)) && date2.isAfter(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day))){
+            upComingDosage.value += date2.difference(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)).inDays;
+          }else if(date1.isAfter(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day))){
+            upComingDosage.value += date2.difference(date1).inDays;
+          }
+        }
+      }
+      log('Total reminders : ${totalPillsDosage.value}');
+    });
   }
 
   String checkForSuccess(DateTime date) {
@@ -64,9 +136,40 @@ class HistoryController extends GetxController {
         return 'PartiallyTaken';
       }
     }else {
-      //TODO: Check if not scheduled for this day
+      for(var reminder in reminderList){
+        if(reminder.isIndividual) {
+          List<DateTime> dates = reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
+          if(dates.contains(DateTime(date.year, date.month, date.day))){
+            return 'NoPillsTaken';
+          }
+        }else{
+          List<DateTime> dates = reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
+          if(dates.first.isBefore(DateTime(date.year, date.month, date.day)) && dates.last.isAfter(DateTime(date.year, date.month, date.day))){
+            return 'NoPillsTaken';
+          }
+        }
+      }
       return 'NoPillsScheduled';
     }
+  }
+
+  List<PillsModel> todayReminders(DateTime date) {
+    List<PillsModel> todayReminder = [];
+    for(var reminder in reminderList){
+      if(reminder.isIndividual) {
+        List<DateTime> dates = reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
+        if(dates.contains(DateTime(date.year, date.month, date.day))){
+          todayReminder.add(reminder);
+        }
+      }else{
+        List<DateTime> dates = reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
+        if(dates.first.isBefore(DateTime(date.year, date.month, date.day)) && dates.last.isAfter(DateTime(date.year, date.month, date.day))){
+          todayReminder.add(reminder);
+        }
+      }
+    }
+    log('This is all today reminder: $todayReminder');
+    return todayReminder;
   }
 
   checkForAllHistory() {
@@ -78,22 +181,11 @@ class HistoryController extends GetxController {
       log(history.userId.substring(0,4));
       log(history.userId.substring(5,7));
       log(history.userId.substring(8,10));
-      var day = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-          .isBefore(
-          DateTime(
-              int.parse(history.userId.substring(0,4)),
-              int.parse(history.userId.substring(5,7)),
-              int.parse(history.userId.substring(8,10)),
-          ),
-      );
-      if(day){
-        upComingDosage.value++;
-      }
       if(totalTakenPillsDosage.value < totalPillsDosage.value){
         daysMissed.value++;
       }
     }
-
+    loadingUserData.value = false;
   }
 
 }
