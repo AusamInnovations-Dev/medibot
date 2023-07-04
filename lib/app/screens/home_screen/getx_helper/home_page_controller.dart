@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/history_model/history_model.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
@@ -224,13 +226,28 @@ class HomepageController extends GetxController {
         historyModel.historyData.add(
           HistoryData(
             pillId: reminderList[pillIndex.value].uid,
-            timeToTake: pillReminder.docs.first.data()['pillsInterval'],
+            timeToTake: reminderList[pillIndex.value].pillsInterval,
             timeTaken: [DateTime.now()],
           ),
         );
       } else {
-        historyData.timeTaken.add(DateTime.now());
-        historyModel.historyData[index] = historyData;
+        if(historyData.timeTaken.length < historyData.timeToTake.length) {
+          historyData.timeTaken.add(DateTime.now());
+          historyModel.historyData[index] = historyData;
+        }else{
+          Get.snackbar(
+            "Reminders",
+            "Can't take anymore pills",
+            icon: const Icon(
+              Icons.check_sharp,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
       }
       await FirebaseFireStore.to.uploadHistoryData(
         historyModel.copyWith(historyData: historyModel.historyData),

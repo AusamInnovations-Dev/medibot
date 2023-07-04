@@ -129,33 +129,6 @@ class NotificationService extends GetxController {
 
           }else{
             log('Setting up notification now');
-            // await messaging.sendMessage(
-            //   {
-            //     'message': {
-            //       'notification': {
-            //         'title': 'Scheduled Notification',
-            //         'body': 'This is a scheduled notification.'
-            //       },
-            //       'android': {
-            //         'ttl': '${delayInSeconds}s',
-            //         'priority': 'normal',
-            //         'notification': {
-            //           'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            //         },
-            //       },
-            //       'apns': {
-            //         'payload': {
-            //           'aps': {
-            //             'badge': 1,
-            //             'sound': 'default',
-            //           },
-            //         },
-            //       },
-            //       'token': 'DEVICE_TOKEN',
-            //       'schedule_time': scheduledTime.toUtc().toIso8601String(), // Convert the scheduled time to UTC format
-            //     },
-            //   },
-            // );
             await localNotifications.zonedSchedule(
               id,
               'MediBot',
