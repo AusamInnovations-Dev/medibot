@@ -17,7 +17,7 @@ _$_HistoryModel _$$_HistoryModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_HistoryModelToJson(_$_HistoryModel instance) =>
     <String, dynamic>{
       'userId': instance.userId,
-      'historyData': instance.historyData,
+      'historyData': instance.historyData.map((element) => element.toJson()).toList(),
     };
 
 _$_HistoryData _$$_HistoryDataFromJson(Map<String, dynamic> json) =>

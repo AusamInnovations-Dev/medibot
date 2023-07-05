@@ -206,16 +206,18 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>?> getTodayHistory() async {
+
     var history = await fireStore
         .collection('History')
         .doc(UserStore.to.uid)
         .collection('history_data')
-        .doc('${DateTime.now().year}:${DateTime.now().month}:${DateTime.now().day}')
+        .doc('${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}')
         .get();
-
+    log('Getting data : ${history.data()} at : ${DateTime.now().year}:${DateTime.now().month}:${DateTime.now().day}');
     if(history.exists){
       return history;
     }else{
+      log('Its null');
       return null;
     }
   }

@@ -61,26 +61,31 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                           ),
                           Expanded(
                             child: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               itemCount: controller.morning.length,
                               shrinkWrap: true,
-                              itemBuilder: (context, index) => Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomTextField(
-                                    fontWeight: FontWeight.bold,
-                                    text: controller.morning[index]['pillName'],
-                                    color: Colors.black,
-                                    size: 18.sp,
-                                  ),
-                                  CustomTextField(
-                                    fontWeight: FontWeight.bold,
-                                    text: controller.morning[index]['schedule'],
-                                    color: Colors.lightGreen,
-                                    size: 18.sp,
-                                  ),
-                                ],
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: 180.w,
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: controller.morning[index]['pillName'],
+                                        color: Colors.black,
+                                        size: 18.sp,
+                                      ),
+                                    ),
+                                    CustomTextField(
+                                      fontWeight: FontWeight.bold,
+                                      text: controller.morning[index]['schedule'],
+                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
+                                      size: 18.sp,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -112,68 +117,34 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                               size: 20.sp,
                             ),
                           ),
-                          Container(
-                            height: 100.h,
-                            margin: EdgeInsets.symmetric(horizontal: 15.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                          Expanded(
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: controller.afternoon.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 1',
-                                      color: Colors.black,
-                                      size: 18.sp,
+                                    SizedBox(
+                                      width: 180.w,
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: controller.afternoon[index]['pillName'],
+                                        color: Colors.black,
+                                        size: 18.sp,
+                                      ),
                                     ),
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
-                                      text: 'Taken',
-                                      color: Colors.lightGreen,
+                                      text: controller.afternoon[index]['schedule'],
+                                      color: controller.afternoon[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 2',
-                                      color: Colors.black,
-                                      size: 18.sp,
-                                    ),
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Not Taken',
-                                      color: Colors.red,
-                                      size: 18.sp,
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 3',
-                                      color: Colors.black,
-                                      size: 18.sp,
-                                    ),
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Not Taken',
-                                      color: Colors.red,
-                                      size: 18.sp,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ],
@@ -188,7 +159,9 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                         children: [
                           CustomBox(
                             padding: EdgeInsets.symmetric(
-                                vertical: 10.h, horizontal: 10.w),
+                              vertical: 10.h,
+                              horizontal: 10.w,
+                            ),
                             boxWidth: double.maxFinite,
                             boxHeight: 40.h,
                             topLeft: Radius.circular(5.r),
@@ -202,68 +175,34 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                               size: 20.sp,
                             ),
                           ),
-                          Container(
-                            height: 100.h,
-                            margin: EdgeInsets.symmetric(horizontal: 15.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                          Expanded(
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: controller.evening.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 1',
-                                      color: Colors.black,
-                                      size: 18.sp,
+                                    SizedBox(
+                                      width: 180.w,
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: controller.evening[index]['pillName'],
+                                        color: Colors.black,
+                                        size: 18.sp,
+                                      ),
                                     ),
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
-                                      text: 'Taken',
-                                      color: Colors.lightGreen,
+                                      text: controller.evening[index]['schedule'],
+                                      color: controller.evening[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 2',
-                                      color: Colors.black,
-                                      size: 18.sp,
-                                    ),
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Not Taken',
-                                      color: Colors.red,
-                                      size: 18.sp,
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 3',
-                                      color: Colors.black,
-                                      size: 18.sp,
-                                    ),
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Not Taken',
-                                      color: Colors.red,
-                                      size: 18.sp,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ],
@@ -294,67 +233,34 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                               size: 20.sp,
                             ),
                           ),
-                          Container(
-                            height: 100.h,
-                            margin: EdgeInsets.symmetric(horizontal: 15.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 1',
-                                      color: Colors.black,
-                                      size: 18.sp,
-                                    ),
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Taken',
-                                      color: Colors.lightGreen,
-                                      size: 18.sp,
-                                    ),
-                                  ],
-                                ),
-                                Row(
+                          Expanded(
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: controller.night.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 2',
-                                      color: Colors.black,
-                                      size: 18.sp,
+                                    SizedBox(
+                                      width: 180.w,
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: controller.night[index]['pillName'],
+                                        color: Colors.black,
+                                        size: 18.sp,
+                                      ),
                                     ),
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
-                                      text: 'Not Taken',
-                                      color: Colors.red,
-                                      size: 18.sp,
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Pill 3',
-                                      color: Colors.black,
-                                      size: 18.sp,
-                                    ),
-                                    CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: 'Not Taken',
-                                      color: Colors.red,
+                                      text: controller.night[index]['schedule'],
+                                      color: controller.night[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ],

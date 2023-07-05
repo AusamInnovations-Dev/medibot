@@ -23,6 +23,9 @@ class HistoryController extends GetxController {
     loadingUserData.value = true;
     await getUserData();
     checkForAllHistory();
+    Future.delayed(const Duration(seconds: 3), ()  {
+    loadingUserData.value = false;
+    });
     super.onInit();
   }
 
@@ -88,26 +91,43 @@ class HistoryController extends GetxController {
       }
       totalPillsDosage.value = 0;
       for(var reminder in reminderList){
-        totalPillsDosage.value += reminder.pillsInterval.length;
         if(reminder.isIndividual){
           for(var time in reminder.pillsDuration){
+            totalPillsDosage.value += reminder.pillsInterval.length;
             DateTime date = DateTime.parse(time);
             if(date.isAfter(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day))){
-              upComingDosage.value++;
+              upComingDosage.value += reminder.pillsInterval.length;
+              log('upcoming in individuals : ${reminder.pillsInterval.length}');
+              log('Total upcoming : ${upComingDosage.value}');
+
             }
           }
         }else {
+          log('Else part');
           DateTime date1 = DateTime.parse(reminder.pillsDuration.first);
           DateTime date2 = DateTime.parse(reminder.pillsDuration.last);
 
+          totalPillsDosage.value += reminder.pillsInterval.length * (date2.difference(date1).inDays+1);
+
+
           if(date1.isBefore(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)) && date2.isAfter(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day))){
-            upComingDosage.value += date2.difference(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)).inDays;
+            log('upcoming in range 1: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)).inDays}');
+            upComingDosage.value += reminder.pillsInterval.length*(date2.difference(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)).inDays);
+            log('Total upcoming : ${upComingDosage.value}');
+          }else if(date2.isAfter(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day))){
+            log('upcoming in range 2: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)).inDays}');
+            log('Before upcoming : ${upComingDosage.value}');
+            upComingDosage.value += reminder.pillsInterval.length*(date2.difference(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day)).inDays);
+            log('After upcoming : ${upComingDosage.value}');
           }else if(date1.isAfter(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day))){
-            upComingDosage.value += date2.difference(date1).inDays;
+            log('upcoming in range 3: ${reminder.pillsInterval.length} : ${date2.difference(date1).inDays}');
+            upComingDosage.value += reminder.pillsInterval.length*(date2.difference(date1).inDays);
+            log('Total upcoming : ${upComingDosage.value}');
           }
         }
       }
       log('Total reminders : ${totalPillsDosage.value}');
+      log('Total upcoming : ${upComingDosage.value}');
     });
   }
 
@@ -176,7 +196,6 @@ class HistoryController extends GetxController {
     for(var history in historyList){
       for(var pill in history.historyData){
         totalTakenPillsDosage.value += pill.timeTaken.length;
-        totalPillsDosage.value += pill.timeToTake.length;
       }
       log(history.userId.substring(0,4));
       log(history.userId.substring(5,7));
@@ -185,7 +204,6 @@ class HistoryController extends GetxController {
         daysMissed.value++;
       }
     }
-    loadingUserData.value = false;
   }
 
 }

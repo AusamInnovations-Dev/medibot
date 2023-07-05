@@ -4,7 +4,6 @@ import 'package:medibot/app/widgets/box_field.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/routes/route_path.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../models/user_model/user_model.dart';
 import '../../services/user.dart';
 import '../../widgets/background_screen_decoration.dart';
@@ -103,15 +102,17 @@ class HomePage extends GetView<HomepageController> {
                                                   size: 10.sp,
                                                   color: Colors.black,
                                                 ),
-                                                CustomTextField(
-                                                  fontWeight: FontWeight.bold,
-                                                  text: controller.historyList.isEmpty
-                                                      ? '--/--'
-                                                      : controller.historyList[controller.pillIndex.value].timeTaken.isEmpty
-                                                          ? '--/--'
-                                                          : "${controller.historyList[controller.pillIndex.value].timeTaken.last.hour > 12 ? controller.historyList[controller.pillIndex.value].timeTaken.last.hour - 12 : controller.historyList[controller.pillIndex.value].timeTaken.last.hour}:${controller.historyList[controller.pillIndex.value].timeTaken.last.minute} ${controller.historyList[controller.pillIndex.value].timeTaken.last.hour > 12 ? 'PM' : 'AM'}",
-                                                  size: 10.sp,
-                                                  color: Theme.of(context).colorScheme.secondary,
+                                                Obx(
+                                                  () => CustomTextField(
+                                                    fontWeight: FontWeight.bold,
+                                                    text: controller.historyList.isEmpty
+                                                        ? '--/--'
+                                                        : controller.historyList[controller.pillIndex.value].timeTaken.isEmpty
+                                                            ? '--/--'
+                                                            : "${controller.historyList[controller.pillIndex.value].timeTaken.last.hour > 12 ? controller.historyList[controller.pillIndex.value].timeTaken.last.hour - 12 : controller.historyList[controller.pillIndex.value].timeTaken.last.hour}:${controller.historyList[controller.pillIndex.value].timeTaken.last.minute} ${controller.historyList[controller.pillIndex.value].timeTaken.last.hour > 12 ? 'PM' : 'AM'}",
+                                                    size: 10.sp,
+                                                    color: Theme.of(context).colorScheme.secondary,
+                                                  ),
                                                 ),
                                                 CustomTextField(
                                                   fontWeight: FontWeight.bold,

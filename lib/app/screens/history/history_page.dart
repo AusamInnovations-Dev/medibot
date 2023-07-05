@@ -154,7 +154,7 @@ class HistoryPage extends GetView<HistoryController> {
                                   ),
                                   CustomTextField(
                                     fontWeight: FontWeight.bold,
-                                    text: '${controller.totalPillsDosage.value - controller.totalTakenPillsDosage.value}',
+                                    text: '${controller.totalPillsDosage.value - controller.totalTakenPillsDosage.value - controller.upComingDosage.value}',
                                     color: Colors.red,
                                     size: 18.sp,
                                   ),
@@ -166,7 +166,7 @@ class HistoryPage extends GetView<HistoryController> {
                               children: [
                                 CustomTextField(
                                   fontWeight: FontWeight.bold,
-                                  text: 'Upcoming Doses',
+                                  text: 'Upcoming Days',
                                   color: Colors.black,
                                   size: 18.sp,
                                 ),
