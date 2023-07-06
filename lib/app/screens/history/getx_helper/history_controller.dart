@@ -43,17 +43,7 @@ class HistoryController extends GetxController {
         switch(pill.type){
           case DocumentChangeType.added:
             PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
-            if(pillsModel.isIndividual) {
-              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
-              if(dates.contains(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
-                reminderList.add(pillsModel);
-              }
-            }else{
-              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
-              if(dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
-                reminderList.add(pillsModel);
-              }
-            }
+            reminderList.add(pillsModel);
             break;
           case DocumentChangeType.modified:
           // TODO: Handle this case.
@@ -69,17 +59,7 @@ class HistoryController extends GetxController {
         switch(pill.type) {
           case DocumentChangeType.added:
             PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
-            if(pillsModel.isIndividual) {
-              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
-              if(dates.contains(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
-                reminderList.add(pillsModel);
-              }
-            }else{
-              List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
-              if(dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
-                reminderList.add(pillsModel);
-              }
-            }
+            reminderList.add(pillsModel);
             break;
           case DocumentChangeType.modified:
           // TODO: Handle this case.
@@ -127,6 +107,7 @@ class HistoryController extends GetxController {
         }
       }
       log('Total reminders : ${totalPillsDosage.value}');
+      log('Total history : $historyList');
       log('Total upcoming : ${upComingDosage.value}');
     });
   }
@@ -134,11 +115,14 @@ class HistoryController extends GetxController {
   String checkForSuccess(DateTime date) {
     HistoryModel? historyItem;
     for(var element in historyList){
-      if(element.userId == '${date.year}:${date.month}:${date.day}'){
+      log('Hello I am In');
+      if(element.userId.trim() == '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'.trim()){
         historyItem = element;
         break;
       }
     }
+    log('This is the history part : $historyItem');
+    // log('This is the date : ${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}');
     if(historyItem != null){
       var totalPills = 0;
       var takenPills = 0;
@@ -183,7 +167,15 @@ class HistoryController extends GetxController {
         }
       }else{
         List<DateTime> dates = reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
-        if(dates.first.isBefore(DateTime(date.year, date.month, date.day)) && dates.last.isAfter(DateTime(date.year, date.month, date.day))){
+
+        DateTime date1 = dates.first;
+        DateTime date2 = dates.last;
+
+        if(date1.isBefore(DateTime(date.year,date.month, date.day)) && date2.isAfter(DateTime(date.year,date.month, date.day))){
+          todayReminder.add(reminder);
+        }else if(date1.isAtSameMomentAs(DateTime(date.year,date.month,date.day))){
+          todayReminder.add(reminder);
+        }else if(date2.isAtSameMomentAs(DateTime(date.year,date.month, date.day))){
           todayReminder.add(reminder);
         }
       }

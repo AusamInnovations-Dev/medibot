@@ -118,7 +118,7 @@ class HomePage extends GetView<HomepageController> {
                                                   fontWeight: FontWeight.bold,
                                                   text: controller.findPillStatus()
                                                       ? "On Time"
-                                                      : "Delay",
+                                                      : "Not On Time",
                                                   size: 8.sp,
                                                   color: Colors.green,
                                                 )

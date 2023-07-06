@@ -166,7 +166,7 @@ class HistoryPage extends GetView<HistoryController> {
                               children: [
                                 CustomTextField(
                                   fontWeight: FontWeight.bold,
-                                  text: 'Upcoming Days',
+                                  text: 'Upcoming Dosage',
                                   color: Colors.black,
                                   size: 18.sp,
                                 ),

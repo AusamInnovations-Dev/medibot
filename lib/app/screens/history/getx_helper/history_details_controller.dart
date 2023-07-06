@@ -31,10 +31,9 @@ class HistoryDetailsController extends GetxController {
 
   findSelectedDayHistory() async {
     isLoading.value = true;
-    log('All reminders: $todayReminders');
-    var selectedHistory = await FirebaseFireStore.to.getHistoryDataByDay('${date.year}:${date.month}:${date.day}');
+    var selectedHistory = await FirebaseFireStore.to.getHistoryDataByDay('${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}');
     if (selectedHistory == null) {
-      historyModel = HistoryModel(userId: '${date.year}:${date.month}:${date.day}', historyData: []);
+      historyModel = HistoryModel(userId: '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}', historyData: []);
       for (var reminder in todayReminders) {
         for (var element in reminder.pillsInterval) {
           if(int.parse(element.substring(0,2)) < 12){
@@ -73,7 +72,7 @@ class HistoryDetailsController extends GetxController {
         }
       }
       log('$morning : $afternoon : $evening : $night');
-    } else if(historyModel != null){
+    } else {
       historyModel = HistoryModel.fromJson(selectedHistory.data() as Map<String, dynamic>);
       for(var reminder in todayReminders){
         HistoryData? history;
@@ -83,6 +82,7 @@ class HistoryDetailsController extends GetxController {
             break;
           }
         }
+        log('This is history pill : $history');
         for (var element in reminder.pillsInterval) {
           if(history == null){
             if(int.parse(element.substring(0,2)) < 12){
@@ -115,7 +115,7 @@ class HistoryDetailsController extends GetxController {
               );
             }
           }else{
-            var diff = history.timeTaken.any((element1) => element1.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes <= 30 && element1.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes >=-30);
+            var diff = history.timeTaken.any((element1) => element1.difference(DateTime(date.year, date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes <= 30 && element1.difference(DateTime(date.year,date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes >=-30);
             if(int.parse(element.substring(0,2)) < 12){
               if(diff){
                 morning.add(
