@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:get/get.dart';
@@ -11,9 +12,11 @@ class UserStore extends GetxController {
   static UserStore get to => Get.find();
 
   final _isLogin = false.obs;
+  RxList<Map<String, dynamic>> skipPills = <Map<String, dynamic>>[].obs;
   String uid = '';
   String userIdKey = 'userIdKey';
   String userNameKey = 'userNameKey';
+  String skipPillsKey = 'skipPillsKey';
   String userProfilePicKey = 'userProfilePicKey';
   String userEmailKey = 'userEmailKey';
   final _profile = const UserModel(
@@ -49,11 +52,25 @@ class UserStore extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     await getProfile();
+    getSkipPills();
   }
 
   Future<void> setToken(String value) async {
     await StorageService.to.setString(userIdKey, value);
     uid = value;
+  }
+
+  void getSkipPills() {
+    var skipPillData =  StorageService.to.getList(skipPillsKey);
+    skipPills.addAll(skipPillData.map((e) => jsonDecode(e) as Map<String, dynamic>).toList());
+  }
+
+  Future<void> setSkipPills(Map<String, dynamic> pill) async {
+    String newSkip = jsonEncode(pill);
+    List<String> skipInString = skipPills.map((e) => jsonEncode(e)).toList();
+    skipInString.add(newSkip);
+    await StorageService.to.setList(skipPillsKey, skipInString);
+    getSkipPills();
   }
 
   Future<void> getProfile() async {

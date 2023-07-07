@@ -213,9 +213,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                               onTap: () {
                                 controller.removeHourlyTimeInterval(index);
                               },
-                              child: index ==
-                                          controller.timeIntervals.length - 1 &&
-                                      index != 0
+                              child: index == controller.timeIntervals.length - 1 && index != 0
                                   ? CustomBox(
                                       offset: 0,
                                       color:
@@ -253,6 +251,10 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
                                 controller.timeIntervals[index]['hour'] = value;
+                                controller.pillsTime[index] = TimeOfDay(
+                                  hour: int.parse(value.substring(0,2)),
+                                  minute: controller.pillsTime[index].minute,
+                                );
                               },
                               items: SampleMedicine.hours
                                   .map(
@@ -292,15 +294,16 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                               margin: EdgeInsets.symmetric(
                                 vertical: 2.h,
                               ),
-                              value: controller.timeIntervals[index]['minute']
-                                  as String,
-                              dropDownColor:
-                                  Theme.of(context).colorScheme.primary,
+                              value: controller.timeIntervals[index]['minute'] as String,
+                              dropDownColor: Theme.of(context).colorScheme.primary,
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
                                 log('hello');
-                                controller.timeIntervals[index]['minute'] =
-                                    value;
+                                controller.timeIntervals[index]['minute'] = value;
+                                controller.pillsTime[index] = TimeOfDay(
+                                  hour: controller.pillsTime[index].hour,
+                                  minute: int.parse(value.substring(0,2)),
+                                );
                               },
                               items: SampleMedicine.minute
                                   .map(
@@ -337,8 +340,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                   Theme.of(context).colorScheme.primary,
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
-                                controller.timeIntervals[index]['period'] =
-                                    value;
+                                controller.timeIntervals[index]['period'] = value;
                               },
                               items: ['AM', 'PM']
                                   .map(
@@ -369,14 +371,10 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                       onTap: () {
                                         controller.addHourlyTimeInterval();
                                       },
-                                      child: index ==
-                                              controller.timeIntervals.length -
-                                                  1
+                                      child: index == controller.timeIntervals.length - 1
                                           ? CustomBox(
                                               offset: 0,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              color: Theme.of(context).colorScheme.primary,
                                               boxHeight: 29.h,
                                               topLeft: Radius.circular(4.r),
                                               topRight: Radius.circular(4.r),

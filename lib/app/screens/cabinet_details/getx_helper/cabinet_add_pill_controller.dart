@@ -92,7 +92,7 @@ class AddCabinetPill extends GetxController {
     timeIntervals.add({
       'hour': '${pillsTime.last.hour <= 9 ? '0${pillsTime.last.hour}' : pillsTime.last.hour > 12 ? pillsTime.last.hour-12 : pillsTime.last.hour } H',
       'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-      'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+      'period': 'AM'
     });
   }
 
@@ -187,6 +187,7 @@ class AddCabinetPill extends GetxController {
           hour: pillsTime.last.hour+6,
           minute: 30,
         ));
+        log('This is adding data : ${pillsTime.last.hour}');
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
           'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',

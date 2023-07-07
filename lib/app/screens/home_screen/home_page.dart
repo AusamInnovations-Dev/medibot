@@ -25,7 +25,7 @@ class HomePage extends GetView<HomepageController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CustomTextField(
-                          text: "Good Morning,",
+                          text: "${controller.greeting.value},",
                           fontFamily: 'Sansation',
                           size: 23.sp,
                           fontWeight: FontWeight.w700,
@@ -174,49 +174,69 @@ class HomePage extends GetView<HomepageController> {
                                           ),
                                         ],
                                       ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          fixedSize: Size(55.w, 3.h),
-                                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 1.h,
+                                      Obx(
+                                        () => ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            fixedSize: Size(55.w, 3.h),
+                                            backgroundColor: Theme.of(context).colorScheme.secondary,
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 1.h,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(5.r),
+                                            ),
                                           ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5.r),
+                                          onPressed: () async {
+                                            if(!controller.isSkipping.value){
+                                              await controller.skipPill();
+                                            }
+                                          },
+                                          child: !controller.isSkipping.value ?
+                                          CustomTextField(
+                                            fontWeight: FontWeight.bold,
+                                            text: "Skip",
+                                            color: Colors.white,
+                                            size: 11.sp,
+                                          ) : SizedBox(
+                                            height: 18.h,
+                                            width: 18.w,
+                                            child: const CircularProgressIndicator(),
                                           ),
-                                        ),
-                                        onPressed: () {},
-                                        child: CustomTextField(
-                                          fontWeight: FontWeight.bold,
-                                          text: "Skip",
-                                          color: Colors.white,
-                                          size: 11.sp,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      controller.takeNowPill();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(
-                                        MediaQuery.of(context).size.width * 0.805,
-                                        0,
+                                  Obx(
+                                    () => ElevatedButton(
+                                      onPressed: () async {
+                                        if(!controller.isTaking.value){
+                                          await controller.takeNowPill();
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(
+                                          MediaQuery.of(context).size.width * 0.805,
+                                          0,
+                                        ),
+                                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 12.h,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5.r),
+                                        ),
                                       ),
-                                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 12.h,
+                                      child: !controller.isTaking.value ?
+                                      CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Take Now",
+                                        color: Colors.white,
+                                        size: 18.sp,
+                                      ) : SizedBox(
+                                        height: 18.h,
+                                        width: 18.w,
+                                        child: const CircularProgressIndicator(),
                                       ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5.r),
-                                      ),
-                                    ),
-                                    child: CustomTextField(
-                                      fontWeight: FontWeight.bold,
-                                      text: "Take Now",
-                                      color: Colors.white,
-                                      size: 18.sp,
                                     ),
                                   ),
                                 ],

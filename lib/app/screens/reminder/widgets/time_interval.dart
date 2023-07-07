@@ -37,8 +37,7 @@ class TimeInterval extends GetView<SetReminderController> {
                       CustomDropDown(
                         boxWidth: 68.w,
                         boxHeight: 30.h,
-                        value:
-                            controller.timeIntervals[index]['hour'] as String,
+                        value: controller.timeIntervals[index]['hour'] as String,
                         margin: EdgeInsets.symmetric(
                           vertical: 2.h,
                         ),
@@ -46,6 +45,7 @@ class TimeInterval extends GetView<SetReminderController> {
                         focusColor: Theme.of(context).colorScheme.primary,
                         onChange: (value) {
                           controller.timeIntervals[index]['hour'] = value;
+
                         },
                         items: SampleMedicine.hours
                             .map(
@@ -85,8 +85,7 @@ class TimeInterval extends GetView<SetReminderController> {
                         margin: EdgeInsets.symmetric(
                           vertical: 2.h,
                         ),
-                        value:
-                            controller.timeIntervals[index]['minute'] as String,
+                        value: controller.timeIntervals[index]['minute'] as String,
                         dropDownColor: Theme.of(context).colorScheme.primary,
                         focusColor: Theme.of(context).colorScheme.primary,
                         onChange: (value) {
@@ -121,8 +120,7 @@ class TimeInterval extends GetView<SetReminderController> {
                         margin: EdgeInsets.symmetric(
                           vertical: 2.h,
                         ),
-                        value:
-                            controller.timeIntervals[index]['period'] as String,
+                        value: controller.timeIntervals[index]['period'] as String,
                         dropDownColor: Theme.of(context).colorScheme.primary,
                         focusColor: Theme.of(context).colorScheme.primary,
                         onChange: (value) {
@@ -246,6 +244,10 @@ class TimeInterval extends GetView<SetReminderController> {
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
                                 controller.timeIntervals[index]['hour'] = value;
+                                controller.pillsTime[index] = TimeOfDay(
+                                  hour: int.parse(value.substring(0,2)),
+                                  minute: controller.pillsTime[index].minute,
+                                );
                               },
                               items: SampleMedicine.hours
                                   .map(
@@ -291,6 +293,10 @@ class TimeInterval extends GetView<SetReminderController> {
                               onChange: (value) {
                                 log('hello');
                                 controller.timeIntervals[index]['minute'] = value;
+                                controller.pillsTime[index] = TimeOfDay(
+                                  hour: controller.pillsTime[index].hour,
+                                  minute: int.parse(value.substring(0,2)),
+                                );
                               },
                               items: SampleMedicine.minute
                                   .map(
@@ -486,8 +492,7 @@ class TimeInterval extends GetView<SetReminderController> {
                       margin: EdgeInsets.symmetric(
                         vertical: 2.h,
                       ),
-                      value:
-                          controller.timeIntervals[index]['minute'] as String,
+                      value: controller.timeIntervals[index]['minute'] as String,
                       dropDownColor: Theme.of(context).colorScheme.primary,
                       focusColor: Theme.of(context).colorScheme.primary,
                       onChange: (value) {
@@ -522,8 +527,7 @@ class TimeInterval extends GetView<SetReminderController> {
                       margin: EdgeInsets.symmetric(
                         vertical: 2.h,
                       ),
-                      value:
-                          controller.timeIntervals[index]['period'] as String,
+                      value: controller.timeIntervals[index]['period'] as String,
                       dropDownColor: Theme.of(context).colorScheme.primary,
                       focusColor: Theme.of(context).colorScheme.primary,
                       onChange: (value) {

@@ -36,32 +36,67 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                       fontWeight: FontWeight.w700,
                       text: "Day View - ${controller.date.day}/${controller.date.month}/${controller.date.year}",
                     ),
-                    controller.morning != [] ?
-                    CustomBox(
-                      margin: EdgeInsets.only(top: 30.h),
-                      body: Column(
+                    controller.morning.isNotEmpty ?
+                    Container(
+                      constraints: BoxConstraints(
+                        minHeight: 10.h,
+                      ),
+                      margin: EdgeInsets.only(top: 10.h),
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5.r),
+                          topRight: Radius.circular(5.r),
+                          bottomLeft: Radius.circular(5.r),
+                          bottomRight: Radius.circular(5.r),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 4,
+                            offset: const Offset(0, 4),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomBox(
+                          Container(
+                            width: double.maxFinite,
                             padding: EdgeInsets.symmetric(
-                              vertical: 10.h,
                               horizontal: 10.w,
+                              vertical: 10.h,
                             ),
-                            boxWidth: double.maxFinite,
-                            boxHeight: 40.h,
-                            topLeft: Radius.circular(5.r),
-                            topRight: Radius.circular(5.r),
-                            bottomLeft: Radius.circular(5.r),
-                            bottomRight: Radius.circular(5.r),
-                            body: CustomTextField(
+                            margin: EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5.r),
+                                topRight: Radius.circular(5.r),
+                                bottomLeft: Radius.circular(5.r),
+                                bottomRight: Radius.circular(5.r),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                            ),
+                            child: CustomTextField(
                               text: 'Morning',
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               size: 20.sp,
                             ),
                           ),
-                          Expanded(
+                          MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
                             child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.morning.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
@@ -91,35 +126,68 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                           ),
                         ],
                       ),
-                      boxHeight: 160.h,
-                      boxWidth: double.maxFinite,
                     ) : Container(),
-                    controller.afternoon != [] ?
-                    CustomBox(
-                      margin: EdgeInsets.only(top: 30.h),
-                      body: Column(
+                    controller.afternoon.isNotEmpty ?
+                    Container(
+                      constraints: BoxConstraints(
+                          minHeight: 10.h
+                      ),
+                      margin: EdgeInsets.only(top: 15.h),
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5.r),
+                          topRight: Radius.circular(5.r),
+                          bottomLeft: Radius.circular(5.r),
+                          bottomRight: Radius.circular(5.r),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 4,
+                            offset: const Offset(0, 4),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomBox(
+                          Container(
+                            width: double.maxFinite,
                             padding: EdgeInsets.symmetric(
-                              vertical: 10.h,
                               horizontal: 10.w,
+                              vertical: 10.h,
                             ),
-                            boxWidth: double.maxFinite,
-                            boxHeight: 40.h,
-                            topLeft: Radius.circular(5.r),
-                            topRight: Radius.circular(5.r),
-                            bottomLeft: Radius.circular(5.r),
-                            bottomRight: Radius.circular(5.r),
-                            body: CustomTextField(
+                            margin: EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5.r),
+                                topRight: Radius.circular(5.r),
+                                bottomLeft: Radius.circular(5.r),
+                                bottomRight: Radius.circular(5.r),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                            ),
+                            child: CustomTextField(
                               text: 'Afternoon',
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               size: 20.sp,
                             ),
                           ),
-                          Expanded(
+                          MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
                             child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.afternoon.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
@@ -149,35 +217,68 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                           ),
                         ],
                       ),
-                      boxHeight: 160.h,
-                      boxWidth: double.maxFinite,
                     ) : Container(),
-                    controller.evening != [] ?
-                    CustomBox(
-                      margin: EdgeInsets.only(top: 30.h, bottom: 30.h),
-                      body: Column(
+                    controller.evening.isNotEmpty ?
+                    Container(
+                      constraints: BoxConstraints(
+                          minHeight: 10.h
+                      ),
+                      margin: EdgeInsets.only(top: 15.h),
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5.r),
+                          topRight: Radius.circular(5.r),
+                          bottomLeft: Radius.circular(5.r),
+                          bottomRight: Radius.circular(5.r),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 4,
+                            offset: const Offset(0, 4),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomBox(
+                          Container(
+                            width: double.maxFinite,
                             padding: EdgeInsets.symmetric(
-                              vertical: 10.h,
                               horizontal: 10.w,
+                              vertical: 10.h,
                             ),
-                            boxWidth: double.maxFinite,
-                            boxHeight: 40.h,
-                            topLeft: Radius.circular(5.r),
-                            topRight: Radius.circular(5.r),
-                            bottomLeft: Radius.circular(5.r),
-                            bottomRight: Radius.circular(5.r),
-                            body: CustomTextField(
+                            margin: EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5.r),
+                                topRight: Radius.circular(5.r),
+                                bottomLeft: Radius.circular(5.r),
+                                bottomRight: Radius.circular(5.r),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                            ),
+                            child: CustomTextField(
                               text: 'Evening',
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               size: 20.sp,
                             ),
                           ),
-                          Expanded(
+                          MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
                             child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.evening.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
@@ -207,35 +308,70 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                           ),
                         ],
                       ),
-                      boxHeight: 160.h,
-                      boxWidth: double.maxFinite,
                     ) : Container(),
-                    controller.night != [] ?
-                    CustomBox(
-                      margin: EdgeInsets.only(top: 30.h, bottom: 30.h),
-                      body: Column(
+                    controller.night.isNotEmpty ?
+                    Container(
+                      constraints: BoxConstraints(
+                          minHeight: 10.h
+                      ),
+                      padding: EdgeInsets.only(
+                        bottom: 10.h,
+                      ),
+                      margin: EdgeInsets.only(top: 15.h, bottom: 40.h),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5.r),
+                          topRight: Radius.circular(5.r),
+                          bottomLeft: Radius.circular(5.r),
+                          bottomRight: Radius.circular(5.r),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.25),
+                            blurRadius: 4,
+                            offset: const Offset(0, 4),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomBox(
+                          Container(
+                            width: double.maxFinite,
                             padding: EdgeInsets.symmetric(
-                              vertical: 10.h,
                               horizontal: 10.w,
+                              vertical: 10.h,
                             ),
-                            boxWidth: double.maxFinite,
-                            boxHeight: 40.h,
-                            topLeft: Radius.circular(5.r),
-                            topRight: Radius.circular(5.r),
-                            bottomLeft: Radius.circular(5.r),
-                            bottomRight: Radius.circular(5.r),
-                            body: CustomTextField(
+                            margin: EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5.r),
+                                topRight: Radius.circular(5.r),
+                                bottomLeft: Radius.circular(5.r),
+                                bottomRight: Radius.circular(5.r),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                            ),
+                            child: CustomTextField(
                               text: 'Night',
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               size: 20.sp,
                             ),
                           ),
-                          Expanded(
+                          MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
                             child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.night.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
@@ -265,10 +401,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                           ),
                         ],
                       ),
-                      boxHeight: 160.h,
-                      boxWidth: double.maxFinite,
                     ) : Container(),
-
                   ],
                 )
               : Container(
