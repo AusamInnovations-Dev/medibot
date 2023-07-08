@@ -87,7 +87,8 @@ class HomepageController extends GetxController {
               }
             } else {
               List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
-              if (dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+              var checkInRange = dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) && dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
+              if (checkInRange || dates.first.isAtSameMomentAs(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAtSameMomentAs(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
                 reminderList.add(pillsModel);
                 if (todayHistory != null) {
                   var history = HistoryModel.fromJson(
@@ -232,7 +233,7 @@ class HomepageController extends GetxController {
   }
 
   bool findPillStatus() {
-    if (historyList[pillIndex.value].timeTaken.isEmpty) {
+    if (historyList.isEmpty || historyList[pillIndex.value].timeTaken.isEmpty) {
       return false;
     }
     for(var time in historyList[pillIndex.value].timeToTake){
@@ -502,32 +503,59 @@ class HomepageController extends GetxController {
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
         colorText: Colors.black,
       );
+      Future.delayed(const Duration(seconds: 1), () => isTaking.value = false);
     }
   }
 
   Future<void> skipPill() async {
     isSkipping.value = true;
     int flag = 0;
-    for (var interval in reminderList[pillIndex.value].pillsInterval) {
-      var diff = DateTime.now().difference(
+    if(reminderList.isNotEmpty){
+      for (var interval in reminderList[pillIndex.value].pillsInterval) {
+        var diff = DateTime.now().difference(
           DateTime(
             DateTime.now().year,
             DateTime.now().month,
             DateTime.now().day,
             int.parse(interval.substring(0, 2)),
             int.parse(interval.substring(5, 7),
+            ),
           ),
-        ),
-      ).inMinutes;
-      if (diff < 30) {
-        log('This is interval $interval');
-        if(UserStore.to.skipPills.any((element) => element['pillId'] == reminderList[pillIndex.value].uid) && UserStore.to.skipPills.any((element) => element['pillInterval'] == interval)  && UserStore.to.skipPills.any((element) => DateTime.parse(element['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
+        ).inMinutes;
+        if (diff < 30) {
+          log('This is interval $interval');
+          if(UserStore.to.skipPills.any((element) => element['pillId'] == reminderList[pillIndex.value].uid) && UserStore.to.skipPills.any((element) => element['pillInterval'] == interval)  && UserStore.to.skipPills.any((element) => DateTime.parse(element['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
+            Future.delayed(const Duration(seconds: 1), () => isSkipping.value = false);
+          }else{
+            if (historyList.isNotEmpty) {
+              if (historyList[pillIndex.value].timeTaken.any((element) => element.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(interval.substring(0, 2)), int.parse(interval.substring(5, 7)))).inMinutes <= 30 && element.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(interval.substring(0, 2)), int.parse(interval.substring(5, 7)))).inMinutes >= -30)) {
 
-        }else{
-          if (historyList.isNotEmpty) {
-            if (historyList[pillIndex.value].timeTaken.any((element) => element.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(interval.substring(0, 2)), int.parse(interval.substring(5, 7)))).inMinutes <= 30 && element.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(interval.substring(0, 2)), int.parse(interval.substring(5, 7)))).inMinutes >= -30)) {
-
-            }else{
+              }else{
+                await UserStore.to.setSkipPills(
+                    {
+                      'pillId' : reminderList[pillIndex.value].uid,
+                      'pillInterval' : interval,
+                      'pillDuration' : DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toIso8601String()
+                    }
+                );
+                Get.snackbar(
+                  "Reminders",
+                  "You Have successfully skip this pill",
+                  icon: const Icon(
+                    Icons.check_sharp,
+                    color: Colors.black,
+                  ),
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: const Color(0xffA9CBFF),
+                  margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                  colorText: Colors.black,
+                );
+                flag = 1;
+                isSkipping.value = false;
+                update();
+                break;
+              }
+            } else {
               await UserStore.to.setSkipPills(
                   {
                     'pillId' : reminderList[pillIndex.value].uid,
@@ -552,41 +580,31 @@ class HomepageController extends GetxController {
               update();
               break;
             }
-          } else {
-            await UserStore.to.setSkipPills(
-                {
-                  'pillId' : reminderList[pillIndex.value].uid,
-                  'pillInterval' : interval,
-                  'pillDuration' : DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toIso8601String()
-                }
-            );
-            Get.snackbar(
-              "Reminders",
-              "You Have successfully skip this pill",
-              icon: const Icon(
-                Icons.check_sharp,
-                color: Colors.black,
-              ),
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: const Color(0xffA9CBFF),
-              margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-              colorText: Colors.black,
-            );
-            flag = 1;
-            isSkipping.value = false;
-            update();
-            break;
           }
         }
       }
-    }
-    if(flag == 0){
-      isSkipping.value = false;
+
+      if(flag == 0){
+        isSkipping.value = false;
+        Get.snackbar(
+          "Reminders",
+          "This pill is not available for skip",
+          icon: const Icon(
+            Icons.check_sharp,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          colorText: Colors.black,
+        );
+      }
+    } else {
       Get.snackbar(
         "Reminders",
-        "This pill is not available for skip",
+        "You don't have any pill to skip",
         icon: const Icon(
-          Icons.check_sharp,
+          Icons.crisis_alert_outlined,
           color: Colors.black,
         ),
         snackPosition: SnackPosition.BOTTOM,
@@ -594,6 +612,7 @@ class HomepageController extends GetxController {
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
         colorText: Colors.black,
       );
+      Future.delayed(const Duration(seconds: 1), () => isSkipping.value = false);
     }
   }
 }

@@ -23,7 +23,7 @@ class HistoryController extends GetxController {
     loadingUserData.value = true;
     await getUserData();
     checkForAllHistory();
-    Future.delayed(const Duration(seconds: 3), ()  {
+    Future.delayed(const Duration(seconds: 2), ()  {
     loadingUserData.value = false;
     });
     super.onInit();
