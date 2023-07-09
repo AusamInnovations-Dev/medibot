@@ -88,6 +88,7 @@ class HomepageController extends GetxController {
               var checkInRange = dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) && dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
               if (checkInRange || dates.first.isAtSameMomentAs(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAtSameMomentAs(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
                 reminderList.add(pillsModel);
+                pillsToTake.value += reminderList.last.pillsInterval.length;
                 if (todayHistory != null) {
                   var history = HistoryModel.fromJson(
                       todayHistory.data() as Map<String, dynamic>);
@@ -95,12 +96,10 @@ class HomepageController extends GetxController {
                     if (historyData.pillId == reminderList.last.uid) {
                       historyList.add(historyData);
                       pillsTaken.value += historyList.last.timeTaken.length;
-                      pillsToTake.value +=
-                          reminderList.last.pillsInterval.length;
                       break;
                     }
                   }
-                  if (historyList.last.pillId != reminderList.last.uid) {
+                  if (historyList.isEmpty || historyList.last.pillId != reminderList.last.uid) {
                     historyList.add(
                       HistoryData(
                         pillId: reminderList.last.uid,
@@ -109,7 +108,6 @@ class HomepageController extends GetxController {
                       ),
                     );
                     pillsTaken.value += historyList.last.timeTaken.length;
-                    pillsToTake.value += reminderList.last.pillsInterval.length;
                   }
                 } else {
                   historyList.add(
@@ -120,7 +118,6 @@ class HomepageController extends GetxController {
                     ),
                   );
                   pillsTaken.value = 0;
-                  pillsToTake.value += reminderList.last.pillsInterval.length;
                 }
               }
             }
@@ -143,17 +140,17 @@ class HomepageController extends GetxController {
               List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
               if (dates.contains(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
                 reminderList.add(pillsModel);
+                pillsToTake.value += reminderList.last.pillsInterval.length;
                 if (todayHistory != null) {
                   var history = HistoryModel.fromJson(todayHistory.data() as Map<String, dynamic>);
                   for (var historyData in history.historyData) {
                     if (historyData.pillId == reminderList.last.uid) {
                       historyList.add(historyData);
                       pillsTaken.value += historyList.last.timeTaken.length;
-                      pillsToTake.value += reminderList.last.pillsInterval.length;
                       break;
                     }
                   }
-                  if (historyList.last.pillId != reminderList.last.uid) {
+                  if (historyList.isEmpty || historyList.last.pillId != reminderList.last.uid) {
                     historyList.add(
                       HistoryData(
                         pillId: reminderList.last.uid,
@@ -162,7 +159,6 @@ class HomepageController extends GetxController {
                       ),
                     );
                     pillsTaken.value += historyList.last.timeTaken.length;
-                    pillsToTake.value += reminderList.last.pillsInterval.length;
                   }
                 } else {
                   historyList.add(
@@ -173,24 +169,23 @@ class HomepageController extends GetxController {
                     ),
                   );
                   pillsTaken.value = 0;
-                  pillsToTake.value += reminderList.last.pillsInterval.length;
                 }
               }
             } else {
               List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
               if (dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
                 reminderList.add(pillsModel);
+                pillsToTake.value += reminderList.last.pillsInterval.length;
                 if (todayHistory != null) {
                   var history = HistoryModel.fromJson(todayHistory.data() as Map<String, dynamic>);
                   for (var historyData in history.historyData) {
                     if (historyData.pillId == reminderList.last.uid) {
                       historyList.add(historyData);
                       pillsTaken.value += historyList.last.timeTaken.length;
-                      pillsToTake.value += reminderList.last.pillsInterval.length;
                       break;
                     }
                   }
-                  if (historyList.last.pillId != reminderList.last.uid) {
+                  if (historyList.isEmpty || historyList.last.pillId != reminderList.last.uid) {
                     historyList.add(
                       HistoryData(
                         pillId: reminderList.last.uid,
@@ -199,7 +194,6 @@ class HomepageController extends GetxController {
                       ),
                     );
                     pillsTaken.value += historyList.last.timeTaken.length;
-                    pillsToTake.value += reminderList.last.pillsInterval.length;
                   }
                 } else {
                   historyList.add(
@@ -210,7 +204,6 @@ class HomepageController extends GetxController {
                     ),
                   );
                   pillsTaken.value = 0;
-                  pillsToTake.value += reminderList.last.pillsInterval.length;
                 }
               }
             }
