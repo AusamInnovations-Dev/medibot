@@ -54,14 +54,13 @@ class HomepageController extends GetxController {
               if (dates.contains(DateTime(DateTime.now().year,
                   DateTime.now().month, DateTime.now().day))) {
                 reminderList.add(pillsModel);
+                pillsToTake.value += reminderList.last.pillsInterval.length;
                 if (todayHistory != null) {
                   var history = HistoryModel.fromJson(todayHistory.data() as Map<String, dynamic>);
                   for (var historyData in history.historyData) {
                     if (historyData.pillId == reminderList.last.uid) {
                       historyList.add(historyData);
                       pillsTaken.value += historyList.last.timeTaken.length;
-                      pillsToTake.value +=
-                          reminderList.last.pillsInterval.length;
                       break;
                     }
                   }
@@ -74,7 +73,6 @@ class HomepageController extends GetxController {
                       )
                     );
                     pillsTaken.value += historyList.last.timeTaken.length;
-                    pillsToTake.value += reminderList.last.pillsInterval.length;
                   }
                 } else {
                   historyList.add(HistoryData(
