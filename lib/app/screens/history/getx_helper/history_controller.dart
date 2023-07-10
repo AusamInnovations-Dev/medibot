@@ -115,21 +115,24 @@ class HistoryController extends GetxController {
   String checkForSuccess(DateTime date) {
     HistoryModel? historyItem;
     for(var element in historyList){
-      log('Hello I am In');
+      log('Hello I am In at : $date');
       if(element.userId.trim() == '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'.trim()){
         historyItem = element;
         break;
       }
     }
     log('This is the history part : $historyItem');
-    // log('This is the date : ${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}');
+    List<PillsModel> pills = todayReminders(date);
     if(historyItem != null){
       var totalPills = 0;
       var takenPills = 0;
 
+      for(var pill in pills){
+        totalPills += pill.pillsInterval.length;
+      }
+
       for(var pill in historyItem.historyData){
         takenPills += pill.timeTaken.length;
-        totalPills += pill.timeToTake.length;
       }
 
       if(totalPills == takenPills){
@@ -148,7 +151,8 @@ class HistoryController extends GetxController {
           }
         }else{
           List<DateTime> dates = reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
-          if(dates.first.isBefore(DateTime(date.year, date.month, date.day)) && dates.last.isAfter(DateTime(date.year, date.month, date.day))){
+          bool isAt = dates.first.isBefore(DateTime(date.year, date.month, date.day)) && dates.last.isAfter(DateTime(date.year, date.month, date.day));
+          if(isAt || dates.first.isAtSameMomentAs(DateTime(date.year, date.month, date.day)) || dates.last.isAtSameMomentAs(DateTime(date.year, date.month, date.day))){
             return 'NoPillsTaken';
           }
         }

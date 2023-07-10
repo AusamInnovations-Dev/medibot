@@ -33,11 +33,14 @@ class NotificationService extends GetxController {
       ),
       math.Random().nextInt(math.pow(2, 31) as int),
       () {
-        localNotifications.show(
+        localNotifications.zonedSchedule(
           math.Random().nextInt(math.pow(2, 31) as int),
           'title',
           'body',
-          // DateTime.now(),
+          tz.TZDateTime.from(
+            DateTime.now(),
+            tz.local
+          ),
           const NotificationDetails(
             android: AndroidNotificationDetails(
               'pillsModel.uid',
@@ -65,6 +68,7 @@ class NotificationService extends GetxController {
               visibility: NotificationVisibility.public,
             ),
           ),
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         );
       },
       exact: true,
@@ -118,12 +122,10 @@ class NotificationService extends GetxController {
   //   log('Body: ${message.notification!.body}');
   // }
 
-  scheduleNotification(
-      int id, PillsModel pillsModel, List<DateTime> duration) async {
+  scheduleNotification(int id, PillsModel pillsModel, List<DateTime> duration) async {
     if (pillsModel.isRange) {
       for (var interval in pillsModel.pillsInterval) {
-        if (interval.substring(0, 2) == '00' &&
-            interval.substring(5, 7) == '00') {
+        if (interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00') {
         } else {
           log('Setting up notification now');
           await localNotifications.zonedSchedule(
@@ -136,7 +138,7 @@ class NotificationService extends GetxController {
                 duration.first.month,
                 duration.first.day,
                 int.parse(interval.substring(0, 2)),
-                int.parse(interval.substring(5, 7)),
+                int.parse(interval.substring(5, 7))+2,
               ),
               tz.local,
             ),
@@ -149,10 +151,18 @@ class NotificationService extends GetxController {
                 icon: '@mipmap/ic_launcher',
                 category: AndroidNotificationCategory.reminder,
                 actions: [
-                  AndroidNotificationAction(pillsModel.uid, 'Taken',
-                      cancelNotification: false, titleColor: Colors.green),
-                  const AndroidNotificationAction('', 'Missed',
-                      cancelNotification: false, titleColor: Colors.red),
+                  AndroidNotificationAction(
+                    pillsModel.uid,
+                    'Taken',
+                    cancelNotification: false,
+                    titleColor: Colors.green,
+                  ),
+                  const AndroidNotificationAction(
+                    '',
+                    'Missed',
+                    cancelNotification: false,
+                    titleColor: Colors.red,
+                  ),
                 ],
                 autoCancel: false,
                 enableVibration: true,
@@ -193,10 +203,18 @@ class NotificationService extends GetxController {
                   icon: '@mipmap/ic_launcher',
                   category: AndroidNotificationCategory.reminder,
                   actions: [
-                    AndroidNotificationAction(pillsModel.uid, 'Taken',
-                        cancelNotification: false, titleColor: Colors.green),
-                    const AndroidNotificationAction('', 'Missed',
-                        cancelNotification: false, titleColor: Colors.red),
+                    AndroidNotificationAction(
+                      pillsModel.uid,
+                      'Taken',
+                      cancelNotification: false,
+                      titleColor: Colors.green,
+                    ),
+                    const AndroidNotificationAction(
+                      '',
+                      'Missed',
+                      cancelNotification: false,
+                      titleColor: Colors.red,
+                    ),
                   ],
                   autoCancel: false,
                   enableVibration: true,
