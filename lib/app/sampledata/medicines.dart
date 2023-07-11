@@ -39,7 +39,6 @@ class SampleMedicine {
   ];
 
   static List<String> medicineCategory = [
-    'Select Category'
     'Tablet',
     'Syrup',
     'Eye Drop',

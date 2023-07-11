@@ -87,7 +87,6 @@ class AddPill extends GetView<AddCabinetPill> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  value: controller.medicineCategory,
                   items: SampleMedicine.medicineCategory
                       .map((element) => DropdownMenuItem(
                     value: element,

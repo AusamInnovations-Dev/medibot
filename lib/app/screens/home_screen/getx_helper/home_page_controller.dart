@@ -271,6 +271,7 @@ class HomepageController extends GetxController {
   }
 
   String checkDue() {
+
     log(UserStore.to.skipPills.toString());
     for (var interval in reminderList[pillIndex.value].pillsInterval) {
       var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
@@ -322,7 +323,7 @@ class HomepageController extends GetxController {
                           int.parse(interval.substring(0, 2)),
                           int.parse(interval.substring(5, 7))))
                       .inMinutes <=
-                  30 &&
+                  diff/2 &&
               element
                       .difference(DateTime(
                           DateTime.now().year,
@@ -331,7 +332,7 @@ class HomepageController extends GetxController {
                           int.parse(interval.substring(0, 2)),
                           int.parse(interval.substring(5, 7))))
                       .inMinutes >=
-                  -30)) {
+                  -diff/2)) {
           } else {
             log('Interval is : $interval');
             if (int.parse(interval.substring(0, 2)) == 12) {
@@ -415,24 +416,24 @@ class HomepageController extends GetxController {
         }
         if (historyList.isNotEmpty) {
           if (historyList[pillIndex.value].timeTaken.any((element) =>
+          element
+              .difference(DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7))))
+              .inMinutes <=
+              diff/2 &&
               element
-                      .difference(DateTime(
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day,
-                          int.parse(interval.substring(0, 2)),
-                          int.parse(interval.substring(5, 7))))
-                      .inMinutes <
-                  30 &&
-              element
-                      .difference(DateTime(
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day,
-                          int.parse(interval.substring(0, 2)),
-                          int.parse(interval.substring(5, 7))))
-                      .inMinutes >
-                  -30)) {
+                  .difference(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7))))
+                  .inMinutes >=
+                  -diff/2)) {
           } else {
             return '${interval.substring(0, 2)}:${interval.substring(5, 7)}';
           }
@@ -448,8 +449,7 @@ class HomepageController extends GetxController {
     try {
       isTaking.value = true;
       if (checkDueTime() == '') {
-        Future.delayed(
-            const Duration(seconds: 1), () => isTaking.value = false);
+        Future.delayed(const Duration(seconds: 1), () => isTaking.value = false);
         Get.snackbar(
           "Reminders",
           "You don't have anymore pills",
@@ -467,7 +467,7 @@ class HomepageController extends GetxController {
         var minutes = int.parse(checkDueTime().substring(3, 5));
         var diff = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).difference(DateTime.now()).inMinutes;
         log('This is difference: $diff');
-        if (diff >= -30) {
+        if (diff >= -30 && DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).isAfter(DateTime.now())) {
           Future.delayed(
               const Duration(seconds: 1), () => isTaking.value = false);
           Get.snackbar(
