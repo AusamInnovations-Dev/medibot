@@ -12,6 +12,7 @@ class PillsModel with _$PillsModel{
     required int slot,
     required int request,
     required String pillName,
+    required String medicineCategory,
     required String dosage,
     required String interval,
     required String pillsQuantity,

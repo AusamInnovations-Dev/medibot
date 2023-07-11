@@ -10,6 +10,7 @@ import 'package:medibot/app/widgets/background_screen_decoration.dart';
 import '../../routes/route_path.dart';
 import '../../sampledata/medicines.dart';
 import '../../widgets/box_field.dart';
+import '../../widgets/custom_input.dart';
 import '../../widgets/text_field.dart';
 import 'widgets/select_duration.dart';
 
@@ -67,6 +68,66 @@ class SetReminderScreen extends GetView<SetReminderController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                DropdownButtonFormField(
+                  isDense: true,
+                  dropdownColor: Theme.of(context).colorScheme.primary,
+                  focusColor: Theme.of(context).colorScheme.primary,
+                  style: TextStyle(
+                    fontFamily: 'Sansation',
+                    fontSize: 15.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).colorScheme.primary,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    filled: true,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    hintText: 'Medicine Category',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Sansation',
+                      fontSize: 15.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  items: SampleMedicine.medicineCategory
+                      .map((element) => DropdownMenuItem(
+                      value: element,
+                      child: SizedBox(
+                        width: 100.w,
+                        child: Text(
+                          element,
+                          style: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                      .toList(),
+                  onChanged: (value) {
+                    controller.medicineCategory = value!;
+                  },
+                ),
+                SizedBox(height: 15.h),
                 TypeAheadField(
                   textFieldConfiguration: TextFieldConfiguration(
                     style: TextStyle(
@@ -142,64 +203,114 @@ class SetReminderScreen extends GetView<SetReminderController> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 15.h, bottom: 15.h),
-                  child: DropdownButtonFormField(
-                    dropdownColor: Theme.of(context).colorScheme.primary,
-                    focusColor: Theme.of(context).colorScheme.primary,
-                    style: TextStyle(
-                      fontFamily: 'Sansation',
-                      fontSize: 16.sp,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.primary,
-                      focusColor: Theme.of(context).colorScheme.primary,
-                      filled: true,
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      hintText: 'Dosage',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Sansation',
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    items: SampleMedicine.medicinePower
-                        .map(
-                          (element) => DropdownMenuItem(
-                            value: element,
-                            child: SizedBox(
-                              width: 280.w,
-                              child: Text(
-                                element,
-                                style: TextStyle(
-                                  fontFamily: 'Sansation',
-                                  fontSize: 16.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 120.w,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          controller: controller.dosageController,
+                          decoration: InputDecoration(
+                            fillColor: Theme.of(context).colorScheme.primary,
+                            focusColor: Theme.of(context).colorScheme.primary,
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
                               ),
                             ),
+                            errorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            hintText: 'Dosage',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Sansation',
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      controller.dosage = value!;
-                    },
+                        ),
+                      ),
+                      SizedBox(width: 10.w,),
+                      Expanded(
+                        child: DropdownButtonFormField(
+                          isDense: true,
+                          dropdownColor: Theme.of(context).colorScheme.primary,
+                          focusColor: Theme.of(context).colorScheme.primary,
+                          style: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          decoration: InputDecoration(
+                            fillColor: Theme.of(context).colorScheme.primary,
+                            focusColor: Theme.of(context).colorScheme.primary,
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            errorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            hintText: 'Dosage',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Sansation',
+                              fontSize: 15.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          value: controller.dosage,
+                          items: SampleMedicine.medicinePower
+                              .map(
+                                (element) => DropdownMenuItem(
+                                  value: element,
+                                  child: SizedBox(
+                                    width: 100.w,
+                                    child: Text(
+                                      element,
+                                      style: TextStyle(
+                                        fontFamily: 'Sansation',
+                                        fontSize: 15.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            controller.dosage = value!;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -241,29 +352,35 @@ class SetReminderScreen extends GetView<SetReminderController> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    items:
-                        ['Once a Day', 'Twice a Day', 'Thrice a Day', 'Custom', 'Hourly']
-                            .map(
-                              (element) => DropdownMenuItem(
-                                value: element,
-                                child: SizedBox(
-                                  width: 280.w,
-                                  child: Text(
-                                    element,
-                                    style: TextStyle(
-                                      fontFamily: 'Sansation',
-                                      fontSize: 16.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
+                    items: [
+                      'Once a Day',
+                      'Twice a Day',
+                      'Thrice a Day',
+                      'Custom',
+                      'Hourly'
+                    ]
+                        .map(
+                          (element) => DropdownMenuItem(
+                            value: element,
+                            child: SizedBox(
+                              width: 280.w,
+                              child: Text(
+                                element,
+                                style: TextStyle(
+                                  fontFamily: 'Sansation',
+                                  fontSize: 16.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                            )
-                            .toList(),
+                            ),
+                          ),
+                        )
+                        .toList(),
                     onChanged: (value) {
                       controller.interval.value = value!;
-                      if (controller.interval.value == 'Custom' || controller.interval.value == 'Hourly') {
+                      if (controller.interval.value == 'Custom' ||
+                          controller.interval.value == 'Hourly') {
                         controller.gererateCustomTimeInterval();
                       } else {
                         controller.selectingTimeIntervals();

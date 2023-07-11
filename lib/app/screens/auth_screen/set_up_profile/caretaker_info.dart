@@ -73,7 +73,7 @@ class CaretakerInfo extends GetView<AuthController> {
                         hintText: "",
                         fontTheme: 'Sansation',
                         textController: controller.caretakernameController,
-                      )
+                      ),
                     ],
                   ),
                 ),

@@ -21,20 +21,28 @@ class SampleMedicine {
 
   static List<String> medicinePower = [
     'Select Dosage',
-    '10MG',
-    '200MG',
-    '50MG',
-    '100MG',
-    '150MG',
-    '650MG',
-    '250MG',
-    '600MG',
-    '300MG'
+    'μg',
+    'mg',
+    'Table Spoon',
+    'Tea Spoon',
+    'ml',
   ];
 
   static List<String> hours = List.generate(
       12, (index) => '${index >= 9 ? index + 1 : '0${index + 1}'} H');
 
-  static List<String> minute = List.generate(
-      60, (index) => '${index >= 9 ? index + 1 : '0${index + 1}'} M');
+  static List<String> minute = [
+    '00 M',
+    '15 M',
+    '30 M',
+    '45 M',
+  ];
+
+  static List<String> medicineCategory = [
+    'Select Category'
+    'Tablet',
+    'Syrup',
+    'Eye Drop',
+
+  ];
 }

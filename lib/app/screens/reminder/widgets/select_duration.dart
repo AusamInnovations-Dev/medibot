@@ -174,8 +174,23 @@ class SelectDuration extends GetView<SetReminderController> {
               ),
             ),
             onPressed: () async {
-              if (await controller.uploadPillsReminderData() != '') {
-                Get.back();
+              if(int.tryParse(controller.dosageController.text) != null && controller.dosage != 'Select Dosage'){
+                if (await controller.uploadPillsReminderData() != '') {
+                  Get.back();
+                }
+              } else {
+                Get.snackbar(
+                  "Pills Reminder",
+                  "Please enter a valid dosage value.",
+                  icon: const Icon(
+                    Icons.check_sharp,
+                    color: Colors.black,
+                  ),
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: const Color(0xffA9CBFF),
+                  margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                  colorText: Colors.black,
+                );
               }
             },
             child: CustomTextField(

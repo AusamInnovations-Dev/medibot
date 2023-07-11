@@ -32,6 +32,7 @@ class CustomDropDown extends StatelessWidget {
         focusColor: focusColor,
         value: value,
         dropdownColor: dropDownColor,
+        menuMaxHeight: 300.h,
         decoration: InputDecoration(
           fillColor: dropDownColor,
           focusColor: dropDownColor,

@@ -68,7 +68,7 @@ class HomePage extends GetView<HomepageController> {
                                         children: [
                                           Container(
                                             margin: EdgeInsets.only(
-                                              top: 27.h,
+                                              top: 15.h,
                                               bottom: 8.h,
                                             ),
                                             child: Column(
@@ -76,7 +76,7 @@ class HomePage extends GetView<HomepageController> {
                                                 CustomTextField(
                                                   fontWeight: FontWeight.bold,
                                                   text: "Due at",
-                                                  size: 12.sp,
+                                                  size: 15.sp,
                                                   color: Colors.black,
                                                 ),
                                                 CustomTextField(
@@ -93,13 +93,13 @@ class HomePage extends GetView<HomepageController> {
                                             ),
                                           ),
                                           Container(
-                                            margin: EdgeInsets.only(top: 15.h),
+                                            margin: EdgeInsets.only(top: 8.h),
                                             child: Column(
                                               children: [
                                                 CustomTextField(
                                                   fontWeight: FontWeight.bold,
                                                   text: "Last Taken at",
-                                                  size: 10.sp,
+                                                  size: 15.sp,
                                                   color: Colors.black,
                                                 ),
                                                 Obx(
@@ -110,7 +110,7 @@ class HomePage extends GetView<HomepageController> {
                                                         : controller.historyList[controller.pillIndex.value].timeTaken.isEmpty
                                                             ? '--/--'
                                                             : "${controller.historyList[controller.pillIndex.value].timeTaken.last.hour > 12 ? controller.historyList[controller.pillIndex.value].timeTaken.last.hour - 12 : controller.historyList[controller.pillIndex.value].timeTaken.last.hour}:${controller.historyList[controller.pillIndex.value].timeTaken.last.minute} ${controller.historyList[controller.pillIndex.value].timeTaken.last.hour > 12 ? 'PM' : 'AM'}",
-                                                    size: 10.sp,
+                                                    size: 15.sp,
                                                     color: Theme.of(context).colorScheme.secondary,
                                                   ),
                                                 ),
@@ -119,7 +119,7 @@ class HomePage extends GetView<HomepageController> {
                                                   text: controller.findPillStatus()
                                                       ? "On Time"
                                                       : "Not On Time",
-                                                  size: 8.sp,
+                                                  size: 12.sp,
                                                   color: Colors.green,
                                                 )
                                               ],
@@ -148,8 +148,8 @@ class HomePage extends GetView<HomepageController> {
                                         child: CustomTextField(
                                           fontWeight: FontWeight.bold,
                                           text: "Edit",
-                                          color: Colors.white,
-                                          size: 11.sp,
+                                          color: Colors.black,
+                                          size: 13.sp,
                                         ),
                                       ),
                                       Column(
@@ -163,7 +163,7 @@ class HomePage extends GetView<HomepageController> {
                                                   ? '--/--'
                                                   : controller.reminderList[controller.pillIndex.value].pillName,
                                               color: Colors.black,
-                                              size: 15.sp,
+                                              size: 18.sp,
                                             ),
                                           ),
                                           CustomTextField(
@@ -195,8 +195,8 @@ class HomePage extends GetView<HomepageController> {
                                           CustomTextField(
                                             fontWeight: FontWeight.bold,
                                             text: "Skip",
-                                            color: Colors.white,
-                                            size: 11.sp,
+                                            color: Colors.black,
+                                            size: 13.sp,
                                           ) : SizedBox(
                                             height: 18.h,
                                             width: 18.w,
@@ -230,7 +230,7 @@ class HomePage extends GetView<HomepageController> {
                                       CustomTextField(
                                         fontWeight: FontWeight.bold,
                                         text: "Take Now",
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         size: 18.sp,
                                       ) : SizedBox(
                                         height: 18.h,
@@ -270,8 +270,7 @@ class HomePage extends GetView<HomepageController> {
                               top: 90.h,
                               right: 0.w,
                               child: Visibility(
-                                visible: controller.pillIndex.value <
-                                    controller.reminderList.length - 1,
+                                visible: controller.pillIndex.value < controller.reminderList.length - 1,
                                 child: ElevatedButton(
                                   onPressed: () {
                                     controller.pillIndex.value += 1;

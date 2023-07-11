@@ -50,6 +50,67 @@ class AddPill extends GetView<AddCabinetPill> {
                     color: Colors.black,
                   ),
                 ),
+                DropdownButtonFormField(
+                  isDense: true,
+                  dropdownColor: Theme.of(context).colorScheme.primary,
+                  focusColor: Theme.of(context).colorScheme.primary,
+                  style: TextStyle(
+                    fontFamily: 'Sansation',
+                    fontSize: 15.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).colorScheme.primary,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    filled: true,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    hintText: 'Medicine Category',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Sansation',
+                      fontSize: 15.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  value: controller.medicineCategory,
+                  items: SampleMedicine.medicineCategory
+                      .map((element) => DropdownMenuItem(
+                    value: element,
+                    child: SizedBox(
+                      width: 100.w,
+                      child: Text(
+                        element,
+                        style: TextStyle(
+                          fontFamily: 'Sansation',
+                          fontSize: 15.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                  )
+                      .toList(),
+                  onChanged: (value) {
+                    controller.medicineCategory = value!;
+                  },
+                ),
+                SizedBox(height: 15.h),
                 Container(
                   margin: EdgeInsets.only(right: 5.w),
                   child: TypeAheadField(
@@ -128,51 +189,41 @@ class AddPill extends GetView<AddCabinetPill> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 15.h, right: 5.w, bottom: 15.h),
-                  child: DropdownButtonFormField(
-                    dropdownColor: Theme.of(context).colorScheme.primary,
-                    focusColor: Theme.of(context).colorScheme.primary,
-                    style: TextStyle(
-                      fontFamily: 'Sansation',
-                      fontSize: 16.sp,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.primary,
-                      focusColor: Theme.of(context).colorScheme.primary,
-                      filled: true,
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      hintText: 'Dosage',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Sansation',
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    items: SampleMedicine.medicinePower
-                        .map(
-                          (element) => DropdownMenuItem(
-                        value: element,
-                        child: SizedBox(
-                          width: 280.w,
-                          child: Text(
-                            element,
-                            style: TextStyle(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 120.w,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          controller: controller.dosageController,
+                          decoration: InputDecoration(
+                            fillColor: Theme.of(context).colorScheme.primary,
+                            focusColor: Theme.of(context).colorScheme.primary,
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            errorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            hintText: 'Dosage',
+                            hintStyle: TextStyle(
                               fontFamily: 'Sansation',
                               fontSize: 16.sp,
                               color: Colors.black,
@@ -181,11 +232,71 @@ class AddPill extends GetView<AddCabinetPill> {
                           ),
                         ),
                       ),
-                    )
-                        .toList(),
-                    onChanged: (value) {
-                      controller.dosage = value!;
-                    },
+                      SizedBox(width: 10.w,),
+                      Expanded(
+                        child: DropdownButtonFormField(
+                          isDense: true,
+                          dropdownColor: Theme.of(context).colorScheme.primary,
+                          focusColor: Theme.of(context).colorScheme.primary,
+                          style: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          decoration: InputDecoration(
+                            fillColor: Theme.of(context).colorScheme.primary,
+                            focusColor: Theme.of(context).colorScheme.primary,
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            errorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black26,
+                              ),
+                            ),
+                            hintText: 'Dosage',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Sansation',
+                              fontSize: 15.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          value: controller.dosage,
+                          items: SampleMedicine.medicinePower
+                              .map(
+                                (element) => DropdownMenuItem(
+                              value: element,
+                              child: SizedBox(
+                                width: 100.w,
+                                child: Text(
+                                  element,
+                                  style: TextStyle(
+                                    fontFamily: 'Sansation',
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                              .toList(),
+                          onChanged: (value) {
+                            controller.dosage = value!;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -227,8 +338,13 @@ class AddPill extends GetView<AddCabinetPill> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    items:
-                    ['Once a Day', 'Twice a Day', 'Thrice a Day', 'Custom']
+                    items: [
+                      'Once a Day',
+                      'Twice a Day',
+                      'Thrice a Day',
+                      'Custom',
+                      'Hourly'
+                    ]
                         .map(
                           (element) => DropdownMenuItem(
                         value: element,
@@ -245,10 +361,12 @@ class AddPill extends GetView<AddCabinetPill> {
                           ),
                         ),
                       ),
-                    ).toList(),
+                    )
+                        .toList(),
                     onChanged: (value) {
                       controller.interval.value = value!;
-                      if (controller.interval.value == 'Custom' || controller.interval.value == 'Hourly') {
+                      if (controller.interval.value == 'Custom' ||
+                          controller.interval.value == 'Hourly') {
                         controller.gererateCustomTimeInterval();
                       } else {
                         controller.selectingTimeIntervals();
@@ -401,8 +519,23 @@ class AddPill extends GetView<AddCabinetPill> {
                 ),
               ),
               onPressed: () async {
-                if (await controller.uploadCabinetPills()) {
-                  Get.back();
+                if(int.tryParse(controller.dosageController.text) != null && controller.dosage != 'Select Dosage'){
+                  if (await controller.uploadCabinetPills()) {
+                    Get.back();
+                  }
+                } else {
+                  Get.snackbar(
+                    "Pills Reminder",
+                    "Please enter a valid dosage value.",
+                    icon: const Icon(
+                      Icons.check_sharp,
+                      color: Colors.black,
+                    ),
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: const Color(0xffA9CBFF),
+                    margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                    colorText: Colors.black,
+                  );
                 }
               },
               child: CustomTextField(

@@ -145,8 +145,7 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
                             vertical: 11.h, horizontal: 7.w),
                         child: CustomTextField(
                           fontWeight: FontWeight.w400,
-                          text:
-                              '${controller.durationDates[index].day}/${controller.durationDates[index].month}/${controller.durationDates[index].year}',
+                          text: '${controller.durationDates[index].day}/${controller.durationDates[index].month}/${controller.durationDates[index].year}',
                           color: Colors.black,
                           size: 12.sp,
                         ),

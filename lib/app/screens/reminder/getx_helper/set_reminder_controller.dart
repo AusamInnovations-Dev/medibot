@@ -11,13 +11,15 @@ import '../../../services/firestore.dart';
 
 class SetReminderController extends GetxController {
   TextEditingController pillName = TextEditingController();
+  TextEditingController dosageController = TextEditingController();
   String dosage = 'Select Dosage';
+  String medicineCategory = 'Select Category';
   Rx<String> interval = 'Once a Day'.obs;
   Rx<String> hourlyInterval = '01 H'.obs;
   List<TimeOfDay> pillsTime = [
     const TimeOfDay(
-      hour: 12,
-      minute: 20,
+      hour: 08,
+      minute: 00,
     )
   ];
   Rx<int> pillQuantity = 1.obs;
@@ -25,7 +27,7 @@ class SetReminderController extends GetxController {
   Rx<bool> isIndividual = false.obs;
   Rx<bool> increasePossible = true.obs;
   RxList<Map<String, Object>> timeIntervals = <Map<String, Object>>[
-    {'hour': '12 H', 'minute': '20 M', 'period': 'PM'}
+    {'hour': '08 H', 'minute': '00 M', 'period': 'PM'}
   ].obs;
 
   RxList<DateTime> durationDates = <DateTime>[].obs;
@@ -35,32 +37,32 @@ class SetReminderController extends GetxController {
     timeIntervals.clear();
     if (interval.value == 'Once a Day') {
       pillsTime.add(const TimeOfDay(
-        hour: 12,
-        minute: 20,
+        hour: 08,
+        minute: 00,
       ));
       generateTimeInterval();
     } else if (interval.value == 'Twice a Day') {
       pillsTime.add(const TimeOfDay(
         hour: 8,
-        minute: 30,
+        minute: 00,
       ));
       pillsTime.add(const TimeOfDay(
         hour: 8,
-        minute: 30,
+        minute: 00,
       ));
       generateTimeInterval();
     } else if (interval.value == 'Thrice a Day') {
       pillsTime.add(const TimeOfDay(
         hour: 8,
-        minute: 30,
+        minute: 00,
       ));
       pillsTime.add(const TimeOfDay(
         hour: 2,
-        minute: 30,
+        minute: 00,
       ));
       pillsTime.add(const TimeOfDay(
         hour: 8,
-        minute: 30,
+        minute: 00,
       ));
       generateTimeInterval();
     }
@@ -85,7 +87,7 @@ class SetReminderController extends GetxController {
     log('Hello : $timeIntervals');
     pillsTime.add(const TimeOfDay(
       hour: 8,
-      minute: 30,
+      minute: 00,
     ));
     timeIntervals.add({
       'hour': '${pillsTime.last.hour <= 9 ? '0${pillsTime.last.hour}' : pillsTime.last.hour > 12 ? pillsTime.last.hour-12 : pillsTime.last.hour } H',
@@ -97,7 +99,7 @@ class SetReminderController extends GetxController {
   addCustomTimeInterval() {
     pillsTime.add(const TimeOfDay(
       hour: 8,
-      minute: 30,
+      minute: 00,
     ));
     timeIntervals.add({
       'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
@@ -112,7 +114,7 @@ class SetReminderController extends GetxController {
       case '01 H':
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+1,
-          minute: 30,
+          minute: 00,
         ));
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
@@ -129,7 +131,7 @@ class SetReminderController extends GetxController {
       case '02 H':
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+2,
-          minute: 30,
+          minute: 00,
         ));
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
@@ -147,7 +149,7 @@ class SetReminderController extends GetxController {
         log(hourlyInterval.value);
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+3,
-          minute: 30,
+          minute: 00,
         ));
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
@@ -165,7 +167,7 @@ class SetReminderController extends GetxController {
         log(hourlyInterval.value);
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+4,
-          minute: 30,
+          minute: 00,
         ));
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
@@ -183,7 +185,7 @@ class SetReminderController extends GetxController {
         log(hourlyInterval.value);
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+6,
-          minute: 30,
+          minute: 00,
         ));
         log('This is adding data : ${pillsTime.last.hour}');
         timeIntervals.add({
@@ -227,7 +229,8 @@ class SetReminderController extends GetxController {
         uid: '',
         pillName: pillName.text,
         userId: UserStore.to.uid,
-        dosage: dosage,
+        dosage: dosageController.text+dosage,
+        medicineCategory: medicineCategory,
         interval: interval.value,
         isIndividual: isIndividual.value,
         isRange: isRange.value,
@@ -245,7 +248,8 @@ class SetReminderController extends GetxController {
          userId: UserStore.to.uid,
          uid: isUploaded,
          pillName: pillName.text,
-         dosage: dosage,
+         dosage: dosageController.text+dosage,
+         medicineCategory: medicineCategory,
          interval: interval.value,
          isIndividual: isIndividual.value,
          isRange: isRange.value,

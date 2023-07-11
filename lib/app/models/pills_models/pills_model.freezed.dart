@@ -25,6 +25,7 @@ mixin _$PillsModel {
   int get slot => throw _privateConstructorUsedError;
   int get request => throw _privateConstructorUsedError;
   String get pillName => throw _privateConstructorUsedError;
+  String get medicineCategory => throw _privateConstructorUsedError;
   String get dosage => throw _privateConstructorUsedError;
   String get interval => throw _privateConstructorUsedError;
   String get pillsQuantity => throw _privateConstructorUsedError;
@@ -52,6 +53,7 @@ abstract class $PillsModelCopyWith<$Res> {
       int slot,
       int request,
       String pillName,
+      String medicineCategory,
       String dosage,
       String interval,
       String pillsQuantity,
@@ -80,6 +82,7 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
     Object? slot = null,
     Object? request = null,
     Object? pillName = null,
+    Object? medicineCategory = null,
     Object? dosage = null,
     Object? interval = null,
     Object? pillsQuantity = null,
@@ -109,6 +112,10 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
       pillName: null == pillName
           ? _value.pillName
           : pillName // ignore: cast_nullable_to_non_nullable
+              as String,
+      medicineCategory: null == medicineCategory
+          ? _value.medicineCategory
+          : medicineCategory // ignore: cast_nullable_to_non_nullable
               as String,
       dosage: null == dosage
           ? _value.dosage
@@ -160,6 +167,7 @@ abstract class _$$_PillsModelCopyWith<$Res>
       int slot,
       int request,
       String pillName,
+      String medicineCategory,
       String dosage,
       String interval,
       String pillsQuantity,
@@ -186,6 +194,7 @@ class __$$_PillsModelCopyWithImpl<$Res>
     Object? slot = null,
     Object? request = null,
     Object? pillName = null,
+    Object? medicineCategory = null,
     Object? dosage = null,
     Object? interval = null,
     Object? pillsQuantity = null,
@@ -215,6 +224,10 @@ class __$$_PillsModelCopyWithImpl<$Res>
       pillName: null == pillName
           ? _value.pillName
           : pillName // ignore: cast_nullable_to_non_nullable
+              as String,
+      medicineCategory: null == medicineCategory
+          ? _value.medicineCategory
+          : medicineCategory // ignore: cast_nullable_to_non_nullable
               as String,
       dosage: null == dosage
           ? _value.dosage
@@ -261,6 +274,7 @@ class _$_PillsModel implements _PillsModel {
       required this.slot,
       required this.request,
       required this.pillName,
+      required this.medicineCategory,
       required this.dosage,
       required this.interval,
       required this.pillsQuantity,
@@ -285,6 +299,8 @@ class _$_PillsModel implements _PillsModel {
   final int request;
   @override
   final String pillName;
+  @override
+  final String medicineCategory;
   @override
   final String dosage;
   @override
@@ -316,7 +332,7 @@ class _$_PillsModel implements _PillsModel {
 
   @override
   String toString() {
-    return 'PillsModel(uid: $uid, userId: $userId, slot: $slot, request: $request, pillName: $pillName, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual, inCabinet: $inCabinet)';
+    return 'PillsModel(uid: $uid, userId: $userId, slot: $slot, request: $request, pillName: $pillName, medicineCategory: $medicineCategory, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual, inCabinet: $inCabinet)';
   }
 
   @override
@@ -330,6 +346,8 @@ class _$_PillsModel implements _PillsModel {
             (identical(other.request, request) || other.request == request) &&
             (identical(other.pillName, pillName) ||
                 other.pillName == pillName) &&
+            (identical(other.medicineCategory, medicineCategory) ||
+                other.medicineCategory == medicineCategory) &&
             (identical(other.dosage, dosage) || other.dosage == dosage) &&
             (identical(other.interval, interval) ||
                 other.interval == interval) &&
@@ -355,6 +373,7 @@ class _$_PillsModel implements _PillsModel {
       slot,
       request,
       pillName,
+      medicineCategory,
       dosage,
       interval,
       pillsQuantity,
@@ -385,6 +404,7 @@ abstract class _PillsModel implements PillsModel {
       required final int slot,
       required final int request,
       required final String pillName,
+      required final String medicineCategory,
       required final String dosage,
       required final String interval,
       required final String pillsQuantity,
@@ -407,6 +427,8 @@ abstract class _PillsModel implements PillsModel {
   int get request;
   @override
   String get pillName;
+  @override
+  String get medicineCategory;
   @override
   String get dosage;
   @override

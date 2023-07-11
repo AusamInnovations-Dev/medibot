@@ -101,7 +101,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                     element,
                                     style: TextStyle(
                                       fontFamily: 'Sansation',
-                                      fontSize: 13.sp,
+                                      fontSize: 12.sp,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -308,7 +308,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                           element,
                                           style: TextStyle(
                                             fontFamily: 'Sansation',
-                                            fontSize: 13.sp,
+                                            fontSize: 12.sp,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -508,7 +508,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                   element,
                                   style: TextStyle(
                                     fontFamily: 'Sansation',
-                                    fontSize: 13.sp,
+                                    fontSize: 12.sp,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700,
                                   ),
