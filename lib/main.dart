@@ -101,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(
       const Duration(seconds: 5),
-          () => (FirebaseAuth.instance.currentUser == null) ? Get.offAllNamed(RoutePaths.signInScreen) : Get.offAllNamed(RoutePaths.homeScreen),
+      () => (FirebaseAuth.instance.currentUser == null) ? Get.offAllNamed(RoutePaths.signInScreen) : Get.offAllNamed(RoutePaths.homeScreen),
     );
     super.initState();
   }

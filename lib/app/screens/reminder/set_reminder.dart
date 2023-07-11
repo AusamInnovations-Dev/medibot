@@ -19,7 +19,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
       bottomButtonText: 'Add Medicine',
       onbottomButtonPressed: () async {
         if (controller.durationDates.isNotEmpty) {
-          if(controller.pillName.text.isEmpty || controller.medicineCategory.value == 'Select Category') {
+          if (controller.pillName.text.isEmpty || controller.medicineCategory.value == 'Select Category') {
             Get.snackbar(
               "Pills Reminder",
               "Please enter a valid pill name",
@@ -29,11 +29,10 @@ class SetReminderScreen extends GetView<SetReminderController> {
               ),
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: const Color(0xffA9CBFF),
-              margin:
-              EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+              margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
               colorText: Colors.black,
             );
-          }else{
+          } else {
             if (await controller.uploadPillsReminderData() != '') {
               Get.back();
               Get.snackbar(
@@ -45,8 +44,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                 ),
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: const Color(0xffA9CBFF),
-                margin:
-                EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                 colorText: Colors.black,
               );
             }
@@ -61,8 +59,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
             ),
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: const Color(0xffA9CBFF),
-            margin:
-            EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
             colorText: Colors.black,
           );
         }
@@ -121,22 +118,23 @@ class SetReminderScreen extends GetView<SetReminderController> {
                     ),
                   ),
                   items: SampleMedicine.medicineCategory
-                      .map((element) => DropdownMenuItem(
-                      value: element,
-                      child: SizedBox(
-                        width: 100.w,
-                        child: Text(
-                          element,
-                          style: TextStyle(
-                            fontFamily: 'Sansation',
-                            fontSize: 15.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
+                      .map(
+                        (element) => DropdownMenuItem(
+                          value: element,
+                          child: SizedBox(
+                            width: 100.w,
+                            child: Text(
+                              element,
+                              style: TextStyle(
+                                fontFamily: 'Sansation',
+                                fontSize: 15.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  )
+                      )
                       .toList(),
                   onChanged: (value) {
                     controller.medicineCategory.value = value!;
@@ -213,8 +211,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                       controller.pillName.text = suggestion as String;
                     },
                     suggestionsCallback: (String pattern) {
-                      return SampleMedicine.sampleMedicines
-                          .where((element) => element.startsWith(pattern));
+                      return SampleMedicine.sampleMedicines.where((element) => element.startsWith(pattern));
                     },
                   ),
                 ),
@@ -263,7 +260,9 @@ class SetReminderScreen extends GetView<SetReminderController> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       Expanded(
                         child: DropdownButtonFormField(
                           isDense: true,
@@ -369,13 +368,8 @@ class SetReminderScreen extends GetView<SetReminderController> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    items: [
-                      'Once a Day (24 Hours)',
-                      'Twice a Day (12 Hours)',
-                      'Thrice a Day (8 Hours)',
-                      'Custom',
-                      'Hourly'
-                    ].map(
+                    items: ['Once a Day (24 Hours)', 'Twice a Day (12 Hours)', 'Thrice a Day (8 Hours)', 'Custom', 'Hourly']
+                        .map(
                           (element) => DropdownMenuItem(
                             value: element,
                             child: SizedBox(
@@ -395,8 +389,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                         .toList(),
                     onChanged: (value) {
                       controller.interval.value = value!;
-                      if (controller.interval.value == 'Custom' ||
-                          controller.interval.value == 'Hourly') {
+                      if (controller.interval.value == 'Custom' || controller.interval.value == 'Hourly') {
                         controller.gererateCustomTimeInterval();
                       } else {
                         controller.selectingTimeIntervals();
@@ -482,8 +475,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                                   size: 17.sp,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w400,
-                                  text:
-                                      controller.pillQuantity.value.toString(),
+                                  text: controller.pillQuantity.value.toString(),
                                 )
                               ],
                             ),
