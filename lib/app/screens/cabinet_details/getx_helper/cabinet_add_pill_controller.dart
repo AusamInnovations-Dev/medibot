@@ -35,52 +35,73 @@ class AddCabinetPill extends GetxController {
 
 
   selectingTimeIntervals() {
-    pillsTime.clear();
-    timeIntervals.clear();
     if (interval.value == 'Once a Day') {
-      pillsTime.add(const TimeOfDay(
-        hour: 08,
-        minute: 00,
-      ));
-      generateTimeInterval();
+      if(pillsTime.length > 1){
+        pillsTime.removeRange(1, pillsTime.length);
+        timeIntervals.removeRange(1, timeIntervals.length);
+      }
+      log(timeIntervals.toString());
     } else if (interval.value == 'Twice a Day') {
-      pillsTime.add(const TimeOfDay(
-        hour: 8,
-        minute: 00,
-      ));
-      pillsTime.add(const TimeOfDay(
-        hour: 8,
-        minute: 00,
-      ));
-      generateTimeInterval();
+      if(pillsTime.length > 2){
+        pillsTime.removeRange(2, pillsTime.length);
+        timeIntervals.removeRange(2, pillsTime.length);
+      }else if(pillsTime.length == 1){
+        pillsTime.add(const TimeOfDay(
+          hour: 8,
+          minute: 00,
+        ));
+        timeIntervals.add({
+          'hour':
+          '${pillsTime.last.hour <= 9 ? '0${pillsTime.last.hour}' : pillsTime.last.hour} H',
+          'minute':
+          '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
+          'period': pillsTime.isEmpty ? 'AM' : 'PM'
+        });
+      }
+      log(timeIntervals.toString());
     } else if (interval.value == 'Thrice a Day') {
-      pillsTime.add(const TimeOfDay(
-        hour: 8,
-        minute: 00,
-      ));
-      pillsTime.add(const TimeOfDay(
-        hour: 2,
-        minute: 00,
-      ));
-      pillsTime.add(const TimeOfDay(
-        hour: 8,
-        minute: 00,
-      ));
-      generateTimeInterval();
+      if(pillsTime.length > 3){
+        pillsTime.removeRange(3, pillsTime.length);
+        timeIntervals.removeRange(3, pillsTime.length);
+      }else if (pillsTime.length == 1){
+        log('Hello');
+        pillsTime.add(const TimeOfDay(
+          hour: 2,
+          minute: 00,
+        ));
+        pillsTime.add(const TimeOfDay(
+          hour: 8,
+          minute: 00,
+        ));
+        timeIntervals.add({
+          'hour':
+          '${pillsTime[1].hour <= 9 ? '0${pillsTime[1].hour}' : pillsTime[1].hour} H',
+          'minute':
+          '${pillsTime[1].minute <= 9 ? '0${pillsTime[1].minute}' : pillsTime[1].minute} M',
+          'period': 'PM'
+        });
+        timeIntervals.add({
+          'hour':
+          '${pillsTime[2].hour <= 9 ? '0${pillsTime[2].hour}' : pillsTime[2].hour} H',
+          'minute':
+          '${pillsTime[2].minute <= 9 ? '0${pillsTime[2].minute}' : pillsTime[2].minute} M',
+          'period': 'PM'
+        });
+      }else if (pillsTime.length == 2) {
+        pillsTime.add(const TimeOfDay(
+          hour: 8,
+          minute: 00,
+        ));
+        timeIntervals.add({
+          'hour':
+          '${pillsTime[1].hour <= 9 ? '0${pillsTime[1].hour}' : pillsTime[1].hour} H',
+          'minute':
+          '${pillsTime[1].minute <= 9 ? '0${pillsTime[1].minute}' : pillsTime[1].minute} M',
+          'period': 'PM'
+        });
+      }
+      log(timeIntervals.toString());
     }
-  }
-
-  generateTimeInterval() {
-    for (int i = 0; i < pillsTime.length; i++) {
-      timeIntervals.add({
-        'hour':
-        '${pillsTime[i].hour <= 9 ? '0${pillsTime[i].hour}' : pillsTime[i].hour} H',
-        'minute':
-        '${pillsTime[i].minute <= 9 ? '0${pillsTime[i].minute}' : pillsTime[i].minute} M',
-        'period': i == 0 ? 'AM' : 'PM'
-      });
-    }
-    log(timeIntervals.toString());
   }
 
   gererateCustomTimeInterval() {

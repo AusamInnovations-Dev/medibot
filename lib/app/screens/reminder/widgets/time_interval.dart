@@ -34,38 +34,39 @@ class TimeInterval extends GetView<SetReminderController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CustomDropDown(
-                        boxWidth: 68.w,
-                        boxHeight: 30.h,
-                        value: controller.timeIntervals[index]['hour'] as String,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 2.h,
-                        ),
-                        dropDownColor: Theme.of(context).colorScheme.primary,
-                        focusColor: Theme.of(context).colorScheme.primary,
-                        onChange: (value) {
-                          controller.timeIntervals[index]['hour'] = value;
-
-                        },
-                        items: SampleMedicine.hours
-                            .map(
-                              (element) => DropdownMenuItem(
-                                value: element,
-                                child: SizedBox(
-                                  width: 32.w,
-                                  child: Text(
-                                    element,
-                                    style: TextStyle(
-                                      fontFamily: 'Sansation',
-                                      fontSize: 13.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700,
+                      Obx(
+                        () => CustomDropDown(
+                          boxWidth: 68.w,
+                          boxHeight: 30.h,
+                          value: controller.timeIntervals[index]['hour'] as String,
+                          margin: EdgeInsets.symmetric(
+                            vertical: 2.h,
+                          ),
+                          dropDownColor: Theme.of(context).colorScheme.primary,
+                          focusColor: Theme.of(context).colorScheme.primary,
+                          onChange: (value) {
+                            controller.timeIntervals[index]['hour'] = value;
+                          },
+                          items: SampleMedicine.hours
+                              .map(
+                                (element) => DropdownMenuItem(
+                                  value: element,
+                                  child: SizedBox(
+                                    width: 32.w,
+                                    child: Text(
+                                      element,
+                                      style: TextStyle(
+                                        fontFamily: 'Sansation',
+                                        fontSize: 13.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
-                            .toList(),
+                              )
+                              .toList(),
+                        ),
                       ),
                       SizedBox(
                         width: 5.w,

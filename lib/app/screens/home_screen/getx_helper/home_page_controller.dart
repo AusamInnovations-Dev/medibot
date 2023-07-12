@@ -272,10 +272,10 @@ class HomepageController extends GetxController {
 
   String checkDue() {
 
-    log(UserStore.to.skipPills.toString());
+    // log(UserStore.to.skipPills.toString());
     for (var interval in reminderList[pillIndex.value].pillsInterval) {
       var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
-      var diff = 120;
+      var diff = 60;
       if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
         diff = DateTime(
               DateTime.now().year,
@@ -293,7 +293,7 @@ class HomepageController extends GetxController {
           ),
         ).inMinutes;
       }
-      log('This is the difference : $diff');
+      // log('This is the difference : $diff');
       if (DateTime.now().difference(
           DateTime(
             DateTime.now().year,
@@ -378,7 +378,7 @@ class HomepageController extends GetxController {
   String checkDueTime() {
     for (var interval in reminderList[pillIndex.value].pillsInterval) {
       var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
-      var diff = 120;
+      var diff = 60;
       if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
         diff = DateTime(
           DateTime.now().year,
@@ -404,7 +404,7 @@ class HomepageController extends GetxController {
             int.parse(interval.substring(0, 2)),
             int.parse(interval.substring(5, 7)),
           )
-      ).inMinutes < diff/2) {
+      ).inMinutes <= diff/2) {
         for (var pill in UserStore.to.skipPills) {
           if (pill['pillId'] == reminderList[pillIndex.value].uid &&
               pill['pillInterval'] == interval &&
@@ -465,9 +465,10 @@ class HomepageController extends GetxController {
       } else {
         var hours = int.parse(checkDueTime().substring(0, 2));
         var minutes = int.parse(checkDueTime().substring(3, 5));
-        var diff = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).difference(DateTime.now()).inMinutes;
+        log('$hours : $minutes');
+        var diff = DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes;
         log('This is difference: $diff');
-        if (diff >= -30 && DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).isAfter(DateTime.now())) {
+        if (diff <= -30 && DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).isAfter(DateTime.now())) {
           Future.delayed(
               const Duration(seconds: 1), () => isTaking.value = false);
           Get.snackbar(

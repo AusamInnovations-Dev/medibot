@@ -358,8 +358,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                       'Thrice a Day',
                       'Custom',
                       'Hourly'
-                    ]
-                        .map(
+                    ].map(
                           (element) => DropdownMenuItem(
                             value: element,
                             child: SizedBox(
