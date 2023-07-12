@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -11,8 +10,7 @@ import 'package:medibot/app/models/pills_models/pills_model.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService extends GetxController {
-  final FlutterLocalNotificationsPlugin localNotifications =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin localNotifications = FlutterLocalNotificationsPlugin();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late InitializationSettings initSettings;
   String messagingToken = '';
@@ -24,70 +22,16 @@ class NotificationService extends GetxController {
     await initPermission();
     await getToken();
     await initializeNotifications();
-    log('Scheduling pill');
-    await AndroidAlarmManager.oneShotAt(
-      DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().day,
-      ),
-      math.Random().nextInt(math.pow(2, 31) as int),
-      () {
-        localNotifications.show(
-          math.Random().nextInt(math.pow(2, 31) as int),
-          'title',
-          'body',
-          // DateTime.now(),
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'pillsModel.uid',
-              'pillsModel.pillName',
-              importance: Importance.max,
-              priority: Priority.max,
-              icon: '@mipmap/ic_launcher',
-              category: AndroidNotificationCategory.reminder,
-              actions: [
-                AndroidNotificationAction(
-                  'uid',
-                  'Taken',
-                  cancelNotification: false,
-                  titleColor: Colors.green,
-                ),
-                AndroidNotificationAction(
-                  '',
-                  'Missed',
-                  cancelNotification: false,
-                  titleColor: Colors.red,
-                ),
-              ],
-              autoCancel: false,
-              enableVibration: true,
-              visibility: NotificationVisibility.public,
-            ),
-          ),
-        );
-      },
-      exact: true,
-      wakeup: true,
-    );
     super.onInit();
   }
 
   initPermission() async {
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      sound: true,
-      provisional: true,
-      carPlay: true,
-      criticalAlert: false,
-      badge: true,
-      announcement: false,
-    );
+    NotificationSettings settings =
+        await messaging.requestPermission(alert: true, sound: true, provisional: true, carPlay: true, criticalAlert: false, badge: true, announcement: false);
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       log('User Granted Permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       log('User Granted Permission as on provisional');
     } else {
       log("User haven't granted permission");
@@ -102,28 +46,28 @@ class NotificationService extends GetxController {
   }
 
   initializeNotifications() async {
-    // FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-    await AndroidAlarmManager.initialize();
-    const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const initializationSettings = InitializationSettings(
-      android: androidInitializationSettings,
-    );
-    initSettings = const InitializationSettings(android: androidInitializationSettings);
-    await localNotifications.initialize(initializationSettings);
+    try {
+      FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+      const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+      const initializationSettings = InitializationSettings(
+        android: androidInitializationSettings,
+      );
+      initSettings = const InitializationSettings(android: androidInitializationSettings);
+      await localNotifications.initialize(initializationSettings);
+    } catch (e) {
+      // TODO
+    }
   }
 
-  //
-  // Future<void> handleBackgroundMessage(RemoteMessage message) async{
-  //   log('Title: ${message.notification!.title}');
-  //   log('Body: ${message.notification!.body}');
-  // }
+  Future<void> handleBackgroundMessage(RemoteMessage message) async {
+    log('Title: ${message.notification!.title}');
+    log('Body: ${message.notification!.body}');
+  }
 
-  scheduleNotification(
-      int id, PillsModel pillsModel, List<DateTime> duration) async {
+  scheduleNotification(int id, PillsModel pillsModel, List<DateTime> duration) async {
     if (pillsModel.isRange) {
       for (var interval in pillsModel.pillsInterval) {
-        if (interval.substring(0, 2) == '00' &&
-            interval.substring(5, 7) == '00') {
+        if (interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00') {
         } else {
           log('Setting up notification now');
           await localNotifications.zonedSchedule(
@@ -149,18 +93,15 @@ class NotificationService extends GetxController {
                 icon: '@mipmap/ic_launcher',
                 category: AndroidNotificationCategory.reminder,
                 actions: [
-                  AndroidNotificationAction(pillsModel.uid, 'Taken',
-                      cancelNotification: false, titleColor: Colors.green),
-                  const AndroidNotificationAction('', 'Missed',
-                      cancelNotification: false, titleColor: Colors.red),
+                  AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
+                  const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
                 ],
                 autoCancel: false,
                 enableVibration: true,
                 visibility: NotificationVisibility.public,
               ),
             ),
-            uiLocalNotificationDateInterpretation:
-                UILocalNotificationDateInterpretation.absoluteTime,
+            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
             matchDateTimeComponents: DateTimeComponents.time,
           );
         }
@@ -168,46 +109,40 @@ class NotificationService extends GetxController {
     } else {
       for (var individualDuration in duration) {
         for (var interval in pillsModel.pillsInterval) {
-          if (interval.substring(0, 2) == '00' &&
-              interval.substring(5, 7) == '00') {
-          } else {
-            log('Setting up notification now');
-            await localNotifications.zonedSchedule(
-              id,
-              'MediBot',
-              'Its time to take ${pillsModel.pillName} pill',
-              tz.TZDateTime(
-                tz.local,
+          await localNotifications.zonedSchedule(
+            id,
+            'MediBot',
+            'Its time to take ${pillsModel.pillName} pill',
+            tz.TZDateTime.from(
+              DateTime(
                 individualDuration.year,
                 individualDuration.month,
                 individualDuration.day,
                 int.parse(interval.substring(0, 2)),
                 int.parse(interval.substring(5, 7)),
+              ), //
+              tz.local,
+            ),
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                pillsModel.uid,
+                pillsModel.pillName,
+                importance: Importance.max,
+                priority: Priority.max,
+                icon: '@mipmap/ic_launcher',
+                category: AndroidNotificationCategory.reminder,
+                actions: [
+                  AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
+                  const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
+                ],
+                autoCancel: false,
+                enableVibration: true,
+                visibility: NotificationVisibility.public,
               ),
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  pillsModel.uid,
-                  pillsModel.pillName,
-                  importance: Importance.max,
-                  priority: Priority.max,
-                  icon: '@mipmap/ic_launcher',
-                  category: AndroidNotificationCategory.reminder,
-                  actions: [
-                    AndroidNotificationAction(pillsModel.uid, 'Taken',
-                        cancelNotification: false, titleColor: Colors.green),
-                    const AndroidNotificationAction('', 'Missed',
-                        cancelNotification: false, titleColor: Colors.red),
-                  ],
-                  autoCancel: false,
-                  enableVibration: true,
-                  visibility: NotificationVisibility.public,
-                ),
-              ),
-              uiLocalNotificationDateInterpretation:
-                  UILocalNotificationDateInterpretation.absoluteTime,
-            );
-            log('Setting up notification complete');
-          }
+            ),
+            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+            matchDateTimeComponents: DateTimeComponents.time,
+          );
         }
       }
     }
@@ -281,132 +216,5 @@ class NotificationService extends GetxController {
     //     }
     //   },
     // );
-  }
-
-  scheduleAlert(int id, PillsModel pillsModel, List<DateTime> duration) async {
-    if (pillsModel.isRange) {
-      for (var interval in pillsModel.pillsInterval) {
-        if (interval.substring(0, 2) == '00' &&
-            interval.substring(5, 7) == '00') {
-        } else {
-          log('Setting up notification now');
-          await AndroidAlarmManager.oneShotAt(
-            DateTime(
-              duration.first.year,
-              duration.first.month,
-              duration.first.day,
-              int.parse(interval.substring(0, 2)),
-              int.parse(interval.substring(5, 7)),
-            ), // Repeat interval
-            id,
-            () async {
-              if (interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00') {
-              } else {
-                log('Setting up notification now');
-                await localNotifications.show(
-                  id,
-                  'MediBot',
-                  'Its time to take ${pillsModel.pillName} pill',
-                  NotificationDetails(
-                    android: AndroidNotificationDetails(
-                      pillsModel.uid,
-                      pillsModel.pillName,
-                      importance: Importance.max,
-                      priority: Priority.max,
-                      icon: '@mipmap/ic_launcher',
-                      category: AndroidNotificationCategory.reminder,
-                      actions: [
-                        AndroidNotificationAction(
-                          pillsModel.uid,
-                          'Taken',
-                          cancelNotification: false,
-                          titleColor: Colors.green,
-                        ),
-                        const AndroidNotificationAction(
-                          '',
-                          'Missed',
-                          cancelNotification: false,
-                          titleColor: Colors.red,
-                        ),
-                      ],
-                      autoCancel: false,
-                      enableVibration: true,
-                      visibility: NotificationVisibility.public,
-                    ),
-                  ),
-                );
-                log('Setting up notification complete');
-              }
-            },
-            wakeup: true,
-            exact: true,
-            rescheduleOnReboot: false,
-          );
-        }
-      }
-    } else {
-      for (var individualDuration in duration) {
-        for (var interval in pillsModel.pillsInterval) {
-          if (interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00') {
-          } else {
-            log('Setting up notification now');
-            await AndroidAlarmManager.oneShotAt(
-              DateTime(
-                individualDuration.year,
-                individualDuration.month,
-                individualDuration.day,
-                int.parse(interval.substring(0, 2)),
-                int.parse(interval.substring(5, 7)),
-              ),
-              id,
-              () async {
-                if (interval.substring(0, 2) == '00' &&
-                    interval.substring(5, 7) == '00') {
-                } else {
-                  log('Setting up notification now');
-                  await localNotifications.show(
-                    id,
-                    'MediBot',
-                    'Its time to take ${pillsModel.pillName} pill',
-                    NotificationDetails(
-                      android: AndroidNotificationDetails(
-                        pillsModel.uid,
-                        pillsModel.pillName,
-                        importance: Importance.max,
-                        priority: Priority.max,
-                        icon: '@mipmap/ic_launcher',
-                        category: AndroidNotificationCategory.reminder,
-                        actions: [
-                          AndroidNotificationAction(
-                            pillsModel.uid,
-                            'Taken',
-                            cancelNotification: false,
-                            titleColor: Colors.green,
-                          ),
-                          const AndroidNotificationAction(
-                            '',
-                            'Missed',
-                            cancelNotification: false,
-                            titleColor: Colors.red,
-                          ),
-                        ],
-                        autoCancel: false,
-                        enableVibration: true,
-                        visibility: NotificationVisibility.public,
-                      ),
-                    ),
-                  );
-                  log('Setting up notification complete');
-                }
-              },
-              wakeup: true,
-              exact: true,
-              rescheduleOnReboot: false,
-            );
-            log('Setting up notification complete');
-          }
-        }
-      }
-    }
   }
 }
