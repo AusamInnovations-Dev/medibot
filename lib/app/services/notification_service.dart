@@ -106,7 +106,7 @@ class NotificationService extends GetxController {
   }
 
   initializeNotifications() async {
-    // FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
     await AndroidAlarmManager.initialize();
     const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const initializationSettings = InitializationSettings(
@@ -116,11 +116,11 @@ class NotificationService extends GetxController {
     await localNotifications.initialize(initializationSettings);
   }
 
-  //
-  // Future<void> handleBackgroundMessage(RemoteMessage message) async{
-  //   log('Title: ${message.notification!.title}');
-  //   log('Body: ${message.notification!.body}');
-  // }
+
+  Future<void> handleBackgroundMessage(RemoteMessage message) async{
+    log('Title: ${message.notification!.title}');
+    log('Body: ${message.notification!.body}');
+  }
 
   scheduleNotification(int id, PillsModel pillsModel, List<DateTime> duration) async {
     if (pillsModel.isRange) {

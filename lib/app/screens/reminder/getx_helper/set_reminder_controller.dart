@@ -267,7 +267,7 @@ class SetReminderController extends GetxController {
         slot: 0,
       ),
     );
-     await NotificationService.to.scheduleAlert(
+     await NotificationService.to.scheduleNotification(
        1,
        PillsModel(
          userId: UserStore.to.uid,
