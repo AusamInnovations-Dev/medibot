@@ -27,7 +27,7 @@ class SetReminderController extends GetxController {
   Rx<bool> isIndividual = false.obs;
   Rx<bool> increasePossible = true.obs;
   RxList<Map<String, Object>> timeIntervals = <Map<String, Object>>[
-    {'hour': '08 H', 'minute': '00 M', 'period': 'PM'}
+    {'hour': '08 H', 'minute': '00 M', 'period': 'AM'}
   ].obs;
 
   RxList<DateTime> durationDates = <DateTime>[].obs;
