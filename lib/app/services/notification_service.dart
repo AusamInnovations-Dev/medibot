@@ -169,8 +169,7 @@ class NotificationService extends GetxController {
                 visibility: NotificationVisibility.public,
               ),
             ),
-            uiLocalNotificationDateInterpretation:
-                UILocalNotificationDateInterpretation.absoluteTime,
+            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
             matchDateTimeComponents: DateTimeComponents.time,
           );
         }
@@ -221,8 +220,7 @@ class NotificationService extends GetxController {
                   visibility: NotificationVisibility.public,
                 ),
               ),
-              uiLocalNotificationDateInterpretation:
-                  UILocalNotificationDateInterpretation.absoluteTime,
+              uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
             );
             log('Setting up notification complete');
           }
