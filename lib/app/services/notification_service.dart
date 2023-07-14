@@ -11,8 +11,7 @@ import 'package:medibot/app/models/pills_models/pills_model.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService extends GetxController {
-  final FlutterLocalNotificationsPlugin localNotifications =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin localNotifications = FlutterLocalNotificationsPlugin();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late InitializationSettings initSettings;
   String messagingToken = '';
@@ -25,55 +24,6 @@ class NotificationService extends GetxController {
     await getToken();
     await initializeNotifications();
     log('Scheduling pill');
-    await AndroidAlarmManager.oneShotAt(
-      DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().day,
-      ),
-      math.Random().nextInt(math.pow(2, 31) as int),
-      () {
-        localNotifications.zonedSchedule(
-          math.Random().nextInt(math.pow(2, 31) as int),
-          'title',
-          'body',
-          tz.TZDateTime.from(
-            DateTime.now(),
-            tz.local
-          ),
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'pillsModel.uid',
-              'pillsModel.pillName',
-              importance: Importance.max,
-              priority: Priority.max,
-              icon: '@mipmap/ic_launcher',
-              category: AndroidNotificationCategory.reminder,
-              actions: [
-                AndroidNotificationAction(
-                  'uid',
-                  'Taken',
-                  cancelNotification: false,
-                  titleColor: Colors.green,
-                ),
-                AndroidNotificationAction(
-                  '',
-                  'Missed',
-                  cancelNotification: false,
-                  titleColor: Colors.red,
-                ),
-              ],
-              autoCancel: false,
-              enableVibration: true,
-              visibility: NotificationVisibility.public,
-            ),
-          ),
-          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-        );
-      },
-      exact: true,
-      wakeup: true,
-    );
     super.onInit();
   }
 
@@ -106,7 +56,7 @@ class NotificationService extends GetxController {
   }
 
   initializeNotifications() async {
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+    // FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
     await AndroidAlarmManager.initialize();
     const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const initializationSettings = InitializationSettings(
@@ -117,10 +67,10 @@ class NotificationService extends GetxController {
   }
 
 
-  Future<void> handleBackgroundMessage(RemoteMessage message) async{
-    log('Title: ${message.notification!.title}');
-    log('Body: ${message.notification!.body}');
-  }
+  // Future<void> handleBackgroundMessage(RemoteMessage message) async{
+  //   log('Title: ${message.notification!.title}');
+  //   log('Body: ${message.notification!.body}');
+  // }
 
   scheduleNotification(int id, PillsModel pillsModel, List<DateTime> duration) async {
     if (pillsModel.isRange) {
@@ -174,12 +124,12 @@ class NotificationService extends GetxController {
             'Its time to take ${pillsModel.pillName} pill',
             tz.TZDateTime.from(
               DateTime(
-                individualDuration.year,
-                individualDuration.month,
-                individualDuration.day,
+                duration.first.year,
+                duration.first.month,
+                duration.first.day,
                 int.parse(interval.substring(0, 2)),
                 int.parse(interval.substring(5, 7)),
-              ), //
+              ),
               tz.local,
             ),
             NotificationDetails(
