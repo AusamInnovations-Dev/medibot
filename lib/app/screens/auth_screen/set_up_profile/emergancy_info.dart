@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,211 +18,195 @@ class EmergencyInfo extends GetView<AuthController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            CustomTextField(
-              text: "MediBot",
-              fontFamily: 'Sansation',
-              size: 34.sp,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-            SvgPicture.asset(
-              "assets/images/cylinder.svg",
-              height: 96.h,
-            ),
-          ],
-        ),
-        toolbarHeight: 80.h,
-      ),
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: CustomBox(
-            boxHeight: 353.h,
-            boxWidth: 264.w,
-            margin: const EdgeInsets.symmetric(horizontal: 48),
-            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
-            topRight: Radius.circular(17.r),
-            bottomLeft: Radius.circular(17.r),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 15.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 3.w),
-                        child: CustomTextField(
-                          size: 13.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
-                          text: "What’s your emergency contact’s name?",
-                        ),
-                      ),
-                      CustomInputField(
-                        boxHeight: 36.h,
-                        boxWidth: 240.w,
-                        hintText: "",
-                        fontTheme: 'Sansation',
-                        textController: controller.emergencynameController,
-                      )
-                    ],
+            Container(
+              margin: EdgeInsets.only(right: 5.w, left: 10.w, bottom: 0.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomTextField(
+                    text: "MediBot",
+                    fontFamily: 'Sansation',
+                    size: 34.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 15.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  SvgPicture.asset(
+                    "assets/images/cylinder.svg",
+                    height: 80.h,
+                  ),
+                ],
+              ),
+            ),
+            SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.65,
+                alignment: Alignment.center,
+                child: CustomBox(
+                  boxHeight: 353.h,
+                  boxWidth: 324.w,
+                  margin: const EdgeInsets.symmetric(horizontal: 38),
+                  padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
+                  topRight: Radius.circular(17.r),
+                  bottomLeft: Radius.circular(17.r),
+                  body: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        padding: EdgeInsets.only(bottom: 3.w),
-                        child: CustomTextField(
-                          size: 13.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
-                          text: "Emergency contact’s Address",
-                        ),
-                      ),
-                      Row(
-                        //mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomInputField(
-                            boxHeight: 36.h,
-                            boxWidth: 165.w,
-                            hintText: "",
-                            fontTheme: 'Sansation',
-                            textController: controller.emergencylocationController,
-                          ),
-                          Obx(
-                            () => InputButton(
-                              height: 27.5.h,
-                              width: 56.w,
-                              text: controller.fetchingLocation.value
-                                  ? '...'
-                                  : "Fetch current location",
-                              fontWeight: FontWeight.w500,
-                              textsize: 9.sp,
-                              onPressed: () async {
-                                controller.emergencylocationController.text =await controller.getCurrentLocation();
-                              },
+                        margin: EdgeInsets.only(bottom: 15.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 3.w),
+                              child: CustomTextField(
+                                size: 13.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300,
+                                text: "What’s your emergency contact’s name?",
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 15.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 3.w),
-                        child: CustomTextField(
-                          size: 13.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
-                          text: "Emergency contact’s Contact Number",
+                            CustomInputField(
+                              boxHeight: 36.h,
+                              boxWidth: 250.w,
+                              hintText: "",
+                              fontTheme: 'Sansation',
+                              textController: controller.emergencynameController,
+                            )
+                          ],
                         ),
                       ),
-                      Row(
-                        //mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomInputField(
-                            boxHeight: 36.h,
-                            boxWidth: 165.w,
-                            hintText: "",
-                            fontTheme: 'Sansation',
-                            textController: controller.emergencycontactController,
-                          ),
-                          InputButton(
-                            height: 27.5.h,
-                            width: 57.w,
-                            text: "Select Contact",
-                            fontWeight: FontWeight.w500,
-                            textsize: 9.sp,
-                            onPressed: () async {
-                              showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.r),
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: controller.contacts.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index){
-                                      return ListTile(
-                                        onTap: () {
-                                          if(controller.contacts[index].phones != null){
-                                            controller.emergencycontactController.text = controller.contacts[index].phones!.last.value?? '';
-                                          }
-                                          Navigator.pop(context);
-                                        },
-                                        title: Text(controller.contacts[index].displayName?? ''),
-                                      );
+                      Container(
+                        margin: EdgeInsets.only(bottom: 15.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 3.w),
+                              child: CustomTextField(
+                                size: 13.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300,
+                                text: "Emergency contact’s Address",
+                              ),
+                            ),
+                            Row(
+                              //mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomInputField(
+                                  boxHeight: 36.h,
+                                  boxWidth: 180.w,
+                                  hintText: "",
+                                  fontTheme: 'Sansation',
+                                  textController: controller.emergencylocationController,
+                                ),
+                                Obx(
+                                  () => InputButton(
+                                    height: 27.5.h,
+                                    width: 56.w,
+                                    text: controller.fetchingLocation.value
+                                        ? '...'
+                                        : "Fetch current location",
+                                    fontWeight: FontWeight.w500,
+                                    textsize: 9.sp,
+                                    onPressed: () async {
+                                      controller.emergencylocationController.text =await controller.getCurrentLocation();
                                     },
                                   ),
-                                ),
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 15.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 3.w),
-                        child: CustomTextField(
-                          size: 13.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
-                          text: "Emergency contact’s relation with you?",
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      CustomInputField(
-                        boxHeight: 36.h,
-                        boxWidth: 240.w,
-                        hintText: "",
-                        fontTheme: 'Sansation',
-                        textController: controller.emergencyrelationController,
-                      )
+                      Container(
+                        margin: EdgeInsets.only(bottom: 15.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 3.w),
+                              child: CustomTextField(
+                                size: 13.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300,
+                                text: "Emergency contact’s Contact Number",
+                              ),
+                            ),
+                            Row(
+                              //mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomInputField(
+                                  boxHeight: 36.h,
+                                  boxWidth: 180.w,
+                                  hintText: "",
+                                  fontTheme: 'Sansation',
+                                  textController: controller.emergencycontactController,
+                                ),
+                                InputButton(
+                                  height: 27.5.h,
+                                  width: 57.w,
+                                  text: "Select Contact",
+                                  fontWeight: FontWeight.w500,
+                                  textsize: 9.sp,
+                                  onPressed: () async {
+                                    var contact = await Get.toNamed(RoutePaths.contactPage);
+                                    controller.emergencycontactController.text = contact['contact'];
+                                  },
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 15.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 3.w),
+                              child: CustomTextField(
+                                size: 13.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300,
+                                text: "Emergency contact’s relation with you?",
+                              ),
+                            ),
+                            CustomInputField(
+                              boxHeight: 36.h,
+                              boxWidth: 240.w,
+                              hintText: "",
+                              fontTheme: 'Sansation',
+                              textController: controller.emergencyrelationController,
+                            )
+                          ],
+                        ),
+                      ),
+                      Obx(
+                        () => Container(
+                          child: !controller.uploadingData.value ?
+                          ForwardButton(
+                            width: 255.w,
+                            text: 'Continue',
+                            padding: EdgeInsets.symmetric(vertical: 9.w),
+                            iconSize: 18.h,
+                            onPressed: () async {
+                              await controller.updateUserData();
+                              Get.toNamed(RoutePaths.qrScan);
+                            },
+                          ) : const Center(child: CircularProgressIndicator(),),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Obx(
-                  () => Container(
-                    child: !controller.uploadingData.value ?
-                    ForwardButton(
-                      width: 255.w,
-                      text: 'Continue',
-                      padding: EdgeInsets.symmetric(vertical: 9.w),
-                      iconSize: 18.h,
-                      onPressed: () async {
-                        await controller.updateUserData();
-                        Get.toNamed(RoutePaths.qrScan);
-                      },
-                    ) : const Center(child: CircularProgressIndicator(),),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
       bottomNavigationBar: Row(

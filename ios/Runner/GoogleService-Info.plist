@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>543133265298-50430clko8vg97f25e90rsvq6gep7jti.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.543133265298-50430clko8vg97f25e90rsvq6gep7jti</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>543133265298-al8eu46jfct2fiklm7g08qbi81tkcrh8.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDf5WXyN35o73o4K4pjf0woBCP0xb8myiM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>543133265298</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ausam.medibot</string>
+	<key>PROJECT_ID</key>
+	<string>medibot-2d210</string>
+	<key>STORAGE_BUCKET</key>
+	<string>medibot-2d210.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:543133265298:ios:d8fb656aa8dd3cc13fa54b</string>
+</dict>
+</plist>

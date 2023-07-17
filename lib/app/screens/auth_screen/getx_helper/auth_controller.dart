@@ -10,6 +10,7 @@ import 'package:medibot/app/models/user_model/user_model.dart';
 import 'package:medibot/app/services/user.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../routes/route_path.dart';
 import '../../../services/firestore.dart';
 
 class AuthController extends GetxController {
@@ -35,12 +36,42 @@ class AuthController extends GetxController {
 
   var haveCaretaker = false.obs;
   var fetchingLocation = false.obs;
+  var resendingOtp = false.obs;
   var uploadingData = false.obs;
-  List<Contact> contacts = [];
 
   handleSignInByPhone() async {
     if (phoneController.text.length == 10) {
-      await FirebaseFireStore.to.handleSignInByPhone(phoneController.text);
+      try{
+        resendingOtp.value = true;
+        await FirebaseFireStore.to.handleSignInByPhone(phoneController.text);
+        Get.snackbar(
+          "Auth",
+          "OTP Sent successfully",
+          icon: const Icon(
+            Icons.check_sharp,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          colorText: Colors.black,
+        );
+        Future.delayed(const Duration(seconds: 60), () => resendingOtp.value = false);
+      }catch(err){
+        Get.snackbar(
+          "Auth",
+          '$err',
+          icon: const Icon(
+            Icons.check_sharp,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          colorText: Colors.black,
+        );
+        Future.delayed(const Duration(seconds: 30), () => resendingOtp.value = false);
+      }
     } else {
       Get.snackbar(
         "Auth Error",
@@ -72,6 +103,12 @@ class AuthController extends GetxController {
           margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
           colorText: Colors.black,
         );
+      }else{
+        if (UserStore.to.profile.userStatus != AuthStatus.newUser) {
+          Get.offAllNamed(RoutePaths.homeScreen);
+        } else {
+          Get.offAllNamed(RoutePaths.userInformation);
+        }
       }
     }
   }
@@ -84,40 +121,110 @@ class AuthController extends GetxController {
     }
   }
 
+  resendOtp() async {
+    try{
+      resendingOtp.value = true;
+      await FirebaseFireStore.to.handleSignInByPhone(phoneController.text);
+      Get.snackbar(
+        "Auth",
+        "OTP Sent successfully",
+        icon: const Icon(
+          Icons.check_sharp,
+          color: Colors.black,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xffA9CBFF),
+        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+        colorText: Colors.black,
+      );
+      Future.delayed(const Duration(seconds: 60), () => resendingOtp.value = false);
+    }catch(err){
+      Get.snackbar(
+        "Auth",
+        '$err',
+        icon: const Icon(
+          Icons.check_sharp,
+          color: Colors.black,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xffA9CBFF),
+        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+        colorText: Colors.black,
+      );
+      Future.delayed(const Duration(seconds: 30), () => resendingOtp.value = false);
+    }
+  }
+
   Future<bool> checkUserAccount() async {
     return await FirebaseFireStore.to.checkUserAccount(phoneController.text);
   }
 
   Future<String> getCurrentLocation() async {
-    bool isServiceEnabled = false;
-    fetchingLocation.value = true;
-    LocationPermission permission;
+    try{
+      bool isServiceEnabled = false;
+      fetchingLocation.value = true;
+      LocationPermission permission;
 
-    isServiceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!isServiceEnabled) {
-      return Future.error('error');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        log('Permission Denied');
-        permission = await Geolocator.requestPermission();
+      isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!isServiceEnabled) {
+        Get.snackbar(
+          "Location",
+          "Please make sure that you have turned on location in your device",
+          icon: const Icon(
+            Icons.person,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(
+            vertical: 10.h,
+            horizontal: 10.w,
+          ),
+          colorText: Colors.black,
+        );
+        fetchingLocation.value = false;
+        return '';
       }
+
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          log('Permission Denied');
+          permission = await Geolocator.requestPermission();
+        }
+      }
+      if (permission == LocationPermission.deniedForever) {
+        return Future.error('Permission Denied forever');
+        fetchingLocation.value = false;
+      }
+      var pos = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      fetchingLocation.value = false;
+      return await _getAddressFromLatLng(pos);
+    }catch(err){
+      Get.snackbar(
+        "Location",
+        err.toString(),
+        icon: const Icon(
+          Icons.person,
+          color: Colors.black,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xffA9CBFF),
+        margin: EdgeInsets.symmetric(
+          vertical: 10.h,
+          horizontal: 10.w,
+        ),
+        colorText: Colors.black,
+      );
+      fetchingLocation.value = false;
+      return '';
     }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Permission Denied forever');
-    }
-    var pos = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    fetchingLocation.value = false;
-    return await _getAddressFromLatLng(pos);
   }
 
   Future<String> _getAddressFromLatLng(Position position) async {
-    final placeMark =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
+    final placeMark = await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placeMark[0];
     log('This is the current location: ${place.name}, ${place.country}');
     return '${place.subLocality} ${place.subAdministrativeArea!}, ${place.postalCode}';
@@ -182,73 +289,4 @@ class AuthController extends GetxController {
     }
     uploadingData.value = false;
   }
-
-  @override
-  void onInit() async {
-    await askPermissions();
-    super.onInit();
-  }
-
-
-  Future<void> askPermissions() async {
-    PermissionStatus permissionStatus = await _getContactPermission();
-    if (permissionStatus == PermissionStatus.granted) {
-      ContactsService.getContacts().then((value) {
-        for(var contact in value){
-          if(contact.displayName != ''){
-            contacts.add(contact);
-          }
-        }
-      });
-    } else {
-      _handleInvalidPermissions(permissionStatus);
-    }
-  }
-
-  Future<PermissionStatus> _getContactPermission() async {
-    PermissionStatus permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted && permission != PermissionStatus.permanentlyDenied) {
-      PermissionStatus permissionStatus = await Permission.contacts.request();
-      return permissionStatus;
-    } else {
-      return permission;
-    }
-  }
-
-  void _handleInvalidPermissions(PermissionStatus permissionStatus) {
-    if (permissionStatus == PermissionStatus.denied) {
-      Get.snackbar(
-        "Contacts",
-        "Access Denied to read contacts",
-        icon: const Icon(
-          Icons.person,
-          color: Colors.black,
-        ),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xffA9CBFF),
-        margin: EdgeInsets.symmetric(
-          vertical: 10.h,
-          horizontal: 10.w,
-        ),
-        colorText: Colors.black,
-      );
-    } else if (permissionStatus == PermissionStatus.permanentlyDenied) {
-      Get.snackbar(
-        "Contacts",
-        "Can't access your device contacts",
-        icon: const Icon(
-          Icons.person,
-          color: Colors.black,
-        ),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xffA9CBFF),
-        margin: EdgeInsets.symmetric(
-          vertical: 10.h,
-          horizontal: 10.w,
-        ),
-        colorText: Colors.black,
-      );
-    }
-  }
-
 }

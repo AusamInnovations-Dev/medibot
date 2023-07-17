@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:medibot/app/screens/user_settings/get_helper/user_setting_controller.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
+import '../../routes/route_path.dart';
 import '../../widgets/box_field.dart';
 import '../../widgets/custom_input.dart';
 import '../../widgets/custom_input_button.dart';
@@ -134,29 +135,8 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                             fontWeight: FontWeight.w500,
                             textsize: 9.sp,
                             onPressed: () async {
-                              showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.r),
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: controller.contacts.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index){
-                                      return ListTile(
-                                        onTap: () {
-                                          if(!controller.contacts[index].phones.isNull){
-                                            controller.emergencycontactController.text = controller.contacts[index].phones!.last.value?? '';
-                                          }
-                                          Navigator.pop(context);
-                                        },
-                                        title: Text(controller.contacts[index].displayName?? ''),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              );
+                              var contact = await Get.toNamed(RoutePaths.contactPage);
+                              controller.emergencycontactController.text = contact['contact'];
                             },
                           ),
                         ],

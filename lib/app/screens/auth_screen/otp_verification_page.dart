@@ -1,16 +1,10 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/models/user_model/user_model.dart';
-import 'package:medibot/app/routes/route_path.dart';
 import 'package:medibot/app/screens/auth_screen/getx_helper/auth_controller.dart';
 import 'package:medibot/app/widgets/box_field.dart';
-
-import '../../services/user.dart';
 import '../../widgets/backward_button.dart';
 import '../../widgets/forward_button.dart';
 import '../../widgets/text_field.dart';
@@ -20,6 +14,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
   OtpVerificationScreen({Key? key}) : super(key: key);
 
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     var code = "";
@@ -51,7 +46,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: CustomBox(
-            boxHeight: 245.h,
+            boxHeight: 250.h,
             boxWidth: 170.w,
             margin: const EdgeInsets.symmetric(horizontal: 30),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
@@ -84,7 +79,11 @@ class OtpVerificationScreen extends GetView<AuthController> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 25.w, bottom: 15.w, left: 5.w, right: 5.w),
+                    top: 25.w,
+                    bottom: 15.w,
+                    left: 5.w,
+                    right: 5.w,
+                  ),
                   child: Center(
                     child: PinCodeTextField(
                       autoDisposeControllers: false,
@@ -95,17 +94,13 @@ class OtpVerificationScreen extends GetView<AuthController> {
                       cursorColor: Colors.black,
                       enableActiveFill: true,
                       pinTheme: PinTheme(
-                        fieldOuterPadding:
-                            EdgeInsets.symmetric(horizontal: 2.w),
+                        fieldOuterPadding: EdgeInsets.symmetric(horizontal: 2.w),
                         inactiveColor: Colors.transparent,
                         selectedColor: Colors.transparent,
-                        // borderWidth: 0,
-                        selectedFillColor:
-                            Theme.of(context).colorScheme.primary,
+                        selectedFillColor: Theme.of(context).colorScheme.primary,
                         activeColor: Theme.of(context).colorScheme.primary,
                         activeFillColor: Theme.of(context).colorScheme.primary,
-                        inactiveFillColor:
-                            Theme.of(context).colorScheme.primary,
+                        inactiveFillColor: Theme.of(context).colorScheme.primary,
                         errorBorderColor: null,
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.zero,
@@ -125,13 +120,33 @@ class OtpVerificationScreen extends GetView<AuthController> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 22.w),
-                  child: CustomTextField(
-                    size: 12.sp,
-                    fontWeight: FontWeight.w500,
-                    text: "Not yet received? Send Again",
-                    color: Colors.black,
+                GestureDetector(
+                  onTap: () {
+                    if(!controller.resendingOtp.value){
+                      controller.resendOtp();
+                    }else{
+                      Get.snackbar(
+                        "Auth",
+                        "Please wait for some time to resend",
+                        icon: const Icon(
+                          Icons.check_sharp,
+                          color: Colors.black,
+                        ),
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: const Color(0xffA9CBFF),
+                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                        colorText: Colors.black,
+                      );
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 22.w),
+                    child: CustomTextField(
+                      size: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      text: "Not yet received? Send Again in 30 sec",
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 ForwardButton(
@@ -140,14 +155,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 18.h,
                   onPressed: () async {
-                    
-                      await controller.otpVerification();
-                      if (UserStore.to.profile.userStatus != AuthStatus.newUser) {
-                        Get.offAllNamed(RoutePaths.homeScreen);
-                      } else {
-                        Get.offAllNamed(RoutePaths.userInformation);
-                      }
-                    
+                    await controller.otpVerification();
                   },
                 ),
               ],

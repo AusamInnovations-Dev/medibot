@@ -1,4 +1,4 @@
-package com.example.medibot
+package com.ausam.medibot
 
 import io.flutter.embedding.android.FlutterActivity
 

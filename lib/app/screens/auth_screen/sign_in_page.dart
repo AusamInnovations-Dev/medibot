@@ -45,7 +45,7 @@ class SignIn extends GetView<AuthController> {
             width: MediaQuery.of(context).size.width,
             child: CustomBox(
               boxWidth: 256.w,
-              boxHeight: 180.h,
+              boxHeight: 190.h,
               margin: const EdgeInsets.symmetric(horizontal: 48),
               padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
               topRight: Radius.circular(17.r),
@@ -80,8 +80,7 @@ class SignIn extends GetView<AuthController> {
                   ElevatedButton(
                     onPressed: () async {
                       if (await controller.checkUserAccount()) {
-                        if (controller
-                            .validate(controller.phoneController.text)) {
+                        if (controller.validate(controller.phoneController.text)) {
                           await controller.handleSignInByPhone();
                           Get.toNamed(RoutePaths.otpConfirmation);
                         } else {
@@ -112,7 +111,9 @@ class SignIn extends GetView<AuthController> {
                           snackPosition: SnackPosition.BOTTOM,
                           backgroundColor: const Color(0xffA9CBFF),
                           margin: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 10.w),
+                            vertical: 10.h,
+                            horizontal: 10.w,
+                          ),
                           colorText: Colors.black,
                         );
                       }

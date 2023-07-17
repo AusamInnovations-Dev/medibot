@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:543133265298:android:72b7b965259225ea3fa54b",
+        "mobilesdk_app_id": "1:543133265298:android:a26c1a5c344a48cc3fa54b",
         "android_client_info": {
-          "package_name": "com.example.medibot"
+          "package_name": "com.ausam.medibot"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "543133265298-3vde2ndgih72iln40cpfrvmq64j694lp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ausam.medibot",
+            "certificate_hash": "9b56c7f3f0ba1a9de5834d020d088ed4d40a3cc1"
+          }
+        },
         {
           "client_id": "543133265298-2ek5o2hvsu68478ttcur98nhulgmuqqb.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +37,81 @@
             {
               "client_id": "543133265298-2ek5o2hvsu68478ttcur98nhulgmuqqb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "543133265298-50430clko8vg97f25e90rsvq6gep7jti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ausam.medibot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543133265298:android:72b7b965259225ea3fa54b",
+        "android_client_info": {
+          "package_name": "com.example.medibot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543133265298-al8eu46jfct2fiklm7g08qbi81tkcrh8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medibot",
+            "certificate_hash": "f20b65fd271c0641c49fbc52d9d66a5a8a31fabb"
+          }
+        },
+        {
+          "client_id": "543133265298-dd5jdut9i4v081hgkch5nokrq044vvd8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medibot",
+            "certificate_hash": "6c2f2bd50ccb2ec4862cea5dc9941f914413aaa7"
+          }
+        },
+        {
+          "client_id": "543133265298-fjdt1c3tu9qjkjhnalvbf7vdoc2eg408.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medibot",
+            "certificate_hash": "9703910f52e3dbc2424292820c66bf001a912671"
+          }
+        },
+        {
+          "client_id": "543133265298-m3qlcn92e89qn1cshegskq0ruj0cfo74.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medibot",
+            "certificate_hash": "9b56c7f3f0ba1a9de5834d020d088ed4d40a3cc1"
+          }
+        },
+        {
+          "client_id": "543133265298-2ek5o2hvsu68478ttcur98nhulgmuqqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDINSGgkopxaNG5ZEiiOefSO4pSeyXlsJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543133265298-2ek5o2hvsu68478ttcur98nhulgmuqqb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "543133265298-50430clko8vg97f25e90rsvq6gep7jti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ausam.medibot"
+              }
             }
           ]
         }

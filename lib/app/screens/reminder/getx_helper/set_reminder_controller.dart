@@ -32,21 +32,20 @@ class SetReminderController extends GetxController {
 
   RxList<DateTime> durationDates = <DateTime>[].obs;
 
-  var selectingInterval = false.obs;
 
   selectingTimeIntervals() {
-    selectingInterval.value = true;
     if (interval.value == 'Once a Day') {
-      if(pillsTime.length > 1){
+      if(timeIntervals.length > 1){
         pillsTime.removeRange(1, pillsTime.length);
         timeIntervals.removeRange(1, timeIntervals.length);
       }
       log(timeIntervals.toString());
     } else if (interval.value == 'Twice a Day') {
-      if(pillsTime.length > 2){
+      if(timeIntervals.length > 2){
+        log('Hello removing pills');
         pillsTime.removeRange(2, pillsTime.length);
-        timeIntervals.removeRange(2, pillsTime.length);
-      }else if(pillsTime.length == 1){
+        timeIntervals.removeRange(2, timeIntervals.length);
+      }else if(timeIntervals.length == 1){
         pillsTime.add(const TimeOfDay(
           hour: 8,
           minute: 00,
@@ -63,8 +62,8 @@ class SetReminderController extends GetxController {
     } else if (interval.value == 'Thrice a Day') {
       if(pillsTime.length > 3){
         pillsTime.removeRange(3, pillsTime.length);
-        timeIntervals.removeRange(3, pillsTime.length);
-      }else if (pillsTime.length == 1){
+        timeIntervals.removeRange(3, timeIntervals.length);
+      }else if (timeIntervals.length == 1){
         log('Hello');
         pillsTime.add(const TimeOfDay(
           hour: 2,
@@ -75,29 +74,33 @@ class SetReminderController extends GetxController {
           minute: 00,
         ));
         timeIntervals.add({
-          'hour':
-          '${pillsTime[1].hour <= 9 ? '0${pillsTime[1].hour}' : pillsTime[1].hour} H',
-          'minute':
-          '${pillsTime[1].minute <= 9 ? '0${pillsTime[1].minute}' : pillsTime[1].minute} M',
+          'hour': '02 H',
+          'minute': '00 M',
           'period': 'PM'
         });
         timeIntervals.add({
-          'hour':
-          '${pillsTime[2].hour <= 9 ? '0${pillsTime[2].hour}' : pillsTime[2].hour} H',
-          'minute':
-          '${pillsTime[2].minute <= 9 ? '0${pillsTime[2].minute}' : pillsTime[2].minute} M',
+          'hour': '08 H',
+          'minute': '00 M',
           'period': 'PM'
         });
-      }else if (pillsTime.length == 2) {
+      }else if (timeIntervals.length == 2) {
+        pillsTime.last = const TimeOfDay(
+          hour: 2,
+          minute: 00,
+        );
+        timeIntervals.last = {
+          'hour': '02 H',
+          'minute': '00 M',
+          'period': 'PM'
+        };
         pillsTime.add(const TimeOfDay(
           hour: 8,
           minute: 00,
         ));
+        log(pillsTime.toString());
         timeIntervals.add({
-          'hour':
-          '${pillsTime[1].hour <= 9 ? '0${pillsTime[1].hour}' : pillsTime[1].hour} H',
-          'minute':
-          '${pillsTime[1].minute <= 9 ? '0${pillsTime[1].minute}' : pillsTime[1].minute} M',
+          'hour': '08 H',
+          'minute': '00 M',
           'period': 'PM'
         });
       }

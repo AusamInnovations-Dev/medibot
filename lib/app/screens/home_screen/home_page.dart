@@ -50,7 +50,7 @@ class HomePage extends GetView<HomepageController> {
                                     topRight: Radius.circular(10.r),
                                     bottomLeft: Radius.circular(10.r),
                                     bottomRight: Radius.circular(10.r),
-                                    boxHeight: 253.h,
+                                    boxHeight: 263.h,
                                     boxWidth: 290.w,
                                     body: Column(
                                       mainAxisAlignment:
@@ -575,12 +575,17 @@ class HomePage extends GetView<HomepageController> {
                             ),
                           )
                     : Center(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 100.h),
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.offAndToNamed(RoutePaths.userInformation);
-                            },
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.offAndToNamed(RoutePaths.userInformation);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 100.h),
+                            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
                             child: const Text(
                               'Please complete your remaining profile.',
                             ),
@@ -598,9 +603,17 @@ class HomePage extends GetView<HomepageController> {
                 onTap: () {
                   Get.offAndToNamed(RoutePaths.signInScreen);
                 },
-                child: const Center(
-                  child: Text(
-                    'Please click here to login again',
+                child: Center(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 100.h),
+                    padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
+                    child: const Text(
+                      'Please click here to login again',
+                    ),
                   ),
                 ),
               ),

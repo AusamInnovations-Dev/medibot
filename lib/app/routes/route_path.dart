@@ -22,4 +22,6 @@ class RoutePaths {
   static const String viewslot = '/viewslot';
 
   static const historyDetailsPage = '/historyDetailsPage';
+
+  static String contactPage = '/contactPage';
 }

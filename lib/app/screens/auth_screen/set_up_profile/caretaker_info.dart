@@ -155,29 +155,8 @@ class CaretakerInfo extends GetView<AuthController> {
                             fontWeight: FontWeight.w500,
                             textsize: 9.sp,
                             onPressed: () async {
-                              showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.r),
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: controller.contacts.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index){
-                                      return ListTile(
-                                        onTap: () {
-                                          if(controller.contacts[index].phones != null){
-                                            controller.caretakerphoneController.text = controller.contacts[index].phones!.last.value?? '';
-                                          }
-                                          Navigator.pop(context);
-                                        },
-                                        title: Text(controller.contacts[index].displayName?? ''),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              );
+                              var contact = await Get.toNamed(RoutePaths.contactPage);
+                              controller.caretakerphoneController.text = contact['contact'];
                             },
                           )
                         ],

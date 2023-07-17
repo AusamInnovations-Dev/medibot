@@ -47,7 +47,7 @@ class ScreenDecoration extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(top: 35.w),
+                      margin: EdgeInsets.only(top: 25.w),
                       child: body,
                     ),
                   ),

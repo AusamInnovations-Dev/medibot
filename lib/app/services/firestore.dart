@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
@@ -14,6 +16,7 @@ class FirebaseFireStore extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   String verificationId = '';
+  int? resendToken;
 
   handleSignInByPhone(String phoneNumber) async {
     await auth.verifyPhoneNumber(
@@ -24,50 +27,56 @@ class FirebaseFireStore extends GetxController {
       verificationFailed: (FirebaseAuthException e) {},
       codeSent: (String verificationId, int? forceResendingToken) {
         this.verificationId = verificationId;
+        resendToken = forceResendingToken;
       },
+      forceResendingToken: resendToken,
       codeAutoRetrievalTimeout: (String verificationId) {},
       timeout: const Duration(seconds: 60),
     );
   }
 
   Future<bool> verifyOtp(String phoneNumber, String otp) async {
-    final credential = PhoneAuthProvider.credential(
-      smsCode: otp,
-      verificationId: verificationId,
-    );
-    final value = await auth.signInWithCredential(credential);
-    if (value.user != null) {
-      UserModel? user = await getUser(value.user!.uid);
-      if (user == null) {
-        user = UserModel(
-          username: '',
-          uid: value.user!.uid,
-          userProfile: '',
-          phoneNumber: phoneNumber,
-          email: '',
-          address: '',
-          cabinetDetail: '',
-          age: 0,
-          careTaker: const CareTakerModel(
-            careTakerAddress: '',
-            careTakerName: '',
-            caretakerPhone: '',
-            uid: '',
-          ),
-          emergencyPerson: const EmergencyPersonModel(
-            emergencyAddress: '',
-            emergencyName: '',
-            emergencyPhone: '',
-            emergencyRelation: '',
-          ),
-          physicalDeviceLink: '',
-          userStatus: AuthStatus.newUser,
-        );
-        await addUserData(user);
+    try{
+      final credential = PhoneAuthProvider.credential(
+        smsCode: otp,
+        verificationId: verificationId,
+      );
+      final value = await auth.signInWithCredential(credential);
+      if (value.user != null) {
+        UserModel? user = await getUser(value.user!.uid);
+        if (user == null) {
+          user = UserModel(
+            username: '',
+            uid: value.user!.uid,
+            userProfile: '',
+            phoneNumber: phoneNumber,
+            email: '',
+            address: '',
+            cabinetDetail: '',
+            age: 0,
+            careTaker: const CareTakerModel(
+              careTakerAddress: '',
+              careTakerName: '',
+              caretakerPhone: '',
+              uid: '',
+            ),
+            emergencyPerson: const EmergencyPersonModel(
+              emergencyAddress: '',
+              emergencyName: '',
+              emergencyPhone: '',
+              emergencyRelation: '',
+            ),
+            physicalDeviceLink: '',
+            userStatus: AuthStatus.newUser,
+          );
+          await addUserData(user);
+        }
+        await UserStore.to.saveProfile(user.uid);
+        return true;
+      } else {
+        return false;
       }
-      await UserStore.to.saveProfile(user.uid);
-      return true;
-    } else {
+    }catch(err){
       return false;
     }
   }

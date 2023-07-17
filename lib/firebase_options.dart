@@ -28,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -48,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDINSGgkopxaNG5ZEiiOefSO4pSeyXlsJc',
-    appId: '1:543133265298:android:72b7b965259225ea3fa54b',
+    appId: '1:543133265298:android:a26c1a5c344a48cc3fa54b',
     messagingSenderId: '543133265298',
     projectId: 'medibot-2d210',
     storageBucket: 'medibot-2d210.appspot.com',
@@ -56,21 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDf5WXyN35o73o4K4pjf0woBCP0xb8myiM',
-    appId: '1:543133265298:ios:5fab9d5afb3d6e613fa54b',
+    appId: '1:543133265298:ios:d8fb656aa8dd3cc13fa54b',
     messagingSenderId: '543133265298',
     projectId: 'medibot-2d210',
     storageBucket: 'medibot-2d210.appspot.com',
-    iosClientId: '543133265298-6o6blasmqerokds8o51dka009p59glh4.apps.googleusercontent.com',
-    iosBundleId: 'com.example.medibot',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDf5WXyN35o73o4K4pjf0woBCP0xb8myiM',
-    appId: '1:543133265298:ios:5fab9d5afb3d6e613fa54b',
-    messagingSenderId: '543133265298',
-    projectId: 'medibot-2d210',
-    storageBucket: 'medibot-2d210.appspot.com',
-    iosClientId: '543133265298-6o6blasmqerokds8o51dka009p59glh4.apps.googleusercontent.com',
-    iosBundleId: 'com.example.medibot',
+    androidClientId: '543133265298-al8eu46jfct2fiklm7g08qbi81tkcrh8.apps.googleusercontent.com',
+    iosClientId: '543133265298-50430clko8vg97f25e90rsvq6gep7jti.apps.googleusercontent.com',
+    iosBundleId: 'com.ausam.medibot',
   );
 }

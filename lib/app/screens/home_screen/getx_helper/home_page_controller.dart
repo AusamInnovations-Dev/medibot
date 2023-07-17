@@ -47,7 +47,10 @@ class HomepageController extends GetxController {
     loadingUserData.value = true;
     var todayHistory = await FirebaseFireStore.to.getTodayHistory();
     var pillsReminder = FirebaseFireStore.to.getAllPillsReminder();
-    var cabinetPillsReminder = FirebaseFireStore.to.getAllCabinetPills();
+    Stream<QuerySnapshot<Map<String, dynamic>>>? cabinetPillsReminder;
+    if(UserStore.to.profile.cabinetDetail.isNotEmpty){
+      cabinetPillsReminder = FirebaseFireStore.to.getAllCabinetPills();
+    }
 
     pillsReminder.listen((snapshot) {
       for (var pill in snapshot.docChanges) {
@@ -150,109 +153,105 @@ class HomepageController extends GetxController {
             break;
         }
       }
-    });
-    cabinetPillsReminder.listen((snapshot) {
-      for (var pill in snapshot.docChanges) {
-        switch (pill.type) {
-          case DocumentChangeType.added:
-            PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
-            if (pillsModel.isIndividual) {
-              List<DateTime> dates = pillsModel.pillsDuration
-                  .map((e) => DateTime.parse(e))
-                  .toList();
-              if (dates.contains(DateTime(DateTime.now().year,
-                  DateTime.now().month, DateTime.now().day))) {
-                reminderList.add(pillsModel);
-                pillsToTake.value += reminderList.last.pillsInterval.length;
-                if (todayHistory != null) {
-                  var history = HistoryModel.fromJson(
-                      todayHistory.data() as Map<String, dynamic>);
-                  for (var historyData in history.historyData) {
-                    if (historyData.pillId == reminderList.last.uid) {
-                      historyList.add(historyData);
-                      pillsTaken.value += historyList.last.timeTaken.length;
-                      break;
-                    }
-                  }
-                  if (historyList.isEmpty ||
-                      historyList.last.pillId != reminderList.last.uid) {
-                    historyList.add(
-                      HistoryData(
-                        pillId: reminderList.last.uid,
-                        timeTaken: [],
-                        timeToTake: reminderList.last.pillsInterval,
-                      ),
-                    );
-                    pillsTaken.value += historyList.last.timeTaken.length;
-                  }
-                } else {
-                  historyList.add(
-                    HistoryData(
-                      pillId: reminderList.last.uid,
-                      timeTaken: [],
-                      timeToTake: reminderList.last.pillsInterval,
-                    ),
-                  );
-                  pillsTaken.value = 0;
-                }
-              }
-            } else {
-              List<DateTime> dates = pillsModel.pillsDuration
-                  .map((e) => DateTime.parse(e))
-                  .toList();
-              if (dates.first.isBefore(DateTime(DateTime.now().year,
-                      DateTime.now().month, DateTime.now().day)) ||
-                  dates.last.isAfter(DateTime(DateTime.now().year,
-                      DateTime.now().month, DateTime.now().day))) {
-                reminderList.add(pillsModel);
-                pillsToTake.value += reminderList.last.pillsInterval.length;
-                if (todayHistory != null) {
-                  var history = HistoryModel.fromJson(
-                      todayHistory.data() as Map<String, dynamic>);
-                  for (var historyData in history.historyData) {
-                    if (historyData.pillId == reminderList.last.uid) {
-                      historyList.add(historyData);
-                      pillsTaken.value += historyList.last.timeTaken.length;
-                      break;
-                    }
-                  }
-                  if (historyList.isEmpty ||
-                      historyList.last.pillId != reminderList.last.uid) {
-                    historyList.add(
-                      HistoryData(
-                        pillId: reminderList.last.uid,
-                        timeTaken: [],
-                        timeToTake: reminderList.last.pillsInterval,
-                      ),
-                    );
-                    pillsTaken.value += historyList.last.timeTaken.length;
-                  }
-                } else {
-                  historyList.add(
-                    HistoryData(
-                      pillId: reminderList.last.uid,
-                      timeTaken: [],
-                      timeToTake: reminderList.last.pillsInterval,
-                    ),
-                  );
-                  pillsTaken.value = 0;
-                }
-              }
-            }
-            break;
-          case DocumentChangeType.modified:
-            // TODO: Handle this case.
-            break;
-          case DocumentChangeType.removed:
-            // TODO: Handle this case.
-            break;
-        }
+      if(UserStore.to.profile.cabinetDetail.isEmpty){
+        loadingUserData.value = false;
       }
-      loadingUserData.value = false;
-      log('This is the history list: $historyList');
-      log('This is the reminder list: $reminderList');
-      log('Pills : ${pillsTaken.value} , ${pillsToTake.value}');
     });
+    if(cabinetPillsReminder != null){
+      cabinetPillsReminder.listen((snapshot) {
+        for (var pill in snapshot.docChanges) {
+          switch (pill.type) {
+            case DocumentChangeType.added:
+              PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
+              if (pillsModel.isIndividual) {
+                List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
+                if (dates.contains(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+                  reminderList.add(pillsModel);
+                  pillsToTake.value += reminderList.last.pillsInterval.length;
+                  if (todayHistory != null) {
+                    var history = HistoryModel.fromJson(
+                        todayHistory.data() as Map<String, dynamic>);
+                    for (var historyData in history.historyData) {
+                      if (historyData.pillId == reminderList.last.uid) {
+                        historyList.add(historyData);
+                        pillsTaken.value += historyList.last.timeTaken.length;
+                        break;
+                      }
+                    }
+                    if (historyList.isEmpty || historyList.last.pillId != reminderList.last.uid) {
+                      historyList.add(
+                        HistoryData(
+                          pillId: reminderList.last.uid,
+                          timeTaken: [],
+                          timeToTake: reminderList.last.pillsInterval,
+                        ),
+                      );
+                      pillsTaken.value += historyList.last.timeTaken.length;
+                    }
+                  } else {
+                    historyList.add(
+                      HistoryData(
+                        pillId: reminderList.last.uid,
+                        timeTaken: [],
+                        timeToTake: reminderList.last.pillsInterval,
+                      ),
+                    );
+                    pillsTaken.value = 0;
+                  }
+                }
+              } else {
+                List<DateTime> dates = pillsModel.pillsDuration.map((e) => DateTime.parse(e)).toList();
+                if (dates.first.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) || dates.last.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+                  reminderList.add(pillsModel);
+                  pillsToTake.value += reminderList.last.pillsInterval.length;
+                  if (todayHistory != null) {
+                    var history = HistoryModel.fromJson(
+                        todayHistory.data() as Map<String, dynamic>);
+                    for (var historyData in history.historyData) {
+                      if (historyData.pillId == reminderList.last.uid) {
+                        historyList.add(historyData);
+                        pillsTaken.value += historyList.last.timeTaken.length;
+                        break;
+                      }
+                    }
+                    if (historyList.isEmpty ||
+                        historyList.last.pillId != reminderList.last.uid) {
+                      historyList.add(
+                        HistoryData(
+                          pillId: reminderList.last.uid,
+                          timeTaken: [],
+                          timeToTake: reminderList.last.pillsInterval,
+                        ),
+                      );
+                      pillsTaken.value += historyList.last.timeTaken.length;
+                    }
+                  } else {
+                    historyList.add(
+                      HistoryData(
+                        pillId: reminderList.last.uid,
+                        timeTaken: [],
+                        timeToTake: reminderList.last.pillsInterval,
+                      ),
+                    );
+                    pillsTaken.value = 0;
+                  }
+                }
+              }
+              break;
+            case DocumentChangeType.modified:
+            // TODO: Handle this case.
+              break;
+            case DocumentChangeType.removed:
+            // TODO: Handle this case.
+              break;
+          }
+        }
+        loadingUserData.value = false;
+      });
+    }
+    log('This is the history list: $historyList');
+    log('This is the reminder list: $reminderList');
+    log('Pills : ${pillsTaken.value} , ${pillsToTake.value}');
   }
 
   bool findPillStatus() {
