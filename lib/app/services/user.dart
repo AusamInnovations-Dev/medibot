@@ -55,11 +55,6 @@ class UserStore extends GetxController {
     getSkipPills();
   }
 
-  Future<void> setToken(String value) async {
-    await StorageService.to.setString(userIdKey, value);
-    uid = value;
-  }
-
   void getSkipPills() {
     var skipPillData =  StorageService.to.getList(skipPillsKey);
     skipPills.addAll(skipPillData.map((e) => jsonDecode(e) as Map<String, dynamic>).toList());
@@ -85,7 +80,7 @@ class UserStore extends GetxController {
         Get.offAllNamed(RoutePaths.userInformation);
       }
     } catch (err) {
-      log(err.toString());
+      log('This is the error: $err');
       _isLogin.value = false;
     }
   }

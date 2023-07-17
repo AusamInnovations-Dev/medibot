@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -84,7 +86,8 @@ class CaretakerSettings extends GetView<UserSettingController> {
                           topr: Radius.zero,
                           boxHeight: 118.h,
                           boxWidth: 210.w,
-                          textController: controller.caretakerlocationController,
+                          textController:
+                              controller.caretakerlocationController,
                           hintText: "",
                           fontTheme: 'Sansation',
                         ),
@@ -117,7 +120,6 @@ class CaretakerSettings extends GetView<UserSettingController> {
                         ),
                       ),
                       Row(
-                        //mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CustomInputField(
                             bottomr: Radius.zero,
@@ -134,7 +136,32 @@ class CaretakerSettings extends GetView<UserSettingController> {
                             text: "Select Contact",
                             fontWeight: FontWeight.w500,
                             textsize: 9.sp,
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.r),
+                                  ),
+                                  child: ListView.builder(
+                                    itemCount: controller.contacts.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        onTap: () {
+                                          if (controller.contacts[index].phones != null) {
+                                            controller.caretakerphoneController.text = controller.contacts[index].phones!.last.value ?? '';
+                                            log(controller.contacts[index].phones!.last.value!);
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                        title: Text(controller.contacts[index].displayName ?? ''),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
                           )
                         ],
                       ),

@@ -14,6 +14,7 @@ import '../../../widgets/text_field.dart';
 class CreateAccount extends GetView<AuthController> {
   const CreateAccount({Key? key}) : super(key: key);
   static String verify = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,7 +132,9 @@ class CreateAccount extends GetView<AuthController> {
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: const Color(0xffA9CBFF),
                         margin: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 10.w),
+                          vertical: 10.h,
+                          horizontal: 10.w,
+                        ),
                         colorText: Colors.black,
                       );
                     }

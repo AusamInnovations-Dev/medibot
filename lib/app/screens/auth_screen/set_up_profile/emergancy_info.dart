@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -152,7 +153,31 @@ class EmergencyInfo extends GetView<AuthController> {
                             text: "Select Contact",
                             fontWeight: FontWeight.w500,
                             textsize: 9.sp,
-                            onPressed: () {},
+                            onPressed: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.r),
+                                  ),
+                                  child: ListView.builder(
+                                    itemCount: controller.contacts.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index){
+                                      return ListTile(
+                                        onTap: () {
+                                          if(controller.contacts[index].phones != null){
+                                            controller.emergencycontactController.text = controller.contacts[index].phones!.last.value?? '';
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                        title: Text(controller.contacts[index].displayName?? ''),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
                           )
                         ],
                       ),

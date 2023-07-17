@@ -3,7 +3,6 @@ class RoutePaths {
   static const String splashScreen = '/splashScreen';
   static const String signInScreen = '/signInScreen';
   static const String createUser = '/createUser';
-  static const String setProfileScreen = '/setProfileScreen';
   static const String otpConfirmation = '/otpConfirmation';
   static const String userInformation = '/userInformation';
   static const String caretakerInformation = '/caretakerInformation';

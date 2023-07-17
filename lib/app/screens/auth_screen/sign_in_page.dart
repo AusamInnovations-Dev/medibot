@@ -80,7 +80,8 @@ class SignIn extends GetView<AuthController> {
                   ElevatedButton(
                     onPressed: () async {
                       if (await controller.checkUserAccount()) {
-                        if (controller.validate(controller.phoneController.text)) {
+                        if (controller
+                            .validate(controller.phoneController.text)) {
                           await controller.handleSignInByPhone();
                           Get.toNamed(RoutePaths.otpConfirmation);
                         } else {
@@ -94,7 +95,9 @@ class SignIn extends GetView<AuthController> {
                             snackPosition: SnackPosition.BOTTOM,
                             backgroundColor: const Color(0xffA9CBFF),
                             margin: EdgeInsets.symmetric(
-                                vertical: 10.h, horizontal: 10.w),
+                              vertical: 10.h,
+                              horizontal: 10.w,
+                            ),
                             colorText: Colors.black,
                           );
                         }

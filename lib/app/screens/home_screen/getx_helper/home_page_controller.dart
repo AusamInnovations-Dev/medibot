@@ -8,12 +8,15 @@ import 'package:medibot/app/models/pills_models/pills_model.dart';
 import 'package:medibot/app/services/firestore.dart';
 import 'package:medibot/app/services/user.dart';
 
+import '../../../services/internet_status_service.dart';
+
 class HomepageController extends GetxController {
   RxList<HistoryData> historyList = <HistoryData>[].obs;
   RxList<PillsModel> reminderList = <PillsModel>[].obs;
   var loadingUserData = true.obs;
   var isSkipping = false.obs;
   var isTaking = false.obs;
+  var haveInternet = true.obs;
   var pillIndex = 0.obs;
   var pillsTaken = 0.obs;
   var pillsToTake = 0.obs;
@@ -21,6 +24,7 @@ class HomepageController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    haveInternet.value = await InternetService().checkInternetSourceStatus();
     if (DateTime.now().hour < 11) {
       greeting.value = 'Good Morning';
     } else if (DateTime.now().hour >= 12 && DateTime.now().hour < 16) {
@@ -30,7 +34,11 @@ class HomepageController extends GetxController {
     } else {
       greeting.value = 'Good Night';
     }
-    await getUserData();
+    log(haveInternet.value.toString());
+    if(haveInternet.value){
+      log('Hello');
+      await getUserData();
+    }
     log('Pills : ${pillsTaken.value} , ${pillsToTake.value}');
     super.onInit();
   }
