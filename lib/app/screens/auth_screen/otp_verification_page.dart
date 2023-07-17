@@ -129,7 +129,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
                         "Auth",
                         "Please wait for some time to resend",
                         icon: const Icon(
-                          Icons.check_sharp,
+                          Icons.timelapse,
                           color: Colors.black,
                         ),
                         snackPosition: SnackPosition.BOTTOM,
