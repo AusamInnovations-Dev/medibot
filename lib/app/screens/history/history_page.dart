@@ -100,6 +100,7 @@ class HistoryPage extends GetView<HistoryController> {
                                       arguments: {
                                         'date': date,
                                         'todayReminders': controller.todayReminders(date),
+                                        'itsToday' : true
                                       }
                                   );
                                 }

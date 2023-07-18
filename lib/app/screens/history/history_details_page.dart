@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/background_screen_decoration.dart';
-import '../../widgets/box_field.dart';
 import '../../widgets/text_field.dart';
 import 'getx_helper/history_details_controller.dart';
 
@@ -15,7 +14,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
     return ScreenDecoration(
       body: Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.symmetric(horizontal: 10.w),
+        margin: EdgeInsets.symmetric(horizontal: 5.w),
         child: Obx(
           () => !controller.isLoading.value
               ? Column(
@@ -100,7 +99,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                               itemCount: controller.morning.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
-                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 5.w),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -116,7 +115,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.morning[index]['schedule'],
-                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
+                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] != 'Taken' ? Colors.amber :  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
@@ -191,7 +190,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                               itemCount: controller.afternoon.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
-                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 5.w),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -207,7 +206,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.afternoon[index]['schedule'],
-                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
+                                      color: controller.afternoon[index]['schedule'] == 'Missed' ? Colors.red : controller.afternoon[index]['schedule'] != 'Taken' ? Colors.amber:  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
@@ -282,7 +281,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                               itemCount: controller.evening.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
-                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 5.w),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -298,7 +297,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.evening[index]['schedule'],
-                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
+                                      color: controller.evening[index]['schedule'] == 'Missed' ? Colors.red : controller.evening[index]['schedule'] != 'Taken' ? Colors.amber:  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
@@ -375,7 +374,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                               itemCount: controller.night.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
-                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 10.w),
+                                margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 5.w),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -391,7 +390,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.night[index]['schedule'],
-                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
+                                      color: controller.night[index]['schedule'] == 'Missed' ? Colors.red : controller.night[index]['schedule'] != 'Taken' ? Colors.amber:  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
