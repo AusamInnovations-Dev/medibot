@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -70,79 +71,126 @@ class NotificationService extends GetxController {
         if (interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00') {
         } else {
           log('Setting up notification now');
-          await localNotifications.zonedSchedule(
-            id,
-            'MediBot',
-            'Its time to take ${pillsModel.pillName} pill',
-            tz.TZDateTime.from(
-              DateTime(
-                duration.first.year,
-                duration.first.month,
-                duration.first.day,
-                int.parse(interval.substring(0, 2)),
-                int.parse(interval.substring(5, 7)),
-              ),
-              tz.local,
-            ),
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                pillsModel.uid,
-                pillsModel.pillName,
-                importance: Importance.max,
-                priority: Priority.max,
-                icon: '@mipmap/ic_launcher',
-                category: AndroidNotificationCategory.reminder,
-                actions: [
-                  AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
-                  const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
-                ],
-                autoCancel: false,
-                enableVibration: true,
-                visibility: NotificationVisibility.public,
-              ),
-            ),
-            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-            matchDateTimeComponents: DateTimeComponents.time,
-          );
+
+          await AwesomeNotifications().createNotification(
+              content: NotificationContent(
+                  id: id,
+                  channelKey: 'medibot_channel',
+                  title: 'MediBot',
+                  body: 'Its time to take ${pillsModel.pillName} pill',
+                  autoDismissible: false,
+                  notificationLayout: NotificationLayout.BigText),
+              actionButtons: [
+                NotificationActionButton(key: 'Taken', label: 'Taken', color: Colors.green, actionType: ActionType.DismissAction, showInCompactView: true),
+                NotificationActionButton(key: 'Missed', label: 'Missed', color: Colors.red, actionType: ActionType.DismissAction, showInCompactView: true),
+              ],
+              schedule: NotificationCalendar.fromDate(
+                  date: DateTime(
+                    duration.first.year,
+                    duration.first.month,
+                    duration.first.day,
+                    int.parse(interval.substring(0, 2)),
+                    int.parse(interval.substring(5, 7)),
+                  ),
+                  allowWhileIdle: true,
+                  preciseAlarm: true));
+
+          // await localNotifications.zonedSchedule(
+          //   id,
+          //   'MediBot',
+          //   'Its time to take ${pillsModel.pillName} pill',
+          //   tz.TZDateTime.from(
+          //     DateTime(
+          //       duration.first.year,
+          //       duration.first.month,
+          //       duration.first.day,
+          //       int.parse(interval.substring(0, 2)),
+          //       int.parse(interval.substring(5, 7)),
+          //     ),
+          //     tz.local,
+          //   ),
+          //   NotificationDetails(
+          //     android: AndroidNotificationDetails(
+          //       pillsModel.uid,
+          //       pillsModel.pillName,
+          //       importance: Importance.max,
+          //       priority: Priority.max,
+          //       icon: '@mipmap/ic_launcher',
+          //       category: AndroidNotificationCategory.reminder,
+          //       actions: [
+          //         AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
+          //         const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
+          //       ],
+          //       autoCancel: false,
+          //       enableVibration: true,
+          //       visibility: NotificationVisibility.public,
+          //     ),
+          //   ),
+          //   uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+          //   matchDateTimeComponents: DateTimeComponents.time,
+          // );
         }
       }
     } else {
       for (var individualDuration in duration) {
         for (var interval in pillsModel.pillsInterval) {
-          await localNotifications.zonedSchedule(
-            id,
-            'MediBot',
-            'Its time to take ${pillsModel.pillName} pill',
-            tz.TZDateTime.from(
-              DateTime(
-                individualDuration.year,
-                individualDuration.month,
-                individualDuration.day,
-                int.parse(interval.substring(0, 2)),
-                int.parse(interval.substring(5, 7)),
-              ), //
-              tz.local,
-            ),
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                pillsModel.uid,
-                pillsModel.pillName,
-                importance: Importance.max,
-                priority: Priority.max,
-                icon: '@mipmap/ic_launcher',
-                category: AndroidNotificationCategory.reminder,
-                actions: [
-                  AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
-                  const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
-                ],
-                autoCancel: false,
-                enableVibration: true,
-                visibility: NotificationVisibility.public,
-              ),
-            ),
-            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-            matchDateTimeComponents: DateTimeComponents.time,
-          );
+          await AwesomeNotifications().createNotification(
+              content: NotificationContent(
+                  id: id,
+                  channelKey: 'medibot_channel',
+                  title: 'MediBot',
+                  body: 'Its time to take ${pillsModel.pillName} pill',
+                  autoDismissible: false,
+                  notificationLayout: NotificationLayout.BigText),
+              actionButtons: [
+                NotificationActionButton(key: 'Taken', label: 'Taken', color: Colors.green, actionType: ActionType.DismissAction, showInCompactView: true),
+                NotificationActionButton(key: 'Missed', label: 'Missed', color: Colors.red, actionType: ActionType.DismissAction, showInCompactView: true),
+              ],
+              schedule: NotificationCalendar.fromDate(
+                  date: DateTime(
+                    individualDuration.year,
+                    individualDuration.month,
+                    individualDuration.day,
+                    int.parse(interval.substring(0, 2)),
+                    int.parse(interval.substring(5, 7)),
+                  ),
+                  allowWhileIdle: true,
+                  preciseAlarm: true));
+
+          // await localNotifications.zonedSchedule(
+          //   id,
+          //   'MediBot',
+          //   'Its time to take ${pillsModel.pillName} pill',
+          //   tz.TZDateTime.from(
+          //     DateTime(
+          //       individualDuration.year,
+          //       individualDuration.month,
+          //       individualDuration.day,
+          //       int.parse(interval.substring(0, 2)),
+          //       int.parse(interval.substring(5, 7)),
+          //     ), //
+          //     tz.local,
+          //   ),
+          //   NotificationDetails(
+          //     android: AndroidNotificationDetails(
+          //       pillsModel.uid,
+          //       pillsModel.pillName,
+          //       importance: Importance.max,
+          //       priority: Priority.max,
+          //       icon: '@mipmap/ic_launcher',
+          //       category: AndroidNotificationCategory.reminder,
+          //       actions: [
+          //         AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
+          //         const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
+          //       ],
+          //       autoCancel: false,
+          //       enableVibration: true,
+          //       visibility: NotificationVisibility.public,
+          //     ),
+          //   ),
+          //   uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+          //   matchDateTimeComponents: DateTimeComponents.time,
+          // );
         }
       }
     }
