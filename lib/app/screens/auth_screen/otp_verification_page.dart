@@ -64,7 +64,8 @@ class OtpVerificationScreen extends GetView<AuthController> {
                     ),
                     children: [
                       const TextSpan(
-                          text: 'An One Time Password has been sent to '),
+                        text: 'An One Time Password has been sent to ',
+                      ),
                       TextSpan(
                         text:
                             '+91 XXXXXX ${controller.phoneController.text.substring(6, 10)}',
@@ -122,9 +123,9 @@ class OtpVerificationScreen extends GetView<AuthController> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(!controller.resendingOtp.value){
+                    if (!controller.resendingOtp.value) {
                       controller.resendOtp();
-                    }else{
+                    } else {
                       Get.snackbar(
                         "Auth",
                         "Please wait for some time to resend",
@@ -134,7 +135,8 @@ class OtpVerificationScreen extends GetView<AuthController> {
                         ),
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: const Color(0xffA9CBFF),
-                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 10.w),
                         colorText: Colors.black,
                       );
                     }
@@ -155,7 +157,9 @@ class OtpVerificationScreen extends GetView<AuthController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 18.h,
                   onPressed: () async {
-                    await controller.otpVerification();
+                    if(!controller.verifyingOtp.value){
+                      await controller.otpVerification();
+                    }
                   },
                 ),
               ],

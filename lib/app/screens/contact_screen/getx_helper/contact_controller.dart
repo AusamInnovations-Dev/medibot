@@ -24,7 +24,7 @@ class ContactController extends GetxController {
     if (permissionStatus == PermissionStatus.granted) {
       ContactsService.getContacts().then((value) {
         for(var contact in value){
-          if(contact.phones != null){
+          if(contact.phones != null && contact.displayName != null){
             contacts.add(contact);
           }
         }

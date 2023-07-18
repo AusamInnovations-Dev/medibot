@@ -38,6 +38,7 @@ class AuthController extends GetxController {
   var fetchingLocation = false.obs;
   var resendingOtp = false.obs;
   var uploadingData = false.obs;
+  var verifyingOtp = false.obs;
 
   handleSignInByPhone() async {
     if (phoneController.text.length == 10) {
@@ -89,27 +90,34 @@ class AuthController extends GetxController {
   }
 
   otpVerification() async {
-    if (phoneController.text.length == 10) {
-      if (!await FirebaseFireStore.to.verifyOtp(phoneController.text, otpController.text)) {
-        Get.snackbar(
-          "Auth Error",
-          "Please check your otp and try again",
-          icon: const Icon(
-            Icons.person,
-            color: Colors.black,
-          ),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: const Color(0xffA9CBFF),
-          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-          colorText: Colors.black,
-        );
-      }else{
-        if (UserStore.to.profile.userStatus != AuthStatus.newUser) {
-          Get.offAllNamed(RoutePaths.homeScreen);
+    verifyingOtp.value = true;
+    try{
+      if (phoneController.text.length == 10) {
+        if (!await FirebaseFireStore.to
+            .verifyOtp(phoneController.text, otpController.text)) {
+          Get.snackbar(
+            "Auth Error",
+            "Please check your otp and try again",
+            icon: const Icon(
+              Icons.person,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
         } else {
-          Get.offAllNamed(RoutePaths.userInformation);
+          if (UserStore.to.profile.userStatus != AuthStatus.newUser) {
+            Get.offAllNamed(RoutePaths.homeScreen);
+          } else {
+            Get.offAllNamed(RoutePaths.userInformation);
+          }
         }
       }
+      verifyingOtp.value = false;
+    }catch(err){
+      verifyingOtp.value = false;
     }
   }
 

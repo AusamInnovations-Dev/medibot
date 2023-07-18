@@ -77,8 +77,7 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
                       ),
                       value: controller.isIndividual.value,
                       hoverColor: Colors.black,
-                      overlayColor: MaterialStateColor.resolveWith(
-                          (states) => Theme.of(context).colorScheme.primary),
+                      overlayColor: MaterialStateColor.resolveWith((states) => Theme.of(context).colorScheme.primary),
                       onChanged: (value) {
                         showDialog(
                           context: context,
@@ -88,9 +87,7 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.r),
                               ),
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
+                              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                               content: SizedBox(
                                 height: 200.h,
                                 width: 300.w,
@@ -124,39 +121,112 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
             child: MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: controller.durationDates.length,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(vertical: 6.h),
-                    child: CustomBox(
-                      boxHeight: 36.h,
-                      boxWidth: 200.w,
-                      topLeft: Radius.circular(4.r),
-                      topRight: Radius.circular(4.r),
-                      bottomLeft: Radius.circular(4.r),
-                      bottomRight: Radius.circular(4.r),
-                      boxShadow: [],
-                      borders: Border.all(color: Colors.black26),
-                      body: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 11.h, horizontal: 7.w),
-                        child: CustomTextField(
-                          fontWeight: FontWeight.w400,
-                          text: '${controller.durationDates[index].day}/${controller.durationDates[index].month}/${controller.durationDates[index].year}',
-                          color: Colors.black,
+              child: !controller.isRange.value
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.durationDates.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.symmetric(vertical: 6.h),
+                          child: CustomBox(
+                            boxHeight: 36.h,
+                            boxWidth: 200.w,
+                            topLeft: Radius.circular(4.r),
+                            topRight: Radius.circular(4.r),
+                            bottomLeft: Radius.circular(4.r),
+                            bottomRight: Radius.circular(4.r),
+                            boxShadow: [],
+                            borders: Border.all(color: Colors.black26),
+                            body: Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 11.h,
+                                horizontal: 7.w,
+                              ),
+                              child: CustomTextField(
+                                fontWeight: FontWeight.w400,
+                                text: '${controller.durationDates[index].day}/${controller.durationDates[index].month}/${controller.durationDates[index].year}',
+                                color: Colors.black,
+                                size: 12.sp,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomTextField(
+                          fontWeight: FontWeight.bold,
+                          text: "From",
                           size: 12.sp,
+                          color: Colors.black,
+                          textAlign: TextAlign.center,
                         ),
-                      ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 6.h),
+                          child: CustomBox(
+                            boxHeight: 36.h,
+                            boxWidth: 400.w,
+                            topLeft: Radius.circular(4.r),
+                            topRight: Radius.circular(4.r),
+                            bottomLeft: Radius.circular(4.r),
+                            bottomRight: Radius.circular(4.r),
+                            boxShadow: [],
+                            borders: Border.all(color: Colors.black26),
+                            body: Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 11.h,
+                                horizontal: 7.w,
+                              ),
+                              child: CustomTextField(
+                                fontWeight: FontWeight.w400,
+                                text:
+                                    '${controller.durationDates.first.day}/${controller.durationDates.first.month}/${controller.durationDates.first.year}',
+                                color: Colors.black,
+                                size: 12.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                        CustomTextField(
+                          fontWeight: FontWeight.bold,
+                          text: "To",
+                          size: 12.sp,
+                          color: Colors.black,
+                          textAlign: TextAlign.center,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 6.h),
+                          child: CustomBox(
+                            boxHeight: 36.h,
+                            boxWidth: 400.w,
+                            topLeft: Radius.circular(4.r),
+                            topRight: Radius.circular(4.r),
+                            bottomLeft: Radius.circular(4.r),
+                            bottomRight: Radius.circular(4.r),
+                            boxShadow: [],
+                            borders: Border.all(color: Colors.black26),
+                            body: Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 11.h,
+                                horizontal: 7.w,
+                              ),
+                              child: CustomTextField(
+                                fontWeight: FontWeight.w400,
+                                text: '${controller.durationDates.last.day}/${controller.durationDates.last.month}/${controller.durationDates.last.year}',
+                                color: Colors.black,
+                                size: 12.sp,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  );
-                },
-              ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -165,13 +235,41 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
     return SfDateRangePicker(
       view: DateRangePickerView.month,
       cancelText: 'Cancel',
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      rangeSelectionColor: Theme.of(context).colorScheme.secondary,
+      viewSpacing: 30.w,
+      backgroundColor: Colors.transparent,
+      rangeSelectionColor: const Color(0xff041c50),
       selectionMode: DateRangePickerSelectionMode.range,
       showActionButtons: true,
       enablePastDates: false,
-      selectionTextStyle: const TextStyle(color: Colors.black),
-      rangeTextStyle: const TextStyle(color: Colors.black),
+      todayHighlightColor: const Color(0xff041c50),
+      selectionShape: DateRangePickerSelectionShape.rectangle,
+      monthCellStyle: DateRangePickerMonthCellStyle(
+        cellDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        todayTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 15.sp,
+        ),
+        textStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 15.sp,
+        ),
+        todayCellDecoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(5.r),
+          border: Border.all(
+            color: const Color(0xff041c50),
+          ),
+        ),
+      ),
+      endRangeSelectionColor: const Color(0xff041c50),
+      startRangeSelectionColor: const Color(0xff041c50),
+      selectionRadius: 15.r,
+      selectionTextStyle: const TextStyle(
+        color: Colors.white,
+      ),
+      rangeTextStyle: const TextStyle(color: Colors.white),
       onCancel: () => Navigator.pop(context),
       onSubmit: (value) {
         if (value is PickerDateRange) {
@@ -195,10 +293,33 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       rangeSelectionColor: Theme.of(context).colorScheme.secondary,
       selectionMode: DateRangePickerSelectionMode.multiple,
+      todayHighlightColor: const Color(0xff041c50),
+      selectionShape: DateRangePickerSelectionShape.rectangle,
+      monthCellStyle: DateRangePickerMonthCellStyle(
+        cellDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        todayTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 15.sp,
+        ),
+        textStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 15.sp,
+        ),
+        todayCellDecoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(5.r),
+          border: Border.all(
+            color: const Color(0xff041c50),
+          ),
+        ),
+      ),
       showActionButtons: true,
       enablePastDates: false,
-      selectionTextStyle: const TextStyle(color: Colors.black),
-      rangeTextStyle: const TextStyle(color: Colors.black),
+      selectionTextStyle: const TextStyle(color: Colors.white),
+      rangeTextStyle: const TextStyle(color: Colors.white),
+      selectionColor: const Color(0xff041c50),
       onCancel: () => Navigator.pop(context),
       onSubmit: (value) {
         if (value is PickerDateRange) {

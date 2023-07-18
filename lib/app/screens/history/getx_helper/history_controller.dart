@@ -15,6 +15,7 @@ class HistoryController extends GetxController {
   RxList<PillsModel> reminderList = <PillsModel>[].obs;
 
   var totalTakenPillsDosage = 0.obs;
+  var todayRemainingPills = 0.obs;
   var totalPillsDosage = 0.obs;
   var upComingDosage = 0.obs;
   var daysMissed = 0.obs;
@@ -23,7 +24,6 @@ class HistoryController extends GetxController {
   Future<void> onInit() async {
     loadingUserData.value = true;
     await getUserData();
-    checkForAllHistory();
     Future.delayed(const Duration(seconds: 2), ()  {
     loadingUserData.value = false;
     });
@@ -91,6 +91,7 @@ class HistoryController extends GetxController {
             }
           }
         }
+        checkForAllHistory();
         log('Total reminders : ${totalPillsDosage.value}');
         log('Total history : $historyList');
         log('Total upcoming : ${upComingDosage.value}');
@@ -145,6 +146,7 @@ class HistoryController extends GetxController {
             }
           }
         }
+        checkForAllHistory();
         log('Total reminders : ${totalPillsDosage.value}');
         log('Total history : $historyList');
         log('Total upcoming : ${upComingDosage.value}');
@@ -154,14 +156,16 @@ class HistoryController extends GetxController {
 
   String checkForSuccess(DateTime date) {
     HistoryModel? historyItem;
-    for(var element in historyList){
-      log('Hello I am In at : $date');
-      if(element.userId.trim() == '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'.trim()){
-        historyItem = element;
-        break;
+    if(historyList.isNotEmpty){
+      for(var element in historyList){
+        log('Hello I am In at : $date');
+        if(element.userId.trim() == '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'.trim()){
+          historyItem = element;
+          break;
+        }
       }
     }
-    log('This is the history part : $historyItem');
+    // log('This is the history part : $historyItem');
     List<PillsModel> pills = todayReminders(date);
     if(historyItem != null){
       var totalPills = 0;
@@ -229,15 +233,14 @@ class HistoryController extends GetxController {
   }
 
   checkForAllHistory() {
-    for(var history in historyList){
-      for(var pill in history.historyData){
-        totalTakenPillsDosage.value += pill.timeTaken.length;
-      }
-      log(history.userId.substring(0,4));
-      log(history.userId.substring(5,7));
-      log(history.userId.substring(8,10));
-      if(totalTakenPillsDosage.value < totalPillsDosage.value){
-        daysMissed.value++;
+    List<PillsModel> todayReminder = todayReminders(DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day));
+    log('This is the todays reminder: $todayReminder');
+    for(var reminder in todayReminder){
+      for(var interval in reminder.pillsInterval){
+        if(DateTime.now().isBefore(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day, int.parse(interval.substring(0,2)), int.parse(interval.substring(5,7))))){
+          log(interval);
+          todayRemainingPills.value++;
+        }
       }
     }
   }

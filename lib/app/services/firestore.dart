@@ -109,7 +109,7 @@ class FirebaseFireStore extends GetxController {
     log('This is the doc : ${doc.docs}');
     if (doc.docs.isNotEmpty) {
       UserModel userModel = UserModel.fromJson(doc.docs.first.data());
-      await UserStore.to.saveProfile(userModel.uid);
+      // await UserStore.to.saveProfile(userModel.uid);
       log('THis is the user: $userModel');
       return userModel;
     } else {

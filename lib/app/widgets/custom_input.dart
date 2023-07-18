@@ -44,6 +44,7 @@ class CustomInputField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextFormField(
         controller: textController,
+        cursorColor: Colors.black,
         style: TextStyle(fontFamily: fontTheme, fontSize: 17),
         decoration: InputDecoration(
           hintStyle: TextStyle(fontSize: 17, fontFamily: fontTheme),

@@ -47,14 +47,25 @@ class HistoryPage extends GetView<HistoryController> {
                             var state = controller.checkForSuccess(date);
                             return GestureDetector(
                               onTap: (){
-                                if(state != 'NoPillsScheduled' && !date.isAfter(DateTime.now())) {
-                                  Get.toNamed(
-                                      RoutePaths.historyDetailsPage,
-                                      arguments: {
-                                        'date': date,
-                                        'todayReminders': controller.todayReminders(date),
-                                      }
-                                  );
+                                if(state != 'NoPillsScheduled') {
+                                  if(date.isAfter(DateTime.now())){
+                                    Get.toNamed(
+                                        RoutePaths.historyDetailsPage,
+                                        arguments: {
+                                          'date': date,
+                                          'todayReminders': controller.todayReminders(date),
+                                          'isUpcoming' : true
+                                        }
+                                    );
+                                  }else{
+                                    Get.toNamed(
+                                        RoutePaths.historyDetailsPage,
+                                        arguments: {
+                                          'date': date,
+                                          'todayReminders': controller.todayReminders(date),
+                                        }
+                                    );
+                                  }
                                 }
                               },
                               child: Container(
@@ -80,22 +91,10 @@ class HistoryPage extends GetView<HistoryController> {
                             );
                           },
                           todayBuilder: (context, date, date1) {
-                            return Container(
-                              height: 35.h,
-                              width: 40.w,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Text(date.day.toString()),
-                            );
-                          },
-                          outsideBuilder: (context, date, date1) {
                             var state = controller.checkForSuccess(date);
                             return GestureDetector(
                               onTap: (){
-                                if(state != 'NoPillsScheduled' && !date.isAfter(DateTime.now())) {
+                                if(state != 'NoPillsScheduled') {
                                   Get.toNamed(
                                       RoutePaths.historyDetailsPage,
                                       arguments: {
@@ -103,6 +102,43 @@ class HistoryPage extends GetView<HistoryController> {
                                         'todayReminders': controller.todayReminders(date),
                                       }
                                   );
+                                }
+                              },
+                              child: Container(
+                                height: 35.h,
+                                width: 40.w,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child: Text(date.day.toString()),
+                              ),
+                            );
+                          },
+                          outsideBuilder: (context, date, date1) {
+                            var state = controller.checkForSuccess(date);
+                            return GestureDetector(
+                              onTap: (){
+                                if(state != 'NoPillsScheduled') {
+                                  if(date.isAfter(DateTime.now())){
+                                    Get.toNamed(
+                                        RoutePaths.historyDetailsPage,
+                                        arguments: {
+                                          'date': date,
+                                          'todayReminders': controller.todayReminders(date),
+                                          'isUpcoming' : true
+                                        }
+                                    );
+                                  }else{
+                                    Get.toNamed(
+                                        RoutePaths.historyDetailsPage,
+                                        arguments: {
+                                          'date': date,
+                                          'todayReminders': controller.todayReminders(date),
+                                        }
+                                    );
+                                  }
                                 }
                               },
                               child: Container(
@@ -154,7 +190,7 @@ class HistoryPage extends GetView<HistoryController> {
                                   ),
                                   CustomTextField(
                                     fontWeight: FontWeight.bold,
-                                    text: '${controller.totalPillsDosage.value - controller.totalTakenPillsDosage.value - controller.upComingDosage.value}',
+                                    text: '${controller.totalPillsDosage.value - controller.totalTakenPillsDosage.value - controller.upComingDosage.value - controller.todayRemainingPills.value}',
                                     color: Colors.red,
                                     size: 18.sp,
                                   ),
@@ -174,6 +210,25 @@ class HistoryPage extends GetView<HistoryController> {
                                   () => CustomTextField(
                                     fontWeight: FontWeight.bold,
                                     text: '${controller.upComingDosage.value}',
+                                    color: Colors.red,
+                                    size: 18.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomTextField(
+                                  fontWeight: FontWeight.bold,
+                                  text: "Today's Remaining pills",
+                                  color: Colors.black,
+                                  size: 18.sp,
+                                ),
+                                Obx(
+                                      () => CustomTextField(
+                                    fontWeight: FontWeight.bold,
+                                    text: '${controller.todayRemainingPills.value}',
                                     color: Colors.red,
                                     size: 18.sp,
                                   ),

@@ -42,6 +42,7 @@ class SampleMedicine {
     'Tablet',
     'Syrup',
     'Eye Drop',
-
+    'Ointment',
+    'Injection'
   ];
 }

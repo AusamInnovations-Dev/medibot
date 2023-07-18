@@ -19,11 +19,13 @@ class HistoryDetailsController extends GetxController {
   RxList night = [].obs;
 
   var isLoading = false.obs;
+  var isUpcoming = false.obs;
 
   @override
   void onInit() {
     date = Get.arguments['date'];
     todayReminders = Get.arguments['todayReminders'];
+    isUpcoming.value = Get.arguments['isUpcoming'] ?? false;
     reminderList = Get.find<HistoryController>().reminderList;
     findSelectedDayHistory();
     super.onInit();
@@ -41,7 +43,7 @@ class HistoryDetailsController extends GetxController {
             morning.add(
               {
                 'pillName': reminder.pillName,
-                'schedule' : 'Missed'
+                'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
               }
             );
           }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
@@ -49,7 +51,7 @@ class HistoryDetailsController extends GetxController {
             afternoon.add(
                 {
                   'pillName': reminder.pillName,
-                  'schedule' : 'Missed'
+                  'schedule' : isUpcoming.value? 'Upcoming' : 'Missed'
                 }
             );
           }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
@@ -57,7 +59,7 @@ class HistoryDetailsController extends GetxController {
             evening.add(
                 {
                   'pillName': reminder.pillName,
-                  'schedule' : 'Missed'
+                  'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                 }
             );
           }else{
@@ -65,7 +67,7 @@ class HistoryDetailsController extends GetxController {
             night.add(
                 {
                   'pillName': reminder.pillName,
-                  'schedule' : 'Missed'
+                  'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                 }
             );
           }
@@ -89,28 +91,28 @@ class HistoryDetailsController extends GetxController {
               morning.add(
                   {
                     'pillName': reminder.pillName,
-                    'schedule' : 'Missed'
+                    'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                   }
               );
             }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
               afternoon.add(
                   {
                     'pillName': reminder.pillName,
-                    'schedule' : 'Missed'
+                    'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                   }
               );
             }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
               evening.add(
                   {
                     'pillName': reminder.pillName,
-                    'schedule' : 'Missed'
+                    'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                   }
               );
             }else{
               night.add(
                   {
                     'pillName': reminder.pillName,
-                    'schedule' : 'Missed'
+                    'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                   }
               );
             }
@@ -128,7 +130,7 @@ class HistoryDetailsController extends GetxController {
                 morning.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                     }
                 );
               }
@@ -144,7 +146,7 @@ class HistoryDetailsController extends GetxController {
                 afternoon.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                     }
                 );
               }
@@ -160,7 +162,7 @@ class HistoryDetailsController extends GetxController {
                 evening.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                     }
                 );
               }
@@ -176,7 +178,7 @@ class HistoryDetailsController extends GetxController {
                 night.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : 'Missed'
                     }
                 );
               }

@@ -20,34 +20,38 @@ class SetReminderScreen extends GetView<SetReminderController> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
-      bottomButtonText: '',
+      bottomButtonText: 'Add Pill',
       onbottomButtonPressed: () async {
-        log('Hello world');
-        if (await controller.uploadPillsReminderData() != '') {
-          Get.snackbar(
-            "Pills Reminder",
-            "Your pill is scheduled successfully.",
-            icon: const Icon(
-              Icons.check_sharp,
-              color: Colors.black,
-            ),
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: const Color(0xffA9CBFF),
-            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-            colorText: Colors.black,
-          );
-          Get.offAndToNamed(RoutePaths.homeScreen);
+        if (int.tryParse(controller.dosageController.text) != null &&
+            controller.dosage != 'Select Dosage') {
+          if (await controller.uploadPillsReminderData() != '') {
+            Get.back();
+            Get.snackbar(
+              "Pills Reminder",
+              "Your pill is scheduled successfully",
+              icon: const Icon(
+                Icons.check_sharp,
+                color: Colors.black,
+              ),
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: const Color(0xffA9CBFF),
+              margin:
+              EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+              colorText: Colors.black,
+            );
+          }
         } else {
           Get.snackbar(
             "Pills Reminder",
-            "Some error has occurred while uploading the data.",
+            "Please enter a valid dosage value.",
             icon: const Icon(
               Icons.check_sharp,
               color: Colors.black,
             ),
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: const Color(0xffA9CBFF),
-            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            margin:
+            EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
             colorText: Colors.black,
           );
         }
@@ -124,82 +128,84 @@ class SetReminderScreen extends GetView<SetReminderController> {
                   )
                       .toList(),
                   onChanged: (value) {
-                    controller.medicineCategory = value!;
+                    controller.medicineCategory.value = value!;
                   },
                 ),
                 SizedBox(height: 15.h),
-                TypeAheadField(
-                  textFieldConfiguration: TextFieldConfiguration(
-                    style: TextStyle(
-                      fontFamily: 'Sansation',
-                      fontSize: 16.sp,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    controller: controller.pillName,
-                    decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.primary,
-                      focusColor: Theme.of(context).colorScheme.primary,
-                      filled: true,
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black26,
-                        ),
-                      ),
-                      hintText: 'Pill Name',
-                      hintStyle: TextStyle(
+                Obx(
+                  () => TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      style: TextStyle(
                         fontFamily: 'Sansation',
                         fontSize: 16.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
                       ),
-                    ),
-                  ),
-                  itemBuilder: (BuildContext context, itemData) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 14.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        border: Border.all(
-                          color: Colors.white12,
+                      controller: controller.pillName,
+                      decoration: InputDecoration(
+                        fillColor: Theme.of(context).colorScheme.primary,
+                        focusColor: Theme.of(context).colorScheme.primary,
+                        filled: true,
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                          ),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            blurRadius: 5.r,
-                            offset: const Offset(0, 3),
-                          )
-                        ],
+                        errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                          ),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                          ),
+                        ),
+                        hintText: controller.medicineCategory.value != 'Select Category' ? '${controller.medicineCategory.value} Name' : 'Medicine Name',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Sansation',
+                          fontSize: 16.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                      child: CustomTextField(
-                        fontWeight: FontWeight.w700,
-                        text: itemData,
-                        color: Colors.black,
-                        size: 16.sp,
-                      ),
-                    );
-                  },
-                  hideOnEmpty: true,
-                  onSuggestionSelected: (Object? suggestion) {
-                    controller.pillName.text = suggestion as String;
-                  },
-                  suggestionsCallback: (String pattern) {
-                    return SampleMedicine.sampleMedicines
-                        .where((element) => element.startsWith(pattern));
-                  },
+                    ),
+                    itemBuilder: (BuildContext context, itemData) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 14.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          border: Border.all(
+                            color: Colors.white12,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              blurRadius: 5.r,
+                              offset: const Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: CustomTextField(
+                          fontWeight: FontWeight.w700,
+                          text: itemData,
+                          color: Colors.black,
+                          size: 16.sp,
+                        ),
+                      );
+                    },
+                    hideOnEmpty: true,
+                    onSuggestionSelected: (Object? suggestion) {
+                      controller.pillName.text = suggestion as String;
+                    },
+                    suggestionsCallback: (String pattern) {
+                      return SampleMedicine.sampleMedicines
+                          .where((element) => element.startsWith(pattern));
+                    },
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 15.h, bottom: 15.h),
@@ -316,7 +322,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                 Container(
                   margin: EdgeInsets.only(bottom: 20.h),
                   child: DropdownButtonFormField(
-                    value: 'Once a Day',
+                    value: 'Once a Day (24 Hours)',
                     dropdownColor: Theme.of(context).colorScheme.primary,
                     focusColor: Theme.of(context).colorScheme.primary,
                     style: TextStyle(
@@ -353,9 +359,9 @@ class SetReminderScreen extends GetView<SetReminderController> {
                       ),
                     ),
                     items: [
-                      'Once a Day',
-                      'Twice a Day',
-                      'Thrice a Day',
+                      'Once a Day (24 Hours)',
+                      'Twice a Day (12 Hours)',
+                      'Thrice a Day (8 Hours)',
                       'Custom',
                       'Hourly'
                     ].map(

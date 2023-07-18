@@ -25,7 +25,8 @@ class HomepageController extends GetxController {
   @override
   Future<void> onInit() async {
     haveInternet.value = await InternetService().checkInternetSourceStatus();
-    if (DateTime.now().hour < 11) {
+    log(DateTime.now().toIso8601String());
+    if (DateTime.now().hour <= 11) {
       greeting.value = 'Good Morning';
     } else if (DateTime.now().hour >= 12 && DateTime.now().hour < 16) {
       greeting.value = 'Good Afternoon';
@@ -280,62 +281,85 @@ class HomepageController extends GetxController {
   String checkDue() {
 
     // log(UserStore.to.skipPills.toString());
-    for (var interval in reminderList[pillIndex.value].pillsInterval) {
-      var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
-      var diff = 60;
-      if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
-        diff = DateTime(
+    if(reminderList.isNotEmpty){
+      for (var interval in reminderList[pillIndex.value].pillsInterval) {
+        var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
+        var diff = 60;
+        if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
+          log(reminderList[pillIndex.value].pillsInterval.toString());
+          diff = DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(0, 2)),
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(5, 7)),
+          ).difference(
+            DateTime(
               DateTime.now().year,
               DateTime.now().month,
               DateTime.now().day,
-              int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(0, 2)),
-              int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(5, 7)),
-        ).difference(
-          DateTime(
-            DateTime.now().year,
-            DateTime.now().month,
-            DateTime.now().day,
-            int.parse(interval.substring(0, 2)),
-            int.parse(interval.substring(5, 7)),
-          ),
-        ).inMinutes;
-      }
-      // log('This is the difference : $diff');
-      if (DateTime.now().difference(
-          DateTime(
-            DateTime.now().year,
-            DateTime.now().month,
-            DateTime.now().day,
-            int.parse(interval.substring(0, 2)),
-            int.parse(interval.substring(5, 7)),
-          )
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            ),
+          ).inMinutes;
+        }
+        log('This is the difference : $diff');
+        if(diff >= 180){
+          diff = 60;
+        }
+        if (DateTime.now().difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            )
         ).inMinutes <= diff/2) {
-        log('This is interval $interval');
-        if(UserStore.to.skipPills.any((pill) => pill['pillId'] == reminderList[pillIndex.value].uid && pill['pillInterval'] == interval && DateTime.parse(pill['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
+          log('This is interval $interval');
+          if(UserStore.to.skipPills.any((pill) => pill['pillId'] == reminderList[pillIndex.value].uid && pill['pillInterval'] == interval && DateTime.parse(pill['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
 
-        }else{
-          if (historyList.isNotEmpty) {
-            if (historyList[pillIndex.value].timeTaken.any((element) =>
-            element
-                .difference(DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                int.parse(interval.substring(0, 2)),
-                int.parse(interval.substring(5, 7))))
-                .inMinutes <=
-                diff/2 &&
-                element
-                    .difference(DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day,
-                    int.parse(interval.substring(0, 2)),
-                    int.parse(interval.substring(5, 7))))
-                    .inMinutes >=
-                    -diff/2)) {
+          }else{
+            if (historyList.isNotEmpty) {
+              if (historyList[pillIndex.value].timeTaken.any((element) =>
+              element
+                  .difference(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7))))
+                  .inMinutes <=
+                  diff/2 &&
+                  element
+                      .difference(DateTime(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      int.parse(interval.substring(0, 2)),
+                      int.parse(interval.substring(5, 7))))
+                      .inMinutes >=
+                      -diff/2)) {
+              } else {
+                log('Interval is : $interval');
+                if (int.parse(interval.substring(0, 2)) == 12) {
+                  return '${interval.substring(0, 2)} : ${interval.substring(5, 7)} PM';
+                } else if (int.parse(interval.substring(0, 2)) > 12) {
+                  int diff = int.parse(interval.substring(0, 2)) - 12;
+                  if (diff > 9) {
+                    return '$diff : ${interval.substring(5, 7)} PM';
+                  } else {
+                    return '0$diff : ${interval.substring(5, 7)} PM';
+                  }
+                } else {
+                  if (int.parse(interval.substring(0, 2)) > 9) {
+                    return '${int.parse(interval.substring(0, 2))} : ${interval.substring(5, 7)} AM';
+                  } else {
+                    return '0${int.parse(interval.substring(0, 2))} : ${interval.substring(5, 7)} AM';
+                  }
+                }
+              }
             } else {
-              log('Interval is : $interval');
               if (int.parse(interval.substring(0, 2)) == 12) {
                 return '${interval.substring(0, 2)} : ${interval.substring(5, 7)} PM';
               } else if (int.parse(interval.substring(0, 2)) > 12) {
@@ -353,23 +377,6 @@ class HomepageController extends GetxController {
                 }
               }
             }
-          } else {
-            if (int.parse(interval.substring(0, 2)) == 12) {
-              return '${interval.substring(0, 2)} : ${interval.substring(5, 7)} PM';
-            } else if (int.parse(interval.substring(0, 2)) > 12) {
-              int diff = int.parse(interval.substring(0, 2)) - 12;
-              if (diff > 9) {
-                return '$diff : ${interval.substring(5, 7)} PM';
-              } else {
-                return '0$diff : ${interval.substring(5, 7)} PM';
-              }
-            } else {
-              if (int.parse(interval.substring(0, 2)) > 9) {
-                return '${int.parse(interval.substring(0, 2))} : ${interval.substring(5, 7)} AM';
-              } else {
-                return '0${int.parse(interval.substring(0, 2))} : ${interval.substring(5, 7)} AM';
-              }
-            }
           }
         }
       }
@@ -378,63 +385,68 @@ class HomepageController extends GetxController {
   }
 
   String checkDueTime() {
-    for (var interval in reminderList[pillIndex.value].pillsInterval) {
-      var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
-      var diff = 60;
-      if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
-        diff = DateTime(
-          DateTime.now().year,
-          DateTime.now().month,
-          DateTime.now().day,
-          int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(0, 2)),
-          int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(5, 7)),
-        ).difference(
-          DateTime(
+    if(reminderList.isNotEmpty){
+      for (var interval in reminderList[pillIndex.value].pillsInterval) {
+        var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
+        var diff = 60;
+        if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
+          diff = DateTime(
             DateTime.now().year,
             DateTime.now().month,
             DateTime.now().day,
-            int.parse(interval.substring(0, 2)),
-            int.parse(interval.substring(5, 7)),
-          ),
-        ).inMinutes;
-      }
-      if (DateTime.now().difference(
-          DateTime(
-            DateTime.now().year,
-            DateTime.now().month,
-            DateTime.now().day,
-            int.parse(interval.substring(0, 2)),
-            int.parse(interval.substring(5, 7)),
-          )
-      ).inMinutes <= diff/2) {
-        if(UserStore.to.skipPills.any((pill) => pill['pillId'] == reminderList[pillIndex.value].uid && pill['pillInterval'] == interval && DateTime.parse(pill['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(0, 2)),
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(5, 7)),
+          ).difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            ),
+          ).inMinutes;
+        }
+        if(diff >= 180){
+          diff = 60;
+        }
+        if (DateTime.now().difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            )
+        ).inMinutes <= diff/2) {
+          if(UserStore.to.skipPills.any((pill) => pill['pillId'] == reminderList[pillIndex.value].uid && pill['pillInterval'] == interval && DateTime.parse(pill['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
 
-        }else{
-          if (historyList.isNotEmpty) {
-            if (historyList[pillIndex.value].timeTaken.any((element) =>
-            element
-                .difference(DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                int.parse(interval.substring(0, 2)),
-                int.parse(interval.substring(5, 7))))
-                .inMinutes <=
-                diff/2 &&
-                element
-                    .difference(DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day,
-                    int.parse(interval.substring(0, 2)),
-                    int.parse(interval.substring(5, 7))))
-                    .inMinutes >=
-                    -diff/2)) {
+          }else{
+            if (historyList.isNotEmpty) {
+              if (historyList[pillIndex.value].timeTaken.any((element) =>
+              element
+                  .difference(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7))))
+                  .inMinutes <=
+                  diff/2 &&
+                  element
+                      .difference(DateTime(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      int.parse(interval.substring(0, 2)),
+                      int.parse(interval.substring(5, 7))))
+                      .inMinutes >=
+                      -diff/2)) {
+              } else {
+                return '${interval.substring(0, 2)}:${interval.substring(5, 7)}';
+              }
             } else {
               return '${interval.substring(0, 2)}:${interval.substring(5, 7)}';
             }
-          } else {
-            return '${interval.substring(0, 2)}:${interval.substring(5, 7)}';
           }
         }
       }

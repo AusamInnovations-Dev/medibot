@@ -13,7 +13,7 @@ class SetReminderController extends GetxController {
   TextEditingController pillName = TextEditingController();
   TextEditingController dosageController = TextEditingController();
   String dosage = 'Select Dosage';
-  String medicineCategory = 'Select Category';
+  Rx<String> medicineCategory = 'Select Category'.obs;
   Rx<String> interval = 'Once a Day'.obs;
   Rx<String> hourlyInterval = '01 H'.obs;
   List<TimeOfDay> pillsTime = [
@@ -32,15 +32,14 @@ class SetReminderController extends GetxController {
 
   RxList<DateTime> durationDates = <DateTime>[].obs;
 
-
   selectingTimeIntervals() {
-    if (interval.value == 'Once a Day') {
+    if (interval.value == 'Once a Day (24 Hours)') {
       if(timeIntervals.length > 1){
         pillsTime.removeRange(1, pillsTime.length);
         timeIntervals.removeRange(1, timeIntervals.length);
       }
       log(timeIntervals.toString());
-    } else if (interval.value == 'Twice a Day') {
+    } else if (interval.value == 'Twice a Day (12 Hours)') {
       if(timeIntervals.length > 2){
         log('Hello removing pills');
         pillsTime.removeRange(2, pillsTime.length);
@@ -51,57 +50,54 @@ class SetReminderController extends GetxController {
           minute: 00,
         ));
         timeIntervals.add({
-          'hour':
-          '${pillsTime.last.hour <= 9 ? '0${pillsTime.last.hour}' : pillsTime.last.hour} H',
-          'minute':
-          '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.isEmpty ? 'AM' : 'PM'
+          'hour': '08 H',
+          'minute': '00 M',
+          'period': 'PM'
         });
       }
       log(timeIntervals.toString());
-    } else if (interval.value == 'Thrice a Day') {
+    } else if (interval.value == 'Thrice a Day (8 Hours)') {
       if(pillsTime.length > 3){
         pillsTime.removeRange(3, pillsTime.length);
         timeIntervals.removeRange(3, timeIntervals.length);
       }else if (timeIntervals.length == 1){
-        log('Hello');
         pillsTime.add(const TimeOfDay(
-          hour: 2,
+          hour: 16,
           minute: 00,
         ));
         pillsTime.add(const TimeOfDay(
-          hour: 8,
+          hour: 24,
           minute: 00,
         ));
         timeIntervals.add({
-          'hour': '02 H',
+          'hour': '04 H',
           'minute': '00 M',
           'period': 'PM'
         });
         timeIntervals.add({
-          'hour': '08 H',
+          'hour': '12 H',
           'minute': '00 M',
-          'period': 'PM'
+          'period': 'AM'
         });
       }else if (timeIntervals.length == 2) {
         pillsTime.last = const TimeOfDay(
-          hour: 2,
+          hour: 4,
           minute: 00,
         );
         timeIntervals.last = {
-          'hour': '02 H',
+          'hour': '04 H',
           'minute': '00 M',
           'period': 'PM'
         };
         pillsTime.add(const TimeOfDay(
-          hour: 8,
+          hour: 24,
           minute: 00,
         ));
         log(pillsTime.toString());
         timeIntervals.add({
-          'hour': '08 H',
+          'hour': '12 H',
           'minute': '00 M',
-          'period': 'PM'
+          'period': 'AM'
         });
       }
       log(timeIntervals.toString());
@@ -258,7 +254,7 @@ class SetReminderController extends GetxController {
         pillName: pillName.text,
         userId: UserStore.to.uid,
         dosage: dosageController.text+dosage,
-        medicineCategory: medicineCategory,
+        medicineCategory: medicineCategory.value,
         interval: interval.value,
         isIndividual: isIndividual.value,
         isRange: isRange.value,
@@ -277,7 +273,7 @@ class SetReminderController extends GetxController {
          uid: isUploaded,
          pillName: pillName.text,
          dosage: dosageController.text+dosage,
-         medicineCategory: medicineCategory,
+         medicineCategory: medicineCategory.value,
          interval: interval.value,
          isIndividual: isIndividual.value,
          isRange: isRange.value,

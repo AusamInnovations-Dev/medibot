@@ -18,6 +18,39 @@ class AddPill extends GetView<AddCabinetPill> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
+      bottomButtonText: 'Add Pill',
+      onbottomButtonPressed: () async {
+        if(int.tryParse(controller.dosageController.text) != null && controller.dosage != 'Select Dosage'){
+          if (await controller.uploadCabinetPills()) {
+            Get.back();
+            Get.snackbar(
+              "Pills Reminder",
+              "Pills is added to your cabinet.",
+              icon: const Icon(
+                Icons.check_sharp,
+                color: Colors.black,
+              ),
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: const Color(0xffA9CBFF),
+              margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+              colorText: Colors.black,
+            );
+          }
+        } else {
+          Get.snackbar(
+            "Pills Reminder",
+            "Please enter a valid dosage value.",
+            icon: const Icon(
+              Icons.check_sharp,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      },
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,88 +135,88 @@ class AddPill extends GetView<AddCabinetPill> {
                         ),
                       ),
                     ),
-                  ),
-                  )
-                      .toList(),
+                  )).toList(),
                   onChanged: (value) {
-                    controller.medicineCategory = value!;
+                    controller.medicineCategory.value = value!;
                   },
                 ),
                 SizedBox(height: 15.h),
                 Container(
                   margin: EdgeInsets.only(right: 5.w),
-                  child: TypeAheadField(
-                    textFieldConfiguration: TextFieldConfiguration(
-                      style: TextStyle(
-                        fontFamily: 'Sansation',
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      controller: controller.pillName,
-                      decoration: InputDecoration(
-                        fillColor: Theme.of(context).colorScheme.primary,
-                        focusColor: Theme.of(context).colorScheme.primary,
-                        filled: true,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black26,
-                          ),
-                        ),
-                        errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black26,
-                          ),
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black26,
-                          ),
-                        ),
-                        hintText: 'Pill Name',
-                        hintStyle: TextStyle(
+                  child: Obx(
+                    () => TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        style: TextStyle(
                           fontFamily: 'Sansation',
                           fontSize: 16.sp,
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
                         ),
-                      ),
-                    ),
-                    itemBuilder: (BuildContext context, itemData) {
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 14.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          border: Border.all(
-                            color: Colors.white12,
+                        controller: controller.pillName,
+                        decoration: InputDecoration(
+                          fillColor: Theme.of(context).colorScheme.primary,
+                          focusColor: Theme.of(context).colorScheme.primary,
+                          filled: true,
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                            ),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
-                              blurRadius: 5.r,
-                              offset: const Offset(0, 3),
-                            )
-                          ],
+                          errorBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                            ),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                            ),
+                          ),
+                          hintText: controller.medicineCategory.value != 'Select Category' ? '${controller.medicineCategory.value} Name' : 'Medicine Name',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 16.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                        child: CustomTextField(
-                          fontWeight: FontWeight.w700,
-                          text: itemData,
-                          color: Colors.black,
-                          size: 16.sp,
-                        ),
-                      );
-                    },
-                    hideOnEmpty: true,
-                    onSuggestionSelected: (Object? suggestion) {
-                      controller.pillName.text = suggestion as String;
-                    },
-                    suggestionsCallback: (String pattern) {
-                      return SampleMedicine.sampleMedicines
-                          .where((element) => element.startsWith(pattern));
-                    },
+                      ),
+                      itemBuilder: (BuildContext context, itemData) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 14.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            border: Border.all(
+                              color: Colors.white12,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                blurRadius: 5.r,
+                                offset: const Offset(0, 3),
+                              )
+                            ],
+                          ),
+                          child: CustomTextField(
+                            fontWeight: FontWeight.w700,
+                            text: itemData,
+                            color: Colors.black,
+                            size: 16.sp,
+                          ),
+                        );
+                      },
+                      hideOnEmpty: true,
+                      onSuggestionSelected: (Object? suggestion) {
+                        controller.pillName.text = suggestion as String;
+                      },
+                      suggestionsCallback: (String pattern) {
+                        return SampleMedicine.sampleMedicines
+                            .where((element) => element.startsWith(pattern));
+                      },
+                    ),
                   ),
                 ),
                 Container(
@@ -301,7 +334,7 @@ class AddPill extends GetView<AddCabinetPill> {
                 Container(
                   margin: EdgeInsets.only(bottom: 20.h, right: 5.w),
                   child: DropdownButtonFormField(
-                    value: 'Once a Day',
+                    value: 'Once a Day (24 Hours)',
                     dropdownColor: Theme.of(context).colorScheme.primary,
                     focusColor: Theme.of(context).colorScheme.primary,
                     style: TextStyle(
@@ -338,9 +371,9 @@ class AddPill extends GetView<AddCabinetPill> {
                       ),
                     ),
                     items: [
-                      'Once a Day',
-                      'Twice a Day',
-                      'Thrice a Day',
+                      'Once a Day (24 Hours)',
+                      'Twice a Day (12 Hours)',
+                      'Thrice a Day (8 Hours)',
                       'Custom',
                       'Hourly'
                     ]
@@ -500,50 +533,6 @@ class AddPill extends GetView<AddCabinetPill> {
                 ),
                 const CabinetDurationPicker()
               ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.symmetric(vertical: 20.h),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(210.w, 20.h),
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                padding: EdgeInsets.symmetric(
-                  vertical: 1.h,
-                  //horizontal: 100.w,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(2.r),
-                ),
-              ),
-              onPressed: () async {
-                if(int.tryParse(controller.dosageController.text) != null && controller.dosage != 'Select Dosage'){
-                  if (await controller.uploadCabinetPills()) {
-                    Get.back();
-                  }
-                } else {
-                  Get.snackbar(
-                    "Pills Reminder",
-                    "Please enter a valid dosage value.",
-                    icon: const Icon(
-                      Icons.check_sharp,
-                      color: Colors.black,
-                    ),
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xffA9CBFF),
-                    margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-                    colorText: Colors.black,
-                  );
-                }
-              },
-              child: CustomTextField(
-                fontWeight: FontWeight.bold,
-                text: "Add Pill to Cabinet",
-                size: 12.sp,
-                color: Colors.black,
-                textAlign: TextAlign.center,
-              ),
             ),
           ),
         ],

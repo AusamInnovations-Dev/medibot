@@ -116,7 +116,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.morning[index]['schedule'],
-                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
+                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
@@ -207,7 +207,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.afternoon[index]['schedule'],
-                                      color: controller.afternoon[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
+                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
@@ -298,7 +298,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.evening[index]['schedule'],
-                                      color: controller.evening[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
+                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
@@ -391,7 +391,7 @@ class HistoryDetailsPage extends GetView<HistoryDetailsController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.bold,
                                       text: controller.night[index]['schedule'],
-                                      color: controller.night[index]['schedule'] == 'Missed' ? Colors.red : Colors.lightGreen,
+                                      color: controller.morning[index]['schedule'] == 'Missed' ? Colors.red : controller.morning[index]['schedule'] == 'Upcoming' ? Colors.amber:  Colors.lightGreen,
                                       size: 18.sp,
                                     ),
                                   ],
