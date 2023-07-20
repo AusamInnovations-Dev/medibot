@@ -22,25 +22,15 @@ class NotificationService extends GetxController {
     await initPermission();
     await getToken();
     await initializeNotifications();
-    log('Scheduling pill');
     super.onInit();
   }
 
   initPermission() async {
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      sound: true,
-      provisional: true,
-      carPlay: true,
-      criticalAlert: false,
-      badge: true,
-      announcement: false,
-    );
+    NotificationSettings settings = await messaging.requestPermission(alert: true, sound: true, provisional: true, carPlay: true, criticalAlert: false, badge: true, announcement: false);
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       log('User Granted Permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       log('User Granted Permission as on provisional');
     } else {
       log("User haven't granted permission");
@@ -55,17 +45,20 @@ class NotificationService extends GetxController {
   }
 
   initializeNotifications() async {
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-    await AndroidAlarmManager.initialize();
-    const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const initializationSettings = InitializationSettings(
-      android: androidInitializationSettings,
-    );
-    initSettings = const InitializationSettings(android: androidInitializationSettings);
-    await localNotifications.initialize(initializationSettings);
+    try {
+      FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+      const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+      const initializationSettings = InitializationSettings(
+        android: androidInitializationSettings,
+      );
+      initSettings = const InitializationSettings(android: androidInitializationSettings);
+      await localNotifications.initialize(initializationSettings);
+    } catch (e) {
+      // TODO
+    }
   }
 
-  Future<void> handleBackgroundMessage(RemoteMessage message) async{
+  Future<void> handleBackgroundMessage(RemoteMessage message) async {
     log('Title: ${message.notification!.title}');
     log('Body: ${message.notification!.body}');
   }
@@ -100,7 +93,7 @@ class NotificationService extends GetxController {
                 category: AndroidNotificationCategory.reminder,
                 actions: [
                   AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
-                  const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
+                  const AndroidNotificationAction('', 'Skip', cancelNotification: false, titleColor: Colors.red),
                 ],
                 autoCancel: false,
                 enableVibration: true,
@@ -115,19 +108,18 @@ class NotificationService extends GetxController {
     } else {
       for (var individualDuration in duration) {
         for (var interval in pillsModel.pillsInterval) {
-          log('Hello Scheduling time notification');
           await localNotifications.zonedSchedule(
             id,
             'MediBot',
             'Its time to take ${pillsModel.pillName} pill',
             tz.TZDateTime.from(
               DateTime(
-                duration.first.year,
-                duration.first.month,
-                duration.first.day,
+                individualDuration.year,
+                individualDuration.month,
+                individualDuration.day,
                 int.parse(interval.substring(0, 2)),
                 int.parse(interval.substring(5, 7)),
-              ),
+              ), //
               tz.local,
             ),
             NotificationDetails(
@@ -140,7 +132,7 @@ class NotificationService extends GetxController {
                 category: AndroidNotificationCategory.reminder,
                 actions: [
                   AndroidNotificationAction(pillsModel.uid, 'Taken', cancelNotification: false, titleColor: Colors.green),
-                  const AndroidNotificationAction('', 'Missed', cancelNotification: false, titleColor: Colors.red),
+                  const AndroidNotificationAction('', 'Skip', cancelNotification: false, titleColor: Colors.red),
                 ],
                 autoCancel: false,
                 enableVibration: true,
