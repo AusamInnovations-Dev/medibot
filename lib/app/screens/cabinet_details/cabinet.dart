@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 import 'package:medibot/app/widgets/box_field.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../routes/route_path.dart';
 import '../../widgets/text_field.dart';
@@ -40,52 +39,269 @@ class CabinetDetail extends GetView<CabinetController> {
           ),
           Obx(
             () => !controller.isLoading.value
-                ? MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    removeLeft: true,
-                    removeRight: true,
-                    child: Obx(
-                      () => ListView.builder(
-                        itemCount: controller.cabinetPillsList.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            Get.toNamed(
-                              RoutePaths.viewslot,
-                              arguments: {
-                                'pill': controller.cabinetPillsList[index],
+                ? Column(
+                    children: [
+                      controller.slot1.isNotEmpty
+                          ? Obx(
+                              () => GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                    RoutePaths.viewslot,
+                                    arguments: {
+                                      'pill': controller.slot1,
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                    minHeight: 10.h,
+                                  ),
+                                  margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                                  padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.25),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 4),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.only(
+                                      // topLeft: Radius.zero,
+                                      bottomRight: Radius.circular(15.r),
+                                      // bottomLeft: Radius.zero,
+                                      topLeft: Radius.circular(15.r),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomTextField(
+                                            fontWeight: FontWeight.w700,
+                                            size: 17.sp,
+                                            text: "Slot 1",
+                                            color: Colors.black,
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Get.toNamed(
+                                                RoutePaths.cabinetmanagement,
+                                                arguments: {
+                                                  'pill': controller.slot1,
+                                                  'remainingDays': controller
+                                                      .slot1remainingDay.value,
+                                                },
+                                              );
+                                            },
+                                            child: CustomTextField(
+                                              fontWeight: FontWeight.bold,
+                                              text: "Edit",
+                                              size: 12.sp,
+                                              color: Colors.black,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Get.toNamed(
+                                                RoutePaths.addPillInExistingSlot,
+                                                arguments: {
+                                                  'pillModel':
+                                                      controller.slot1.first,
+                                                },
+                                              );
+                                            },
+                                            child: CustomTextField(
+                                              fontWeight: FontWeight.bold,
+                                              text: "Add",
+                                              size: 12.sp,
+                                              color: Colors.black,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 10.h,),
+                                      RichText(
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1,
+                                        text: TextSpan(
+                                          style: TextStyle(
+                                            fontSize: 17.sp,
+                                            fontFamily: 'Sansation',
+                                            color: Colors.black,
+                                          ),
+                                          children: [
+                                            const TextSpan(
+                                              text: 'Remaining Pills ',
+                                            ),
+                                            TextSpan(
+                                              text: '    ${controller.slot1.first.pillsQuantity}',
+                                              style: const TextStyle(
+                                                color: Colors.green,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontFamily: 'Sansation',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 5.h,),
+                                      RichText(
+                                        maxLines: 1,
+                                        textAlign: TextAlign.start,
+                                        text: TextSpan(
+                                          style: TextStyle(
+                                            fontSize: 17.sp,
+                                            fontFamily: 'Sansation',
+                                            color: Colors.black,
+                                          ),
+                                          children: [
+                                            const TextSpan(
+                                              text: 'Remaining Days ',
+                                            ),
+                                            TextSpan(
+                                              text:
+                                              '   ${controller.slot1remainingDay.value}',
+                                              style: const TextStyle(
+                                                color: Colors.red,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontFamily: 'Sansation',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      MediaQuery.removePadding(
+                                        context: context,
+                                        removeTop: true,
+                                        child: ListView.builder(
+                                          itemCount: controller.slot1.length,
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            return Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(height: 10.h,),
+                                                const Divider(
+                                                  color: Colors.black26,
+                                                ),
+                                                SizedBox(height: 5.h,),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    CustomTextField(
+                                                      fontWeight: FontWeight.w400,
+                                                      size: 17.sp,
+                                                      text: 'Medicine Type: ',
+                                                      color: Colors.black,
+                                                      maxLines: 1,
+                                                    ),
+                                                    Container(
+                                                      constraints: BoxConstraints(
+                                                          maxWidth: 200.w,
+                                                          minWidth: 10.w
+                                                      ),
+                                                      child: CustomTextField(
+                                                        fontWeight: FontWeight.w400,
+                                                        size: 17.sp,
+                                                        text: controller.slot1[index].medicineCategory,
+                                                        color: Colors.black,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 200.w,
+                                                      child: CustomTextField(
+                                                        fontWeight: FontWeight.w400,
+                                                        size: 17.sp,
+                                                        text: controller.slot1[index].pillName,
+                                                        color: Colors.black,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      constraints: BoxConstraints(
+                                                        maxWidth: 100.w,
+                                                        minWidth: 10.w
+                                                      ),
+                                                      child: CustomTextField(
+                                                        fontWeight: FontWeight.w400,
+                                                        size: 17.sp,
+                                                        text: controller.slot1[index].dosage,
+                                                        color: Colors.black,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      controller.slot2.isNotEmpty
+                          ? Obx(
+                            () => GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  RoutePaths.viewslot,
+                                  arguments: {
+                                    'pill': controller.slot2,
+                                  },
+                                );
                               },
-                            );
-                          },
-                          child: CustomBox(
-                            margin: EdgeInsets.only(
-                              top: 20.h,
-                              right: 12.w,
-                              left: 8.w,
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 14.w,
-                              vertical: 12.h,
-                            ),
-                            topLeft: Radius.circular(17.r),
-                            bottomRight: Radius.circular(17.r),
-                            boxHeight: 230.h,
-                            boxWidth: 230.w,
-                            body: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              child: Container(
+                          constraints: BoxConstraints(
+                              minHeight: 10.h,
+                          ),
+                                margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                              borderRadius: BorderRadius.only(
+                                // topLeft: Radius.zero,
+                                bottomRight: Radius.circular(15.r),
+                                // bottomLeft: Radius.zero,
+                                topLeft: Radius.circular(15.r),
+                              ),
+                          ),
+                          child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomTextField(
                                       fontWeight: FontWeight.w700,
                                       size: 17.sp,
-                                      text:
-                                          "Slot ${controller.cabinetPillsList[index].slot}",
+                                      text: "Slot 2",
                                       color: Colors.black,
                                     ),
                                     ElevatedButton(
@@ -93,8 +309,8 @@ class CabinetDetail extends GetView<CabinetController> {
                                         Get.toNamed(
                                           RoutePaths.cabinetmanagement,
                                           arguments: {
-                                            'pill': controller.cabinetPillsList[index],
-                                            'remainingDays': controller.remainingDay[index],
+                                            'pill': controller.slot2,
+                                            'remainingDays': controller.slot2remainingDay.value,
                                           },
                                         );
                                       },
@@ -105,23 +321,28 @@ class CabinetDetail extends GetView<CabinetController> {
                                         color: Colors.black,
                                         textAlign: TextAlign.center,
                                       ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.addPillInExistingSlot,
+                                          arguments: {
+                                            'pillModel':
+                                            controller.slot2.first,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Add",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
                                     )
                                   ],
                                 ),
-                                CustomTextField(
-                                  fontWeight: FontWeight.w400,
-                                  size: 17.sp,
-                                  text:
-                                      controller.cabinetPillsList[index].pillName,
-                                  color: Colors.black,
-                                  maxLines: 1,
-                                ),
-                                CustomTextField(
-                                  fontWeight: FontWeight.w400,
-                                  size: 17.sp,
-                                  text: "Interval",
-                                  color: Colors.black,
-                                ),
+                                SizedBox(height: 10.h,),
                                 RichText(
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
@@ -132,19 +353,22 @@ class CabinetDetail extends GetView<CabinetController> {
                                       color: Colors.black,
                                     ),
                                     children: [
-                                      const TextSpan(text: 'Remaining Pills '),
+                                      const TextSpan(
+                                        text: 'Remaining Pills ',
+                                      ),
                                       TextSpan(
-                                        text:
-                                            '    ${controller.cabinetPillsList[index].pillsQuantity}',
+                                        text: '    ${controller.slot2.first.pillsQuantity}',
                                         style: const TextStyle(
                                           color: Colors.green,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight:
+                                          FontWeight.bold,
                                           fontFamily: 'Sansation',
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
+                                SizedBox(height: 5.h,),
                                 RichText(
                                   maxLines: 1,
                                   textAlign: TextAlign.start,
@@ -155,25 +379,972 @@ class CabinetDetail extends GetView<CabinetController> {
                                       color: Colors.black,
                                     ),
                                     children: [
-                                      const TextSpan(text: 'Remaining Days '),
+                                      const TextSpan(
+                                        text: 'Remaining Days ',
+                                      ),
                                       TextSpan(
                                         text:
-                                            '   ${controller.remainingDay[index]}',
+                                        '   ${controller.slot2remainingDay.value}',
                                         style: const TextStyle(
                                           color: Colors.red,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight:
+                                          FontWeight.bold,
                                           fontFamily: 'Sansation',
                                         ),
                                       ),
                                     ],
+                                  ),
+                                ),
+                                MediaQuery.removePadding(
+                                  context: context,
+                                  removeTop: true,
+                                  child: ListView.builder(
+                                    itemCount: controller.slot2.length,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 10.h,),
+                                          const Divider(
+                                            color: Colors.black26,
+                                          ),
+                                          SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CustomTextField(
+                                                fontWeight: FontWeight.w400,
+                                                size: 17.sp,
+                                                text: 'Medicine Type: ',
+                                                color: Colors.black,
+                                                maxLines: 1,
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 200.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot2[index].medicineCategory,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: 200.w,
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot2[index].pillName,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 100.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot2[index].dosage,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
-                            ),
                           ),
                         ),
-                      ),
-                    ),
+                            ),
+                      )
+                          : Container(),
+                      controller.slot3.isNotEmpty
+                          ? Obx(
+                            () => GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  RoutePaths.viewslot,
+                                  arguments: {
+                                    'pill': controller.slot3,
+                                  },
+                                );
+                              },
+                              child: Container(
+                          constraints: BoxConstraints(
+                              minHeight: 10.h,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                              borderRadius: BorderRadius.only(
+                                // topLeft: Radius.zero,
+                                bottomRight: Radius.circular(15.r),
+                                // bottomLeft: Radius.zero,
+                                topLeft: Radius.circular(15.r),
+                              ),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomTextField(
+                                      fontWeight: FontWeight.w700,
+                                      size: 17.sp,
+                                      text: "Slot 3",
+                                      color: Colors.black,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.cabinetmanagement,
+                                          arguments: {
+                                            'pill': controller.slot3,
+                                            'remainingDays': controller.slot3remainingDay.value,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Edit",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.addPillInExistingSlot,
+                                          arguments: {
+                                            'pillModel':
+                                            controller.slot3.first,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Add",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10.h,),
+                                RichText(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Pills ',
+                                      ),
+                                      TextSpan(
+                                        text: '    ${controller.slot3.first.pillsQuantity}',
+                                        style: const TextStyle(
+                                          color: Colors.green,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5.h,),
+                                RichText(
+                                  maxLines: 1,
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Days ',
+                                      ),
+                                      TextSpan(
+                                        text:
+                                        '   ${controller.slot3remainingDay.value}',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                MediaQuery.removePadding(
+                                  context: context,
+                                  removeTop: true,
+                                  child: ListView.builder(
+                                    itemCount: controller.slot3.length,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 10.h,),
+                                          const Divider(
+                                            color: Colors.black26,
+                                          ),
+                                          SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CustomTextField(
+                                                fontWeight: FontWeight.w400,
+                                                size: 17.sp,
+                                                text: 'Medicine Type: ',
+                                                color: Colors.black,
+                                                maxLines: 1,
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 200.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot3[index].medicineCategory,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: 200.w,
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot3[index].pillName,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 100.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot3[index].dosage,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                          ),
+                        ),
+                            ),
+                      )
+                          : Container(),
+                      controller.slot4.isNotEmpty
+                          ? Obx(
+                            () => GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  RoutePaths.viewslot,
+                                  arguments: {
+                                    'pill': controller.slot4,
+                                  },
+                                );
+                              },
+                              child: Container(
+                          constraints: BoxConstraints(
+                              minHeight: 10.h,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                              borderRadius: BorderRadius.only(
+                                // topLeft: Radius.zero,
+                                bottomRight: Radius.circular(15.r),
+                                // bottomLeft: Radius.zero,
+                                topLeft: Radius.circular(15.r),
+                              ),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomTextField(
+                                      fontWeight: FontWeight.w700,
+                                      size: 17.sp,
+                                      text: "Slot 4",
+                                      color: Colors.black,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.cabinetmanagement,
+                                          arguments: {
+                                            'pill': controller.slot4,
+                                            'remainingDays': controller.slot4remainingDay.value,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Edit",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.addPillInExistingSlot,
+                                          arguments: {
+                                            'pillModel':
+                                            controller.slot4.first,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Add",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10.h,),
+                                RichText(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Pills ',
+                                      ),
+                                      TextSpan(
+                                        text: '    ${controller.slot4.first.pillsQuantity}',
+                                        style: const TextStyle(
+                                          color: Colors.green,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5.h,),
+                                RichText(
+                                  maxLines: 1,
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Days ',
+                                      ),
+                                      TextSpan(
+                                        text:
+                                        '   ${controller.slot4remainingDay.value}',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                MediaQuery.removePadding(
+                                  context: context,
+                                  removeTop: true,
+                                  child: ListView.builder(
+                                    itemCount: controller.slot4.length,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 10.h,),
+                                          const Divider(
+                                            color: Colors.black26,
+                                          ),
+                                          SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CustomTextField(
+                                                fontWeight: FontWeight.w400,
+                                                size: 17.sp,
+                                                text: 'Medicine Type: ',
+                                                color: Colors.black,
+                                                maxLines: 1,
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 200.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot4[index].medicineCategory,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: 200.w,
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot4[index].pillName,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 100.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot4[index].dosage,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                          ),
+                        ),
+                            ),
+                      )
+                          : Container(),
+                      controller.slot5.isNotEmpty
+                          ? Obx(
+                            () => GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  RoutePaths.viewslot,
+                                  arguments: {
+                                    'pill': controller.slot5,
+                                  },
+                                );
+                              },
+                              child: Container(
+                          constraints: BoxConstraints(
+                              minHeight: 10.h,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                              borderRadius: BorderRadius.only(
+                                // topLeft: Radius.zero,
+                                bottomRight: Radius.circular(15.r),
+                                // bottomLeft: Radius.zero,
+                                topLeft: Radius.circular(15.r),
+                              ),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomTextField(
+                                      fontWeight: FontWeight.w700,
+                                      size: 17.sp,
+                                      text: "Slot 5",
+                                      color: Colors.black,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.cabinetmanagement,
+                                          arguments: {
+                                            'pill': controller.slot5,
+                                            'remainingDays': controller.slot5remainingDay.value,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Edit",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.addPillInExistingSlot,
+                                          arguments: {
+                                            'pillModel':
+                                            controller.slot5.first,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Add",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10.h,),
+                                RichText(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Pills ',
+                                      ),
+                                      TextSpan(
+                                        text: '    ${controller.slot5.first.pillsQuantity}',
+                                        style: const TextStyle(
+                                          color: Colors.green,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5.h,),
+                                RichText(
+                                  maxLines: 1,
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Days ',
+                                      ),
+                                      TextSpan(
+                                        text:
+                                        '   ${controller.slot5remainingDay.value}',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                MediaQuery.removePadding(
+                                  context: context,
+                                  removeTop: true,
+                                  child: ListView.builder(
+                                    itemCount: controller.slot5.length,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 10.h,),
+                                          const Divider(
+                                            color: Colors.black26,
+                                          ),
+                                          SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CustomTextField(
+                                                fontWeight: FontWeight.w400,
+                                                size: 17.sp,
+                                                text: 'Medicine Type: ',
+                                                color: Colors.black,
+                                                maxLines: 1,
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 200.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot5[index].medicineCategory,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: 200.w,
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot5[index].pillName,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 100.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot5[index].dosage,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                          ),
+                        ),
+                            ),
+                      )
+                          : Container(),
+                      controller.slot6.isNotEmpty
+                          ? Obx(
+                            () => GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  RoutePaths.viewslot,
+                                  arguments: {
+                                    'pill': controller.slot6,
+                                  },
+                                );
+                              },
+                              child: Container(
+                          constraints: BoxConstraints(
+                              minHeight: 10.h,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                              borderRadius: BorderRadius.only(
+                                // topLeft: Radius.zero,
+                                bottomRight: Radius.circular(15.r),
+                                // bottomLeft: Radius.zero,
+                                topLeft: Radius.circular(15.r),
+                              ),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomTextField(
+                                      fontWeight: FontWeight.w700,
+                                      size: 17.sp,
+                                      text: "Slot 6",
+                                      color: Colors.black,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.cabinetmanagement,
+                                          arguments: {
+                                            'pill': controller.slot6,
+                                            'remainingDays': controller.slot6remainingDay.value,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Edit",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          RoutePaths.addPillInExistingSlot,
+                                          arguments: {
+                                            'pillModel':
+                                            controller.slot6.first,
+                                          },
+                                        );
+                                      },
+                                      child: CustomTextField(
+                                        fontWeight: FontWeight.bold,
+                                        text: "Add",
+                                        size: 12.sp,
+                                        color: Colors.black,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10.h,),
+                                RichText(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Pills ',
+                                      ),
+                                      TextSpan(
+                                        text: '    ${controller.slot6.first.pillsQuantity}',
+                                        style: const TextStyle(
+                                          color: Colors.green,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5.h,),
+                                RichText(
+                                  maxLines: 1,
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Sansation',
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Remaining Days ',
+                                      ),
+                                      TextSpan(
+                                        text:
+                                        '   ${controller.slot6remainingDay.value}',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontFamily: 'Sansation',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                MediaQuery.removePadding(
+                                  context: context,
+                                  removeTop: true,
+                                  child: ListView.builder(
+                                    itemCount: controller.slot6.length,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 10.h,),
+                                          const Divider(
+                                            color: Colors.black26,
+                                          ),
+                                          SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CustomTextField(
+                                                fontWeight: FontWeight.w400,
+                                                size: 17.sp,
+                                                text: 'Medicine Type: ',
+                                                color: Colors.black,
+                                                maxLines: 1,
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 200.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot6[index].medicineCategory,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: 200.w,
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot6[index].pillName,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 100.w,
+                                                    minWidth: 10.w
+                                                ),
+                                                child: CustomTextField(
+                                                  fontWeight: FontWeight.w400,
+                                                  size: 17.sp,
+                                                  text: controller.slot6[index].dosage,
+                                                  color: Colors.black,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                          ),
+                        ),
+                            ),
+                      )
+                          : Container(),
+                    ],
                   )
                 : Center(
                     child: Padding(

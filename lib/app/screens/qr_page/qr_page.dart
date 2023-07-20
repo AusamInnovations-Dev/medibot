@@ -8,7 +8,6 @@ import 'package:medibot/app/screens/qr_page/getx_helper/qr_controller.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../widgets/backward_button.dart';
 import '../../widgets/box_field.dart';
-import '../../widgets/custom_input.dart';
 import '../../widgets/forward_button.dart';
 import '../../widgets/text_field.dart';
 import 'package:medibot/app/routes/route_path.dart';
@@ -73,14 +72,13 @@ class Qrcode extends GetView<QrController> {
                         () => CustomBox(
                           boxHeight: 200.h,
                           boxWidth: 232.w,
-                          boxShadow: [],
+                          boxShadow: const [],
                           body: !controller.isScanning.value ?
                           MobileScanner(
                             onDetect: (BarcodeCapture barcodes) {
                               var data = barcodes.raw;
                               controller.isScanning.value = true;
-                              log('QR Code scanner Id: $data');
-                              log('QR Code scanner Id: ${data.first['displayValue']}');
+                              log('This is the qr code data : $data');
                               Future.delayed(const Duration(seconds: 1), () {
 
                               });

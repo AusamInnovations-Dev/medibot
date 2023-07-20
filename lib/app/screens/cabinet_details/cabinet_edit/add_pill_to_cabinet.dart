@@ -18,14 +18,42 @@ class AddPill extends GetView<AddCabinetPill> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
-      bottomButtonText: 'Add Pill',
+      bottomButtonText: 'Add Medicine',
       onbottomButtonPressed: () async {
-        if(int.tryParse(controller.dosageController.text) != null && controller.dosage != 'Select Dosage'){
-          if (await controller.uploadCabinetPills()) {
-            Get.back();
+        if(controller.pillName.text.isEmpty || controller.medicineCategory.value == 'Select Category'){
+          Get.snackbar(
+            "Pills Reminder",
+            "Please enter a valid medicine name and category",
+            icon: const Icon(
+              Icons.check_sharp,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }else{
+          if(controller.durationDates.isNotEmpty){
+            if (await controller.uploadCabinetPills()) {
+              Get.back();
+              Get.snackbar(
+                "Pills Reminder",
+                "Pills is added to your cabinet.",
+                icon: const Icon(
+                  Icons.check_sharp,
+                  color: Colors.black,
+                ),
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: const Color(0xffA9CBFF),
+                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                colorText: Colors.black,
+              );
+            }
+          } else {
             Get.snackbar(
               "Pills Reminder",
-              "Pills is added to your cabinet.",
+              "Please Select the dates to take medicine.",
               icon: const Icon(
                 Icons.check_sharp,
                 color: Colors.black,
@@ -36,19 +64,6 @@ class AddPill extends GetView<AddCabinetPill> {
               colorText: Colors.black,
             );
           }
-        } else {
-          Get.snackbar(
-            "Pills Reminder",
-            "Please enter a valid dosage value.",
-            icon: const Icon(
-              Icons.check_sharp,
-              color: Colors.black,
-            ),
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: const Color(0xffA9CBFF),
-            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-            colorText: Colors.black,
-          );
         }
       },
       body: Column(
@@ -73,16 +88,6 @@ class AddPill extends GetView<AddCabinetPill> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.only(bottom: 11.w),
-                  child: CustomTextField(
-                    text: "Pill Name",
-                    fontFamily: 'Sansation',
-                    size: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
-                ),
                 DropdownButtonFormField(
                   isDense: true,
                   dropdownColor: Theme.of(context).colorScheme.primary,
@@ -112,7 +117,7 @@ class AddPill extends GetView<AddCabinetPill> {
                         color: Colors.black26,
                       ),
                     ),
-                    hintText: 'Medicine Category',
+                    hintText: 'Medicine Category *',
                     hintStyle: TextStyle(
                       fontFamily: 'Sansation',
                       fontSize: 15.sp,
@@ -172,7 +177,7 @@ class AddPill extends GetView<AddCabinetPill> {
                               color: Colors.black26,
                             ),
                           ),
-                          hintText: controller.medicineCategory.value != 'Select Category' ? '${controller.medicineCategory.value} Name' : 'Medicine Name',
+                          hintText: controller.medicineCategory.value != 'Select Category *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
                           hintStyle: TextStyle(
                             fontFamily: 'Sansation',
                             fontSize: 16.sp,
@@ -397,8 +402,7 @@ class AddPill extends GetView<AddCabinetPill> {
                         .toList(),
                     onChanged: (value) {
                       controller.interval.value = value!;
-                      if (controller.interval.value == 'Custom' ||
-                          controller.interval.value == 'Hourly') {
+                      if (controller.interval.value == 'Custom' || controller.interval.value == 'Hourly') {
                         controller.gererateCustomTimeInterval();
                       } else {
                         controller.selectingTimeIntervals();
@@ -418,7 +422,7 @@ class AddPill extends GetView<AddCabinetPill> {
                     children: [
                       CustomTextField(
                         fontWeight: FontWeight.w400,
-                        text: "Total Number of Tablets",
+                        text: "Total Number of Tablets *",
                         color: Colors.black,
                         size: 15.sp,
                         textAlign: TextAlign.start,
@@ -523,7 +527,7 @@ class AddPill extends GetView<AddCabinetPill> {
                 ),
                 CustomTextField(
                   fontWeight: FontWeight.w400,
-                  text: "Duration",
+                  text: "Duration *",
                   color: Colors.black,
                   size: 15.sp,
                   textAlign: TextAlign.start,

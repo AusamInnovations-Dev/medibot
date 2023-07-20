@@ -14,7 +14,7 @@ class SetReminderController extends GetxController {
   TextEditingController dosageController = TextEditingController();
   String dosage = 'Select Dosage';
   Rx<String> medicineCategory = 'Select Category'.obs;
-  Rx<String> interval = 'Once a Day'.obs;
+  Rx<String> interval = 'Once a Day (24 Hours)'.obs;
   Rx<String> hourlyInterval = '01 H'.obs;
   List<TimeOfDay> pillsTime = [
     const TimeOfDay(

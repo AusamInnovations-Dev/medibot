@@ -139,24 +139,6 @@ class HistoryDetailsController extends GetxController {
               ).inMinutes;
             }
             var diff = history.timeTaken.any((element1) => element1.difference(DateTime(date.year, date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes <= difference/2 && element1.difference(DateTime(date.year,date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes >=-30);
-
-            // if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
-            //   diff = DateTime(
-            //     DateTime.now().year,
-            //     DateTime.now().month,
-            //     DateTime.now().day,
-            //     int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(0, 2)),
-            //     int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex].substring(5, 7)),
-            //   ).difference(
-            //     DateTime(
-            //       DateTime.now().year,
-            //       DateTime.now().month,
-            //       DateTime.now().day,
-            //       int.parse(interval.substring(0, 2)),
-            //       int.parse(interval.substring(5, 7)),
-            //     ),
-            //   ).inMinutes;
-            // }
             if(int.parse(element.substring(0,2)) < 12){
               if(diff){
                 morning.add(

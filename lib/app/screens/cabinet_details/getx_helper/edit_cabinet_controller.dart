@@ -6,7 +6,7 @@ import '../../../models/pills_models/pills_model.dart';
 
 class EditCabinetController extends GetxController{
 
-  late PillsModel pill;
+  late List<PillsModel> pill;
   late int remainingDay;
   late String interval;
 
@@ -16,18 +16,18 @@ class EditCabinetController extends GetxController{
   void onInit() {
     pill = Get.arguments['pill'];
     remainingDay = Get.arguments['remainingDays'];
-    interval = pill.interval;
+    interval = pill.first.interval;
     super.onInit();
   }
 
   updatePill() async {
-    await FirebaseFireStore.to.updateCabinetData(
-      pill.copyWith(
-        interval: interval,
-        pillsQuantity: remainingPillController.text
-      )
-    );
-    Get.back();
+    // await FirebaseFireStore.to.updateCabinetData(
+    //   pill.copyWith(
+    //     interval: interval,
+    //     pillsQuantity: remainingPillController.text
+    //   )
+    // );
+    // Get.back();
   }
 
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -7,10 +5,8 @@ import 'package:get/get.dart';
 import 'package:medibot/app/screens/reminder/getx_helper/set_reminder_controller.dart';
 import 'package:medibot/app/screens/reminder/widgets/time_interval.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
-import '../../routes/route_path.dart';
 import '../../sampledata/medicines.dart';
 import '../../widgets/box_field.dart';
-import '../../widgets/custom_input.dart';
 import '../../widgets/text_field.dart';
 import 'widgets/select_duration.dart';
 
@@ -20,15 +16,13 @@ class SetReminderScreen extends GetView<SetReminderController> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
-      bottomButtonText: 'Add Pill',
+      bottomButtonText: 'Add Medicine',
       onbottomButtonPressed: () async {
-        if (int.tryParse(controller.dosageController.text) != null &&
-            controller.dosage != 'Select Dosage') {
-          if (await controller.uploadPillsReminderData() != '') {
-            Get.back();
+        if (controller.durationDates.isNotEmpty) {
+          if(controller.pillName.text.isEmpty || controller.medicineCategory.value == 'Select Category') {
             Get.snackbar(
               "Pills Reminder",
-              "Your pill is scheduled successfully",
+              "Please enter a valid pill name",
               icon: const Icon(
                 Icons.check_sharp,
                 color: Colors.black,
@@ -39,13 +33,30 @@ class SetReminderScreen extends GetView<SetReminderController> {
               EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
               colorText: Colors.black,
             );
+          }else{
+            if (await controller.uploadPillsReminderData() != '') {
+              Get.back();
+              Get.snackbar(
+                "Pills Reminder",
+                "Your pill is scheduled successfully",
+                icon: const Icon(
+                  Icons.check_sharp,
+                  color: Colors.black,
+                ),
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: const Color(0xffA9CBFF),
+                margin:
+                EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                colorText: Colors.black,
+              );
+            }
           }
         } else {
           Get.snackbar(
             "Pills Reminder",
-            "Please enter a valid dosage value.",
+            "Please Select the dates to take medicine",
             icon: const Icon(
-              Icons.check_sharp,
+              Icons.crisis_alert,
               color: Colors.black,
             ),
             snackPosition: SnackPosition.BOTTOM,
@@ -101,7 +112,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                         color: Colors.black26,
                       ),
                     ),
-                    hintText: 'Medicine Category',
+                    hintText: 'Medicine Category*',
                     hintStyle: TextStyle(
                       fontFamily: 'Sansation',
                       fontSize: 15.sp,
@@ -161,7 +172,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             color: Colors.black26,
                           ),
                         ),
-                        hintText: controller.medicineCategory.value != 'Select Category' ? '${controller.medicineCategory.value} Name' : 'Medicine Name',
+                        hintText: controller.medicineCategory.value != 'Select Category *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
                         hintStyle: TextStyle(
                           fontFamily: 'Sansation',
                           fontSize: 16.sp,
@@ -397,7 +408,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                   padding: EdgeInsets.only(bottom: 20.h),
                   child: CustomTextField(
                     fontWeight: FontWeight.w400,
-                    text: 'Set Time',
+                    text: 'Set Time *',
                     color: Colors.black,
                     size: 14.sp,
                   ),
@@ -412,7 +423,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                   children: [
                     CustomTextField(
                       fontWeight: FontWeight.w400,
-                      text: "Quantity",
+                      text: "Quantity *",
                       color: Colors.black,
                       size: 15.sp,
                       textAlign: TextAlign.start,
@@ -516,7 +527,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                 ),
                 CustomTextField(
                   fontWeight: FontWeight.w400,
-                  text: "Duration",
+                  text: "Duration *",
                   color: Colors.black,
                   size: 15.sp,
                   textAlign: TextAlign.start,

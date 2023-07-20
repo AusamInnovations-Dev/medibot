@@ -15,7 +15,7 @@ class AddCabinetPill extends GetxController {
   TextEditingController dosageController = TextEditingController();
   String dosage = 'Select Dosage';
   Rx<String> medicineCategory = 'Select Category'.obs;
-  Rx<String> interval = 'Once a Day'.obs;
+  Rx<String> interval = 'Once a Day (24 Hours)'.obs;
   Rx<String> hourlyInterval = '01 H'.obs;
   List<TimeOfDay> pillsTime = [
     const TimeOfDay(
@@ -248,9 +248,9 @@ class AddCabinetPill extends GetxController {
     }
 
     try {
-      if (Get.find<CabinetController>().cabinetPillsList.length + 1 <= 6) {
-        var isUploaded =
-        await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+      var controller = Get.find<CabinetController>();
+      if(controller.slot1.isEmpty){
+        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
           uid: '',
           pillName: pillName.text,
           dosage: dosageController.text+dosage,
@@ -264,10 +264,100 @@ class AddCabinetPill extends GetxController {
           pillsInterval: intervalsInString,
           pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
           request: 1,
-          slot: Get.find<CabinetController>().cabinetPillsList.length + 1,
+          slot: 1,
         ));
         return isUploaded;
-      } else {
+      }else if(controller.slot2.isEmpty){
+        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+          uid: '',
+          pillName: pillName.text,
+          dosage: dosageController.text+dosage,
+          medicineCategory: medicineCategory.value,
+          userId: UserStore.to.uid,
+          interval: interval.value,
+          inCabinet: true,
+          isIndividual: isIndividual.value,
+          isRange: isRange.value,
+          pillsQuantity: pillQuantity.value.toString(),
+          pillsInterval: intervalsInString,
+          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+          request: 1,
+          slot: 2,
+        ));
+        return isUploaded;
+      }else if(controller.slot3.isEmpty){
+        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+          uid: '',
+          pillName: pillName.text,
+          dosage: dosageController.text+dosage,
+          medicineCategory: medicineCategory.value,
+          userId: UserStore.to.uid,
+          interval: interval.value,
+          inCabinet: true,
+          isIndividual: isIndividual.value,
+          isRange: isRange.value,
+          pillsQuantity: pillQuantity.value.toString(),
+          pillsInterval: intervalsInString,
+          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+          request: 1,
+          slot: 3,
+        ));
+        return isUploaded;
+      }else if(controller.slot4.isEmpty){
+        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+          uid: '',
+          pillName: pillName.text,
+          dosage: dosageController.text+dosage,
+          medicineCategory: medicineCategory.value,
+          userId: UserStore.to.uid,
+          interval: interval.value,
+          inCabinet: true,
+          isIndividual: isIndividual.value,
+          isRange: isRange.value,
+          pillsQuantity: pillQuantity.value.toString(),
+          pillsInterval: intervalsInString,
+          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+          request: 1,
+          slot: 4,
+        ));
+        return isUploaded;
+      }else if(controller.slot5.isEmpty){
+        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+          uid: '',
+          pillName: pillName.text,
+          dosage: dosageController.text+dosage,
+          medicineCategory: medicineCategory.value,
+          userId: UserStore.to.uid,
+          interval: interval.value,
+          inCabinet: true,
+          isIndividual: isIndividual.value,
+          isRange: isRange.value,
+          pillsQuantity: pillQuantity.value.toString(),
+          pillsInterval: intervalsInString,
+          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+          request: 1,
+          slot: 5,
+        ));
+        return isUploaded;
+      } else if(controller.slot6.isEmpty){
+        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+          uid: '',
+          pillName: pillName.text,
+          dosage: dosageController.text+dosage,
+          medicineCategory: medicineCategory.value,
+          userId: UserStore.to.uid,
+          interval: interval.value,
+          inCabinet: true,
+          isIndividual: isIndividual.value,
+          isRange: isRange.value,
+          pillsQuantity: pillQuantity.value.toString(),
+          pillsInterval: intervalsInString,
+          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+          request: 1,
+          slot: 6,
+        ));
+        return isUploaded;
+      }else {
         Get.snackbar(
           "Cabinet",
           "You don't have enough empty slot left in cabinet",

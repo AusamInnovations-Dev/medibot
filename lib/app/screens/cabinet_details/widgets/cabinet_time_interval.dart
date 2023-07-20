@@ -213,9 +213,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                               onTap: () {
                                 controller.removeHourlyTimeInterval(index);
                               },
-                              child: index ==
-                                          controller.timeIntervals.length - 1 &&
-                                      index != 0
+                              child: index == controller.timeIntervals.length - 1 && index != 0
                                   ? CustomBox(
                                       offset: 0,
                                       color:
@@ -235,7 +233,10 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                       boxWidth: 33.w,
                                       boxShadow: [],
                                     )
-                                  : Container(),
+                                  : SizedBox(
+                                height: 29.h,
+                                width: 33.w,
+                              ),
                             ),
                             SizedBox(
                               width: 10.w,
@@ -375,14 +376,10 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                       onTap: () {
                                         controller.addHourlyTimeInterval();
                                       },
-                                      child: index ==
-                                              controller.timeIntervals.length -
-                                                  1
+                                      child: index == controller.timeIntervals.length - 1
                                           ? CustomBox(
                                               offset: 0,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              color: Theme.of(context).colorScheme.primary,
                                               boxHeight: 29.h,
                                               topLeft: Radius.circular(4.r),
                                               topRight: Radius.circular(4.r),
@@ -398,9 +395,15 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                               boxWidth: 33.w,
                                               boxShadow: [],
                                             )
-                                          : Container(),
+                                          : SizedBox(
+                                        height: 29.h,
+                                        width: 33.w,
+                                      ),
                                     )
-                                  : Container(),
+                                  : SizedBox(
+                                height: 29.h,
+                                width: 33.w,
+                              ),
                             ),
                           ],
                         ),
@@ -435,8 +438,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                       onTap: () {
                         controller.removeCustomTimeInterval(index);
                       },
-                      child: index == controller.timeIntervals.length - 1 &&
-                              index != 0
+                      child: index == controller.timeIntervals.length - 1 && index != 0
                           ? CustomBox(
                               offset: 0,
                               color: Theme.of(context).colorScheme.primary,
@@ -455,7 +457,10 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                               boxWidth: 33.w,
                               boxShadow: [],
                             )
-                          : Container(),
+                          : SizedBox(
+                        height: 29.h,
+                        width: 33.w,
+                      ),
                     ),
                     SizedBox(
                       width: 10.w,
@@ -599,7 +604,10 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                               boxWidth: 33.w,
                               boxShadow: [],
                             )
-                          : Container(),
+                          : SizedBox(
+                        height: 29.h,
+                        width: 33.w,
+                      ),
                     ),
                   ],
                 ),

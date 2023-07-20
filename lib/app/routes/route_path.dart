@@ -24,4 +24,7 @@ class RoutePaths {
   static const historyDetailsPage = '/historyDetailsPage';
 
   static String contactPage = '/contactPage';
+
+  static String addPillInExistingSlot = '/addPillInExistingSlot';
+
 }

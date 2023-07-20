@@ -5,6 +5,7 @@ import 'package:medibot/app/screens/auth_screen/otp_verification_page.dart';
 import 'package:medibot/app/screens/auth_screen/sign_in_page.dart';
 import 'package:medibot/app/screens/cabinet_details/cabinet.dart';
 import 'package:medibot/app/screens/cabinet_details/getx_helper/add_cabinet_pill_binding.dart';
+import 'package:medibot/app/screens/cabinet_details/getx_helper/add_existing_slot_binding.dart';
 import 'package:medibot/app/screens/cabinet_details/getx_helper/view_pills_binding.dart';
 import 'package:medibot/app/screens/contact_screen/contacts_screen.dart';
 import 'package:medibot/app/screens/home_screen/home_page.dart';
@@ -21,6 +22,7 @@ import 'package:medibot/main.dart';
 import '../screens/auth_screen/set_up_profile/caretaker_info.dart';
 import '../screens/auth_screen/set_up_profile/create_account.dart';
 import '../screens/auth_screen/set_up_profile/emergancy_info.dart';
+import '../screens/cabinet_details/cabinet_edit/add_existing_slot.dart';
 import '../screens/contact_screen/getx_helper/contact_binding.dart';
 import '../screens/qr_page/qr_page.dart';
 import '../screens/auth_screen/set_up_profile/setupfinished.dart';
@@ -129,6 +131,11 @@ class RouteHelper {
       name: RoutePaths.cabinetmanagement,
       page: () => const CabinetManagement(),
       binding: EditCabinetBinding()
+    ),
+    GetPage(
+      name: RoutePaths.addPillInExistingSlot,
+      page: () => const AddPillInExistingSlot(),
+      binding: AddExistingSlotBinding()
     ),
     GetPage(
       name: RoutePaths.addpillcabinet,

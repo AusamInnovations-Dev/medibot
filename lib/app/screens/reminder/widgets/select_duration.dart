@@ -148,8 +148,7 @@ class SelectDuration extends GetView<SetReminderController> {
                               ),
                               child: CustomTextField(
                                 fontWeight: FontWeight.w400,
-                                text:
-                                    '${controller.durationDates[index].day}/${controller.durationDates[index].month}/${controller.durationDates[index].year}',
+                                text: '${controller.durationDates[index].day}/${controller.durationDates[index].month}/${controller.durationDates[index].year}',
                                 color: Colors.black,
                                 size: 12.sp,
                               ),
@@ -186,8 +185,7 @@ class SelectDuration extends GetView<SetReminderController> {
                               ),
                               child: CustomTextField(
                                 fontWeight: FontWeight.w400,
-                                text:
-                                    '${controller.durationDates.first.day}/${controller.durationDates.first.month}/${controller.durationDates.first.year}',
+                                text: '${controller.durationDates.first.day}/${controller.durationDates.first.month}/${controller.durationDates.first.year}',
                                 color: Colors.black,
                                 size: 12.sp,
                               ),

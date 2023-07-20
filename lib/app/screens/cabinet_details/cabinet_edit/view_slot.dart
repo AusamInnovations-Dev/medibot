@@ -45,19 +45,38 @@ class ViewSlot extends GetView<ViewPillsController> {
                     children: [
                       CustomTextField(
                         fontWeight: FontWeight.w700,
-                        text: 'Pill Name',
+                        text: 'Medicine Category',
                         color: Colors.black,
                         size: 14.sp,
                       ),
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: controller.pill.pillName,
+                        Text: controller.pill.first.medicineCategory,
                       )
                     ],
                   ),
                 ),
-                //TODO: have to complete layout
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 5.h),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        fontWeight: FontWeight.w700,
+                        text: '${controller.pill.first.medicineCategory} Name',
+                        color: Colors.black,
+                        size: 14.sp,
+                      ),
+                      CustomTextView(
+                        boxHeight: 36.h,
+                        boxWidth: 329.w,
+                        Text: controller.pill.first.pillName,
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 8.h),
                   child: Column(
@@ -73,7 +92,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: controller.pill.dosage,
+                        Text: controller.pill.first.dosage,
                       )
                     ],
                   ),
@@ -95,12 +114,11 @@ class ViewSlot extends GetView<ViewPillsController> {
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: controller.pill.slot.toString(),
+                        Text: controller.pill.first.slot.toString(),
                       )
                     ],
                   ),
                 ),
-                //TODO: Have to complete layout
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 8.h),
                   child: Column(
@@ -115,7 +133,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
-                        Text: controller.pill.interval,
+                        Text: controller.pill.first.interval,
                         boxcolor: Theme.of(context).colorScheme.secondary,
                         textAlign: TextAlign.center,
                       )
@@ -123,19 +141,18 @@ class ViewSlot extends GetView<ViewPillsController> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(bottom: 15.h),
+                  padding: EdgeInsets.only(bottom: 10.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomTextField(
                         fontWeight: FontWeight.w700,
-                        text: 'Set Time',
+                        text: 'Time Interval',
                         color: Colors.black,
                         size: 14.sp,
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 5.h),
-                        padding: EdgeInsets.only(top: 10.h),
                         child: MediaQuery.removePadding(
                           context: context,
                           removeTop: true,
@@ -154,8 +171,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                       CustomTextView(
                                         boxHeight: 32.h,
                                         boxWidth: 59.w,
-                                        Text: controller.pillIntervals[index]
-                                            ['hour'],
+                                        Text: controller.pillIntervals[index]['hour'],
                                         textAlign: TextAlign.center,
                                       ),
                                       SizedBox(
@@ -173,8 +189,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                       CustomTextView(
                                         boxHeight: 32.h,
                                         boxWidth: 65.w,
-                                        Text: controller.pillIntervals[index]
-                                            ['minute'],
+                                        Text: controller.pillIntervals[index]['minute'],
                                         textAlign: TextAlign.center,
                                       ),
                                       SizedBox(
@@ -183,8 +198,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                       CustomTextView(
                                         boxHeight: 32.h,
                                         boxWidth: 59.w,
-                                        Text: controller.pillIntervals[index]
-                                            ['period'],
+                                        Text: controller.pillIntervals[index]['period'],
                                         textAlign: TextAlign.center,
                                       ),
                                     ],
@@ -207,20 +221,20 @@ class ViewSlot extends GetView<ViewPillsController> {
                       textAlign: TextAlign.start,
                     ),
                     SizedBox(
-                      height: 7.h,
+                      height: 10.h,
                     ),
                     Center(
                       child: CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 250.w,
-                        Text: controller.pill.pillsQuantity,
+                        Text: controller.pill.first.pillsQuantity,
                         textAlign: TextAlign.center,
                       ),
                     )
                   ],
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 15.h,
                 ),
                 CustomTextField(
                   fontWeight: FontWeight.w700,
@@ -240,7 +254,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       child: CustomTextField(
                         size: 13.sp,
                         fontWeight: FontWeight.w400,
-                        text: controller.pill.isIndividual
+                        text: controller.pill.first.isIndividual
                             ? "Individual Date(s)"
                             : 'Range',
                         color: Colors.black,
@@ -248,14 +262,13 @@ class ViewSlot extends GetView<ViewPillsController> {
                     ),
                     Container(
                       margin: EdgeInsets.only(right: 11.w),
-                      //height: 100.h,
                       width: 360.w,
                       child: MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: controller.pill.pillsDuration.length,
+                          itemCount: controller.pill.first.pillsDuration.length,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Container(
@@ -277,7 +290,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                   child: CustomTextField(
                                     fontWeight: FontWeight.w400,
                                     text:
-                                        '${DateTime.parse(controller.pill.pillsDuration[index]).day}/${DateTime.parse(controller.pill.pillsDuration[index]).month}/${DateTime.parse(controller.pill.pillsDuration[index]).year}',
+                                        '${DateTime.parse(controller.pill.first.pillsDuration[index]).day}/${DateTime.parse(controller.pill.first.pillsDuration[index]).month}/${DateTime.parse(controller.pill.first.pillsDuration[index]).year}',
                                     color: Colors.black,
                                     size: 12.sp,
                                   ),

@@ -35,8 +35,8 @@ class HistoryPage extends GetView<HistoryController> {
                     Container(
                       margin: EdgeInsets.only(top: 15.h),
                       child: TableCalendar(
-                        firstDay: DateTime(DateTime.now().year, DateTime.now().month-1),
-                        lastDay: DateTime(DateTime.now().year, DateTime.now().month+1),
+                        firstDay: DateTime(DateTime.now().year-1, DateTime.now().month, DateTime.now().day),
+                        lastDay: DateTime(DateTime.now().year+1, DateTime.now().month, DateTime.now().day),
                         headerVisible: true,
                         currentDay: DateTime.now(),
                         focusedDay: DateTime.now(),
@@ -245,7 +245,9 @@ class HistoryPage extends GetView<HistoryController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await controller.exportToPdf(DateTime(DateTime.now().year, DateTime.now().month), DateTime(DateTime.now().year, DateTime.now().month+1));
+                          },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(0, 0),
                             backgroundColor:

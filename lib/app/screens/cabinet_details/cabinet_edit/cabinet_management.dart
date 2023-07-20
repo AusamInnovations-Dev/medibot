@@ -63,7 +63,7 @@ class CabinetManagement extends GetView<EditCabinetController> {
                     Container(
                       padding: EdgeInsets.only(bottom: 11.w),
                       child: CustomTextField(
-                        text: "Slot ${controller.pill.slot}",
+                        text: "Slot ${controller.pill.first.slot}",
                         fontFamily: 'Sansation',
                         size: 18.sp,
                         fontWeight: FontWeight.w400,
@@ -89,7 +89,7 @@ class CabinetManagement extends GetView<EditCabinetController> {
                     Container(
                       margin: EdgeInsets.only(bottom: 5.h, right: 2.w),
                       child: DropdownButtonFormField(
-                        value: controller.pill.interval,
+                        value: controller.interval,
                         dropdownColor: Theme.of(context).colorScheme.primary,
                         focusColor: Theme.of(context).colorScheme.primary,
                         style: TextStyle(
@@ -126,10 +126,11 @@ class CabinetManagement extends GetView<EditCabinetController> {
                           ),
                         ),
                         items: [
-                          'Once a Day',
-                          'Twice a Day',
-                          'Thrice a Day',
-                          'Custom'
+                          'Once a Day (24 Hours)',
+                          'Twice a Day (12 Hours)',
+                          'Thrice a Day (8 Hours)',
+                          'Custom',
+                          'Hourly'
                         ]
                             .map(
                               (element) => DropdownMenuItem(
