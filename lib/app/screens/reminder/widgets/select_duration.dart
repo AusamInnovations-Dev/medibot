@@ -119,7 +119,6 @@ class SelectDuration extends GetView<SetReminderController> {
         Obx(
           () => Container(
             margin: EdgeInsets.only(right: 11.w),
-            //height: 100.h,
             width: 360.w,
             child: MediaQuery.removePadding(
               context: context,
@@ -217,8 +216,7 @@ class SelectDuration extends GetView<SetReminderController> {
                               ),
                               child: CustomTextField(
                                 fontWeight: FontWeight.w400,
-                                text:
-                                    '${controller.durationDates.last.day}/${controller.durationDates.last.month}/${controller.durationDates.last.year}',
+                                text: '${controller.durationDates.last.day}/${controller.durationDates.last.month}/${controller.durationDates.last.year}',
                                 color: Colors.black,
                                 size: 12.sp,
                               ),

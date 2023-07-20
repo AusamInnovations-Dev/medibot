@@ -9,7 +9,7 @@ import '../../../services/user.dart';
 
 class AddExistingSlotController extends GetxController {
   late PillsModel pill;
-  List<Map<String, dynamic>> pillIntervals = [];
+  RxList<Map<String, dynamic>> pillIntervals = <Map<String, dynamic>>[].obs;
   Rx<String> medicineCategory = 'Select Category'.obs;
 
   TextEditingController pillName = TextEditingController();
@@ -19,6 +19,7 @@ class AddExistingSlotController extends GetxController {
   @override
   void onInit() {
     pill = Get.arguments!['pillModel'];
+    calculateInterval();
     super.onInit();
   }
 
@@ -33,8 +34,7 @@ class AddExistingSlotController extends GetxController {
       } else {
         pillIntervals.add(
           {
-            'hour':
-                '${int.parse(interval.substring(0, 2)) >= 12 ? (int.parse(interval.substring(0, 2)) - 12) <= 9 ? '0${int.parse(interval.substring(0, 2)) - 12}' : int.parse(interval.substring(0, 2)) - 12 : interval.substring(0, 2)} H',
+            'hour': '${int.parse(interval.substring(0, 2)) >= 12 ? (int.parse(interval.substring(0, 2)) - 12) <= 9 ? '0${int.parse(interval.substring(0, 2)) - 12}' : int.parse(interval.substring(0, 2)) - 12 : interval.substring(0, 2)} H',
             'minute': '${interval.substring(5, 7)} M',
             'period': int.parse(interval.substring(0, 2)) >= 12 ? "PM" : "AM",
           },

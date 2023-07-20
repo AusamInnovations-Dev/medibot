@@ -16,22 +16,21 @@ class ViewPillsController extends GetxController {
   }
 
   calculateInterval() {
-    // pillIntervals.clear();
-    // log(pill.pillsInterval.first);
-    // log('${pill.pillsInterval.first.substring(0, 2)} ${pill.pillsInterval.first.substring(5, 7)}');
-    //
-    // for(var interval in pill.pillsInterval){
-    //   if(interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00'){
-    //
-    //   }else{
-    //     pillIntervals.add(
-    //       {
-    //         'hour': '${int.parse(interval.substring(0, 2)) >= 12 ? (int.parse(interval.substring(0, 2))-12) <= 9? '0${int.parse(interval.substring(0, 2))-12}' : int.parse(interval.substring(0, 2))-12 : interval.substring(0, 2) } H',
-    //         'minute': '${interval.substring(5, 7)} M',
-    //         'period': int.parse(interval.substring(0, 2)) >= 12? "PM" : "AM",
-    //       },
-    //     );
-    //   }
-    // }
+    pillIntervals.clear();
+    log(pill.first.pillsInterval.toString());
+
+    for(var interval in pill.first.pillsInterval){
+      if(interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00'){
+
+      }else{
+        pillIntervals.add(
+          {
+            'hour': '${int.parse(interval.substring(0, 2)) >= 12 ? (int.parse(interval.substring(0, 2))-12) <= 9? '0${int.parse(interval.substring(0, 2))-12}' : int.parse(interval.substring(0, 2))-12 : interval.substring(0, 2) } H',
+            'minute': '${interval.substring(5, 7)} M',
+            'period': int.parse(interval.substring(0, 2)) >= 12? "PM" : "AM",
+          },
+        );
+      }
+    }
   }
 }

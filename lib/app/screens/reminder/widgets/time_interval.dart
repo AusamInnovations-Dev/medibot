@@ -5,12 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/sampledata/medicines.dart';
 import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_add_pill_controller.dart';
+import 'package:medibot/app/screens/reminder/getx_helper/set_reminder_controller.dart';
 import 'package:medibot/app/widgets/box_field.dart';
 
 import '../../../widgets/custom_drop_down.dart';
 import '../../../widgets/text_field.dart';
 
-class TimeInterval extends GetView<AddCabinetPill> {
+class TimeInterval extends GetView<SetReminderController> {
   final String interval;
 
   const TimeInterval({required this.interval, super.key});

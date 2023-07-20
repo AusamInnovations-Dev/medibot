@@ -69,11 +69,24 @@ class ViewSlot extends GetView<ViewPillsController> {
                         color: Colors.black,
                         size: 14.sp,
                       ),
-                      CustomTextView(
-                        boxHeight: 36.h,
-                        boxWidth: 329.w,
-                        Text: controller.pill.first.pillName,
-                      )
+                      MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                          itemCount: controller.pill.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index){
+                            return Padding(
+                              padding: EdgeInsets.only(top: 8.h),
+                              child: CustomTextView(
+                                boxHeight: 36.h,
+                                boxWidth: 329.w,
+                                Text: controller.pill[index].pillName,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -89,11 +102,24 @@ class ViewSlot extends GetView<ViewPillsController> {
                         color: Colors.black,
                         size: 14.sp,
                       ),
-                      CustomTextView(
-                        boxHeight: 36.h,
-                        boxWidth: 329.w,
-                        Text: controller.pill.first.dosage,
-                      )
+                      MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                          itemCount: controller.pill.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index){
+                            return Padding(
+                              padding: EdgeInsets.only(top: 8.h),
+                              child: CustomTextView(
+                                boxHeight: 36.h,
+                                boxWidth: 329.w,
+                                Text: controller.pill[index].dosage,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -130,6 +156,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                         color: Colors.black,
                         size: 14.sp,
                       ),
+                      SizedBox(height: 5.h,),
                       CustomTextView(
                         boxHeight: 36.h,
                         boxWidth: 329.w,
@@ -261,12 +288,13 @@ class ViewSlot extends GetView<ViewPillsController> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(right: 11.w),
+                      margin: EdgeInsets.only(right: 11.w, bottom: 15.h),
                       width: 360.w,
                       child: MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
-                        child: ListView.builder(
+                        child: !controller.pill.first.isRange ?
+                        ListView.builder(
                           shrinkWrap: true,
                           itemCount: controller.pill.first.pillsDuration.length,
                           physics: const NeverScrollableScrollPhysics(),
@@ -289,8 +317,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                   ),
                                   child: CustomTextField(
                                     fontWeight: FontWeight.w400,
-                                    text:
-                                        '${DateTime.parse(controller.pill.first.pillsDuration[index]).day}/${DateTime.parse(controller.pill.first.pillsDuration[index]).month}/${DateTime.parse(controller.pill.first.pillsDuration[index]).year}',
+                                    text: '${DateTime.parse(controller.pill.first.pillsDuration[index]).day}/${DateTime.parse(controller.pill.first.pillsDuration[index]).month}/${DateTime.parse(controller.pill.first.pillsDuration[index]).year}',
                                     color: Colors.black,
                                     size: 12.sp,
                                   ),
@@ -298,6 +325,74 @@ class ViewSlot extends GetView<ViewPillsController> {
                               ),
                             );
                           },
+                        ) : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextField(
+                              fontWeight: FontWeight.bold,
+                              text: "From",
+                              size: 12.sp,
+                              color: Colors.black,
+                              textAlign: TextAlign.center,
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 6.h),
+                              child: CustomBox(
+                                boxHeight: 36.h,
+                                boxWidth: 400.w,
+                                topLeft: Radius.circular(4.r),
+                                topRight: Radius.circular(4.r),
+                                bottomLeft: Radius.circular(4.r),
+                                bottomRight: Radius.circular(4.r),
+                                boxShadow: [],
+                                borders: Border.all(color: Colors.black26),
+                                body: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 11.h,
+                                    horizontal: 7.w,
+                                  ),
+                                  child: CustomTextField(
+                                    fontWeight: FontWeight.w400,
+                                    text: '${DateTime.parse(controller.pill.first.pillsDuration[0]).day}/${DateTime.parse(controller.pill.first.pillsDuration[0]).month}/${DateTime.parse(controller.pill.first.pillsDuration[0]).year}',
+                                    color: Colors.black,
+                                    size: 12.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            CustomTextField(
+                              fontWeight: FontWeight.bold,
+                              text: "To",
+                              size: 12.sp,
+                              color: Colors.black,
+                              textAlign: TextAlign.center,
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 6.h),
+                              child: CustomBox(
+                                boxHeight: 36.h,
+                                boxWidth: 400.w,
+                                topLeft: Radius.circular(4.r),
+                                topRight: Radius.circular(4.r),
+                                bottomLeft: Radius.circular(4.r),
+                                bottomRight: Radius.circular(4.r),
+                                boxShadow: [],
+                                borders: Border.all(color: Colors.black26),
+                                body: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 11.h,
+                                    horizontal: 7.w,
+                                  ),
+                                  child: CustomTextField(
+                                    fontWeight: FontWeight.w400,
+                                    text: '${DateTime.parse(controller.pill.first.pillsDuration[1]).day}/${DateTime.parse(controller.pill.first.pillsDuration[1]).month}/${DateTime.parse(controller.pill.first.pillsDuration[1]).year}',
+                                    color: Colors.black,
+                                    size: 12.sp,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
