@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
@@ -267,7 +267,7 @@ class SetReminderController extends GetxController {
       ),
     );
      await NotificationService.to.scheduleNotification(
-       1,
+         math.Random().nextInt(1000),
        PillsModel(
          userId: UserStore.to.uid,
          uid: isUploaded,

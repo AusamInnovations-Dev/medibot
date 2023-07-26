@@ -160,25 +160,17 @@ class HomePage extends GetView<HomepageController> {
                                           ),
                                         ),
                                         Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 fixedSize: Size(55.w, 3.h),
-                                                backgroundColor:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary,
+                                                backgroundColor: Theme.of(context).colorScheme.secondary,
                                                 padding: EdgeInsets.symmetric(
                                                   vertical: 1.h,
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.r),
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r),
                                                 ),
                                               ),
                                               onPressed: () {},
@@ -196,16 +188,9 @@ class HomePage extends GetView<HomepageController> {
                                                   alignment: Alignment.center,
                                                   child: CustomTextField(
                                                     fontWeight: FontWeight.bold,
-                                                    text: controller
-                                                            .reminderList
-                                                            .isEmpty
+                                                    text: controller.reminderList.isEmpty
                                                         ? '--/--'
-                                                        : controller
-                                                            .reminderList[
-                                                                controller
-                                                                    .pillIndex
-                                                                    .value]
-                                                            .pillName,
+                                                        : controller.reminderList[controller.pillIndex.value].pillName,
                                                     color: Colors.black,
                                                     size: 18.sp,
                                                   ),
@@ -222,30 +207,23 @@ class HomePage extends GetView<HomepageController> {
                                               () => ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                   fixedSize: Size(55.w, 3.h),
-                                                  backgroundColor:
-                                                      Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary,
+                                                  backgroundColor: Theme.of(context).colorScheme.secondary,
                                                   padding: EdgeInsets.symmetric(
                                                     vertical: 1.h,
                                                   ),
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.r),
+                                                    borderRadius: BorderRadius.circular(5.r),
                                                   ),
                                                 ),
                                                 onPressed: () async {
-                                                  if (!controller
-                                                      .isSkipping.value) {
+                                                  if (!controller.isTaking.value && !controller.isSkipping.value) {
                                                     await controller.skipPill();
                                                   }
                                                 },
                                                 child:
                                                     !controller.isSkipping.value
                                                         ? CustomTextField(
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                            fontWeight: FontWeight.bold,
                                                             text: "Skip",
                                                             color: Colors.black,
                                                             size: 13.sp,
@@ -253,8 +231,7 @@ class HomePage extends GetView<HomepageController> {
                                                         : SizedBox(
                                                             height: 18.h,
                                                             width: 18.w,
-                                                            child:
-                                                                const CircularProgressIndicator(),
+                                                            child: const CircularProgressIndicator(),
                                                           ),
                                               ),
                                             ),
@@ -263,27 +240,18 @@ class HomePage extends GetView<HomepageController> {
                                         Obx(
                                           () => ElevatedButton(
                                             onPressed: () async {
-                                              if (!controller.isTaking.value) {
+                                              if (!controller.isTaking.value && !controller.isSkipping.value) {
                                                 await controller.takeNowPill();
                                               }
                                             },
                                             style: ElevatedButton.styleFrom(
-                                              minimumSize: Size(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.805,
-                                                0,
-                                              ),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
+                                              minimumSize: Size(MediaQuery.of(context).size.width * 0.805, 0,),
+                                              backgroundColor: Theme.of(context).colorScheme.secondary,
                                               padding: EdgeInsets.symmetric(
                                                 vertical: 12.h,
                                               ),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5.r),
+                                                borderRadius: BorderRadius.circular(5.r),
                                               ),
                                             ),
                                             child: !controller.isTaking.value
@@ -296,8 +264,7 @@ class HomePage extends GetView<HomepageController> {
                                                 : SizedBox(
                                                     height: 18.h,
                                                     width: 18.w,
-                                                    child:
-                                                        const CircularProgressIndicator(),
+                                                    child: const CircularProgressIndicator(),
                                                   ),
                                           ),
                                         ),
@@ -310,18 +277,19 @@ class HomePage extends GetView<HomepageController> {
                                       visible: controller.pillIndex > 0,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          controller.pillIndex.value--;
+                                          if(controller.isSkipping.value || controller.isTaking.value){
+
+                                          }else{
+                                            controller.pillIndex.value--;
+                                          }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
+                                          backgroundColor: Theme.of(context).colorScheme.secondary,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 2.h,
                                           ),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.r),
+                                            borderRadius: BorderRadius.circular(5.r),
                                           ),
                                         ),
                                         child: const Icon(
@@ -335,22 +303,22 @@ class HomePage extends GetView<HomepageController> {
                                     top: 90.h,
                                     right: 0.w,
                                     child: Visibility(
-                                      visible: controller.pillIndex.value <
-                                          controller.reminderList.length - 1,
+                                      visible: controller.pillIndex.value < controller.reminderList.length - 1,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          controller.pillIndex.value += 1;
+                                          if(controller.isSkipping.value || controller.isTaking.value){
+
+                                          }else{
+                                            controller.pillIndex.value += 1;
+                                          }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
+                                          backgroundColor: Theme.of(context).colorScheme.secondary,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 2.h,
                                           ),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.r),
+                                            borderRadius: BorderRadius.circular(5.r),
                                           ),
                                         ),
                                         child: const Icon(
@@ -375,13 +343,11 @@ class HomePage extends GetView<HomepageController> {
                                         right: 5.w,
                                       ),
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              Get.toNamed(
-                                                  RoutePaths.newreminder);
+                                              Get.toNamed(RoutePaths.newreminder);
                                             },
                                             child: CustomBox(
                                               boxHeight: 90.h,
@@ -412,14 +378,12 @@ class HomePage extends GetView<HomepageController> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Get.toNamed(
-                                                  RoutePaths.historyPage);
+                                              Get.toNamed(RoutePaths.historyPage);
                                             },
                                             child: CustomBox(
                                               boxHeight: 90.h,
                                               boxWidth: 140.w,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.w),
+                                              margin: EdgeInsets.symmetric(horizontal: 5.w),
                                               padding: EdgeInsets.symmetric(
                                                 horizontal: 20.w,
                                               ),
@@ -435,25 +399,20 @@ class HomePage extends GetView<HomepageController> {
                                                 ),
                                               ),
                                               topLeft: Radius.circular(17.r),
-                                              bottomRight:
-                                                  Radius.circular(17.r),
+                                              bottomRight: Radius.circular(17.r),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(
-                                          left: 10.w, right: 10.w),
+                                      margin: EdgeInsets.only(left: 10.w, right: 10.w),
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              if (UserStore.to.profile
-                                                      .cabinetDetail ==
-                                                  '') {
+                                              if (UserStore.to.profile.cabinetDetail == '') {
                                                 Get.snackbar(
                                                   "Cabinet",
                                                   "Please link with a cabinet for using this feature",
@@ -461,10 +420,8 @@ class HomePage extends GetView<HomepageController> {
                                                     Icons.person,
                                                     color: Colors.black,
                                                   ),
-                                                  snackPosition:
-                                                      SnackPosition.BOTTOM,
-                                                  backgroundColor:
-                                                      const Color(0xffA9CBFF),
+                                                  snackPosition: SnackPosition.BOTTOM,
+                                                  backgroundColor: const Color(0xffA9CBFF),
                                                   margin: EdgeInsets.symmetric(
                                                     vertical: 10.h,
                                                     horizontal: 10.w,
@@ -472,8 +429,7 @@ class HomePage extends GetView<HomepageController> {
                                                   colorText: Colors.black,
                                                 );
                                               } else {
-                                                Get.toNamed(
-                                                    RoutePaths.cabinetdetail);
+                                                Get.toNamed(RoutePaths.cabinetdetail);
                                               }
                                             },
                                             child: CustomBox(
@@ -505,8 +461,7 @@ class HomePage extends GetView<HomepageController> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Get.toNamed(
-                                                  RoutePaths.userSetting);
+                                              Get.toNamed(RoutePaths.userSetting);
                                             },
                                             child: CustomBox(
                                               boxHeight: 90.h,

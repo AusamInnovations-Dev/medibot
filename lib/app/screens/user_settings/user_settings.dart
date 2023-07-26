@@ -112,7 +112,7 @@ class UserSetting extends GetView<UserSettingController> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // controller.handleSigning();
+                    Get.toNamed(RoutePaths.availableUsers);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize:
@@ -127,7 +127,7 @@ class UserSetting extends GetView<UserSettingController> {
                     ),
                   ),
                   child: CustomTextField(
-                    text: "Change PIN",
+                    text: "Available Users",
                     fontFamily: 'Sansation',
                     size: 13.sp,
                     fontWeight: FontWeight.w700,

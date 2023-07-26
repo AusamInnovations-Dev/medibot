@@ -13,8 +13,10 @@ class UserStore extends GetxController {
 
   final _isLogin = false.obs;
   RxList<Map<String, dynamic>> skipPills = <Map<String, dynamic>>[].obs;
+  RxList<String> users = <String>[].obs;
   String uid = '';
   String userIdKey = 'userIdKey';
+  String availableUsersKey = 'availableUsersKey';
   String userNameKey = 'userNameKey';
   String skipPillsKey = 'skipPillsKey';
   String userProfilePicKey = 'userProfilePicKey';
@@ -52,12 +54,31 @@ class UserStore extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     await getProfile();
+    getCurrentUsers();
     getSkipPills();
   }
 
   void getSkipPills() {
+    skipPills.clear();
     var skipPillData =  StorageService.to.getList(skipPillsKey);
     skipPills.addAll(skipPillData.map((e) => jsonDecode(e) as Map<String, dynamic>).toList());
+  }
+
+  void getCurrentUsers() {
+    users.clear();
+    var availableUsers = StorageService.to.getList(availableUsersKey);
+    users.addAll(availableUsers);
+  }
+
+  Future<void> addUsers(uid) async {
+    getCurrentUsers();
+    if(users.isNotEmpty){
+      if(!users.contains(uid)){
+        users.add(uid);
+      }
+    }
+    await StorageService.to.setList(availableUsersKey, users);
+    getCurrentUsers();
   }
 
   Future<void> setSkipPills(Map<String, dynamic> pill) async {
@@ -100,5 +121,9 @@ class UserStore extends GetxController {
     _isLogin.value = false;
     uid = '';
     Get.offAllNamed(RoutePaths.signInScreen);
+  }
+
+  Future<void> switchUser(String uid) async {
+    await saveProfile(uid);
   }
 }

@@ -1,19 +1,23 @@
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
+import 'dart:typed_data';
+import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart' as localized;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../models/history_model/history_model.dart';
 import '../../../models/pills_models/pills_model.dart';
 import '../../../services/firestore.dart';
 import '../../../services/user.dart';
+import '../../../widgets/text_field.dart';
 
 class HistoryController extends GetxController {
   var loadingUserData = false.obs;
@@ -31,7 +35,7 @@ class HistoryController extends GetxController {
   Future<void> onInit() async {
     loadingUserData.value = true;
     await getUserData();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       loadingUserData.value = false;
     });
     super.onInit();
@@ -303,21 +307,60 @@ class HistoryController extends GetxController {
 
   Future<void> exportToPdf(DateTime startDate, DateTime endDate) async {
     generatingPdf.value = true;
+    Rx<double> progress = 0.0.obs;
+    var totalDays = endDate.difference(startDate).inDays+1;
     showDialog(
       context: Get.context!,
-      builder: (context) => Center(
-        child: SizedBox(
-          height: 30.h,
-          width: 35.w,
-          child: const CircularProgressIndicator(),
+      barrierDismissible: false,
+      traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: Obx(
+          () => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            contentPadding: EdgeInsets.zero,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomTextField(
+                  text: "Generating your file \nplease wait...",
+                  fontFamily: 'Sansation',
+                  size: 16.sp,
+                  maxLines: 2,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+                SizedBox(height: 13.h,),
+                SizedBox(
+                  height: 7.h,
+                  child: LinearProgressIndicator(
+                    value: progress.value/totalDays,
+                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(30.r),
+                    color: const Color(0xff041c50),
+                  ),
+                ),
+                SizedBox(height: 5.h,),
+                CustomTextField(
+                  text: "Progress: ${progress.value/totalDays*100} %",
+                  fontFamily: 'Sansation',
+                  size: 10.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
     DateTime currentDate = startDate;
-    List<List<String>> historyData = [['Medicine', 'Time Scheduled', 'Status']];
-    // PdfDocument document = PdfDocument();
-    // final page = document.pages.add();
-    // page.graphics.drawString('Welcome to Medibot', PdfStandardFont(PdfFontFamily.courier, 30));
+    List<String> header = ['Medicine', 'Time Scheduled', 'Status'];
+    List<List<String>> historyData = [];
     while (currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate)) {
       List<PillsModel> currentReminder = todayReminders(currentDate);
       var selectedHistory = await FirebaseFireStore.to.getHistoryDataByDay('${currentDate.year}:${currentDate.month < 10 ? '0${currentDate.month}' : currentDate.month}:${currentDate.day < 10 ? '0${currentDate.day}' : currentDate.day}');
@@ -353,11 +396,8 @@ class HistoryController extends GetxController {
                     DateTime.now().year,
                     DateTime.now().month,
                     DateTime.now().day,
-                    int.parse(
-                        reminder.pillsInterval[nextIndex].substring(0, 2)),
-                    int.parse(
-                        reminder.pillsInterval[nextIndex].substring(5, 7)),
-                  )
+                    int.parse(reminder.pillsInterval[nextIndex].substring(0, 2)),
+                    int.parse(reminder.pillsInterval[nextIndex].substring(5, 7)),)
                       .difference(
                         DateTime(
                           DateTime.now().year,
@@ -398,24 +438,85 @@ class HistoryController extends GetxController {
           }
         }
       }
+      progress.value++;
       currentDate = currentDate.add(const Duration(days: 1));
       // log('Day: $currentDate');
     }
     generatingPdf.value = false;
     Get.back();
-    await saveAndLaunchFile(historyData);
-    // document.dispose();
+    await saveAndLaunchFile(header, historyData);
   }
 
-  Future<void> saveAndLaunchFile(List<List<String>> historyData) async {
-    log('Opening the pdf');
-    String csvData = const ListToCsvConverter().convert(historyData);
-    final path = (await getExternalStorageDirectory())!.path;
-    log(path);
-    log(csvData);
-    final file = await File('$path/medibot_history_${DateTime.now().toIso8601String()}.csv').create();
-    await file.writeAsString(csvData);
-    log('Opening the pdf2');
-    OpenFile.open('$path/medibot_history_${DateTime.now().toIso8601String()}.csv');
+  Future<void> saveAndLaunchFile(List<String> header, List<List<String>> historyData) async {
+    try{
+      List<List<String>> headerAndDataList = [];
+      headerAndDataList.add(header);
+      for (var dataRow in historyData) {
+        headerAndDataList.add(dataRow);
+      }
+      String csvData = const ListToCsvConverter().convert(headerAndDataList);
+      DateTime now = DateTime.now();
+      final formattedData = DateFormat('MM-dd-yyyy').format(now);
+      final bytes = utf8.encode(csvData);
+      Uint8List bytes2 = Uint8List.fromList(bytes);
+      final xFile = await FileSaver.instance.saveAs(
+        name: 'medibot_history_$formattedData.csv',
+        bytes: bytes2,
+        ext: 'csv',
+        mimeType: MimeType.csv,
+      );
+      if (xFile != null) {
+        checkAndRequestStoragePermission(xFile);
+        Get.snackbar(
+          "MediBot",
+          "Your history is saved successfully",
+          icon: const Icon(
+            Icons.check_sharp,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          colorText: Colors.black,
+        );
+      } else {
+        Get.snackbar(
+          "MediBot",
+          "Failed to save your history data",
+          icon: const Icon(
+            Icons.crisis_alert,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          colorText: Colors.black,
+        );
+      }
+    }catch(err){
+      log(err.toString());
+      Get.snackbar(
+        "MediBot",
+        err.toString(),
+        icon: const Icon(
+          Icons.crisis_alert,
+          color: Colors.black,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xffA9CBFF),
+        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+        colorText: Colors.black,
+      );
+    }
+  }
+
+  void checkAndRequestStoragePermission(xFile) async {
+    log('Checking permsiion');
+    if (await Permission.storage.request().isGranted) {
+      log('Permission granted');
+      Share.shareFiles([xFile]);
+    } else {
+
+    }
   }
 }

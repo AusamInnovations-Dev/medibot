@@ -27,4 +27,6 @@ class RoutePaths {
 
   static String addPillInExistingSlot = '/addPillInExistingSlot';
 
+  static String availableUsers = '/availableUsers';
+
 }

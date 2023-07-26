@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/user_model/user_model.dart';
+import 'package:medibot/app/services/storage.dart';
 import 'package:medibot/app/services/user.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -93,8 +94,7 @@ class AuthController extends GetxController {
     verifyingOtp.value = true;
     try{
       if (phoneController.text.length == 10) {
-        if (!await FirebaseFireStore.to
-            .verifyOtp(phoneController.text, otpController.text)) {
+        if (!await FirebaseFireStore.to.verifyOtp(phoneController.text, otpController.text)) {
           Get.snackbar(
             "Auth Error",
             "Please check your otp and try again",

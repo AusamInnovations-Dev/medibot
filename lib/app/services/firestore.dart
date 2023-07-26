@@ -72,6 +72,7 @@ class FirebaseFireStore extends GetxController {
           await addUserData(user);
         }
         await UserStore.to.saveProfile(user.uid);
+        await UserStore.to.addUsers(user.uid);
         return true;
       } else {
         return false;
@@ -90,6 +91,13 @@ class FirebaseFireStore extends GetxController {
     return userData.exists
         ? UserModel.fromJson(userData.data() as Map<String, dynamic>)
         : null;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getAvailableUsers() async {
+    return await fireStore
+        .collection('Users')
+        .where('uid', whereIn: UserStore.to.users)
+        .get();
   }
 
   Future<void> updateUserData(UserModel userModel) async {

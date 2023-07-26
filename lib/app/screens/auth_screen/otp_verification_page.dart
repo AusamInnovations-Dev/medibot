@@ -135,8 +135,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
                         ),
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: const Color(0xffA9CBFF),
-                        margin: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 10.w),
+                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                         colorText: Colors.black,
                       );
                     }

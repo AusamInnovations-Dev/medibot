@@ -12,6 +12,7 @@ import 'package:medibot/app/screens/home_screen/home_page.dart';
 import 'package:medibot/app/screens/qr_page/getx_helper/qr_binding.dart';
 import 'package:medibot/app/screens/reminder/set_reminder.dart';
 import 'package:medibot/app/screens/reminder/set_reminder.dart';
+import 'package:medibot/app/screens/user_settings/available_users_screen.dart';
 import 'package:medibot/app/screens/user_settings/edit_caretaker_profile.dart';
 import 'package:medibot/app/screens/user_settings/edit_profile.dart';
 import 'package:medibot/app/screens/user_settings/edit%20_emergency_info_settings.dart';
@@ -106,6 +107,10 @@ class RouteHelper {
     GetPage(
       name: RoutePaths.editEmergencyInformation,
       page: () => const EmergencyInfoSettings(),
+    ),
+    GetPage(
+      name: RoutePaths.availableUsers,
+      page: () => const AvailableUsrsPage(),
     ),
     GetPage(
       name: RoutePaths.historyPage,

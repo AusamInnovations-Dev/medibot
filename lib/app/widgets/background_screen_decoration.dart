@@ -91,7 +91,7 @@ class ScreenDecoration extends StatelessWidget {
                     child: CustomTextField(
                       text: bottomButtonText,
                       fontFamily: 'Sansation',
-                      size: 10.sp,
+                      size: 16.sp,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                     ),
