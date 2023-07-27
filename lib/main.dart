@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,10 +22,40 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  ////// **************************************************
+  //////       Awesome Notifications Initialization Starts
+  ////// **************************************************
+  await AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+          channelKey: 'medibot_channel',
+          channelName: 'Medibot Notifications',
+          channelDescription: 'Medibot Notifications',
+          defaultColor: Colors.blue,
+          ledColor: Colors.blue,
+          importance: NotificationImportance.Max),
+    ],
+  );
+  await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+  AwesomeNotifications().setListeners(onActionReceivedMethod: (ReceivedAction receivedAction) async {
+    log('Message sent via notification input 1 : "${receivedAction.buttonKeyPressed}"');
+  });
+
+  ////// **************************************************
+  //////       Awesome Notifications Initialization Ends
+  ////// **************************************************
+  ///
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseMessaging.instance.getInitialMessage();
+  try {
+    await FirebaseMessaging.instance.getInitialMessage();
+  } catch (e) {}
   Get.put<ApiClient>(ApiClient());
   Get.put<FirebaseFireStore>(FirebaseFireStore());
   Get.put<NotificationService>(NotificationService());
@@ -67,9 +101,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(
       const Duration(seconds: 5),
-      () => (UserStore.to.uid == '')
-          ? Get.offAllNamed(RoutePaths.signInScreen)
-          : Get.offAllNamed(RoutePaths.homeScreen),
+          () => (FirebaseAuth.instance.currentUser == null) ? Get.offAllNamed(RoutePaths.signInScreen) : Get.offAllNamed(RoutePaths.homeScreen),
     );
     super.initState();
   }

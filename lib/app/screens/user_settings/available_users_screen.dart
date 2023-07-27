@@ -33,12 +33,14 @@ class _AvailableUsrsPageState extends State<AvailableUsrsPage> {
   getAvailableUsers() async {
     loading = true;
     UserStore.to.getCurrentUsers();
-    var data = await FirebaseFireStore.to.getAvailableUsers();
-    log(data.docs.toString());
-    for(var userData in data.docs){
-      users.add(UserModel.fromJson(userData.data()));
+    if(UserStore.to.users.isNotEmpty){
+      var data = await FirebaseFireStore.to.getAvailableUsers();
+      log(data.docs.toString());
+      for(var userData in data.docs){
+        users.add(UserModel.fromJson(userData.data()));
+      }
+      log(users.toString());
     }
-    log(users.toString());
     setState(() {
       loading = false;
     });

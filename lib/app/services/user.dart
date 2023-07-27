@@ -67,7 +67,9 @@ class UserStore extends GetxController {
   void getCurrentUsers() {
     users.clear();
     var availableUsers = StorageService.to.getList(availableUsersKey);
-    users.addAll(availableUsers);
+    if(availableUsers.isNotEmpty){
+      users.addAll(availableUsers);
+    }
   }
 
   Future<void> addUsers(uid) async {
