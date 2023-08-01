@@ -125,13 +125,40 @@ class FirebaseFireStore extends GetxController {
     }
   }
 
-  Future<bool> checkUserAccount(String phoneNumber) async {
-    UserModel? userModel = await getUserByPhone(phoneNumber);
-    if (userModel != null) {
-      return true;
+  Future<UserModel?> getUserByEmail(String email) async {
+    final doc = await fireStore
+        .collection("Users")
+        .where('email', isEqualTo: email.trim())
+        .get();
+    log('This is the doc email: ${doc.docs}');
+    if (doc.docs.isNotEmpty) {
+      UserModel userModel = UserModel.fromJson(doc.docs.first.data());
+      // await UserStore.to.saveProfile(userModel.uid);
+      log('THis is the user: $userModel');
+      return userModel;
     } else {
-      return false;
+      return null;
     }
+  }
+
+  Future<bool> checkUserAccountByPhone(String phoneNumber) async {
+    if(phoneNumber.isNotEmpty){
+      UserModel? userModel = await getUserByPhone(phoneNumber);
+      if (userModel != null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> checkUserAccountByMail(String email) async {
+    if(email.isNotEmpty) {
+      UserModel? userModel = await getUserByEmail(email);
+      if (userModel != null) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<String> uploadPillsReminderData(PillsModel pillsModel) async {
@@ -253,10 +280,10 @@ class FirebaseFireStore extends GetxController {
     }
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getPillReminder(String actionId) async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getPillReminder(String pillId) async {
     return await fireStore
         .collection('pillsReminder')
-        .where('uid', isEqualTo: actionId)
+        .where('uid', isEqualTo: pillId)
         .get();
   }
 
@@ -265,6 +292,84 @@ class FirebaseFireStore extends GetxController {
         .collection('pillsReminder')
         .where('userId', isEqualTo: UserStore.to.uid)
         .snapshots();
+  }
+
+  Future<bool> handleSignInByEmail(String email, String password) async {
+    try{
+      var value = await auth.signInWithEmailAndPassword(email: email, password: password);
+      if (value.user != null) {
+        UserModel? user = await getUser(value.user!.uid);
+        if (user == null) {
+          user = UserModel(
+            username: '',
+            uid: value.user!.uid,
+            userProfile: '',
+            phoneNumber: '',
+            email: email,
+            address: '',
+            cabinetDetail: '',
+            age: 0,
+            careTaker: const CareTakerModel(
+              careTakerAddress: '',
+              careTakerName: '',
+              caretakerPhone: '',
+              uid: '',
+            ),
+            emergencyPerson: const EmergencyPersonModel(
+              emergencyAddress: '',
+              emergencyName: '',
+              emergencyPhone: '',
+              emergencyRelation: '',
+            ),
+            physicalDeviceLink: '',
+            userStatus: AuthStatus.newUser,
+          );
+          await addUserData(user);
+        }
+        await UserStore.to.saveProfile(user.uid);
+        await UserStore.to.addUsers(user.uid);
+        return true;
+      } else {
+        return false;
+      }
+    }catch(err){
+      return false;
+    }
+  }
+
+  Future<bool> handleSignUpByEmail(String email, String password) async {
+    var value = await auth.createUserWithEmailAndPassword(email: email, password: password);
+    if(value.user != null){
+      UserModel user = UserModel(
+        username: '',
+        uid: value.user!.uid,
+        userProfile: '',
+        phoneNumber: '',
+        email: email,
+        address: '',
+        cabinetDetail: '',
+        age: 0,
+        careTaker: const CareTakerModel(
+          careTakerAddress: '',
+          careTakerName: '',
+          caretakerPhone: '',
+          uid: '',
+        ),
+        emergencyPerson: const EmergencyPersonModel(
+          emergencyAddress: '',
+          emergencyName: '',
+          emergencyPhone: '',
+          emergencyRelation: '',
+        ),
+        physicalDeviceLink: '',
+        userStatus: AuthStatus.newUser,
+      );
+      await addUserData(user);
+      await UserStore.to.saveProfile(user.uid);
+      await UserStore.to.addUsers(user.uid);
+      return true;
+    }
+    return false;
   }
 
 }

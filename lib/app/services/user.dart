@@ -70,6 +70,7 @@ class UserStore extends GetxController {
     if(availableUsers.isNotEmpty){
       users.addAll(availableUsers);
     }
+    log('This is the available users list: $users');
   }
 
   Future<void> addUsers(uid) async {
@@ -78,6 +79,8 @@ class UserStore extends GetxController {
       if(!users.contains(uid)){
         users.add(uid);
       }
+    }else{
+      users.add(uid);
     }
     await StorageService.to.setList(availableUsersKey, users);
     getCurrentUsers();

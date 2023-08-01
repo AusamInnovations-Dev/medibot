@@ -14,6 +14,8 @@ import 'package:medibot/app/API/api_client.dart';
 import 'package:medibot/app/services/firestore.dart';
 import 'package:medibot/app/services/storage.dart';
 import 'package:medibot/app/services/user.dart';
+import 'app/models/history_model/history_model.dart';
+import 'app/models/pills_models/pills_model.dart';
 import 'app/routes/route_path.dart';
 import 'app/routes/routes.dart';
 import 'app/services/notification_service.dart';
@@ -42,14 +44,168 @@ void main() async {
       AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
+
+
   AwesomeNotifications().setListeners(onActionReceivedMethod: (ReceivedAction receivedAction) async {
     log('Message sent via notification input 1 : "${receivedAction.buttonKeyPressed}"');
-  });
+    if(receivedAction.buttonKeyPressed == 'Taken'){
+      var data = await FirebaseFireStore.to.getPillReminder(receivedAction.payload!['pillId']!);
+      PillsModel pill = PillsModel.fromJson(data.docs.first.data());
+      var pillInterval = '';
+      for (var interval in pill.pillsInterval) {
+        var nextIndex = pill.pillsInterval.indexOf(interval) + 1;
+        var diff = 60;
+        if(nextIndex < pill.pillsInterval.length){
+          diff = DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            int.parse(pill.pillsInterval[nextIndex].substring(0, 2)),
+            int.parse(pill.pillsInterval[nextIndex].substring(5, 7)),
+          ).difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            ),
+          ).inMinutes;
+        }
+        if(diff >= 180){
+          diff = 60;
+        }
+        if (DateTime.now().difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            )
+        ).inMinutes <= diff/2) {
+          pillInterval = interval;
+          break;
+        }
+      }
+      if(pillInterval != ''){
+        String docId = "${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}";
+        var dayHistory = await FirebaseFireStore.to.getHistoryDataByDay(docId);
+        if (dayHistory != null) {
+          HistoryModel historyModel = HistoryModel.fromJson(dayHistory.data() as Map<String, dynamic>);
+          late HistoryData historyData;
+          int? index;
+          for (var pills in historyModel.historyData) {
+            if (pills.pillId == pill.uid) {
+              historyData = pills;
+              index = historyModel.historyData.indexOf(pills);
+              break;
+            }
+          }
+          if (index == null) {
+            List<HistoryData> list = [];
+            list.addAll(historyModel.historyData);
+            list.add(
+              HistoryData(
+                pillId: pill.uid,
+                timeToTake: pill.pillsInterval,
+                timeTaken: [DateTime.now()],
+              ),
+            );
+            historyModel = historyModel.copyWith(historyData: list);
+            await FirebaseFireStore.to.uploadHistoryData(
+              historyModel,
+              docId,
+            );
+          } else {
+            if (historyData.timeTaken.length < historyData.timeToTake.length) {
+              HistoryData historyDataTemp = historyData;
+              List<DateTime> tempTimeTaken = [];
+              List<HistoryData> list = [];
+              list.addAll(historyModel.historyData);
+              tempTimeTaken.addAll(historyDataTemp.timeTaken);
+              tempTimeTaken.add(DateTime.now());
+              list[index] = HistoryData(
+                pillId: historyModel.historyData[index].pillId,
+                timeTaken: tempTimeTaken,
+                timeToTake: historyModel.historyData[index].timeToTake,
+              );
+              HistoryModel tempHistory = HistoryModel(
+                userId: historyModel.userId,
+                historyData: list,
+              );
+              await FirebaseFireStore.to.uploadHistoryData(
+                tempHistory,
+                docId,
+              );
+            }
+          }
+        } else {
+          HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
+            HistoryData(
+              pillId: pill.uid,
+              timeToTake: pill.pillsInterval,
+              timeTaken: [DateTime.now()],
+            ),
+          ]);
+          await FirebaseFireStore.to.uploadHistoryData(
+            historyModel,
+            docId,
+          );
+        }
+      }
 
+    }else if(receivedAction.buttonKeyPressed == 'Missed'){
+
+      var data = await FirebaseFireStore.to.getPillReminder(receivedAction.payload!['pillId']!);
+      PillsModel pill = PillsModel.fromJson(data.docs.first.data());
+      var pillInterval = '';
+      for (var interval in pill.pillsInterval) {
+        var nextIndex = pill.pillsInterval.indexOf(interval) + 1;
+        var diff = 60;
+        if(nextIndex < pill.pillsInterval.length){
+          diff = DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            int.parse(pill.pillsInterval[nextIndex].substring(0, 2)),
+            int.parse(pill.pillsInterval[nextIndex].substring(5, 7)),
+          ).difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            ),
+          ).inMinutes;
+        }
+        if(diff >= 180){
+          diff = 60;
+        }
+        if (DateTime.now().difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            )
+        ).inMinutes <= diff/2) {
+          pillInterval = interval;
+          break;
+        }
+      }
+      await UserStore.to.setSkipPills({
+        'pillId': pill.uid,
+        'pillInterval': '${pillInterval.substring(0,2)}HH:${pillInterval.substring(5, 7)}MM',
+        'pillDuration': DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toIso8601String()
+      });
+    }
+  });
   ////// **************************************************
   //////       Awesome Notifications Initialization Ends
   ////// **************************************************
-  ///
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

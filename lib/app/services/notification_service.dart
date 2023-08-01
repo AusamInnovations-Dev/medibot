@@ -66,16 +66,16 @@ class NotificationService extends GetxController {
   }
 
   scheduleNotification(int id, PillsModel pillsModel, List<DateTime> duration) async {
-    print('********** Printing Duration 1 *********');
-    print(duration);
+    log('********** Printing Duration 1 *********');
+    log(duration.toString());
     if (pillsModel.isRange) {
-      var currentDate = DateTime.parse(pillsModel.pillsDuration.first);
       for (var interval in pillsModel.pillsInterval) {
+        var currentDate = DateTime.parse(pillsModel.pillsDuration.first);
         log('Setting up notification now');
-        print('********** Printing Duration 2 *********');
-        print(currentDate);
-        print('********** Printing Duration 3 *********');
-        print(interval);
+        log('********** Printing Duration 2 *********');
+        log(currentDate.toIso8601String());
+        log('********** Printing Duration 3 *********');
+        log(interval);
         while (currentDate.isBefore(DateTime.parse(pillsModel.pillsDuration.last)) || currentDate.isAtSameMomentAs(DateTime.parse(pillsModel.pillsDuration.last))) {
           var isAfter = DateTime.now().isBefore(DateTime(
             currentDate.year,
@@ -84,16 +84,17 @@ class NotificationService extends GetxController {
             int.parse(interval.substring(0, 2)),
             int.parse(interval.substring(5, 7)),
           ));
+          log('$isAfter at $currentDate : $interval');
           if (isAfter) {
             log('Scheduling1');
-            print('********** Printing Duration 4 *********');
-            print(DateTime(
+            log('********** Printing Duration 4 *********');
+            log(DateTime(
               currentDate.year,
               currentDate.month,
               currentDate.day,
               int.parse(interval.substring(0, 2)),
               int.parse(interval.substring(5, 7)),
-            ).hashCode);
+            ).toIso8601String());
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
                   id: DateTime(

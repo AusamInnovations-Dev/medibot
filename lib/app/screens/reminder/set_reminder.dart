@@ -24,7 +24,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
               "Pills Reminder",
               "Please enter a valid pill name",
               icon: const Icon(
-                Icons.check_sharp,
+                Icons.crisis_alert,
                 color: Colors.black,
               ),
               snackPosition: SnackPosition.BOTTOM,

@@ -17,6 +17,7 @@ import '../../../services/firestore.dart';
 class AuthController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -163,8 +164,12 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> checkUserAccount() async {
-    return await FirebaseFireStore.to.checkUserAccount(phoneController.text);
+  Future<bool> checkUserAccountByPhone() async {
+    return await FirebaseFireStore.to.checkUserAccountByPhone(phoneController.text);
+  }
+
+  Future<bool> checkUserAccountByMail() async {
+    return await FirebaseFireStore.to.checkUserAccountByPhone(emailController.text);
   }
 
   Future<String> getCurrentLocation() async {
@@ -296,5 +301,47 @@ class AuthController extends GetxController {
       );
     }
     uploadingData.value = false;
+  }
+
+  Future<void> handleSignInByEmail() async {
+    if(await FirebaseFireStore.to.handleSignInByEmail(emailController.text, passwordController.text)){
+      if (UserStore.to.profile.userStatus != AuthStatus.newUser) {
+        Get.offAllNamed(RoutePaths.homeScreen);
+      } else {
+        Get.offAllNamed(RoutePaths.userInformation);
+      }
+    }else{
+      Get.snackbar(
+        "Auth Error",
+        "Please check your email and password and try again",
+        icon: const Icon(
+          Icons.person,
+          color: Colors.black,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xffA9CBFF),
+        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+        colorText: Colors.black,
+      );
+    }
+  }
+
+  Future<void> handleSignUpByEmail() async {
+    if(await FirebaseFireStore.to.handleSignUpByEmail(emailController.text, passwordController.text)){
+      Get.offAllNamed(RoutePaths.userInformation);
+    }else {
+      Get.snackbar(
+        "Auth Error",
+        "Please check your email and password and try again",
+        icon: const Icon(
+          Icons.person,
+          color: Colors.black,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xffA9CBFF),
+        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+        colorText: Colors.black,
+      );
+    }
   }
 }

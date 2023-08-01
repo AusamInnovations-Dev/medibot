@@ -44,7 +44,7 @@ class SignIn extends GetView<AuthController> {
                 width: MediaQuery.of(context).size.width,
                 child: CustomBox(
                   boxWidth: 256.w,
-                  boxHeight: 190.h,
+                  boxHeight: 300.h,
                   margin: const EdgeInsets.symmetric(horizontal: 48),
                   padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
                   topRight: Radius.circular(17.r),
@@ -76,33 +76,66 @@ class SignIn extends GetView<AuthController> {
                           ],
                         ),
                       ),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
+                        alignment: Alignment.center,
+                        child: CustomTextField(
+                          fontWeight: FontWeight.w600,
+                          text: "or",
+                          size: 13.sp,
+                          fontFamily: 'Sansation',
+                          color: Colors.black,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 10.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 3.w),
+                              child: CustomTextField(
+                                size: 13.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                text: "Email Address",
+                              ),
+                            ),
+                            CustomInputField(
+                              boxHeight: 35.h,
+                              boxWidth: 265.w,
+                              hintText: "",
+                              fontTheme: 'Sansation',
+                              textController: controller.emailController,
+                            ),
+                            SizedBox(height: 8.h,),
+                            Container(
+                              padding: EdgeInsets.only(bottom: 3.w),
+                              child: CustomTextField(
+                                size: 13.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                text: "Password",
+                              ),
+                            ),
+                            CustomInputField(
+                              boxHeight: 35.h,
+                              boxWidth: 265.w,
+                              hintText: "",
+                              fontTheme: 'Sansation',
+                              obsecure: true,
+                              textController: controller.passwordController,
+                            ),
+                          ],
+                        ),
+                      ),
                       ElevatedButton(
                         onPressed: () async {
-                          if (await controller.checkUserAccount()) {
-                            if (controller.validate(controller.phoneController.text)) {
-                              await controller.handleSignInByPhone();
-                              Get.toNamed(RoutePaths.otpConfirmation);
-                            } else {
-                              Get.snackbar(
-                                "Auth Error",
-                                "Please enter a valid auth credentials",
-                                icon: const Icon(
-                                  Icons.person,
-                                  color: Colors.black,
-                                ),
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: const Color(0xffA9CBFF),
-                                margin: EdgeInsets.symmetric(
-                                  vertical: 10.h,
-                                  horizontal: 10.w,
-                                ),
-                                colorText: Colors.black,
-                              );
-                            }
-                          } else {
+
+                          if(controller.phoneController.text.isNotEmpty && controller.emailController.text.isNotEmpty){
                             Get.snackbar(
                               "Auth Error",
-                              "You Don't have any account with this number please create one.",
+                              "Please select any one field to login.",
                               icon: const Icon(
                                 Icons.person,
                                 color: Colors.black,
@@ -115,6 +148,85 @@ class SignIn extends GetView<AuthController> {
                               ),
                               colorText: Colors.black,
                             );
+                          }else{
+                            if(controller.phoneController.text.isNotEmpty){
+                              if (controller.validate(controller.phoneController.text)) {
+                                if (await controller.checkUserAccountByPhone()) {
+                                  await controller.handleSignInByPhone();
+                                  Get.toNamed(RoutePaths.otpConfirmation);
+                                }else{
+                                  Get.snackbar(
+                                    "Auth Error",
+                                    "User doesn't exist with this phone number",
+                                    icon: const Icon(
+                                      Icons.person,
+                                      color: Colors.black,
+                                    ),
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: const Color(0xffA9CBFF),
+                                    margin: EdgeInsets.symmetric(
+                                      vertical: 10.h,
+                                      horizontal: 10.w,
+                                    ),
+                                    colorText: Colors.black,
+                                  );
+                                }
+                              } else {
+                                Get.snackbar(
+                                  "Auth Error",
+                                  "Please enter a valid phone number",
+                                  icon: const Icon(
+                                    Icons.person,
+                                    color: Colors.black,
+                                  ),
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: const Color(0xffA9CBFF),
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal: 10.w,
+                                  ),
+                                  colorText: Colors.black,
+                                );
+                              }
+                            }else if(controller.emailController.text.isNotEmpty){
+                              if(await controller.checkUserAccountByMail()) {
+                                if(GetUtils.isEmail(controller.emailController.text)) {
+                                  await controller.handleSignInByEmail();
+                                }else {
+                                    Get.snackbar(
+                                      "Auth Error",
+                                      "Please enter a valid email address",
+                                      icon: const Icon(
+                                        Icons.person,
+                                        color: Colors.black,
+                                      ),
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: const Color(0xffA9CBFF),
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 10.h,
+                                        horizontal: 10.w,
+                                      ),
+                                      colorText: Colors.black,
+                                    );
+                                }
+                              }else {
+                                Get.snackbar(
+                                  "Auth Error",
+                                  "You Don't have any account with this number/email please create one.",
+                                  icon: const Icon(
+                                    Icons.person,
+                                    color: Colors.black,
+                                  ),
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: const Color(0xffA9CBFF),
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal: 10.w,
+                                  ),
+                                  colorText: Colors.black,
+                                );
+                              }
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -136,7 +248,7 @@ class SignIn extends GetView<AuthController> {
                         ),
                       ),
                       SizedBox(
-                        height: 20.h,
+                        height: 10.h,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -149,9 +261,6 @@ class SignIn extends GetView<AuthController> {
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ),
-                      ),
-                      SizedBox(
-                        height: 13.h,
                       ),
                     ],
                   ),

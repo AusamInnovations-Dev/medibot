@@ -79,7 +79,7 @@ class CreateAccount extends GetView<AuthController> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
                   child: CustomTextField(
                     fontWeight: FontWeight.w600,
@@ -90,7 +90,7 @@ class CreateAccount extends GetView<AuthController> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(bottom: 30.h),
+                  padding: EdgeInsets.only(bottom: 20.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -108,6 +108,25 @@ class CreateAccount extends GetView<AuthController> {
                         boxWidth: 265.w,
                         hintText: "",
                         fontTheme: 'Sansation',
+                        textController: controller.emailController,
+                      ),
+                      SizedBox(height: 8.h,),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 3.w),
+                        child: CustomTextField(
+                          fontWeight: FontWeight.w600,
+                          size: 13.sp,
+                          text: "Password",
+                          color: Colors.black,
+                        ),
+                      ),
+                      CustomInputField(
+                        boxHeight: 35.h,
+                        boxWidth: 265.w,
+                        hintText: "",
+                        fontTheme: 'Sansation',
+                        obsecure: true,
+                        textController: controller.passwordController,
                       ),
                     ],
                   ),
@@ -118,13 +137,10 @@ class CreateAccount extends GetView<AuthController> {
                   padding: EdgeInsets.symmetric(vertical: 11.w),
                   iconSize: 18.h,
                   onPressed: () async {
-                    if (controller.validate(controller.phoneController.text)) {
-                      await controller.handleSignInByPhone();
-                      Get.toNamed(RoutePaths.otpConfirmation);
-                    } else {
+                    if(await controller.checkUserAccountByPhone() && await controller.checkUserAccountByMail()){
                       Get.snackbar(
                         "Auth Error",
-                        "Please enter a valid auth credentials",
+                        "User Already exist with this credentials.",
                         icon: const Icon(
                           Icons.person,
                           color: Colors.black,
@@ -137,6 +153,29 @@ class CreateAccount extends GetView<AuthController> {
                         ),
                         colorText: Colors.black,
                       );
+                    }else {
+                      if (controller.validate(controller.phoneController.text)) {
+                        await controller.handleSignInByPhone();
+                        Get.toNamed(RoutePaths.otpConfirmation);
+                      }else if (GetUtils.isEmail(controller.emailController.text) && controller.passwordController.text.isNotEmpty) {
+                        controller.handleSignUpByEmail();
+                      } else {
+                        Get.snackbar(
+                          "Auth Error",
+                          "Please enter a valid auth credentials",
+                          icon: const Icon(
+                            Icons.person,
+                            color: Colors.black,
+                          ),
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: const Color(0xffA9CBFF),
+                          margin: EdgeInsets.symmetric(
+                            vertical: 10.h,
+                            horizontal: 10.w,
+                          ),
+                          colorText: Colors.black,
+                        );
+                      }
                     }
                   },
                 ),
