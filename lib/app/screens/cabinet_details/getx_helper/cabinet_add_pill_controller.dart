@@ -362,7 +362,7 @@ class AddCabinetPill extends GetxController {
           "Cabinet",
           "You don't have enough empty slot left in cabinet",
           icon: const Icon(
-            Icons.check_sharp,
+            Icons.crisis_alert,
             color: Colors.black,
           ),
           snackPosition: SnackPosition.BOTTOM,

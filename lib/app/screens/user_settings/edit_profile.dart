@@ -86,46 +86,44 @@ class UserProfile extends GetView<UserSettingController> {
                     )
                   ],
                 ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 6.w),
-                        child: CustomTextField(
-                          text: "Address",
-                          fontFamily: 'Sansation',
-                          size: 13.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(bottom: 6.w),
+                      child: CustomTextField(
+                        text: "Address",
+                        fontFamily: 'Sansation',
+                        size: 13.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Row(
+                      //mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomInputField(
+                          bottomr: Radius.zero,
+                          textController: controller.addressController,
+                          topr: Radius.zero,
+                          boxHeight: 118.h,
+                          boxWidth: 217.w,
+                          hintText: "",
+                          fontTheme: 'Sansation',
                         ),
-                      ),
-                      Row(
-                        //mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomInputField(
-                            bottomr: Radius.zero,
-                            textController: controller.addressController,
-                            topr: Radius.zero,
-                            boxHeight: 118.h,
-                            boxWidth: 217.w,
-                            hintText: "",
-                            fontTheme: 'Sansation',
-                          ),
-                          InputButton(
-                            height: 110.h,
-                            width: 63.w,
-                            text: "Fetch current location",
-                            fontWeight: FontWeight.w500,
-                            textsize: 9.sp,
-                            onPressed: () async {
-                              controller.addressController.text = await controller.getCurrentLocation();
-                            },
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                        InputButton(
+                          height: 110.h,
+                          width: 63.w,
+                          text: "Fetch current location",
+                          fontWeight: FontWeight.w500,
+                          textsize: 9.sp,
+                          onPressed: () async {
+                            controller.addressController.text = await controller.getCurrentLocation();
+                          },
+                        )
+                      ],
+                    ),
+                  ],
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

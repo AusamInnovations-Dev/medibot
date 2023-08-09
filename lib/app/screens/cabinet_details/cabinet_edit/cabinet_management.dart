@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
-import '../../../routes/route_path.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/custom_input.dart';
 import '../../../widgets/text_field.dart';

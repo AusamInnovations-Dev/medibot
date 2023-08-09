@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/models/user_model/user_model.dart';
-import 'package:medibot/app/services/user.dart';
 
-import '../../../routes/route_path.dart';
-import '../../../services/firestore.dart';
+import '../../../../models/user_model/user_model.dart';
+import '../../../../routes/route_path.dart';
+import '../../../../services/firestore.dart';
+import '../../../../services/user.dart';
 
-class AuthController extends GetxController {
+class SetUpProfileController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

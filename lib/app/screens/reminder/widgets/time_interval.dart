@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/sampledata/medicines.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_add_pill_controller.dart';
 import 'package:medibot/app/screens/reminder/getx_helper/set_reminder_controller.dart';
 import 'package:medibot/app/widgets/box_field.dart';
 
@@ -234,7 +233,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                         size: 25.sp,
                                       ),
                                       boxWidth: 33.w,
-                                      boxShadow: [],
+                                      boxShadow: const [],
                                     )
                                   : SizedBox(
                                       height: 29.h,
@@ -402,7 +401,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                                 size: 25.sp,
                                               ),
                                               boxWidth: 33.w,
-                                              boxShadow: [],
+                                              boxShadow: const [],
                                             )
                                           : SizedBox(
                                               height: 29.h,
@@ -465,7 +464,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                 size: 25.sp,
                               ),
                               boxWidth: 33.w,
-                              boxShadow: [],
+                              boxShadow: const [],
                             )
                           : SizedBox(
                               height: 29.h,
@@ -612,7 +611,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                 size: 25.sp,
                               ),
                               boxWidth: 33.w,
-                              boxShadow: [],
+                              boxShadow: const [],
                             )
                           : SizedBox(
                               height: 29.h,

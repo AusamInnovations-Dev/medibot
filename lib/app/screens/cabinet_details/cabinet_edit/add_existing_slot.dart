@@ -24,7 +24,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
             "Pills Reminder",
             "Please enter a valid medicine name and category",
             icon: const Icon(
-              Icons.check_sharp,
+              Icons.crisis_alert,
               color: Colors.black,
             ),
             snackPosition: SnackPosition.BOTTOM,
@@ -511,7 +511,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                                 topRight: Radius.circular(4.r),
                                 bottomLeft: Radius.circular(4.r),
                                 bottomRight: Radius.circular(4.r),
-                                boxShadow: [],
+                                boxShadow: const [],
                                 borders: Border.all(color: Colors.black26),
                                 body: Container(
                                   padding: EdgeInsets.symmetric(

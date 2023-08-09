@@ -25,7 +25,7 @@ class AddPill extends GetView<AddCabinetPill> {
             "Pills Reminder",
             "Please enter a valid medicine name and category",
             icon: const Icon(
-              Icons.check_sharp,
+              Icons.crisis_alert,
               color: Colors.black,
             ),
             snackPosition: SnackPosition.BOTTOM,
@@ -55,7 +55,7 @@ class AddPill extends GetView<AddCabinetPill> {
               "Pills Reminder",
               "Please Select the dates to take medicine.",
               icon: const Icon(
-                Icons.check_sharp,
+                Icons.crisis_alert,
                 color: Colors.black,
               ),
               snackPosition: SnackPosition.BOTTOM,
@@ -458,7 +458,7 @@ class AddPill extends GetView<AddCabinetPill> {
                                 fontWeight: FontWeight.w400,
                                 size: 25.sp,
                               ),
-                              boxShadow: [],
+                              boxShadow: const [],
                             ),
                           ),
                           Obx(
@@ -486,7 +486,7 @@ class AddPill extends GetView<AddCabinetPill> {
                                   )
                                 ],
                               ),
-                              boxShadow: [],
+                              boxShadow: const [],
                             ),
                           ),
                           GestureDetector(
@@ -514,7 +514,7 @@ class AddPill extends GetView<AddCabinetPill> {
                                 fontWeight: FontWeight.w400,
                                 size: 25.sp,
                               ),
-                              boxShadow: [],
+                              boxShadow: const [],
                             ),
                           ),
                         ],

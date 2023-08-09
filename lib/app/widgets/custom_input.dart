@@ -13,7 +13,7 @@ class CustomInputField extends StatelessWidget {
   final bool? obsecure;
 
   final TextEditingController? textController;
-  CustomInputField(
+  const CustomInputField(
       {required this.boxHeight,
       required this.boxWidth,
       required this.hintText,

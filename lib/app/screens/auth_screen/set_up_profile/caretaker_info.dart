@@ -9,9 +9,9 @@ import '../../../widgets/custom_input.dart';
 import '../../../widgets/custom_input_button.dart';
 import '../../../widgets/forward_button.dart';
 import '../../../widgets/text_field.dart';
-import '../getx_helper/auth_controller.dart';
+import 'getx_helper/set_up_profile_controller.dart';
 
-class CaretakerInfo extends GetView<AuthController> {
+class CaretakerInfo extends GetView<SetUpProfileController> {
   const CaretakerInfo({Key? key}) : super(key: key);
 
   @override

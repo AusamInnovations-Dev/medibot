@@ -11,7 +11,6 @@ import 'package:medibot/app/screens/contact_screen/contacts_screen.dart';
 import 'package:medibot/app/screens/home_screen/home_page.dart';
 import 'package:medibot/app/screens/qr_page/getx_helper/qr_binding.dart';
 import 'package:medibot/app/screens/reminder/set_reminder.dart';
-import 'package:medibot/app/screens/reminder/set_reminder.dart';
 import 'package:medibot/app/screens/user_settings/available_users_screen.dart';
 import 'package:medibot/app/screens/user_settings/edit_caretaker_profile.dart';
 import 'package:medibot/app/screens/user_settings/edit_profile.dart';
@@ -23,6 +22,7 @@ import 'package:medibot/main.dart';
 import '../screens/auth_screen/set_up_profile/caretaker_info.dart';
 import '../screens/auth_screen/set_up_profile/create_account.dart';
 import '../screens/auth_screen/set_up_profile/emergancy_info.dart';
+import '../screens/auth_screen/set_up_profile/getx_helper/set_up_binding.dart';
 import '../screens/cabinet_details/cabinet_edit/add_existing_slot.dart';
 import '../screens/contact_screen/getx_helper/contact_binding.dart';
 import '../screens/qr_page/qr_page.dart';
@@ -67,7 +67,7 @@ class RouteHelper {
     GetPage(
       name: RoutePaths.userInformation,
       page: () => const UserInfo(),
-      binding: AuthBinding(),
+      binding: SetUpBinding(),
     ),
     GetPage(
       name: RoutePaths.caretakerInformation,

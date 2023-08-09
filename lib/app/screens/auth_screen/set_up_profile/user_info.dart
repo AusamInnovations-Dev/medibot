@@ -1,10 +1,10 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/routes/route_path.dart';
+import 'package:medibot/app/screens/auth_screen/set_up_profile/getx_helper/set_up_profile_controller.dart';
 import 'package:medibot/app/widgets/custom_input.dart';
 import 'package:medibot/app/widgets/custom_input_button.dart';
 import 'package:medibot/app/widgets/forward_button.dart';
@@ -12,9 +12,8 @@ import 'package:medibot/app/widgets/forward_button.dart';
 import '../../../widgets/backward_button.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/text_field.dart';
-import '../getx_helper/auth_controller.dart';
 
-class UserInfo extends GetView<AuthController> {
+class UserInfo extends GetView<SetUpProfileController> {
   const UserInfo({Key? key}) : super(key: key);
 
   @override

@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
 import '../../../services/firestore.dart';
 import '../../../services/user.dart';
+import 'cabinet_controller.dart';
 
 class AddExistingSlotController extends GetxController {
   late PillsModel pill;
@@ -45,22 +47,200 @@ class AddExistingSlotController extends GetxController {
 
   Future<bool> uploadCabinetPills() async {
     try {
-      var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
-        uid: '',
-        pillName: pillName.text,
-        dosage: dosageController.text + dosage,
-        medicineCategory: medicineCategory.value,
-        userId: UserStore.to.uid,
-        interval: pill.interval,
-        inCabinet: true,
-        isIndividual: pill.isIndividual,
-        isRange: pill.isRange,
-        pillsQuantity: pill.pillsQuantity,
-        pillsInterval: pill.pillsInterval,
-        pillsDuration: pill.pillsDuration,
-        request: 1,
-        slot: pill.slot,
-      ));
+      var isUploaded = false;
+      if(pill.slot == 1){
+        if(Get.find<CabinetController>().slot1.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+            uid: '',
+            pillName: pillName.text,
+            dosage: dosageController.text + dosage,
+            medicineCategory: medicineCategory.value,
+            userId: UserStore.to.uid,
+            interval: pill.interval,
+            inCabinet: true,
+            isIndividual: pill.isIndividual,
+            isRange: pill.isRange,
+            pillsQuantity: pill.pillsQuantity,
+            pillsInterval: pill.pillsInterval,
+            pillsDuration: pill.pillsDuration,
+            request: 1,
+            slot: pill.slot,
+          ));
+        }else{
+          Get.snackbar(
+            "Cabinet",
+            "You cannot add more than 3 pills in the same slot",
+            icon: const Icon(
+              Icons.crisis_alert,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      }else if(pill.slot == 2){
+        if(Get.find<CabinetController>().slot2.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+            uid: '',
+            pillName: pillName.text,
+            dosage: dosageController.text + dosage,
+            medicineCategory: medicineCategory.value,
+            userId: UserStore.to.uid,
+            interval: pill.interval,
+            inCabinet: true,
+            isIndividual: pill.isIndividual,
+            isRange: pill.isRange,
+            pillsQuantity: pill.pillsQuantity,
+            pillsInterval: pill.pillsInterval,
+            pillsDuration: pill.pillsDuration,
+            request: 1,
+            slot: pill.slot,
+          ));
+        }else{
+          Get.snackbar(
+            "Cabinet",
+            "You cannot add more than 3 pills in the same slot",
+            icon: const Icon(
+              Icons.crisis_alert,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      }else if(pill.slot == 3){
+        if(Get.find<CabinetController>().slot3.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+            uid: '',
+            pillName: pillName.text,
+            dosage: dosageController.text + dosage,
+            medicineCategory: medicineCategory.value,
+            userId: UserStore.to.uid,
+            interval: pill.interval,
+            inCabinet: true,
+            isIndividual: pill.isIndividual,
+            isRange: pill.isRange,
+            pillsQuantity: pill.pillsQuantity,
+            pillsInterval: pill.pillsInterval,
+            pillsDuration: pill.pillsDuration,
+            request: 1,
+            slot: pill.slot,
+          ));
+        }else{
+          Get.snackbar(
+            "Cabinet",
+            "You cannot add more than 3 pills in the same slot",
+            icon: const Icon(
+              Icons.crisis_alert,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      }else if(pill.slot == 4){
+        if(Get.find<CabinetController>().slot4.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+            uid: '',
+            pillName: pillName.text,
+            dosage: dosageController.text + dosage,
+            medicineCategory: medicineCategory.value,
+            userId: UserStore.to.uid,
+            interval: pill.interval,
+            inCabinet: true,
+            isIndividual: pill.isIndividual,
+            isRange: pill.isRange,
+            pillsQuantity: pill.pillsQuantity,
+            pillsInterval: pill.pillsInterval,
+            pillsDuration: pill.pillsDuration,
+            request: 1,
+            slot: pill.slot,
+          ));
+        }else{
+          Get.snackbar(
+            "Cabinet",
+            "You cannot add more than 3 pills in the same slot",
+            icon: const Icon(
+              Icons.crisis_alert,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      }else if(pill.slot == 5){
+        if(Get.find<CabinetController>().slot5.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+            uid: '',
+            pillName: pillName.text,
+            dosage: dosageController.text + dosage,
+            medicineCategory: medicineCategory.value,
+            userId: UserStore.to.uid,
+            interval: pill.interval,
+            inCabinet: true,
+            isIndividual: pill.isIndividual,
+            isRange: pill.isRange,
+            pillsQuantity: pill.pillsQuantity,
+            pillsInterval: pill.pillsInterval,
+            pillsDuration: pill.pillsDuration,
+            request: 1,
+            slot: pill.slot,
+          ));
+        }else{
+          Get.snackbar(
+            "Cabinet",
+            "You cannot add more than 3 pills in the same slot",
+            icon: const Icon(
+              Icons.crisis_alert,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      }else if(pill.slot == 6){
+        if(Get.find<CabinetController>().slot6.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+            uid: '',
+            pillName: pillName.text,
+            dosage: dosageController.text + dosage,
+            medicineCategory: medicineCategory.value,
+            userId: UserStore.to.uid,
+            interval: pill.interval,
+            inCabinet: true,
+            isIndividual: pill.isIndividual,
+            isRange: pill.isRange,
+            pillsQuantity: pill.pillsQuantity,
+            pillsInterval: pill.pillsInterval,
+            pillsDuration: pill.pillsDuration,
+            request: 1,
+            slot: pill.slot,
+          ));
+        }else{
+          Get.snackbar(
+            "Cabinet",
+            "You cannot add more than 3 pills in the same slot",
+            icon: const Icon(
+              Icons.crisis_alert,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+            colorText: Colors.black,
+          );
+        }
+      }
       return isUploaded;
     } catch (err) {
       log(err.toString());

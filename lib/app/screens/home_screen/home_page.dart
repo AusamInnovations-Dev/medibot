@@ -90,16 +90,12 @@ class HomePage extends GetView<HomepageController> {
                                                       CustomTextField(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        text: controller
-                                                                .reminderList
-                                                                .isEmpty
+                                                        text: controller.reminderList.isEmpty
                                                             ? '--/--'
-                                                            : controller.checkDue() !=
-                                                                    ''
-                                                                ? controller
-                                                                    .checkDue()
-                                                                : '--/--',
-                                                        size: 18.sp,
+                                                            : controller.checkDue() != ''
+                                                                ? controller.checkDue()
+                                                                : 'No due for today',
+                                                        size: 16.sp,
                                                         color: Theme.of(context)
                                                             .colorScheme
                                                             .secondary,
@@ -145,8 +141,7 @@ class HomePage extends GetView<HomepageController> {
                                                       CustomTextField(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        text: controller
-                                                                .findPillStatus()
+                                                        text: controller.findPillStatus()
                                                             ? "On Time"
                                                             : "Not On Time",
                                                         size: 12.sp,
@@ -189,7 +184,7 @@ class HomePage extends GetView<HomepageController> {
                                                   child: CustomTextField(
                                                     fontWeight: FontWeight.bold,
                                                     text: controller.reminderList.isEmpty
-                                                        ? '--/--'
+                                                        ? 'Pill Name'
                                                         : controller.reminderList[controller.pillIndex.value].pillName,
                                                     color: Colors.black,
                                                     size: 18.sp,
@@ -197,9 +192,11 @@ class HomePage extends GetView<HomepageController> {
                                                 ),
                                                 CustomTextField(
                                                   fontWeight: FontWeight.bold,
-                                                  text: "1 Tablet(s)",
+                                                  text: controller.reminderList.isEmpty
+                                                      ? 'Medicine Type'
+                                                      : "1 ${controller.reminderList[controller.pillIndex.value].medicineCategory}",
                                                   color: Colors.black,
-                                                  size: 9.sp,
+                                                  size: 11.sp,
                                                 ),
                                               ],
                                             ),

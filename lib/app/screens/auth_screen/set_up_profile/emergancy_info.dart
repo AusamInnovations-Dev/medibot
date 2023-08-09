@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../getx_helper/auth_controller.dart';
 import '../../../widgets/backward_button.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/custom_input.dart';
@@ -11,7 +10,9 @@ import '../../../widgets/forward_button.dart';
 import '../../../widgets/text_field.dart';
 import 'package:medibot/app/routes/route_path.dart';
 
-class EmergencyInfo extends GetView<AuthController> {
+import 'getx_helper/set_up_profile_controller.dart';
+
+class EmergencyInfo extends GetView<SetUpProfileController> {
   const EmergencyInfo({Key? key}) : super(key: key);
 
   @override

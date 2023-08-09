@@ -11,7 +11,7 @@ class CustomCheckBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 120.w,
       child: isLeftAlign ?
       Row(

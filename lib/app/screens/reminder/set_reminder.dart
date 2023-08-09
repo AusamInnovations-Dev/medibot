@@ -452,7 +452,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                               fontWeight: FontWeight.w400,
                               size: 25.sp,
                             ),
-                            boxShadow: [],
+                            boxShadow: const [],
                           ),
                         ),
                         Obx(
@@ -479,7 +479,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                                 )
                               ],
                             ),
-                            boxShadow: [],
+                            boxShadow: const [],
                           ),
                         ),
                         GestureDetector(
@@ -507,7 +507,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                               fontWeight: FontWeight.w400,
                               size: 25.sp,
                             ),
-                            boxShadow: [],
+                            boxShadow: const [],
                           ),
                         )
                       ],

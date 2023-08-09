@@ -44,7 +44,7 @@ class UserSetting extends GetView<UserSettingController> {
                   style: ElevatedButton.styleFrom(
                     minimumSize:
                         Size(MediaQuery.of(context).size.width * 0.9, 0),
-                    backgroundColor: Color(0xffE1EDFF),
+                    backgroundColor: const Color(0xffE1EDFF),
                     padding: EdgeInsets.symmetric(
                       vertical: 13.h,
                       // horizontal: 100.w,
@@ -69,7 +69,7 @@ class UserSetting extends GetView<UserSettingController> {
                   style: ElevatedButton.styleFrom(
                     minimumSize:
                         Size(MediaQuery.of(context).size.width * 0.9, 0),
-                    backgroundColor: Color(0xffE1EDFF),
+                    backgroundColor: const Color(0xffE1EDFF),
                     padding: EdgeInsets.symmetric(
                       vertical: 13.h,
                       // horizontal: 100.w,
@@ -93,7 +93,7 @@ class UserSetting extends GetView<UserSettingController> {
                   style: ElevatedButton.styleFrom(
                     minimumSize:
                         Size(MediaQuery.of(context).size.width * 0.9, 0),
-                    backgroundColor: Color(0xffE1EDFF),
+                    backgroundColor: const Color(0xffE1EDFF),
                     padding: EdgeInsets.symmetric(
                       vertical: 13.h,
                       // horizontal: 100.w,
@@ -117,7 +117,7 @@ class UserSetting extends GetView<UserSettingController> {
                   style: ElevatedButton.styleFrom(
                     minimumSize:
                         Size(MediaQuery.of(context).size.width * 0.9, 0),
-                    backgroundColor: Color(0xffE1EDFF),
+                    backgroundColor: const Color(0xffE1EDFF),
                     padding: EdgeInsets.symmetric(
                       vertical: 13.h,
                       // horizontal: 100.w,

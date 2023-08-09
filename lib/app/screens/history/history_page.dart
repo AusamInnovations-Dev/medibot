@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:medibot/app/routes/route_path.dart';
 import 'package:medibot/app/screens/history/getx_helper/history_controller.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
-import 'package:medibot/app/widgets/custom_input_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../widgets/box_field.dart';
@@ -242,14 +241,14 @@ class HistoryPage extends GetView<HistoryController> {
                     ),
                     SizedBox(height: 40.h),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                           onPressed: () async {
                             await controller.exportToPdf(DateTime(DateTime.now().year, DateTime.now().month), DateTime(DateTime.now().year, DateTime.now().month+1));
                           },
                           style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(0, 0),
+                            minimumSize: Size(300.w, 0),
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
                             padding: EdgeInsets.symmetric(
@@ -262,28 +261,7 @@ class HistoryPage extends GetView<HistoryController> {
                           ),
                           child: CustomTextField(
                             fontWeight: FontWeight.bold,
-                            text: "Export as PDF",
-                            color: Colors.black,
-                            size: 13.sp,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(0, 0),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            padding: EdgeInsets.symmetric(
-                              vertical: 12.h,
-                              horizontal: 15.w,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.r),
-                            ),
-                          ),
-                          child: CustomTextField(
-                            fontWeight: FontWeight.bold,
-                            text: "Export to another application",
+                            text: "Export as CSV",
                             color: Colors.black,
                             size: 13.sp,
                           ),

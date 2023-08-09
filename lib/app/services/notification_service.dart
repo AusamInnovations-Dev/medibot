@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
-import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService extends GetxController {
   final FlutterLocalNotificationsPlugin localNotifications = FlutterLocalNotificationsPlugin();

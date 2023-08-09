@@ -136,7 +136,7 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
                             bottomRight: Radius.circular(4.r),
-                            boxShadow: [],
+                            boxShadow: const [],
                             borders: Border.all(color: Colors.black26),
                             body: Container(
                               padding: EdgeInsets.symmetric(
@@ -173,7 +173,7 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
                             bottomRight: Radius.circular(4.r),
-                            boxShadow: [],
+                            boxShadow: const [],
                             borders: Border.all(color: Colors.black26),
                             body: Container(
                               padding: EdgeInsets.symmetric(
@@ -206,7 +206,7 @@ class CabinetDurationPicker extends GetView<AddCabinetPill> {
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
                             bottomRight: Radius.circular(4.r),
-                            boxShadow: [],
+                            boxShadow: const [],
                             borders: Border.all(color: Colors.black26),
                             body: Container(
                               padding: EdgeInsets.symmetric(

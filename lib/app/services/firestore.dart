@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
@@ -52,7 +50,7 @@ class FirebaseFireStore extends GetxController {
             phoneNumber: phoneNumber,
             email: '',
             address: '',
-            cabinetDetail: '',
+            cabinetDetail: 'djmmI5mwGsNzprQFbu49',
             age: 0,
             careTaker: const CareTakerModel(
               careTakerAddress: '',
@@ -307,7 +305,7 @@ class FirebaseFireStore extends GetxController {
             phoneNumber: '',
             email: email,
             address: '',
-            cabinetDetail: '',
+            cabinetDetail: 'djmmI5mwGsNzprQFbu49',
             age: 0,
             careTaker: const CareTakerModel(
               careTakerAddress: '',
@@ -347,7 +345,7 @@ class FirebaseFireStore extends GetxController {
         phoneNumber: '',
         email: email,
         address: '',
-        cabinetDetail: '',
+        cabinetDetail: 'djmmI5mwGsNzprQFbu49',
         age: 0,
         careTaker: const CareTakerModel(
           careTakerAddress: '',

@@ -33,7 +33,7 @@ class ViewSlot extends GetView<ViewPillsController> {
             color: Colors.black,
           ),
           Container(
-            margin: EdgeInsets.only(top: 20.h, right: 5.w, left: 5.w),
+            margin: EdgeInsets.only(top: 5.h, right: 5.w, left: 5.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -43,45 +43,58 @@ class ViewSlot extends GetView<ViewPillsController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomTextField(
-                        fontWeight: FontWeight.w700,
-                        text: 'Medicine Category',
-                        color: Colors.black,
-                        size: 14.sp,
-                      ),
-                      CustomTextView(
-                        boxHeight: 36.h,
-                        boxWidth: 329.w,
-                        Text: controller.pill.first.medicineCategory,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 5.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
-                        fontWeight: FontWeight.w700,
-                        text: '${controller.pill.first.medicineCategory} Name',
-                        color: Colors.black,
-                        size: 14.sp,
-                      ),
                       MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
                         child: ListView.builder(
                           itemCount: controller.pill.length,
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index){
                             return Padding(
-                              padding: EdgeInsets.only(top: 8.h),
-                              child: CustomTextView(
-                                boxHeight: 36.h,
-                                boxWidth: 329.w,
-                                Text: controller.pill[index].pillName,
+                              padding: EdgeInsets.only(top: 10.h),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: 155.w,
+                                        child: CustomTextField(
+                                          fontWeight: FontWeight.w700,
+                                          text: '${controller.pill[index].medicineCategory} Name',
+                                          color: Colors.black,
+                                          size: 14.sp,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 155.w,
+                                        child: CustomTextField(
+                                          fontWeight: FontWeight.w700,
+                                          text: 'Dosage',
+                                          color: Colors.black,
+                                          size: 14.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 2.h,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomTextView(
+                                        boxHeight: 36.h,
+                                        boxWidth: 155.w,
+                                        Text: controller.pill[index].pillName,
+                                      ),
+                                      CustomTextView(
+                                        boxHeight: 36.h,
+                                        boxWidth: 155.w,
+                                        Text: controller.pill[index].dosage,
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             );
                           },
@@ -90,40 +103,6 @@ class ViewSlot extends GetView<ViewPillsController> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
-                        fontWeight: FontWeight.w700,
-                        text: 'Dosage',
-                        color: Colors.black,
-                        size: 14.sp,
-                      ),
-                      MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: controller.pill.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index){
-                            return Padding(
-                              padding: EdgeInsets.only(top: 8.h),
-                              child: CustomTextView(
-                                boxHeight: 36.h,
-                                boxWidth: 329.w,
-                                Text: controller.pill[index].dosage,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //Have to complete layout
                 Container(
                   padding: EdgeInsets.only(bottom: 5.h, top: 5.h),
                   child: Column(
@@ -270,14 +249,11 @@ class ViewSlot extends GetView<ViewPillsController> {
                   size: 15.sp,
                   textAlign: TextAlign.start,
                 ),
-                SizedBox(
-                  height: 7.h,
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 20.w),
+                      margin: EdgeInsets.only(right: 20.w, bottom: 5.h),
                       child: CustomTextField(
                         size: 13.sp,
                         fontWeight: FontWeight.w400,
@@ -308,7 +284,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                 topRight: Radius.circular(4.r),
                                 bottomLeft: Radius.circular(4.r),
                                 bottomRight: Radius.circular(4.r),
-                                boxShadow: [],
+                                boxShadow: const [],
                                 borders: Border.all(color: Colors.black26),
                                 body: Container(
                                   padding: EdgeInsets.symmetric(
@@ -344,7 +320,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                 topRight: Radius.circular(4.r),
                                 bottomLeft: Radius.circular(4.r),
                                 bottomRight: Radius.circular(4.r),
-                                boxShadow: [],
+                                boxShadow: const [],
                                 borders: Border.all(color: Colors.black26),
                                 body: Container(
                                   padding: EdgeInsets.symmetric(
@@ -376,7 +352,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                 topRight: Radius.circular(4.r),
                                 bottomLeft: Radius.circular(4.r),
                                 bottomRight: Radius.circular(4.r),
-                                boxShadow: [],
+                                boxShadow: const [],
                                 borders: Border.all(color: Colors.black26),
                                 body: Container(
                                   padding: EdgeInsets.symmetric(

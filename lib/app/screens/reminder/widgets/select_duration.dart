@@ -138,7 +138,7 @@ class SelectDuration extends GetView<SetReminderController> {
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
                             bottomRight: Radius.circular(4.r),
-                            boxShadow: [],
+                            boxShadow: const [],
                             borders: Border.all(color: Colors.black26),
                             body: Container(
                               padding: EdgeInsets.symmetric(
@@ -175,7 +175,7 @@ class SelectDuration extends GetView<SetReminderController> {
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
                             bottomRight: Radius.circular(4.r),
-                            boxShadow: [],
+                            boxShadow: const [],
                             borders: Border.all(color: Colors.black26),
                             body: Container(
                               padding: EdgeInsets.symmetric(
@@ -207,7 +207,7 @@ class SelectDuration extends GetView<SetReminderController> {
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
                             bottomRight: Radius.circular(4.r),
-                            boxShadow: [],
+                            boxShadow: const [],
                             borders: Border.all(color: Colors.black26),
                             body: Container(
                               padding: EdgeInsets.symmetric(

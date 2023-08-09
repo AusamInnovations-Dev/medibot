@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/services/firestore.dart';
 
 import '../../../models/pills_models/pills_model.dart';
 

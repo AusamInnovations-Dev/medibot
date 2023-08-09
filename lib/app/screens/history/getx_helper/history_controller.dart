@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
-import 'package:easy_localization/easy_localization.dart' as localized;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
@@ -460,7 +459,7 @@ class HistoryController extends GetxController {
       final bytes = utf8.encode(csvData);
       Uint8List bytes2 = Uint8List.fromList(bytes);
       final xFile = await FileSaver.instance.saveAs(
-        name: 'medibot_history_$formattedData.csv',
+        name: 'medibot_history_$formattedData',
         bytes: bytes2,
         ext: 'csv',
         mimeType: MimeType.csv,

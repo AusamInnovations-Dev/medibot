@@ -17,7 +17,7 @@ class CustomTextView extends StatelessWidget {
   
 
   final TextEditingController? textController;
-  CustomTextView(
+  const CustomTextView(
       {required this.boxHeight,
       required this.boxWidth,
       required this.Text,

@@ -231,7 +231,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                         size: 25.sp,
                                       ),
                                       boxWidth: 33.w,
-                                      boxShadow: [],
+                                      boxShadow: const [],
                                     )
                                   : SizedBox(
                                 height: 29.h,
@@ -393,7 +393,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                                 size: 25.sp,
                                               ),
                                               boxWidth: 33.w,
-                                              boxShadow: [],
+                                              boxShadow: const [],
                                             )
                                           : SizedBox(
                                         height: 29.h,
@@ -455,7 +455,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                 size: 25.sp,
                               ),
                               boxWidth: 33.w,
-                              boxShadow: [],
+                              boxShadow: const [],
                             )
                           : SizedBox(
                         height: 29.h,
@@ -602,7 +602,7 @@ class CabinetTimeInterval extends GetView<AddCabinetPill> {
                                 size: 25.sp,
                               ),
                               boxWidth: 33.w,
-                              boxShadow: [],
+                              boxShadow: const [],
                             )
                           : SizedBox(
                         height: 29.h,
