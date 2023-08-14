@@ -7,7 +7,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
-
 class NotificationService extends GetxController {
   final FlutterLocalNotificationsPlugin localNotifications = FlutterLocalNotificationsPlugin();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -156,7 +155,13 @@ class NotificationService extends GetxController {
             log('Scheduling1');
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                id: id,
+                id: DateTime(
+                  individualDuration.year,
+                  individualDuration.month,
+                  individualDuration.day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7)),
+                ).hashCode,
                 channelKey: 'medibot_channel',
                 title: 'MediBot',
                 payload: {'pillId': pillsModel.uid},
