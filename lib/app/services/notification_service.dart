@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:math' as math;
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -68,12 +67,7 @@ class NotificationService extends GetxController {
     log(duration.toString());
     if (pillsModel.isRange) {
       for (var interval in pillsModel.pillsInterval) {
-        var currentDate = DateTime.parse(pillsModel.pillsDuration.first);
-        log('Setting up notification now');
-        log('********** Printing Duration 2 *********');
-        log(currentDate.toIso8601String());
-        log('********** Printing Duration 3 *********');
-        log(interval);
+        var currentDate = DateTime.parse(pillsModel.pillsDuration.first);      
         while (currentDate.isBefore(DateTime.parse(pillsModel.pillsDuration.last)) || currentDate.isAtSameMomentAs(DateTime.parse(pillsModel.pillsDuration.last))) {
           var isAfter = DateTime.now().isBefore(DateTime(
             currentDate.year,
@@ -83,16 +77,7 @@ class NotificationService extends GetxController {
             int.parse(interval.substring(5, 7)),
           ));
           log('$isAfter at $currentDate : $interval');
-          if (isAfter) {
-            log('Scheduling1');
-            log('********** Printing Duration 4 *********');
-            log(DateTime(
-              currentDate.year,
-              currentDate.month,
-              currentDate.day,
-              int.parse(interval.substring(0, 2)),
-              int.parse(interval.substring(5, 7)),
-            ).toIso8601String());
+          if (isAfter) {          
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
                   id: math.Random().nextInt(100000),
@@ -150,7 +135,13 @@ class NotificationService extends GetxController {
             log('Scheduling1');
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                id: math.Random().nextInt(100000),
+                id: DateTime(
+                  individualDuration.year,
+                  individualDuration.month,
+                  individualDuration.day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7)),
+                ).hashCode,
                 channelKey: 'medibot_channel',
                 title: 'MediBot',
                 payload: {'pillId': pillsModel.uid},
