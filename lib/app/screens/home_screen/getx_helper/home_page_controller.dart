@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/history_model/history_model.dart';
@@ -51,14 +52,16 @@ class HomepageController extends GetxController {
       var pillsReminder = FirebaseFireStore.to.getAllPillsReminder();
       Stream<QuerySnapshot<Map<String, dynamic>>>? cabinetPillsReminder;
       if (UserStore.to.profile.cabinetDetail.isNotEmpty) {
+        log('fetching data $cabinetPillsReminder');
         cabinetPillsReminder = FirebaseFireStore.to.getAllCabinetPills();
+      }else{
+        log('non cabinet : ${UserStore.to.profile.cabinetDetail}');
       }
 
       pillsReminder.listen((snapshot) {
         for (var pill in snapshot.docChanges) {
           switch (pill.type) {
             case DocumentChangeType.added:
-              log(pill.doc.data().toString());
               PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
               if (pillsModel.isIndividual) {
                 List<DateTime> dates = pillsModel.pillsDuration
@@ -155,13 +158,15 @@ class HomepageController extends GetxController {
               break;
           }
         }
-        if (cabinetPillsReminder != null) {
+        if (cabinetPillsReminder == null) {
+          log('false this ');
           loadingUserData.value = false;
+          log('This is the history list: $historyList');
+          log('This is the reminder list: $reminderList');
         }
-        log('This is the history list: $historyList');
-        log('This is the reminder list: $reminderList');
       });
       if (cabinetPillsReminder != null) {
+        log('Fetching cabinet');
         cabinetPillsReminder.listen((snapshot) {
           for (var pill in snapshot.docChanges) {
             switch (pill.type) {
@@ -267,11 +272,9 @@ class HomepageController extends GetxController {
           log('This is the history list: $historyList');
           log('This is the reminder list: $reminderList');
           loadingUserData.value = false;
+          log('HEllo falsing loading : ${loadingUserData.value}');
         });
       }
-      log('This is the history list: $historyList');
-      log('This is the reminder list: $reminderList');
-      log('Pills : ${pillsTaken.value} , ${pillsToTake.value}');
     }catch(err){
       Get.snackbar(
         "Reminders",

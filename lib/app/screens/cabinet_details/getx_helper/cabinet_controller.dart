@@ -70,14 +70,17 @@ class CabinetController extends GetxController {
         if (slot1.last.isIndividual) {
           var difference = 0;
           for (var date in slot1.last.pillsDuration) {
-            if (!DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            if (DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
               difference++;
             }
           }
           slot1remainingDay.value = difference;
         } else if (slot1.last.isRange) {
-          log('remaining day: ${slot1.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
+          log('remaining day slot 1: ${slot1.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
           slot1remainingDay.value = DateTime.parse(slot1.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
+          if(slot1remainingDay.value < 0){
+            slot1remainingDay.value = 0;
+          }
         }
         break;
 
@@ -86,7 +89,7 @@ class CabinetController extends GetxController {
         if (slot2.last.isIndividual) {
           var difference = 0;
           for (var date in slot2.last.pillsDuration) {
-            if (!DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            if (DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
               difference++;
             }
           }
@@ -102,7 +105,7 @@ class CabinetController extends GetxController {
         if (slot3.last.isIndividual) {
           var difference = 0;
           for (var date in slot3.last.pillsDuration) {
-            if (!DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            if (DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
               difference++;
             }
           }
@@ -118,7 +121,7 @@ class CabinetController extends GetxController {
         if (slot4.last.isIndividual) {
           var difference = 0;
           for (var date in slot4.last.pillsDuration) {
-            if (!DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            if (DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
               difference++;
             }
           }
@@ -134,7 +137,7 @@ class CabinetController extends GetxController {
         if (slot5.last.isIndividual) {
           var difference = 0;
           for (var date in slot5.last.pillsDuration) {
-            if (!DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            if (DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
               difference++;
             }
           }
@@ -150,7 +153,7 @@ class CabinetController extends GetxController {
         if (slot6.last.isIndividual) {
           var difference = 0;
           for (var date in slot6.last.pillsDuration) {
-            if (!DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            if (DateTime.parse(date).isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
               difference++;
             }
           }

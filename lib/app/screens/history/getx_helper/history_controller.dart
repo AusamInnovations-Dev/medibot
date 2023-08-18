@@ -188,9 +188,7 @@ class HistoryController extends GetxController {
     if (historyList.isNotEmpty) {
       for (var element in historyList) {
         log('Hello I am In at : $date');
-        if (element.userId.trim() ==
-            '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'
-                .trim()) {
+        if (element.userId.trim() == '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'.trim()) {
           historyItem = element;
           break;
         }

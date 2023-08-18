@@ -244,8 +244,7 @@ class SetUpProfileController extends GetxController {
     uploadingData.value = true;
     if (haveCaretaker.value) {
       await FirebaseFireStore.to.updateUserData(
-        UserModel(
-          uid: UserStore.to.uid,
+        UserStore.to.profile.copyWith(
           age: int.parse(ageController.text),
           address: locationController.text,
           emergencyPerson: EmergencyPersonModel(
@@ -254,8 +253,6 @@ class SetUpProfileController extends GetxController {
             emergencyPhone: emergencycontactController.text,
             emergencyRelation: emergencyrelationController.text,
           ),
-          phoneNumber: UserStore.to.profile.phoneNumber,
-          cabinetDetail: 'djmmI5mwGsNzprQFbu49',
           careTaker: CareTakerModel(
             uid: '',
             careTakerName: caretakernameController.text,
@@ -270,6 +267,7 @@ class SetUpProfileController extends GetxController {
         ),
       );
     } else {
+      log(UserStore.to.profile.toString());
       await FirebaseFireStore.to.updateUserData(
         UserModel(
           uid: UserStore.to.uid,

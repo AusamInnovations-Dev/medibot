@@ -44,7 +44,7 @@ class SignIn extends GetView<AuthController> {
                 width: MediaQuery.of(context).size.width,
                 child: CustomBox(
                   boxWidth: 256.w,
-                  boxHeight: 300.h,
+                  boxHeight: 340.h,
                   margin: const EdgeInsets.symmetric(horizontal: 48),
                   padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
                   topRight: Radius.circular(17.r),
