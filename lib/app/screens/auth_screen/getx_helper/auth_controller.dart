@@ -240,66 +240,6 @@ class AuthController extends GetxController {
     return '${place.subLocality} ${place.subAdministrativeArea!}, ${place.postalCode}';
   }
 
-  updateUserData() async {
-    uploadingData.value = true;
-    if (haveCaretaker.value) {
-      await FirebaseFireStore.to.updateUserData(
-        UserModel(
-          uid: UserStore.to.uid,
-          age: int.parse(ageController.text),
-          address: locationController.text,
-          emergencyPerson: EmergencyPersonModel(
-            emergencyName: emergencynameController.text,
-            emergencyAddress: emergencylocationController.text,
-            emergencyPhone: emergencycontactController.text,
-            emergencyRelation: emergencyrelationController.text,
-          ),
-          phoneNumber: UserStore.to.profile.phoneNumber,
-          cabinetDetail: 'djmmI5mwGsNzprQFbu49',
-          careTaker: CareTakerModel(
-            uid: '',
-            careTakerName: caretakernameController.text,
-            caretakerPhone: caretakerphoneController.text,
-            careTakerAddress: caretakerlocationController.text,
-          ),
-          physicalDeviceLink: '',
-          email: emailController.text,
-          username: nameController.text,
-          userProfile: '',
-          userStatus: AuthStatus.existingUser,
-        ),
-      );
-    } else {
-      await FirebaseFireStore.to.updateUserData(
-        UserModel(
-          uid: UserStore.to.uid,
-          age: int.parse(ageController.text),
-          address: locationController.text,
-          emergencyPerson: EmergencyPersonModel(
-            emergencyName: emergencynameController.text,
-            emergencyAddress: emergencylocationController.text,
-            emergencyPhone: emergencycontactController.text,
-            emergencyRelation: emergencyrelationController.text,
-          ),
-          cabinetDetail: 'djmmI5mwGsNzprQFbu49',
-          phoneNumber: UserStore.to.profile.phoneNumber,
-          careTaker: const CareTakerModel(
-            careTakerAddress: '',
-            careTakerName: '',
-            caretakerPhone: '',
-            uid: '',
-          ),
-          physicalDeviceLink: '',
-          email: emailController.text,
-          username: nameController.text,
-          userProfile: '',
-          userStatus: AuthStatus.existingUser,
-        ),
-      );
-    }
-    uploadingData.value = false;
-  }
-
   Future<void> handleSignInByEmail() async {
     if(await FirebaseFireStore.to.handleSignInByEmail(emailController.text, passwordController.text)){
       if (UserStore.to.profile.userStatus != AuthStatus.newUser) {

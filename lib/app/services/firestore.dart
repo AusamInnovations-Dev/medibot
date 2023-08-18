@@ -34,7 +34,7 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<bool> verifyOtp(String phoneNumber, String otp) async {
-    try{
+    try {
       final credential = PhoneAuthProvider.credential(
         smsCode: otp,
         verificationId: verificationId,
@@ -75,7 +75,7 @@ class FirebaseFireStore extends GetxController {
       } else {
         return false;
       }
-    }catch(err){
+    } catch (err) {
       return false;
     }
   }
@@ -140,7 +140,7 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<bool> checkUserAccountByPhone(String phoneNumber) async {
-    if(phoneNumber.isNotEmpty){
+    if (phoneNumber.isNotEmpty) {
       UserModel? userModel = await getUserByPhone(phoneNumber);
       if (userModel != null) {
         return true;
@@ -150,7 +150,7 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<bool> checkUserAccountByMail(String email) async {
-    if(email.isNotEmpty) {
+    if (email.isNotEmpty) {
       UserModel? userModel = await getUserByEmail(email);
       if (userModel != null) {
         return true;
@@ -174,11 +174,11 @@ class FirebaseFireStore extends GetxController {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getCabinetDetail() {
-      return fireStore
-          .collection('cabinets')
-          .doc(UserStore.to.profile.cabinetDetail)
-          .collection('pillsReminder')
-          .snapshots();
+    return fireStore
+        .collection('cabinets')
+        .doc(UserStore.to.profile.cabinetDetail)
+        .collection('pillsReminder')
+        .snapshots();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllCabinetPills() {
@@ -225,7 +225,8 @@ class FirebaseFireStore extends GetxController {
     log('hello in updating');
   }
 
-  Future<void> uploadHistoryData(HistoryModel historyModel, String docId) async {
+  Future<void> uploadHistoryData(
+      HistoryModel historyModel, String docId) async {
     await fireStore
         .collection('History')
         .doc(UserStore.to.uid)
@@ -240,7 +241,7 @@ class FirebaseFireStore extends GetxController {
         .doc(UserStore.to.uid)
         .collection('history_data')
         .get();
-    if(data.docs.isNotEmpty){
+    if (data.docs.isNotEmpty) {
       return data;
     } else {
       return null;
@@ -248,37 +249,39 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>?> getTodayHistory() async {
-
     var history = await fireStore
         .collection('History')
         .doc(UserStore.to.uid)
         .collection('history_data')
-        .doc('${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}')
+        .doc(
+            '${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}')
         .get();
     log('Getting data : ${history.data()} at : ${DateTime.now().year}:${DateTime.now().month}:${DateTime.now().day}');
-    if(history.exists){
+    if (history.exists) {
       return history;
-    }else{
+    } else {
       log('Its null');
       return null;
     }
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>?> getHistoryDataByDay(String docId) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getHistoryDataByDay(
+      String docId) async {
     var data = await fireStore
         .collection('History')
         .doc(UserStore.to.uid)
         .collection('history_data')
         .doc(docId)
         .get();
-    if(data.exists){
+    if (data.exists) {
       return data;
-    } else{
+    } else {
       return null;
     }
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getPillReminder(String pillId) async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getPillReminder(
+      String pillId) async {
     return await fireStore
         .collection('pillsReminder')
         .where('uid', isEqualTo: pillId)
@@ -293,8 +296,9 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<bool> handleSignInByEmail(String email, String password) async {
-    try{
-      var value = await auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      var value = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
       if (value.user != null) {
         UserModel? user = await getUser(value.user!.uid);
         if (user == null) {
@@ -330,14 +334,15 @@ class FirebaseFireStore extends GetxController {
       } else {
         return false;
       }
-    }catch(err){
+    } catch (err) {
       return false;
     }
   }
 
   Future<bool> handleSignUpByEmail(String email, String password) async {
-    var value = await auth.createUserWithEmailAndPassword(email: email, password: password);
-    if(value.user != null){
+    var value = await auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    if (value.user != null) {
       UserModel user = UserModel(
         username: '',
         uid: value.user!.uid,
@@ -370,4 +375,11 @@ class FirebaseFireStore extends GetxController {
     return false;
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getCabinetId(String docId) async {
+    await fireStore
+        .collection('cabinets')
+        .doc(docId)
+        .set({'ssId' : 'ssId', 'password' : 'password'});
+    return await fireStore.collection('cabinets').doc(docId).get();
+  }
 }

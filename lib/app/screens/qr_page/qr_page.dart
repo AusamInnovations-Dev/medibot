@@ -73,15 +73,13 @@ class Qrcode extends GetView<QrController> {
                           boxHeight: 200.h,
                           boxWidth: 232.w,
                           boxShadow: const [],
-                          body: !controller.isScanning.value ?
+                          body: controller.isScanning.value ?
                           MobileScanner(
                             onDetect: (BarcodeCapture barcodes) {
                               var data = barcodes.raw;
-                              controller.isScanning.value = true;
-                              log('This is the qr code data : $data');
-                              Future.delayed(const Duration(seconds: 1), () {
 
-                              });
+                              log('This is the qr code data : $data');
+                              controller.onScanQrCode(data);
                             },
                           ) : const Center(
                             child: CircularProgressIndicator(
@@ -99,7 +97,7 @@ class Qrcode extends GetView<QrController> {
                   padding: EdgeInsets.symmetric(vertical: 8.w),
                   iconSize: 18.h,
                   onPressed: () async {
-                    await controller.onScanQrCode();
+                    // await controller.onScanQrCode();
                   },
                 ),
                 ElevatedButton(
