@@ -43,9 +43,9 @@ class HistoryController extends GetxController {
   getUserData() async {
     var history = await FirebaseFireStore.to.getHistoryData();
     var pillsReminder = FirebaseFireStore.to.getAllPillsReminder();
-    Stream<QuerySnapshot<Map<String, dynamic>>>? cabinetPillsReminder;
-    if (UserStore.to.profile.cabinetDetail.isNotEmpty) {
-      cabinetPillsReminder = FirebaseFireStore.to.getAllCabinetPills();
+    Stream<QuerySnapshot<Map<String, dynamic>>>? medibotPillsReminder;
+    if (UserStore.to.profile.medibotDetail.isNotEmpty) {
+      medibotPillsReminder = FirebaseFireStore.to.getAllMedibotPills();
     }
     if (history != null) {
       for (var history in history.docs) {
@@ -68,7 +68,7 @@ class HistoryController extends GetxController {
             break;
         }
       }
-      if (cabinetPillsReminder == null) {
+      if (medibotPillsReminder == null) {
         totalPillsDosage.value = 0;
         for (var reminder in reminderList) {
           if (reminder.isIndividual) {
@@ -110,8 +110,8 @@ class HistoryController extends GetxController {
         log('Total upcoming : ${upComingDosage.value}');
       }
     });
-    if (cabinetPillsReminder != null) {
-      cabinetPillsReminder.listen((snapshot) {
+    if (medibotPillsReminder != null) {
+      medibotPillsReminder.listen((snapshot) {
         for (var pill in snapshot.docChanges) {
           switch (pill.type) {
             case DocumentChangeType.added:

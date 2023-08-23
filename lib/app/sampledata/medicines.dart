@@ -22,10 +22,13 @@ class SampleMedicine {
   static List<String> medicinePower = [
     'Select Dosage',
     'μg',
-    'mg',
+    'Mg',
     'Table Spoon',
     'Tea Spoon',
-    'ml',
+    'Others',
+    'Drops'
+    'Capsule',
+    'Ml',
   ];
 
   static List<String> hours = List.generate(12, (index) => '${index >= 9 ? index + 1 : '0${index + 1}'} H');
@@ -37,5 +40,5 @@ class SampleMedicine {
     '45 M',
   ];
 
-  static List<String> medicineCategory = ['Tablet', 'Syrup', 'Eye Drop', 'Ointment', 'Injection'];
+  static List<String> medicineCategory = ['Tablet', 'Syrup', 'Eye Drop', 'Ointment', 'Injection', ''];
 }

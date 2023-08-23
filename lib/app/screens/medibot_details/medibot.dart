@@ -5,10 +5,10 @@ import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
 import '../../routes/route_path.dart';
 import '../../widgets/text_field.dart';
-import 'getx_helper/cabinet_controller.dart';
+import 'getx_helper/medibot_controller.dart';
 
-class CabinetDetail extends GetView<CabinetController> {
-  const CabinetDetail({Key? key}) : super(key: key);
+class MedibotDetail extends GetView<MedibotController> {
+  const MedibotDetail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CabinetDetail extends GetView<CabinetController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextField(
-                text: "Cabinet Management",
+                text: "Medibot Management",
                 fontFamily: 'Sansation',
                 size: 23.sp,
                 fontWeight: FontWeight.w700,
@@ -88,7 +88,7 @@ class CabinetDetail extends GetView<CabinetController> {
                                           ElevatedButton(
                                             onPressed: () {
                                               Get.toNamed(
-                                                RoutePaths.cabinetmanagement,
+                                                RoutePaths.medibotManagement,
                                                 arguments: {
                                                   'pill': controller.slot1,
                                                   'remainingDays': controller
@@ -306,7 +306,7 @@ class CabinetDetail extends GetView<CabinetController> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Get.toNamed(
-                                          RoutePaths.cabinetmanagement,
+                                          RoutePaths.medibotManagement,
                                           arguments: {
                                             'pill': controller.slot2,
                                             'remainingDays': controller.slot2remainingDay.value,
@@ -523,7 +523,7 @@ class CabinetDetail extends GetView<CabinetController> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Get.toNamed(
-                                          RoutePaths.cabinetmanagement,
+                                          RoutePaths.medibotManagement,
                                           arguments: {
                                             'pill': controller.slot3,
                                             'remainingDays': controller.slot3remainingDay.value,
@@ -740,7 +740,7 @@ class CabinetDetail extends GetView<CabinetController> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Get.toNamed(
-                                          RoutePaths.cabinetmanagement,
+                                          RoutePaths.medibotManagement,
                                           arguments: {
                                             'pill': controller.slot4,
                                             'remainingDays': controller.slot4remainingDay.value,
@@ -957,7 +957,7 @@ class CabinetDetail extends GetView<CabinetController> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Get.toNamed(
-                                          RoutePaths.cabinetmanagement,
+                                          RoutePaths.medibotManagement,
                                           arguments: {
                                             'pill': controller.slot5,
                                             'remainingDays': controller.slot5remainingDay.value,
@@ -1174,7 +1174,7 @@ class CabinetDetail extends GetView<CabinetController> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Get.toNamed(
-                                          RoutePaths.cabinetmanagement,
+                                          RoutePaths.medibotManagement,
                                           arguments: {
                                             'pill': controller.slot6,
                                             'remainingDays': controller.slot6remainingDay.value,
@@ -1369,11 +1369,11 @@ class CabinetDetail extends GetView<CabinetController> {
                 ),
               ),
               onPressed: () {
-                Get.toNamed(RoutePaths.addpillcabinet);
+                Get.toNamed(RoutePaths.addpillmedibot);
               },
               child: CustomTextField(
                 fontWeight: FontWeight.bold,
-                text: "Add Pills to Cabinet",
+                text: "Add Pills to Medibot",
                 size: 12.sp,
                 color: Colors.black,
                 textAlign: TextAlign.center,

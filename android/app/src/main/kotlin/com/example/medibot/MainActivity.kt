@@ -16,7 +16,7 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
 
-    private val CHANNEL = "cabinetChannel"
+    private val CHANNEL = "medibotChannel"
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 

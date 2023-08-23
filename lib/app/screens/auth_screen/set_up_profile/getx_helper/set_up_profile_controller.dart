@@ -279,7 +279,7 @@ class SetUpProfileController extends GetxController {
             emergencyPhone: emergencycontactController.text,
             emergencyRelation: emergencyrelationController.text,
           ),
-          cabinetDetail: 'djmmI5mwGsNzprQFbu49',
+          medibotDetail: 'djmmI5mwGsNzprQFbu49',
           phoneNumber: UserStore.to.profile.phoneNumber,
           careTaker: const CareTakerModel(
             careTakerAddress: '',

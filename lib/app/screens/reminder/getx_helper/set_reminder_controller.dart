@@ -260,14 +260,13 @@ class SetReminderController extends GetxController {
         isRange: isRange.value,
         pillsQuantity: pillQuantity.value.toString(),
         pillsInterval: intervalsInString,
-        inCabinet: false,
+        inMedibot: false,
         pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
         request: 1,
         slot: 0,
       ),
     );
      await NotificationService.to.scheduleNotification(
-         math.Random().nextInt(1000),
        PillsModel(
          userId: UserStore.to.uid,
          uid: isUploaded,
@@ -279,7 +278,7 @@ class SetReminderController extends GetxController {
          isRange: isRange.value,
          pillsQuantity: pillQuantity.value.toString(),
          pillsInterval: intervalsInString,
-         inCabinet: false,
+         inMedibot: false,
          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
          request: 1,
          slot: 0,

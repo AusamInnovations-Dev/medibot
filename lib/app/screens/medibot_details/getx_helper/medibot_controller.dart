@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../models/pills_models/pills_model.dart';
 import '../../../services/firestore.dart';
 
-class CabinetController extends GetxController {
+class   MedibotController extends GetxController {
   var isLoading = false.obs;
   RxList<PillsModel> slot1 = <PillsModel>[].obs;
   RxList<PillsModel> slot2 = <PillsModel>[].obs;
@@ -26,30 +26,30 @@ class CabinetController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getCabinetDetails();
+    await getMedibotDetails();
   }
 
-  onRefreshCabinet() {
-    getCabinetDetails().then(
+  onRefreshMedibot() {
+    getMedibotDetails().then(
       (_) => refreshController.refreshCompleted(resetFooterState: true),
     );
   }
 
-  getCabinetDetails() async {
+  getMedibotDetails() async {
     isLoading.value = true;
     try {
-      var cabinetData = FirebaseFireStore.to.getCabinetDetail();
-      cabinetData.listen((snapshot) {
-        for (var cabinet in snapshot.docChanges) {
-          switch (cabinet.type) {
+      var medibotData = FirebaseFireStore.to.getMedibotDetail();
+      medibotData.listen((snapshot) {
+        for (var medibot in snapshot.docChanges) {
+          switch (medibot.type) {
             case DocumentChangeType.added:
-              if (cabinet.doc.data() != null) {
-                addSlotPill(cabinet.doc.data());
+              if (medibot.doc.data() != null) {
+                addSlotPill(medibot.doc.data());
               }
               break;
             case DocumentChangeType.modified:
-              if (cabinet.doc.data() != null) {
-                modifySlotPill(cabinet.doc.data());
+              if (medibot.doc.data() != null) {
+                modifySlotPill(medibot.doc.data());
               }
               break;
             case DocumentChangeType.removed:
@@ -168,7 +168,7 @@ class CabinetController extends GetxController {
 
   modifySlotPill(pill) {
 
-    //TODO: Have to do some modifications in the edit part of the cabinet pills after confirming with the client
+    //TODO: Have to do some modifications in the edit part of the Medibot pills after confirming with the client
 
     switch(pill['slot']) {
       case 1:
@@ -179,7 +179,7 @@ class CabinetController extends GetxController {
             .copyWith(
             uid: modifiedRemainder.uid,
             dosage: modifiedRemainder.dosage,
-            inCabinet: modifiedRemainder.inCabinet,
+            inMedibot: modifiedRemainder.inMedibot,
             interval: modifiedRemainder.interval,
             isIndividual: modifiedRemainder.isIndividual,
             isRange: modifiedRemainder.isRange,
@@ -199,7 +199,7 @@ class CabinetController extends GetxController {
             .copyWith(
           uid: modifiedRemainder.uid,
           dosage: modifiedRemainder.dosage,
-          inCabinet: modifiedRemainder.inCabinet,
+          inMedibot: modifiedRemainder.inMedibot,
           interval: modifiedRemainder.interval,
           isIndividual: modifiedRemainder.isIndividual,
           isRange: modifiedRemainder.isRange,
@@ -219,7 +219,7 @@ class CabinetController extends GetxController {
             .copyWith(
           uid: modifiedRemainder.uid,
           dosage: modifiedRemainder.dosage,
-          inCabinet: modifiedRemainder.inCabinet,
+          inMedibot: modifiedRemainder.inMedibot,
           interval: modifiedRemainder.interval,
           isIndividual: modifiedRemainder.isIndividual,
           isRange: modifiedRemainder.isRange,
@@ -239,7 +239,7 @@ class CabinetController extends GetxController {
             .copyWith(
           uid: modifiedRemainder.uid,
           dosage: modifiedRemainder.dosage,
-          inCabinet: modifiedRemainder.inCabinet,
+          inMedibot: modifiedRemainder.inMedibot,
           interval: modifiedRemainder.interval,
           isIndividual: modifiedRemainder.isIndividual,
           isRange: modifiedRemainder.isRange,
@@ -259,7 +259,7 @@ class CabinetController extends GetxController {
             .copyWith(
           uid: modifiedRemainder.uid,
           dosage: modifiedRemainder.dosage,
-          inCabinet: modifiedRemainder.inCabinet,
+          inMedibot: modifiedRemainder.inMedibot,
           interval: modifiedRemainder.interval,
           isIndividual: modifiedRemainder.isIndividual,
           isRange: modifiedRemainder.isRange,
@@ -279,7 +279,7 @@ class CabinetController extends GetxController {
             .copyWith(
           uid: modifiedRemainder.uid,
           dosage: modifiedRemainder.dosage,
-          inCabinet: modifiedRemainder.inCabinet,
+          inMedibot: modifiedRemainder.inMedibot,
           interval: modifiedRemainder.interval,
           isIndividual: modifiedRemainder.isIndividual,
           isRange: modifiedRemainder.isRange,

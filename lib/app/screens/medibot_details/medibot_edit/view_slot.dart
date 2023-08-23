@@ -20,7 +20,7 @@ class ViewSlot extends GetView<ViewPillsController> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CustomTextField(
-            text: "Cabinet Management",
+            text: "Medibot Management",
             fontFamily: 'Sansation',
             size: 20.sp,
             fontWeight: FontWeight.w700,

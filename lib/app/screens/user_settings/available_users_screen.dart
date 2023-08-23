@@ -49,7 +49,7 @@ class _AvailableUsrsPageState extends State<AvailableUsrsPage> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
-      bottomButtonText: 'Add User',
+      bottomButtonText: 'Add Profile',
       onbottomButtonPressed: () {
         Get.toNamed(RoutePaths.signInScreen);
       },

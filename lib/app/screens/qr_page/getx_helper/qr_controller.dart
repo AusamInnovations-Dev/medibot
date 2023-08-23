@@ -9,7 +9,7 @@ import '../../../services/firestore.dart';
 import 'package:flutter/services.dart';
 
 class QrController extends GetxController {
-  var platform = const MethodChannel('cabinetChannel');
+  var platform = const MethodChannel('MedibotChannel');
   var uploadingData = false.obs;
   var isScanning = true.obs;
 
@@ -17,9 +17,9 @@ class QrController extends GetxController {
     try{
       uploadingData.value = true;
       isScanning.value = false;
-      var cabinetData = await FirebaseFireStore.to.getCabinetId('djmmI5mwGsNzprQFbu49');
+      var medibotData = await FirebaseFireStore.to.getMedibotId('djmmI5mwGsNzprQFbu49');
 
-      await platform.invokeMethod('connectToWiFi', {'ssid': cabinetData.data()!['ssId'], 'password': cabinetData.data()!['password']}).then((value) {
+      await platform.invokeMethod('connectToWiFi', {'ssid': medibotData.data()!['ssId'], 'password': medibotData.data()!['password']}).then((value) {
         log('This is the data : $value');
         if(value == "false"){
           isScanning.value = true;

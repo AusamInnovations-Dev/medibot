@@ -184,6 +184,7 @@ HistoryData _$HistoryDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HistoryData {
   String get pillId => throw _privateConstructorUsedError;
+  String get med_status => throw _privateConstructorUsedError;
   List<DateTime> get timeTaken => throw _privateConstructorUsedError;
   List<String> get timeToTake => throw _privateConstructorUsedError;
 
@@ -199,7 +200,11 @@ abstract class $HistoryDataCopyWith<$Res> {
           HistoryData value, $Res Function(HistoryData) then) =
       _$HistoryDataCopyWithImpl<$Res, HistoryData>;
   @useResult
-  $Res call({String pillId, List<DateTime> timeTaken, List<String> timeToTake});
+  $Res call(
+      {String pillId,
+      String med_status,
+      List<DateTime> timeTaken,
+      List<String> timeToTake});
 }
 
 /// @nodoc
@@ -216,6 +221,7 @@ class _$HistoryDataCopyWithImpl<$Res, $Val extends HistoryData>
   @override
   $Res call({
     Object? pillId = null,
+    Object? med_status = null,
     Object? timeTaken = null,
     Object? timeToTake = null,
   }) {
@@ -223,6 +229,10 @@ class _$HistoryDataCopyWithImpl<$Res, $Val extends HistoryData>
       pillId: null == pillId
           ? _value.pillId
           : pillId // ignore: cast_nullable_to_non_nullable
+              as String,
+      med_status: null == med_status
+          ? _value.med_status
+          : med_status // ignore: cast_nullable_to_non_nullable
               as String,
       timeTaken: null == timeTaken
           ? _value.timeTaken
@@ -244,7 +254,11 @@ abstract class _$$_HistoryDataCopyWith<$Res>
       __$$_HistoryDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String pillId, List<DateTime> timeTaken, List<String> timeToTake});
+  $Res call(
+      {String pillId,
+      String med_status,
+      List<DateTime> timeTaken,
+      List<String> timeToTake});
 }
 
 /// @nodoc
@@ -259,6 +273,7 @@ class __$$_HistoryDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? pillId = null,
+    Object? med_status = null,
     Object? timeTaken = null,
     Object? timeToTake = null,
   }) {
@@ -266,6 +281,10 @@ class __$$_HistoryDataCopyWithImpl<$Res>
       pillId: null == pillId
           ? _value.pillId
           : pillId // ignore: cast_nullable_to_non_nullable
+              as String,
+      med_status: null == med_status
+          ? _value.med_status
+          : med_status // ignore: cast_nullable_to_non_nullable
               as String,
       timeTaken: null == timeTaken
           ? _value._timeTaken
@@ -284,6 +303,7 @@ class __$$_HistoryDataCopyWithImpl<$Res>
 class _$_HistoryData implements _HistoryData {
   const _$_HistoryData(
       {required this.pillId,
+      required this.med_status,
       required final List<DateTime> timeTaken,
       required final List<String> timeToTake})
       : _timeTaken = timeTaken,
@@ -294,6 +314,8 @@ class _$_HistoryData implements _HistoryData {
 
   @override
   final String pillId;
+  @override
+  final String med_status;
   final List<DateTime> _timeTaken;
   @override
   List<DateTime> get timeTaken {
@@ -312,7 +334,7 @@ class _$_HistoryData implements _HistoryData {
 
   @override
   String toString() {
-    return 'HistoryData(pillId: $pillId, timeTaken: $timeTaken, timeToTake: $timeToTake)';
+    return 'HistoryData(pillId: $pillId, med_status: $med_status, timeTaken: $timeTaken, timeToTake: $timeToTake)';
   }
 
   @override
@@ -321,6 +343,8 @@ class _$_HistoryData implements _HistoryData {
         (other.runtimeType == runtimeType &&
             other is _$_HistoryData &&
             (identical(other.pillId, pillId) || other.pillId == pillId) &&
+            (identical(other.med_status, med_status) ||
+                other.med_status == med_status) &&
             const DeepCollectionEquality()
                 .equals(other._timeTaken, _timeTaken) &&
             const DeepCollectionEquality()
@@ -332,6 +356,7 @@ class _$_HistoryData implements _HistoryData {
   int get hashCode => Object.hash(
       runtimeType,
       pillId,
+      med_status,
       const DeepCollectionEquality().hash(_timeTaken),
       const DeepCollectionEquality().hash(_timeToTake));
 
@@ -352,6 +377,7 @@ class _$_HistoryData implements _HistoryData {
 abstract class _HistoryData implements HistoryData {
   const factory _HistoryData(
       {required final String pillId,
+      required final String med_status,
       required final List<DateTime> timeTaken,
       required final List<String> timeToTake}) = _$_HistoryData;
 
@@ -360,6 +386,8 @@ abstract class _HistoryData implements HistoryData {
 
   @override
   String get pillId;
+  @override
+  String get med_status;
   @override
   List<DateTime> get timeTaken;
   @override
