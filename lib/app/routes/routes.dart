@@ -3,10 +3,6 @@ import 'package:medibot/app/routes/route_path.dart';
 import 'package:medibot/app/screens/auth_screen/getx_helper/auth_binding.dart';
 import 'package:medibot/app/screens/auth_screen/otp_verification_page.dart';
 import 'package:medibot/app/screens/auth_screen/sign_in_page.dart';
-import 'package:medibot/app/screens/cabinet_details/cabinet.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/add_cabinet_pill_binding.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/add_existing_slot_binding.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/view_pills_binding.dart';
 import 'package:medibot/app/screens/contact_screen/contacts_screen.dart';
 import 'package:medibot/app/screens/home_screen/home_page.dart';
 import 'package:medibot/app/screens/qr_page/getx_helper/qr_binding.dart';
@@ -23,16 +19,20 @@ import '../screens/auth_screen/set_up_profile/caretaker_info.dart';
 import '../screens/auth_screen/set_up_profile/create_account.dart';
 import '../screens/auth_screen/set_up_profile/emergancy_info.dart';
 import '../screens/auth_screen/set_up_profile/getx_helper/set_up_binding.dart';
-import '../screens/cabinet_details/cabinet_edit/add_existing_slot.dart';
 import '../screens/contact_screen/getx_helper/contact_binding.dart';
+import '../screens/medibot_details/getx_helper/add_existing_slot_binding.dart';
+import '../screens/medibot_details/getx_helper/add_medibot_pill_binding.dart';
+import '../screens/medibot_details/getx_helper/edit_medibot_binding.dart';
+import '../screens/medibot_details/getx_helper/medibot_binding.dart';
+import '../screens/medibot_details/getx_helper/view_pills_binding.dart';
+import '../screens/medibot_details/medibot.dart';
+import '../screens/medibot_details/medibot_edit/add_existing_slot.dart';
+import '../screens/medibot_details/medibot_edit/add_pill_to_medibot.dart';
+import '../screens/medibot_details/medibot_edit/medibot_management.dart';
+import '../screens/medibot_details/medibot_edit/view_slot.dart';
 import '../screens/qr_page/qr_page.dart';
 import '../screens/auth_screen/set_up_profile/setupfinished.dart';
 import '../screens/auth_screen/set_up_profile/user_info.dart';
-import '../screens/cabinet_details/cabinet_edit/add_pill_to_cabinet.dart';
-import '../screens/cabinet_details/cabinet_edit/cabinet_management.dart';
-import '../screens/cabinet_details/cabinet_edit/view_slot.dart';
-import '../screens/cabinet_details/getx_helper/cabinet_binding.dart';
-import '../screens/cabinet_details/getx_helper/edit_cabinet_binding.dart';
 import '../screens/history/getx_helper/history_binding.dart';
 import '../screens/history/getx_helper/history_details_binding.dart';
 import '../screens/history/history_details_page.dart';
@@ -123,9 +123,9 @@ class RouteHelper {
       binding: HistoryDetailsBinding(),
     ),
     GetPage(
-      name: RoutePaths.cabinetdetail,
-      page: () => const CabinetDetail(),
-      binding: CabinetBinding(),
+      name: RoutePaths.medibotdetail,
+      page: () => const MedibotDetail(),
+      binding: MedibotBinding(),
     ),
     GetPage(
       name: RoutePaths.newreminder,
@@ -133,9 +133,9 @@ class RouteHelper {
       binding: SetReminderBinding(),
     ),
     GetPage(
-      name: RoutePaths.cabinetmanagement,
-      page: () => const CabinetManagement(),
-      binding: EditCabinetBinding()
+      name: RoutePaths.medibotManagement,
+      page: () => const MedibotManagement(),
+      binding: EditMedibotBinding()
     ),
     GetPage(
       name: RoutePaths.addPillInExistingSlot,
@@ -143,9 +143,9 @@ class RouteHelper {
       binding: AddExistingSlotBinding()
     ),
     GetPage(
-      name: RoutePaths.addpillcabinet,
+      name: RoutePaths.addpillmedibot,
       page: () => const AddPill(),
-      binding: AddCabinetPillBinding(),
+      binding: AddMedibotPillBinding(),
     ),
     GetPage(
       name: RoutePaths.viewslot,

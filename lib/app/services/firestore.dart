@@ -50,7 +50,7 @@ class FirebaseFireStore extends GetxController {
             phoneNumber: phoneNumber,
             email: '',
             address: '',
-            cabinetDetail: 'djmmI5mwGsNzprQFbu49',
+            medibotDetail: 'djmmI5mwGsNzprQFbu49',
             age: 0,
             careTaker: const CareTakerModel(
               careTakerAddress: '',
@@ -173,28 +173,28 @@ class FirebaseFireStore extends GetxController {
     }
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getCabinetDetail() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getMedibotDetail() {
     return fireStore
-        .collection('cabinets')
-        .doc(UserStore.to.profile.cabinetDetail)
+        .collection('medibot')
+        .doc(UserStore.to.profile.medibotDetail)
         .collection('pillsReminder')
         .snapshots();
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getAllCabinetPills() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllMedibotPills() {
     return fireStore
-        .collection('cabinets')
-        .doc(UserStore.to.profile.cabinetDetail)
+        .collection('medibot')
+        .doc(UserStore.to.profile.medibotDetail)
         .collection('pillsReminder')
         .snapshots();
   }
 
-  Future<bool> uploadCabinetPills(PillsModel pillsModel) async {
-    var docId = fireStore.collection('cabinets').doc().id;
+  Future<bool> uploadMedibotPills(PillsModel pillsModel) async {
+    var docId = fireStore.collection('medibot').doc().id;
     try {
       await fireStore
-          .collection('cabinets')
-          .doc(UserStore.to.profile.cabinetDetail)
+          .collection('medibot')
+          .doc(UserStore.to.profile.medibotDetail)
           .collection('pillsReminder')
           .doc(docId)
           .set(pillsModel.copyWith(uid: docId).toJson());
@@ -214,11 +214,11 @@ class FirebaseFireStore extends GetxController {
     log('hello in updating');
   }
 
-  Future<void> updateCabinetData(PillsModel pillsModel) async {
+  Future<void> updateMedibotData(PillsModel pillsModel) async {
     log('hello in updating');
     await fireStore
-        .collection('cabinets')
-        .doc(UserStore.to.profile.cabinetDetail)
+        .collection('medibot')
+        .doc(UserStore.to.profile.medibotDetail)
         .collection('pillsReminder')
         .doc(pillsModel.uid)
         .update(pillsModel.toJson());
@@ -309,7 +309,7 @@ class FirebaseFireStore extends GetxController {
             phoneNumber: '',
             email: email,
             address: '',
-            cabinetDetail: 'djmmI5mwGsNzprQFbu49',
+            medibotDetail: 'djmmI5mwGsNzprQFbu49',
             age: 0,
             careTaker: const CareTakerModel(
               careTakerAddress: '',
@@ -350,7 +350,7 @@ class FirebaseFireStore extends GetxController {
         phoneNumber: '',
         email: email,
         address: '',
-        cabinetDetail: 'djmmI5mwGsNzprQFbu49',
+        medibotDetail: 'djmmI5mwGsNzprQFbu49',
         age: 0,
         careTaker: const CareTakerModel(
           careTakerAddress: '',
@@ -375,11 +375,11 @@ class FirebaseFireStore extends GetxController {
     return false;
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getCabinetId(String docId) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getMedibotId(String docId) async {
     await fireStore
-        .collection('cabinets')
+        .collection('medibot')
         .doc(docId)
         .set({'ssId' : 'ssId', 'password' : 'password'});
-    return await fireStore.collection('cabinets').doc(docId).get();
+    return await fireStore.collection('medibot').doc(docId).get();
   }
 }

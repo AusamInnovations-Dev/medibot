@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -54,7 +55,7 @@ class NotificationService extends GetxController {
       initSettings = const InitializationSettings(android: androidInitializationSettings);
       await localNotifications.initialize(initializationSettings);
     } catch (e) {
-      // TODO
+      log(e.toString());
     }
   }
 
@@ -63,7 +64,7 @@ class NotificationService extends GetxController {
     log('Body: ${message.notification!.body}');
   }
 
-  scheduleNotification(int id, PillsModel pillsModel, List<DateTime> duration) async {
+  scheduleNotification(PillsModel pillsModel, List<DateTime> duration) async {
     log('********** Printing Duration 1 *********');
     log(duration.toString());
     if (pillsModel.isRange) {
@@ -95,13 +96,7 @@ class NotificationService extends GetxController {
             ).toIso8601String());
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                  id: DateTime(
-                    currentDate.year,
-                    currentDate.month,
-                    currentDate.day,
-                    int.parse(interval.substring(0, 2)),
-                    int.parse(interval.substring(5, 7)),
-                  ).hashCode,
+                  id: math.Random().nextInt(100000),
                   channelKey: 'medibot_channel',
                   title: 'MediBot',
                   payload: {'pillId': pillsModel.uid},
@@ -156,7 +151,7 @@ class NotificationService extends GetxController {
             log('Scheduling1');
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                id: id,
+                id: math.Random().nextInt(100000),
                 channelKey: 'medibot_channel',
                 title: 'MediBot',
                 payload: {'pillId': pillsModel.uid},

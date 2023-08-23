@@ -29,7 +29,7 @@ class UserStore extends GetxController {
     username: '',
     address: '',
     age: 0,
-    cabinetDetail: 'djmmI5mwGsNzprQFbu49',
+    medibotDetail: 'djmmI5mwGsNzprQFbu49',
     emergencyPerson: EmergencyPersonModel(
       emergencyAddress: '',
       emergencyName: '',

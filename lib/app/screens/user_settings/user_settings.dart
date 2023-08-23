@@ -127,7 +127,7 @@ class UserSetting extends GetView<UserSettingController> {
                     ),
                   ),
                   child: CustomTextField(
-                    text: "Available Users",
+                    text: "Available Profiles",
                     fontFamily: 'Sansation',
                     size: 13.sp,
                     fontWeight: FontWeight.w700,

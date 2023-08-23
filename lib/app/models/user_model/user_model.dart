@@ -13,7 +13,7 @@ class UserModel with _$UserModel{
     required String address,
     required CareTakerModel careTaker,
     required EmergencyPersonModel emergencyPerson,
-    required String cabinetDetail,
+    required String medibotDetail,
     required String physicalDeviceLink,
     required String email,
     required String username,

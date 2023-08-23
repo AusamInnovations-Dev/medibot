@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'cabinet_model.dart';
+part of 'medibot_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-CabinetModel _$CabinetModelFromJson(Map<String, dynamic> json) {
-  return _CabinetModel.fromJson(json);
+MedibotModel _$MedibotModelFromJson(Map<String, dynamic> json) {
+  return _MedibotModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CabinetModel {
+mixin _$MedibotModel {
   String get uid => throw _privateConstructorUsedError;
   String get pillName => throw _privateConstructorUsedError;
   List<String> get interval => throw _privateConstructorUsedError;
@@ -28,15 +28,15 @@ mixin _$CabinetModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CabinetModelCopyWith<CabinetModel> get copyWith =>
+  $MedibotModelCopyWith<MedibotModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CabinetModelCopyWith<$Res> {
-  factory $CabinetModelCopyWith(
-          CabinetModel value, $Res Function(CabinetModel) then) =
-      _$CabinetModelCopyWithImpl<$Res, CabinetModel>;
+abstract class $MedibotModelCopyWith<$Res> {
+  factory $MedibotModelCopyWith(
+          MedibotModel value, $Res Function(MedibotModel) then) =
+      _$MedibotModelCopyWithImpl<$Res, MedibotModel>;
   @useResult
   $Res call(
       {String uid,
@@ -47,9 +47,9 @@ abstract class $CabinetModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CabinetModelCopyWithImpl<$Res, $Val extends CabinetModel>
-    implements $CabinetModelCopyWith<$Res> {
-  _$CabinetModelCopyWithImpl(this._value, this._then);
+class _$MedibotModelCopyWithImpl<$Res, $Val extends MedibotModel>
+    implements $MedibotModelCopyWith<$Res> {
+  _$MedibotModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -91,11 +91,11 @@ class _$CabinetModelCopyWithImpl<$Res, $Val extends CabinetModel>
 }
 
 /// @nodoc
-abstract class _$$_CabinetModelCopyWith<$Res>
-    implements $CabinetModelCopyWith<$Res> {
-  factory _$$_CabinetModelCopyWith(
-          _$_CabinetModel value, $Res Function(_$_CabinetModel) then) =
-      __$$_CabinetModelCopyWithImpl<$Res>;
+abstract class _$$_MedibotModelCopyWith<$Res>
+    implements $MedibotModelCopyWith<$Res> {
+  factory _$$_MedibotModelCopyWith(
+          _$_MedibotModel value, $Res Function(_$_MedibotModel) then) =
+      __$$_MedibotModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -107,11 +107,11 @@ abstract class _$$_CabinetModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CabinetModelCopyWithImpl<$Res>
-    extends _$CabinetModelCopyWithImpl<$Res, _$_CabinetModel>
-    implements _$$_CabinetModelCopyWith<$Res> {
-  __$$_CabinetModelCopyWithImpl(
-      _$_CabinetModel _value, $Res Function(_$_CabinetModel) _then)
+class __$$_MedibotModelCopyWithImpl<$Res>
+    extends _$MedibotModelCopyWithImpl<$Res, _$_MedibotModel>
+    implements _$$_MedibotModelCopyWith<$Res> {
+  __$$_MedibotModelCopyWithImpl(
+      _$_MedibotModel _value, $Res Function(_$_MedibotModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$_CabinetModelCopyWithImpl<$Res>
     Object? remainingPills = null,
     Object? remainingDays = null,
   }) {
-    return _then(_$_CabinetModel(
+    return _then(_$_MedibotModel(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -150,8 +150,8 @@ class __$$_CabinetModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CabinetModel implements _CabinetModel {
-  _$_CabinetModel(
+class _$_MedibotModel implements _MedibotModel {
+  _$_MedibotModel(
       {required this.uid,
       required this.pillName,
       required final List<String> interval,
@@ -159,8 +159,8 @@ class _$_CabinetModel implements _CabinetModel {
       required this.remainingDays})
       : _interval = interval;
 
-  factory _$_CabinetModel.fromJson(Map<String, dynamic> json) =>
-      _$$_CabinetModelFromJson(json);
+  factory _$_MedibotModel.fromJson(Map<String, dynamic> json) =>
+      _$$_MedibotModelFromJson(json);
 
   @override
   final String uid;
@@ -181,14 +181,14 @@ class _$_CabinetModel implements _CabinetModel {
 
   @override
   String toString() {
-    return 'CabinetModel(uid: $uid, pillName: $pillName, interval: $interval, remainingPills: $remainingPills, remainingDays: $remainingDays)';
+    return 'MedibotModel(uid: $uid, pillName: $pillName, interval: $interval, remainingPills: $remainingPills, remainingDays: $remainingDays)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CabinetModel &&
+            other is _$_MedibotModel &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.pillName, pillName) ||
                 other.pillName == pillName) &&
@@ -212,27 +212,27 @@ class _$_CabinetModel implements _CabinetModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CabinetModelCopyWith<_$_CabinetModel> get copyWith =>
-      __$$_CabinetModelCopyWithImpl<_$_CabinetModel>(this, _$identity);
+  _$$_MedibotModelCopyWith<_$_MedibotModel> get copyWith =>
+      __$$_MedibotModelCopyWithImpl<_$_MedibotModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CabinetModelToJson(
+    return _$$_MedibotModelToJson(
       this,
     );
   }
 }
 
-abstract class _CabinetModel implements CabinetModel {
-  factory _CabinetModel(
+abstract class _MedibotModel implements MedibotModel {
+  factory _MedibotModel(
       {required final String uid,
       required final String pillName,
       required final List<String> interval,
       required final int remainingPills,
-      required final int remainingDays}) = _$_CabinetModel;
+      required final int remainingDays}) = _$_MedibotModel;
 
-  factory _CabinetModel.fromJson(Map<String, dynamic> json) =
-      _$_CabinetModel.fromJson;
+  factory _MedibotModel.fromJson(Map<String, dynamic> json) =
+      _$_MedibotModel.fromJson;
 
   @override
   String get uid;
@@ -246,6 +246,6 @@ abstract class _CabinetModel implements CabinetModel {
   int get remainingDays;
   @override
   @JsonKey(ignore: true)
-  _$$_CabinetModelCopyWith<_$_CabinetModel> get copyWith =>
+  _$$_MedibotModelCopyWith<_$_MedibotModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

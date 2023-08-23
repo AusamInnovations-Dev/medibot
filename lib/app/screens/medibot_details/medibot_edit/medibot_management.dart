@@ -6,10 +6,10 @@ import 'package:medibot/app/widgets/background_screen_decoration.dart';
 import '../../../widgets/box_field.dart';
 import '../../../widgets/custom_input.dart';
 import '../../../widgets/text_field.dart';
-import '../getx_helper/edit_cabinet_controller.dart';
+import '../getx_helper/edit_medibot_controller.dart';
 
-class CabinetManagement extends GetView<EditCabinetController> {
-  const CabinetManagement({Key? key}) : super(key: key);
+class MedibotManagement extends GetView<EditMedibotController> {
+  const MedibotManagement({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class CabinetManagement extends GetView<EditCabinetController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextField(
-                text: "Cabinet Management",
+                text: "Medibot Management",
                 fontFamily: 'Sansation',
                 size: 23.sp,
                 fontWeight: FontWeight.w700,

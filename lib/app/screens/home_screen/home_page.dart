@@ -409,10 +409,10 @@ class HomePage extends GetView<HomepageController> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              if (UserStore.to.profile.cabinetDetail == '') {
+                                              if (UserStore.to.profile.medibotDetail == '') {
                                                 Get.snackbar(
-                                                  "Cabinet",
-                                                  "Please link with a cabinet for using this feature",
+                                                  "Medibot",
+                                                  "Please link with a Medibot for using this feature",
                                                   icon: const Icon(
                                                     Icons.person,
                                                     color: Colors.black,
@@ -426,7 +426,7 @@ class HomePage extends GetView<HomepageController> {
                                                   colorText: Colors.black,
                                                 );
                                               } else {
-                                                Get.toNamed(RoutePaths.cabinetdetail);
+                                                Get.toNamed(RoutePaths.medibotdetail);
                                               }
                                             },
                                             child: CustomBox(
@@ -445,7 +445,7 @@ class HomePage extends GetView<HomepageController> {
                                                   color: Colors.black,
                                                   size: 13.sp,
                                                   fontWeight: FontWeight.w700,
-                                                  text: "Cabinet Details",
+                                                  text: "Medibot Details",
                                                   maxLines: 2,
                                                 ),
                                               ),

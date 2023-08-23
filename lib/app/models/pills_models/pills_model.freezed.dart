@@ -33,7 +33,7 @@ mixin _$PillsModel {
   List<String> get pillsDuration => throw _privateConstructorUsedError;
   bool get isRange => throw _privateConstructorUsedError;
   bool get isIndividual => throw _privateConstructorUsedError;
-  bool get inCabinet => throw _privateConstructorUsedError;
+  bool get inMedibot => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,24 +44,24 @@ mixin _$PillsModel {
 /// @nodoc
 abstract class $PillsModelCopyWith<$Res> {
   factory $PillsModelCopyWith(
-          PillsModel value, $Res Function(PillsModel) then) =
-      _$PillsModelCopyWithImpl<$Res, PillsModel>;
+      PillsModel value, $Res Function(PillsModel) then) =
+  _$PillsModelCopyWithImpl<$Res, PillsModel>;
   @useResult
   $Res call(
       {String uid,
-      String userId,
-      int slot,
-      int request,
-      String pillName,
-      String medicineCategory,
-      String dosage,
-      String interval,
-      String pillsQuantity,
-      List<String> pillsInterval,
-      List<String> pillsDuration,
-      bool isRange,
-      bool isIndividual,
-      bool inCabinet});
+        String userId,
+        int slot,
+        int request,
+        String pillName,
+        String medicineCategory,
+        String dosage,
+        String interval,
+        String pillsQuantity,
+        List<String> pillsInterval,
+        List<String> pillsDuration,
+        bool isRange,
+        bool isIndividual,
+        bool inMedibot});
 }
 
 /// @nodoc
@@ -90,65 +90,65 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
     Object? pillsDuration = null,
     Object? isRange = null,
     Object? isIndividual = null,
-    Object? inCabinet = null,
+    Object? inMedibot = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       slot: null == slot
           ? _value.slot
           : slot // ignore: cast_nullable_to_non_nullable
-              as int,
+      as int,
       request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
-              as int,
+      as int,
       pillName: null == pillName
           ? _value.pillName
           : pillName // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       medicineCategory: null == medicineCategory
           ? _value.medicineCategory
           : medicineCategory // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       dosage: null == dosage
           ? _value.dosage
           : dosage // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       interval: null == interval
           ? _value.interval
           : interval // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       pillsQuantity: null == pillsQuantity
           ? _value.pillsQuantity
           : pillsQuantity // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       pillsInterval: null == pillsInterval
           ? _value.pillsInterval
           : pillsInterval // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      as List<String>,
       pillsDuration: null == pillsDuration
           ? _value.pillsDuration
           : pillsDuration // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      as List<String>,
       isRange: null == isRange
           ? _value.isRange
           : isRange // ignore: cast_nullable_to_non_nullable
-              as bool,
+      as bool,
       isIndividual: null == isIndividual
           ? _value.isIndividual
           : isIndividual // ignore: cast_nullable_to_non_nullable
-              as bool,
-      inCabinet: null == inCabinet
-          ? _value.inCabinet
-          : inCabinet // ignore: cast_nullable_to_non_nullable
-              as bool,
+      as bool,
+      inMedibot: null == inMedibot
+          ? _value.inMedibot
+          : inMedibot // ignore: cast_nullable_to_non_nullable
+      as bool,
     ) as $Val);
   }
 }
@@ -157,25 +157,25 @@ class _$PillsModelCopyWithImpl<$Res, $Val extends PillsModel>
 abstract class _$$_PillsModelCopyWith<$Res>
     implements $PillsModelCopyWith<$Res> {
   factory _$$_PillsModelCopyWith(
-          _$_PillsModel value, $Res Function(_$_PillsModel) then) =
-      __$$_PillsModelCopyWithImpl<$Res>;
+      _$_PillsModel value, $Res Function(_$_PillsModel) then) =
+  __$$_PillsModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String uid,
-      String userId,
-      int slot,
-      int request,
-      String pillName,
-      String medicineCategory,
-      String dosage,
-      String interval,
-      String pillsQuantity,
-      List<String> pillsInterval,
-      List<String> pillsDuration,
-      bool isRange,
-      bool isIndividual,
-      bool inCabinet});
+        String userId,
+        int slot,
+        int request,
+        String pillName,
+        String medicineCategory,
+        String dosage,
+        String interval,
+        String pillsQuantity,
+        List<String> pillsInterval,
+        List<String> pillsDuration,
+        bool isRange,
+        bool isIndividual,
+        bool inMedibot});
 }
 
 /// @nodoc
@@ -202,65 +202,65 @@ class __$$_PillsModelCopyWithImpl<$Res>
     Object? pillsDuration = null,
     Object? isRange = null,
     Object? isIndividual = null,
-    Object? inCabinet = null,
+    Object? inMedibot = null,
   }) {
     return _then(_$_PillsModel(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       slot: null == slot
           ? _value.slot
           : slot // ignore: cast_nullable_to_non_nullable
-              as int,
+      as int,
       request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
-              as int,
+      as int,
       pillName: null == pillName
           ? _value.pillName
           : pillName // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       medicineCategory: null == medicineCategory
           ? _value.medicineCategory
           : medicineCategory // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       dosage: null == dosage
           ? _value.dosage
           : dosage // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       interval: null == interval
           ? _value.interval
           : interval // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       pillsQuantity: null == pillsQuantity
           ? _value.pillsQuantity
           : pillsQuantity // ignore: cast_nullable_to_non_nullable
-              as String,
+      as String,
       pillsInterval: null == pillsInterval
           ? _value._pillsInterval
           : pillsInterval // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      as List<String>,
       pillsDuration: null == pillsDuration
           ? _value._pillsDuration
           : pillsDuration // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      as List<String>,
       isRange: null == isRange
           ? _value.isRange
           : isRange // ignore: cast_nullable_to_non_nullable
-              as bool,
+      as bool,
       isIndividual: null == isIndividual
           ? _value.isIndividual
           : isIndividual // ignore: cast_nullable_to_non_nullable
-              as bool,
-      inCabinet: null == inCabinet
-          ? _value.inCabinet
-          : inCabinet // ignore: cast_nullable_to_non_nullable
-              as bool,
+      as bool,
+      inMedibot: null == inMedibot
+          ? _value.inMedibot
+          : inMedibot // ignore: cast_nullable_to_non_nullable
+      as bool,
     ));
   }
 }
@@ -270,19 +270,19 @@ class __$$_PillsModelCopyWithImpl<$Res>
 class _$_PillsModel implements _PillsModel {
   const _$_PillsModel(
       {required this.uid,
-      required this.userId,
-      required this.slot,
-      required this.request,
-      required this.pillName,
-      required this.medicineCategory,
-      required this.dosage,
-      required this.interval,
-      required this.pillsQuantity,
-      required final List<String> pillsInterval,
-      required final List<String> pillsDuration,
-      required this.isRange,
-      required this.isIndividual,
-      required this.inCabinet})
+        required this.userId,
+        required this.slot,
+        required this.request,
+        required this.pillName,
+        required this.medicineCategory,
+        required this.dosage,
+        required this.interval,
+        required this.pillsQuantity,
+        required final List<String> pillsInterval,
+        required final List<String> pillsDuration,
+        required this.isRange,
+        required this.isIndividual,
+        required this.inMedibot})
       : _pillsInterval = pillsInterval,
         _pillsDuration = pillsDuration;
 
@@ -328,11 +328,11 @@ class _$_PillsModel implements _PillsModel {
   @override
   final bool isIndividual;
   @override
-  final bool inCabinet;
+  final bool inMedibot;
 
   @override
   String toString() {
-    return 'PillsModel(uid: $uid, userId: $userId, slot: $slot, request: $request, pillName: $pillName, medicineCategory: $medicineCategory, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual, inCabinet: $inCabinet)';
+    return 'PillsModel(uid: $uid, userId: $userId, slot: $slot, request: $request, pillName: $pillName, medicineCategory: $medicineCategory, dosage: $dosage, interval: $interval, pillsQuantity: $pillsQuantity, pillsInterval: $pillsInterval, pillsDuration: $pillsDuration, isRange: $isRange, isIndividual: $isIndividual, inMedibot: $inMedibot)';
   }
 
   @override
@@ -360,8 +360,8 @@ class _$_PillsModel implements _PillsModel {
             (identical(other.isRange, isRange) || other.isRange == isRange) &&
             (identical(other.isIndividual, isIndividual) ||
                 other.isIndividual == isIndividual) &&
-            (identical(other.inCabinet, inCabinet) ||
-                other.inCabinet == inCabinet));
+            (identical(other.inMedibot, inMedibot) ||
+                other.inMedibot == inMedibot));
   }
 
   @JsonKey(ignore: true)
@@ -381,7 +381,7 @@ class _$_PillsModel implements _PillsModel {
       const DeepCollectionEquality().hash(_pillsDuration),
       isRange,
       isIndividual,
-      inCabinet);
+      inMedibot);
 
   @JsonKey(ignore: true)
   @override
@@ -400,22 +400,22 @@ class _$_PillsModel implements _PillsModel {
 abstract class _PillsModel implements PillsModel {
   const factory _PillsModel(
       {required final String uid,
-      required final String userId,
-      required final int slot,
-      required final int request,
-      required final String pillName,
-      required final String medicineCategory,
-      required final String dosage,
-      required final String interval,
-      required final String pillsQuantity,
-      required final List<String> pillsInterval,
-      required final List<String> pillsDuration,
-      required final bool isRange,
-      required final bool isIndividual,
-      required final bool inCabinet}) = _$_PillsModel;
+        required final String userId,
+        required final int slot,
+        required final int request,
+        required final String pillName,
+        required final String medicineCategory,
+        required final String dosage,
+        required final String interval,
+        required final String pillsQuantity,
+        required final List<String> pillsInterval,
+        required final List<String> pillsDuration,
+        required final bool isRange,
+        required final bool isIndividual,
+        required final bool inMedibot}) = _$_PillsModel;
 
   factory _PillsModel.fromJson(Map<String, dynamic> json) =
-      _$_PillsModel.fromJson;
+  _$_PillsModel.fromJson;
 
   @override
   String get uid;
@@ -444,7 +444,7 @@ abstract class _PillsModel implements PillsModel {
   @override
   bool get isIndividual;
   @override
-  bool get inCabinet;
+  bool get inMedibot;
   @override
   @JsonKey(ignore: true)
   _$$_PillsModelCopyWith<_$_PillsModel> get copyWith =>

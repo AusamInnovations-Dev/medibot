@@ -87,121 +87,257 @@ class HistoryDetailsController extends GetxController {
           }
         }
         log('This is history pill : $history');
-        for (var element in reminder.pillsInterval) {
-          if(history == null){
-            if(int.parse(element.substring(0,2)) < 12){
-              morning.add(
-                  {
-                    'pillName': reminder.pillName,
-                    'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+        if(reminder.inMedibot){
+          if(history != null){
+            for(int i=0; i<reminder.pillsInterval.length; i++){
+              if(i < history.timeTaken.length){
+                if(history.timeTaken[i].hour < 12){
+                  if(!isUpcoming.value){
+                    morning.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule' : history.med_status[i] == "Y" ? 'Taken on time' : history.med_status[i] == "L" ? "Taken Late" : "Missed"
+                        }
+                    );
+                  }else {
+                    morning.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule' : 'Upcoming'
+                        }
+                    );
                   }
-              );
-            }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
-              afternoon.add(
-                  {
-                    'pillName': reminder.pillName,
-                    'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                }else if(history.timeTaken[i].hour >= 12 && history.timeTaken[i].hour < 16){
+                  if(!isUpcoming.value){
+                    afternoon.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule' : history.med_status[i] == "Y" ? 'Taken on time' : history.med_status[i] == "L" ? "Taken Late" : "Missed"
+                        }
+                    );
+                  }else {
+                    afternoon.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule' : 'Upcoming'
+                        }
+                    );
                   }
-              );
-            }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
-              evening.add(
-                  {
-                    'pillName': reminder.pillName,
-                    'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                }else if(history.timeTaken[i].hour >= 16 && history.timeTaken[i].hour <=19){
+                  if(!isUpcoming.value){
+                    evening.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule' : history.med_status[i] == "Y" ? 'Taken on time' : history.med_status[i] == "L" ? "Taken Late" : "Missed"
+                        }
+                    );
+                  }else {
+                    evening.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule' : 'Upcoming'
+                        }
+                    );
                   }
-              );
-            }else{
-              night.add(
-                  {
-                    'pillName': reminder.pillName,
-                    'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                }else {
+                  if (!isUpcoming.value) {
+                    night.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule': history.med_status[i] == "Y" ? 'Taken on time' : history.med_status[i] == "L" ? "Taken Late" : "Missed"
+                        }
+                    );
+                  } else {
+                    night.add(
+                        {
+                          'pillName': reminder.pillName,
+                          'schedule': 'Upcoming'
+                        }
+                    );
                   }
-              );
+                }
+              }else{
+                if(int.parse(reminder.pillsInterval[i].substring(0,2)) < 12){
+                  morning.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
+                      }
+                  );
+                }else if(int.parse(reminder.pillsInterval[i].substring(0,2)) >= 12 && int.parse(reminder.pillsInterval[i].substring(0,2)) < 16){
+                  afternoon.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
+                      }
+                  );
+                }else if(int.parse(reminder.pillsInterval[i].substring(0,2)) >= 16 && int.parse(reminder.pillsInterval[i].substring(0,2)) <=19){
+                  evening.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
+                      }
+                  );
+                }else{
+                  night.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
+                      }
+                  );
+                }
+              }
             }
-          }else{
-            var difference = 60;
-            var nextIndex = reminder.pillsInterval.indexOf(element)+1;
-            if(nextIndex < reminder.pillsInterval.length){
-              difference = DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                int.parse(reminder.pillsInterval[nextIndex].substring(0, 2)),
-                int.parse(reminder.pillsInterval[nextIndex].substring(5, 7)),
-              ).difference(
-                DateTime(
+          }else {
+            for (var element in reminder.pillsInterval) {
+              if(int.parse(element.substring(0,2)) < 12){
+                morning.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
+                afternoon.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
+                evening.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }else{
+                night.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }
+            }
+          }
+        }else {
+          for (var element in reminder.pillsInterval) {
+            if(history == null){
+              if(int.parse(element.substring(0,2)) < 12){
+                morning.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
+                afternoon.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
+                evening.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }else{
+                night.add(
+                    {
+                      'pillName': reminder.pillName,
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                    }
+                );
+              }
+            }else{
+              var difference = 60;
+              var nextIndex = reminder.pillsInterval.indexOf(element)+1;
+              if(nextIndex < reminder.pillsInterval.length){
+                difference = DateTime(
                   DateTime.now().year,
                   DateTime.now().month,
                   DateTime.now().day,
-                  int.parse(element.substring(0, 2)),
-                  int.parse(element.substring(5, 7)),
-                ),
-              ).inMinutes;
-            }
-            var diff = history.timeTaken.any((element1) => element1.difference(DateTime(date.year, date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes <= difference/2 && element1.difference(DateTime(date.year,date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes >=-30);
-            if(int.parse(element.substring(0,2)) < 12){
-              if(diff){
-                morning.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : 'Taken'
-                    }
-                );
-              }else{
-                morning.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
-                    }
-                );
+                  int.parse(reminder.pillsInterval[nextIndex].substring(0, 2)),
+                  int.parse(reminder.pillsInterval[nextIndex].substring(5, 7)),
+                ).difference(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day,
+                    int.parse(element.substring(0, 2)),
+                    int.parse(element.substring(5, 7)),
+                  ),
+                ).inMinutes;
               }
-            }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
-              if(diff){
-                afternoon.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : 'Taken'
-                    }
-                );
+              var diff = history.timeTaken.any((element1) => element1.difference(DateTime(date.year, date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes <= difference/2 && element1.difference(DateTime(date.year,date.month,date.day, int.parse(element.substring(0,2)), int.parse(element.substring(5,7)))).inMinutes >=-30);
+              if(int.parse(element.substring(0,2)) < 12){
+                if(diff){
+                  morning.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : 'Taken'
+                      }
+                  );
+                }else{
+                  morning.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      }
+                  );
+                }
+              }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
+                if(diff){
+                  afternoon.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : 'Taken'
+                      }
+                  );
+                }else{
+                  afternoon.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      }
+                  );
+                }
+              }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
+                if(diff){
+                  evening.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : 'Taken'
+                      }
+                  );
+                }else{
+                  evening.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      }
+                  );
+                }
               }else{
-                afternoon.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
-                    }
-                );
-              }
-            }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
-              if(diff){
-                evening.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : 'Taken'
-                    }
-                );
-              }else{
-                evening.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
-                    }
-                );
-              }
-            }else{
-              if(diff){
-                night.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : 'Taken'
-                    }
-                );
-              }else{
-                night.add(
-                    {
-                      'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
-                    }
-                );
+                if(diff){
+                  night.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : 'Taken'
+                      }
+                  );
+                }else{
+                  night.add(
+                      {
+                        'pillName': reminder.pillName,
+                        'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      }
+                  );
+                }
               }
             }
           }

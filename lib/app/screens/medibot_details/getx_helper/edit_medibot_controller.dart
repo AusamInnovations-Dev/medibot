@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../models/pills_models/pills_model.dart';
 
-class EditCabinetController extends GetxController{
+class EditMedibotController extends GetxController{
 
   late List<PillsModel> pill;
   late int remainingDay;
@@ -20,7 +20,7 @@ class EditCabinetController extends GetxController{
   }
 
   updatePill() async {
-    // await FirebaseFireStore.to.updateCabinetData(
+    // await FirebaseFireStore.to.updateMedibotData(
     //   pill.copyWith(
     //     interval: interval,
     //     pillsQuantity: remainingPillController.text

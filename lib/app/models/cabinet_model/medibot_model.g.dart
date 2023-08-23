@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cabinet_model.dart';
+part of 'medibot_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CabinetModel _$$_CabinetModelFromJson(Map<String, dynamic> json) =>
-    _$_CabinetModel(
+_$_MedibotModel _$$_MedibotModelFromJson(Map<String, dynamic> json) =>
+    _$_MedibotModel(
       uid: json['uid'] as String,
       pillName: json['pillName'] as String,
       interval:
@@ -16,7 +16,7 @@ _$_CabinetModel _$$_CabinetModelFromJson(Map<String, dynamic> json) =>
       remainingDays: json['remainingDays'] as int,
     );
 
-Map<String, dynamic> _$$_CabinetModelToJson(_$_CabinetModel instance) =>
+Map<String, dynamic> _$$_MedibotModelToJson(_$_MedibotModel instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'pillName': instance.pillName,

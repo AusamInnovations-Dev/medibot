@@ -7,7 +7,7 @@ import 'package:medibot/app/models/pills_models/pills_model.dart';
 
 import '../../../services/firestore.dart';
 import '../../../services/user.dart';
-import 'cabinet_controller.dart';
+import 'medibot_controller.dart';
 
 class AddExistingSlotController extends GetxController {
   late PillsModel pill;
@@ -45,19 +45,19 @@ class AddExistingSlotController extends GetxController {
     }
   }
 
-  Future<bool> uploadCabinetPills() async {
+  Future<bool> uploadMedibotPills() async {
     try {
       var isUploaded = false;
       if(pill.slot == 1){
-        if(Get.find<CabinetController>().slot1.length <= 2) {
-          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        if(Get.find<MedibotController>().slot1.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
             uid: '',
             pillName: pillName.text,
             dosage: dosageController.text + dosage,
             medicineCategory: medicineCategory.value,
             userId: UserStore.to.uid,
             interval: pill.interval,
-            inCabinet: true,
+            inMedibot: true,
             isIndividual: pill.isIndividual,
             isRange: pill.isRange,
             pillsQuantity: pill.pillsQuantity,
@@ -68,7 +68,7 @@ class AddExistingSlotController extends GetxController {
           ));
         }else{
           Get.snackbar(
-            "Cabinet",
+            "Medibot",
             "You cannot add more than 3 pills in the same slot",
             icon: const Icon(
               Icons.crisis_alert,
@@ -81,15 +81,15 @@ class AddExistingSlotController extends GetxController {
           );
         }
       }else if(pill.slot == 2){
-        if(Get.find<CabinetController>().slot2.length <= 2) {
-          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        if(Get.find<MedibotController>().slot2.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
             uid: '',
             pillName: pillName.text,
             dosage: dosageController.text + dosage,
             medicineCategory: medicineCategory.value,
             userId: UserStore.to.uid,
             interval: pill.interval,
-            inCabinet: true,
+            inMedibot: true,
             isIndividual: pill.isIndividual,
             isRange: pill.isRange,
             pillsQuantity: pill.pillsQuantity,
@@ -100,7 +100,7 @@ class AddExistingSlotController extends GetxController {
           ));
         }else{
           Get.snackbar(
-            "Cabinet",
+            "Medibot",
             "You cannot add more than 3 pills in the same slot",
             icon: const Icon(
               Icons.crisis_alert,
@@ -113,15 +113,15 @@ class AddExistingSlotController extends GetxController {
           );
         }
       }else if(pill.slot == 3){
-        if(Get.find<CabinetController>().slot3.length <= 2) {
-          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        if(Get.find<MedibotController>().slot3.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
             uid: '',
             pillName: pillName.text,
             dosage: dosageController.text + dosage,
             medicineCategory: medicineCategory.value,
             userId: UserStore.to.uid,
             interval: pill.interval,
-            inCabinet: true,
+            inMedibot: true,
             isIndividual: pill.isIndividual,
             isRange: pill.isRange,
             pillsQuantity: pill.pillsQuantity,
@@ -132,7 +132,7 @@ class AddExistingSlotController extends GetxController {
           ));
         }else{
           Get.snackbar(
-            "Cabinet",
+            "Medibot",
             "You cannot add more than 3 pills in the same slot",
             icon: const Icon(
               Icons.crisis_alert,
@@ -145,15 +145,15 @@ class AddExistingSlotController extends GetxController {
           );
         }
       }else if(pill.slot == 4){
-        if(Get.find<CabinetController>().slot4.length <= 2) {
-          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        if(Get.find<MedibotController>().slot4.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
             uid: '',
             pillName: pillName.text,
             dosage: dosageController.text + dosage,
             medicineCategory: medicineCategory.value,
             userId: UserStore.to.uid,
             interval: pill.interval,
-            inCabinet: true,
+            inMedibot: true,
             isIndividual: pill.isIndividual,
             isRange: pill.isRange,
             pillsQuantity: pill.pillsQuantity,
@@ -164,7 +164,7 @@ class AddExistingSlotController extends GetxController {
           ));
         }else{
           Get.snackbar(
-            "Cabinet",
+            "Medibot",
             "You cannot add more than 3 pills in the same slot",
             icon: const Icon(
               Icons.crisis_alert,
@@ -177,15 +177,15 @@ class AddExistingSlotController extends GetxController {
           );
         }
       }else if(pill.slot == 5){
-        if(Get.find<CabinetController>().slot5.length <= 2) {
-          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        if(Get.find<MedibotController>().slot5.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
             uid: '',
             pillName: pillName.text,
             dosage: dosageController.text + dosage,
             medicineCategory: medicineCategory.value,
             userId: UserStore.to.uid,
             interval: pill.interval,
-            inCabinet: true,
+            inMedibot: true,
             isIndividual: pill.isIndividual,
             isRange: pill.isRange,
             pillsQuantity: pill.pillsQuantity,
@@ -196,7 +196,7 @@ class AddExistingSlotController extends GetxController {
           ));
         }else{
           Get.snackbar(
-            "Cabinet",
+            "Medibot",
             "You cannot add more than 3 pills in the same slot",
             icon: const Icon(
               Icons.crisis_alert,
@@ -209,15 +209,15 @@ class AddExistingSlotController extends GetxController {
           );
         }
       }else if(pill.slot == 6){
-        if(Get.find<CabinetController>().slot6.length <= 2) {
-          isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        if(Get.find<MedibotController>().slot6.length <= 2) {
+          isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
             uid: '',
             pillName: pillName.text,
             dosage: dosageController.text + dosage,
             medicineCategory: medicineCategory.value,
             userId: UserStore.to.uid,
             interval: pill.interval,
-            inCabinet: true,
+            inMedibot: true,
             isIndividual: pill.isIndividual,
             isRange: pill.isRange,
             pillsQuantity: pill.pillsQuantity,
@@ -228,7 +228,7 @@ class AddExistingSlotController extends GetxController {
           ));
         }else{
           Get.snackbar(
-            "Cabinet",
+            "Medibot",
             "You cannot add more than 3 pills in the same slot",
             icon: const Icon(
               Icons.crisis_alert,

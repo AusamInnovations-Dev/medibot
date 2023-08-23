@@ -109,6 +109,7 @@ void main() async {
               HistoryData(
                 pillId: pill.uid,
                 timeToTake: pill.pillsInterval,
+                med_status: 'Y',
                 timeTaken: [DateTime.now()],
               ),
             );
@@ -128,6 +129,7 @@ void main() async {
               list[index] = HistoryData(
                 pillId: historyModel.historyData[index].pillId,
                 timeTaken: tempTimeTaken,
+                med_status: 'Y',
                 timeToTake: historyModel.historyData[index].timeToTake,
               );
               HistoryModel tempHistory = HistoryModel(
@@ -146,6 +148,7 @@ void main() async {
               pillId: pill.uid,
               timeToTake: pill.pillsInterval,
               timeTaken: [DateTime.now()],
+              med_status: 'Y',
             ),
           ]);
           await FirebaseFireStore.to.uploadHistoryData(

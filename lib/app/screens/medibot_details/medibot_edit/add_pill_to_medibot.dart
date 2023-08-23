@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/add_existing_slot_controller.dart';
 
 import '../../../sampledata/medicines.dart';
 import '../../../widgets/background_screen_decoration.dart';
 import '../../../widgets/box_field.dart';
-import '../../../widgets/custom_text_view.dart';
 import '../../../widgets/text_field.dart';
+import '../getx_helper/medibot_add_pill_controller.dart';
+import '../widgets/medibot_duration_widget.dart';
+import '../widgets/medibot_time_interval.dart';
 
-class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
-  const AddPillInExistingSlot({Key? key}) : super(key: key);
+
+class AddPill extends GetView<AddMedibotPill> {
+  const AddPill({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
       bottomButtonText: 'Add Medicine',
       onbottomButtonPressed: () async {
-        if (controller.pillName.text.isEmpty ||
-            controller.medicineCategory.value == 'Select Category') {
+        if(controller.pillName.text.isEmpty || controller.medicineCategory.value == 'Select Category'){
           Get.snackbar(
             "Pills Reminder",
             "Please enter a valid medicine name and category",
@@ -32,14 +33,29 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
             margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
             colorText: Colors.black,
           );
-        } else {
-          if (await controller.uploadCabinetPills()) {
-            Get.back();
+        }else{
+          if(controller.durationDates.isNotEmpty){
+            if (await controller.uploadMedibotPills()) {
+              Get.back();
+              Get.snackbar(
+                "Pills Reminder",
+                "Pills is added to your Medibot.",
+                icon: const Icon(
+                  Icons.check_sharp,
+                  color: Colors.black,
+                ),
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: const Color(0xffA9CBFF),
+                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                colorText: Colors.black,
+              );
+            }
+          } else {
             Get.snackbar(
               "Pills Reminder",
-              "Pills is added to your cabinet.",
+              "Please Select the dates to take medicine.",
               icon: const Icon(
-                Icons.check_sharp,
+                Icons.crisis_alert,
                 color: Colors.black,
               ),
               snackPosition: SnackPosition.BOTTOM,
@@ -51,24 +67,24 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
         }
       },
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTextField(
-            text: "Cabinet Management",
-            fontFamily: 'Sansation',
-            size: 20.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
-          CustomTextField(
-            fontWeight: FontWeight.w700,
-            text: "Add Medicine in Slot ${controller.pill.slot}",
-            size: 18.sp,
-            color: Colors.black,
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  text: "Add Pills to Medibot",
+                  fontFamily: 'Sansation',
+                  size: 23.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                )
+              ],
           ),
           Container(
-            margin: EdgeInsets.only(top: 20.h, right: 5.w, left: 5.w),
+            padding: EdgeInsets.only(top: 20.h, left: 5.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -111,21 +127,20 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                   ),
                   items: SampleMedicine.medicineCategory
                       .map((element) => DropdownMenuItem(
-                            value: element,
-                            child: SizedBox(
-                              width: 100.w,
-                              child: Text(
-                                element,
-                                style: TextStyle(
-                                  fontFamily: 'Sansation',
-                                  fontSize: 15.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ))
-                      .toList(),
+                    value: element,
+                    child: SizedBox(
+                      width: 100.w,
+                      child: Text(
+                        element,
+                        style: TextStyle(
+                          fontFamily: 'Sansation',
+                          fontSize: 15.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  )).toList(),
                   onChanged: (value) {
                     controller.medicineCategory.value = value!;
                   },
@@ -162,10 +177,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                               color: Colors.black26,
                             ),
                           ),
-                          hintText: controller.medicineCategory.value !=
-                                  'Select Category *'
-                              ? '${controller.medicineCategory.value} Name *'
-                              : 'Medicine Name *',
+                          hintText: controller.medicineCategory.value != 'Select Category *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
                           hintStyle: TextStyle(
                             fontFamily: 'Sansation',
                             fontSize: 16.sp,
@@ -257,9 +269,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
+                      SizedBox(width: 10.w,),
                       Expanded(
                         child: DropdownButtonFormField(
                           isDense: true,
@@ -302,21 +312,21 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                           items: SampleMedicine.medicinePower
                               .map(
                                 (element) => DropdownMenuItem(
-                                  value: element,
-                                  child: SizedBox(
-                                    width: 100.w,
-                                    child: Text(
-                                      element,
-                                      style: TextStyle(
-                                        fontFamily: 'Sansation',
-                                        fontSize: 15.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
+                              value: element,
+                              child: SizedBox(
+                                width: 100.w,
+                                child: Text(
+                                  element,
+                                  style: TextStyle(
+                                    fontFamily: 'Sansation',
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                              )
+                              ),
+                            ),
+                          )
                               .toList(),
                           onChanged: (value) {
                             controller.dosage = value!;
@@ -326,150 +336,198 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                     ],
                   ),
                 ),
-                //Have to complete layout
                 Container(
-                  padding: EdgeInsets.only(bottom: 5.h, top: 5.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
-                        text: "Slot",
+                  margin: EdgeInsets.only(bottom: 20.h, right: 5.w),
+                  child: DropdownButtonFormField(
+                    value: 'Once a Day (24 Hours)',
+                    dropdownColor: Theme.of(context).colorScheme.primary,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    style: TextStyle(
+                      fontFamily: 'Sansation',
+                      fontSize: 16.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    decoration: InputDecoration(
+                      fillColor: Theme.of(context).colorScheme.primary,
+                      focusColor: Theme.of(context).colorScheme.primary,
+                      filled: true,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      errorBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black26,
+                        ),
+                      ),
+                      hintText: 'Interval',
+                      hintStyle: TextStyle(
                         fontFamily: 'Sansation',
-                        size: 16.sp,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 16.sp,
                         color: Colors.black,
-                      ),
-                      CustomTextView(
-                        boxHeight: 36.h,
-                        boxWidth: 329.w,
-                        Text: controller.pill.slot.toString(),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
                         fontWeight: FontWeight.w700,
-                        text: 'Interval',
-                        color: Colors.black,
-                        size: 14.sp,
                       ),
-                      CustomTextView(
-                        boxHeight: 36.h,
-                        boxWidth: 329.w,
-                        Text: controller.pill.interval,
-                        boxcolor: Theme.of(context).colorScheme.secondary,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 10.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
-                        fontWeight: FontWeight.w700,
-                        text: 'Time Interval',
-                        color: Colors.black,
-                        size: 14.sp,
-                      ),
-                      Obx(
-                        () => Container(
-                          margin: EdgeInsets.only(top: 5.h),
-                          child: MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: ListView.builder(
-                                itemCount: controller.pillIntervals.length,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    margin: EdgeInsets.symmetric(vertical: 4.h),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        CustomTextView(
-                                          boxHeight: 32.h,
-                                          boxWidth: 59.w,
-                                          Text: controller.pillIntervals[index]['hour'],
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        CustomTextField(
-                                          fontWeight: FontWeight.w700,
-                                          text: ':',
-                                          size: 20.sp,
-                                          color: Colors.black,
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        CustomTextView(
-                                          boxHeight: 32.h,
-                                          boxWidth: 65.w,
-                                          Text: controller.pillIntervals[index]['minute'],
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        CustomTextView(
-                                          boxHeight: 32.h,
-                                          boxWidth: 59.w,
-                                          Text: controller.pillIntervals[index]['period'],
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
+                    ),
+                    items: [
+                      'Once a Day (24 Hours)',
+                      'Twice a Day (12 Hours)',
+                      'Thrice a Day (8 Hours)',
+                      'Custom',
+                      'Hourly'
+                    ]
+                        .map(
+                          (element) => DropdownMenuItem(
+                        value: element,
+                        child: SizedBox(
+                          width: 280.w,
+                          child: Text(
+                            element,
+                            style: TextStyle(
+                              fontFamily: 'Sansation',
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                      )
+                      ),
+                    )
+                        .toList(),
+                    onChanged: (value) {
+                      controller.interval.value = value!;
+                      if (controller.interval.value == 'Custom' || controller.interval.value == 'Hourly') {
+                        controller.gererateCustomTimeInterval();
+                      } else {
+                        controller.selectingTimeIntervals();
+                      }
+                    },
+                  ),
+                ),
+                Obx(
+                  () => MedibotTimeInterval(
+                    interval: controller.interval.value,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        fontWeight: FontWeight.w400,
+                        text: "Total Number of Tablets *",
+                        color: Colors.black,
+                        size: 15.sp,
+                        textAlign: TextAlign.start,
+                      ),
+                      SizedBox(
+                        height: 11.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              if (controller.pillQuantity.value != 1) {
+                                controller.pillQuantity.value--;
+                              }
+                            },
+                            child: CustomBox(
+                              borders: Border.all(
+                                color: Colors.black26,
+                              ),
+                              offset: 0,
+                              color: Theme.of(context).colorScheme.primary,
+                              boxHeight: 29.h,
+                              boxWidth: 35.w,
+                              topLeft: Radius.circular(4.r),
+                              topRight: Radius.circular(4.r),
+                              bottomLeft: Radius.circular(4.r),
+                              bottomRight: Radius.circular(4.r),
+                              body: CustomTextField(
+                                color: Colors.black,
+                                textAlign: TextAlign.center,
+                                text: '-',
+                                fontWeight: FontWeight.w400,
+                                size: 25.sp,
+                              ),
+                              boxShadow: const [],
+                            ),
+                          ),
+                          Obx(
+                            () => CustomBox(
+                              borders: Border.all(
+                                color: Colors.black26,
+                              ),
+                              offset: 0,
+                              boxHeight: 29.h,
+                              boxWidth: 240.w,
+                              topLeft: Radius.circular(4.r),
+                              topRight: Radius.circular(4.r),
+                              bottomLeft: Radius.circular(4.r),
+                              bottomRight: Radius.circular(4.r),
+                              color: Theme.of(context).colorScheme.primary,
+                              body: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomTextField(
+                                    size: 17.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    text: controller.pillQuantity.value
+                                        .toString(),
+                                  )
+                                ],
+                              ),
+                              boxShadow: const [],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (controller.pillQuantity.value != 10) {
+                                controller.pillQuantity.value++;
+                              }
+                            },
+                            child: CustomBox(
+                              borders: Border.all(
+                                color: Colors.black26,
+                              ),
+                              offset: 0,
+                              color: Theme.of(context).colorScheme.primary,
+                              boxHeight: 29.h,
+                              boxWidth: 35.w,
+                              topLeft: Radius.circular(4.r),
+                              topRight: Radius.circular(4.r),
+                              bottomLeft: Radius.circular(4.r),
+                              bottomRight: Radius.circular(4.r),
+                              body: CustomTextField(
+                                color: Colors.black,
+                                textAlign: TextAlign.center,
+                                text: '+',
+                                fontWeight: FontWeight.w400,
+                                size: 25.sp,
+                              ),
+                              boxShadow: const [],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomTextField(
-                      fontWeight: FontWeight.w700,
-                      text: "Quantity",
-                      color: Colors.black,
-                      size: 15.sp,
-                      textAlign: TextAlign.start,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Center(
-                      child: CustomTextView(
-                        boxHeight: 36.h,
-                        boxWidth: 250.w,
-                        Text: controller.pill.pillsQuantity,
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
                 SizedBox(
-                  height: 15.h,
+                  height: 20.h,
                 ),
                 CustomTextField(
-                  fontWeight: FontWeight.w700,
-                  text: "Duration",
+                  fontWeight: FontWeight.w400,
+                  text: "Duration *",
                   color: Colors.black,
                   size: 15.sp,
                   textAlign: TextAlign.start,
@@ -477,62 +535,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                 SizedBox(
                   height: 7.h,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 20.w),
-                      child: CustomTextField(
-                        size: 13.sp,
-                        fontWeight: FontWeight.w400,
-                        text: controller.pill.isIndividual
-                            ? "Individual Date(s)"
-                            : 'Range',
-                        color: Colors.black,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 11.w),
-                      width: 360.w,
-                      child: MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: controller.pill.pillsDuration.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 6.h),
-                              child: CustomBox(
-                                boxHeight: 36.h,
-                                boxWidth: 200.w,
-                                topLeft: Radius.circular(4.r),
-                                topRight: Radius.circular(4.r),
-                                bottomLeft: Radius.circular(4.r),
-                                bottomRight: Radius.circular(4.r),
-                                boxShadow: const [],
-                                borders: Border.all(color: Colors.black26),
-                                body: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 11.h,
-                                    horizontal: 7.w,
-                                  ),
-                                  child: CustomTextField(
-                                    fontWeight: FontWeight.w400,
-                                    text: '${DateTime.parse(controller.pill.pillsDuration[index]).day}/${DateTime.parse(controller.pill.pillsDuration[index]).month}/${DateTime.parse(controller.pill.pillsDuration[index]).year}',
-                                    color: Colors.black,
-                                    size: 12.sp,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const MedibotDurationPicker()
               ],
             ),
           ),

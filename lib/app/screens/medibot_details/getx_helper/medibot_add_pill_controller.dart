@@ -4,13 +4,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:medibot/app/screens/cabinet_details/getx_helper/cabinet_controller.dart';
 
 import '../../../models/pills_models/pills_model.dart';
 import '../../../services/firestore.dart';
 import '../../../services/user.dart';
+import 'medibot_controller.dart';
 
-class AddCabinetPill extends GetxController {
+class AddMedibotPill extends GetxController {
   TextEditingController pillName = TextEditingController();
   TextEditingController dosageController = TextEditingController();
   String dosage = 'Select Dosage';
@@ -237,7 +237,7 @@ class AddCabinetPill extends GetxController {
     checkIfIncreasePossible();
   }
 
-  Future<bool> uploadCabinetPills() async {
+  Future<bool> uploadMedibotPills() async {
     List<String> intervalsInString = [];
     for(var interval in timeIntervals){
       var hour = interval['hour'] as String;
@@ -248,16 +248,16 @@ class AddCabinetPill extends GetxController {
     }
 
     try {
-      var controller = Get.find<CabinetController>();
+      var controller = Get.find<MedibotController>();
       if(controller.slot1.isEmpty){
-        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
           dosage: dosageController.text+dosage,
           medicineCategory: medicineCategory.value,
           userId: UserStore.to.uid,
           interval: interval.value,
-          inCabinet: true,
+          inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.value.toString(),
@@ -268,14 +268,14 @@ class AddCabinetPill extends GetxController {
         ));
         return isUploaded;
       }else if(controller.slot2.isEmpty){
-        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
           dosage: dosageController.text+dosage,
           medicineCategory: medicineCategory.value,
           userId: UserStore.to.uid,
           interval: interval.value,
-          inCabinet: true,
+          inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.value.toString(),
@@ -286,14 +286,14 @@ class AddCabinetPill extends GetxController {
         ));
         return isUploaded;
       }else if(controller.slot3.isEmpty){
-        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
           dosage: dosageController.text+dosage,
           medicineCategory: medicineCategory.value,
           userId: UserStore.to.uid,
           interval: interval.value,
-          inCabinet: true,
+          inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.value.toString(),
@@ -304,14 +304,14 @@ class AddCabinetPill extends GetxController {
         ));
         return isUploaded;
       }else if(controller.slot4.isEmpty){
-        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
           dosage: dosageController.text+dosage,
           medicineCategory: medicineCategory.value,
           userId: UserStore.to.uid,
           interval: interval.value,
-          inCabinet: true,
+          inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.value.toString(),
@@ -322,14 +322,14 @@ class AddCabinetPill extends GetxController {
         ));
         return isUploaded;
       }else if(controller.slot5.isEmpty){
-        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
           dosage: dosageController.text+dosage,
           medicineCategory: medicineCategory.value,
           userId: UserStore.to.uid,
           interval: interval.value,
-          inCabinet: true,
+          inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.value.toString(),
@@ -340,14 +340,14 @@ class AddCabinetPill extends GetxController {
         ));
         return isUploaded;
       } else if(controller.slot6.isEmpty){
-        var isUploaded = await FirebaseFireStore.to.uploadCabinetPills(PillsModel(
+        var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
           dosage: dosageController.text+dosage,
           medicineCategory: medicineCategory.value,
           userId: UserStore.to.uid,
           interval: interval.value,
-          inCabinet: true,
+          inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.value.toString(),
@@ -359,8 +359,8 @@ class AddCabinetPill extends GetxController {
         return isUploaded;
       }else {
         Get.snackbar(
-          "Cabinet",
-          "You don't have enough empty slot left in cabinet",
+          "Medibot",
+          "You don't have enough empty slot left in Medibot",
           icon: const Icon(
             Icons.crisis_alert,
             color: Colors.black,

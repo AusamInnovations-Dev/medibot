@@ -16,9 +16,9 @@ class RoutePaths {
   static const String historyPage = '/historyPage';
   static const String initialpage = '/initialpage';
   static const String newreminder = '/newreminder';
-  static const String cabinetdetail = '/cabinetdetail';
-  static const String cabinetmanagement = '/cabinetmanagement';
-  static const String addpillcabinet = '/addpillcabinet';
+  static const String medibotdetail = '/medibotdetail';
+  static const String medibotManagement = '/medibotManagement';
+  static const String addpillmedibot = '/addpillmedibot';
   static const String viewslot = '/viewslot';
 
   static const historyDetailsPage = '/historyDetailsPage';
