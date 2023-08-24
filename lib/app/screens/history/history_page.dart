@@ -245,7 +245,7 @@ class HistoryPage extends GetView<HistoryController> {
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            await controller.exportToPdf(DateTime(DateTime.now().year, DateTime.now().month), DateTime(DateTime.now().year, DateTime.now().month+1));
+                            controller.exportOptions();
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(300.w, 0),
@@ -261,7 +261,7 @@ class HistoryPage extends GetView<HistoryController> {
                           ),
                           child: CustomTextField(
                             fontWeight: FontWeight.bold,
-                            text: "Export as CSV",
+                            text: "Export as PDF",
                             color: Colors.black,
                             size: 13.sp,
                           ),

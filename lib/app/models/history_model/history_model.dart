@@ -21,7 +21,7 @@ class HistoryData with _$HistoryData {
 
   const factory HistoryData({
     required String pillId,
-    required String med_status,
+    required List<String> med_status,
     required List<DateTime> timeTaken,
     required List<String> timeToTake,
   }) = _HistoryData;

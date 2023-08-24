@@ -43,21 +43,21 @@ mixin _$UserModel {
 /// @nodoc
 abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
-  _$UserModelCopyWithImpl<$Res, UserModel>;
+      _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call(
       {String uid,
-        String phoneNumber,
-        int age,
-        String address,
-        CareTakerModel careTaker,
-        EmergencyPersonModel emergencyPerson,
-        String medibotDetail,
-        String physicalDeviceLink,
-        String email,
-        String username,
-        String userProfile,
-        AuthStatus userStatus});
+      String phoneNumber,
+      int age,
+      String address,
+      CareTakerModel careTaker,
+      EmergencyPersonModel emergencyPerson,
+      String medibotDetail,
+      String physicalDeviceLink,
+      String email,
+      String username,
+      String userProfile,
+      AuthStatus userStatus});
 
   $CareTakerModelCopyWith<$Res> get careTaker;
   $EmergencyPersonModelCopyWith<$Res> get emergencyPerson;
@@ -93,51 +93,51 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-      as int,
+              as int,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       careTaker: null == careTaker
           ? _value.careTaker
           : careTaker // ignore: cast_nullable_to_non_nullable
-      as CareTakerModel,
+              as CareTakerModel,
       emergencyPerson: null == emergencyPerson
           ? _value.emergencyPerson
           : emergencyPerson // ignore: cast_nullable_to_non_nullable
-      as EmergencyPersonModel,
+              as EmergencyPersonModel,
       medibotDetail: null == medibotDetail
           ? _value.medibotDetail
           : medibotDetail // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       physicalDeviceLink: null == physicalDeviceLink
           ? _value.physicalDeviceLink
           : physicalDeviceLink // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       userProfile: null == userProfile
           ? _value.userProfile
           : userProfile // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       userStatus: null == userStatus
           ? _value.userStatus
           : userStatus // ignore: cast_nullable_to_non_nullable
-      as AuthStatus,
+              as AuthStatus,
     ) as $Val);
   }
 
@@ -161,23 +161,23 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
 /// @nodoc
 abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   factory _$$_UserModelCopyWith(
-      _$_UserModel value, $Res Function(_$_UserModel) then) =
-  __$$_UserModelCopyWithImpl<$Res>;
+          _$_UserModel value, $Res Function(_$_UserModel) then) =
+      __$$_UserModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String uid,
-        String phoneNumber,
-        int age,
-        String address,
-        CareTakerModel careTaker,
-        EmergencyPersonModel emergencyPerson,
-        String medibotDetail,
-        String physicalDeviceLink,
-        String email,
-        String username,
-        String userProfile,
-        AuthStatus userStatus});
+      String phoneNumber,
+      int age,
+      String address,
+      CareTakerModel careTaker,
+      EmergencyPersonModel emergencyPerson,
+      String medibotDetail,
+      String physicalDeviceLink,
+      String email,
+      String username,
+      String userProfile,
+      AuthStatus userStatus});
 
   @override
   $CareTakerModelCopyWith<$Res> get careTaker;
@@ -213,51 +213,51 @@ class __$$_UserModelCopyWithImpl<$Res>
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-      as int,
+              as int,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       careTaker: null == careTaker
           ? _value.careTaker
           : careTaker // ignore: cast_nullable_to_non_nullable
-      as CareTakerModel,
+              as CareTakerModel,
       emergencyPerson: null == emergencyPerson
           ? _value.emergencyPerson
           : emergencyPerson // ignore: cast_nullable_to_non_nullable
-      as EmergencyPersonModel,
+              as EmergencyPersonModel,
       medibotDetail: null == medibotDetail
           ? _value.medibotDetail
           : medibotDetail // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       physicalDeviceLink: null == physicalDeviceLink
           ? _value.physicalDeviceLink
           : physicalDeviceLink // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       userProfile: null == userProfile
           ? _value.userProfile
           : userProfile // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       userStatus: null == userStatus
           ? _value.userStatus
           : userStatus // ignore: cast_nullable_to_non_nullable
-      as AuthStatus,
+              as AuthStatus,
     ));
   }
 }
@@ -267,17 +267,17 @@ class __$$_UserModelCopyWithImpl<$Res>
 class _$_UserModel implements _UserModel {
   const _$_UserModel(
       {required this.uid,
-        required this.phoneNumber,
-        required this.age,
-        required this.address,
-        required this.careTaker,
-        required this.emergencyPerson,
-        required this.medibotDetail,
-        required this.physicalDeviceLink,
-        required this.email,
-        required this.username,
-        required this.userProfile,
-        required this.userStatus});
+      required this.phoneNumber,
+      required this.age,
+      required this.address,
+      required this.careTaker,
+      required this.emergencyPerson,
+      required this.medibotDetail,
+      required this.physicalDeviceLink,
+      required this.email,
+      required this.username,
+      required this.userProfile,
+      required this.userStatus});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
@@ -373,20 +373,20 @@ class _$_UserModel implements _UserModel {
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
       {required final String uid,
-        required final String phoneNumber,
-        required final int age,
-        required final String address,
-        required final CareTakerModel careTaker,
-        required final EmergencyPersonModel emergencyPerson,
-        required final String medibotDetail,
-        required final String physicalDeviceLink,
-        required final String email,
-        required final String username,
-        required final String userProfile,
-        required final AuthStatus userStatus}) = _$_UserModel;
+      required final String phoneNumber,
+      required final int age,
+      required final String address,
+      required final CareTakerModel careTaker,
+      required final EmergencyPersonModel emergencyPerson,
+      required final String medibotDetail,
+      required final String physicalDeviceLink,
+      required final String email,
+      required final String username,
+      required final String userProfile,
+      required final AuthStatus userStatus}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
-  _$_UserModel.fromJson;
+      _$_UserModel.fromJson;
 
   @override
   String get uid;
@@ -438,14 +438,14 @@ mixin _$CareTakerModel {
 /// @nodoc
 abstract class $CareTakerModelCopyWith<$Res> {
   factory $CareTakerModelCopyWith(
-      CareTakerModel value, $Res Function(CareTakerModel) then) =
-  _$CareTakerModelCopyWithImpl<$Res, CareTakerModel>;
+          CareTakerModel value, $Res Function(CareTakerModel) then) =
+      _$CareTakerModelCopyWithImpl<$Res, CareTakerModel>;
   @useResult
   $Res call(
       {String uid,
-        String careTakerName,
-        String careTakerAddress,
-        String caretakerPhone});
+      String careTakerName,
+      String careTakerAddress,
+      String caretakerPhone});
 }
 
 /// @nodoc
@@ -470,19 +470,19 @@ class _$CareTakerModelCopyWithImpl<$Res, $Val extends CareTakerModel>
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       careTakerName: null == careTakerName
           ? _value.careTakerName
           : careTakerName // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       careTakerAddress: null == careTakerAddress
           ? _value.careTakerAddress
           : careTakerAddress // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       caretakerPhone: null == caretakerPhone
           ? _value.caretakerPhone
           : caretakerPhone // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
     ) as $Val);
   }
 }
@@ -491,15 +491,15 @@ class _$CareTakerModelCopyWithImpl<$Res, $Val extends CareTakerModel>
 abstract class _$$_CareTakerModelCopyWith<$Res>
     implements $CareTakerModelCopyWith<$Res> {
   factory _$$_CareTakerModelCopyWith(
-      _$_CareTakerModel value, $Res Function(_$_CareTakerModel) then) =
-  __$$_CareTakerModelCopyWithImpl<$Res>;
+          _$_CareTakerModel value, $Res Function(_$_CareTakerModel) then) =
+      __$$_CareTakerModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String uid,
-        String careTakerName,
-        String careTakerAddress,
-        String caretakerPhone});
+      String careTakerName,
+      String careTakerAddress,
+      String caretakerPhone});
 }
 
 /// @nodoc
@@ -522,19 +522,19 @@ class __$$_CareTakerModelCopyWithImpl<$Res>
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       careTakerName: null == careTakerName
           ? _value.careTakerName
           : careTakerName // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       careTakerAddress: null == careTakerAddress
           ? _value.careTakerAddress
           : careTakerAddress // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       caretakerPhone: null == caretakerPhone
           ? _value.caretakerPhone
           : caretakerPhone // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
     ));
   }
 }
@@ -544,9 +544,9 @@ class __$$_CareTakerModelCopyWithImpl<$Res>
 class _$_CareTakerModel implements _CareTakerModel {
   const _$_CareTakerModel(
       {required this.uid,
-        required this.careTakerName,
-        required this.careTakerAddress,
-        required this.caretakerPhone});
+      required this.careTakerName,
+      required this.careTakerAddress,
+      required this.caretakerPhone});
 
   factory _$_CareTakerModel.fromJson(Map<String, dynamic> json) =>
       _$$_CareTakerModelFromJson(json);
@@ -601,12 +601,12 @@ class _$_CareTakerModel implements _CareTakerModel {
 abstract class _CareTakerModel implements CareTakerModel {
   const factory _CareTakerModel(
       {required final String uid,
-        required final String careTakerName,
-        required final String careTakerAddress,
-        required final String caretakerPhone}) = _$_CareTakerModel;
+      required final String careTakerName,
+      required final String careTakerAddress,
+      required final String caretakerPhone}) = _$_CareTakerModel;
 
   factory _CareTakerModel.fromJson(Map<String, dynamic> json) =
-  _$_CareTakerModel.fromJson;
+      _$_CareTakerModel.fromJson;
 
   @override
   String get uid;
@@ -642,19 +642,19 @@ mixin _$EmergencyPersonModel {
 /// @nodoc
 abstract class $EmergencyPersonModelCopyWith<$Res> {
   factory $EmergencyPersonModelCopyWith(EmergencyPersonModel value,
-      $Res Function(EmergencyPersonModel) then) =
-  _$EmergencyPersonModelCopyWithImpl<$Res, EmergencyPersonModel>;
+          $Res Function(EmergencyPersonModel) then) =
+      _$EmergencyPersonModelCopyWithImpl<$Res, EmergencyPersonModel>;
   @useResult
   $Res call(
       {String emergencyName,
-        String emergencyAddress,
-        String emergencyPhone,
-        String emergencyRelation});
+      String emergencyAddress,
+      String emergencyPhone,
+      String emergencyRelation});
 }
 
 /// @nodoc
 class _$EmergencyPersonModelCopyWithImpl<$Res,
-$Val extends EmergencyPersonModel>
+        $Val extends EmergencyPersonModel>
     implements $EmergencyPersonModelCopyWith<$Res> {
   _$EmergencyPersonModelCopyWithImpl(this._value, this._then);
 
@@ -675,19 +675,19 @@ $Val extends EmergencyPersonModel>
       emergencyName: null == emergencyName
           ? _value.emergencyName
           : emergencyName // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       emergencyAddress: null == emergencyAddress
           ? _value.emergencyAddress
           : emergencyAddress // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       emergencyPhone: null == emergencyPhone
           ? _value.emergencyPhone
           : emergencyPhone // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       emergencyRelation: null == emergencyRelation
           ? _value.emergencyRelation
           : emergencyRelation // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
     ) as $Val);
   }
 }
@@ -696,15 +696,15 @@ $Val extends EmergencyPersonModel>
 abstract class _$$_EmergencyPersonModelCopyWith<$Res>
     implements $EmergencyPersonModelCopyWith<$Res> {
   factory _$$_EmergencyPersonModelCopyWith(_$_EmergencyPersonModel value,
-      $Res Function(_$_EmergencyPersonModel) then) =
-  __$$_EmergencyPersonModelCopyWithImpl<$Res>;
+          $Res Function(_$_EmergencyPersonModel) then) =
+      __$$_EmergencyPersonModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String emergencyName,
-        String emergencyAddress,
-        String emergencyPhone,
-        String emergencyRelation});
+      String emergencyAddress,
+      String emergencyPhone,
+      String emergencyRelation});
 }
 
 /// @nodoc
@@ -727,19 +727,19 @@ class __$$_EmergencyPersonModelCopyWithImpl<$Res>
       emergencyName: null == emergencyName
           ? _value.emergencyName
           : emergencyName // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       emergencyAddress: null == emergencyAddress
           ? _value.emergencyAddress
           : emergencyAddress // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       emergencyPhone: null == emergencyPhone
           ? _value.emergencyPhone
           : emergencyPhone // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
       emergencyRelation: null == emergencyRelation
           ? _value.emergencyRelation
           : emergencyRelation // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
     ));
   }
 }
@@ -749,9 +749,9 @@ class __$$_EmergencyPersonModelCopyWithImpl<$Res>
 class _$_EmergencyPersonModel implements _EmergencyPersonModel {
   const _$_EmergencyPersonModel(
       {required this.emergencyName,
-        required this.emergencyAddress,
-        required this.emergencyPhone,
-        required this.emergencyRelation});
+      required this.emergencyAddress,
+      required this.emergencyPhone,
+      required this.emergencyRelation});
 
   factory _$_EmergencyPersonModel.fromJson(Map<String, dynamic> json) =>
       _$$_EmergencyPersonModelFromJson(json);
@@ -808,12 +808,12 @@ class _$_EmergencyPersonModel implements _EmergencyPersonModel {
 abstract class _EmergencyPersonModel implements EmergencyPersonModel {
   const factory _EmergencyPersonModel(
       {required final String emergencyName,
-        required final String emergencyAddress,
-        required final String emergencyPhone,
-        required final String emergencyRelation}) = _$_EmergencyPersonModel;
+      required final String emergencyAddress,
+      required final String emergencyPhone,
+      required final String emergencyRelation}) = _$_EmergencyPersonModel;
 
   factory _EmergencyPersonModel.fromJson(Map<String, dynamic> json) =
-  _$_EmergencyPersonModel.fromJson;
+      _$_EmergencyPersonModel.fromJson;
 
   @override
   String get emergencyName;

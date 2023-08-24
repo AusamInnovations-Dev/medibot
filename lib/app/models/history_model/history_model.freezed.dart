@@ -184,7 +184,7 @@ HistoryData _$HistoryDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HistoryData {
   String get pillId => throw _privateConstructorUsedError;
-  String get med_status => throw _privateConstructorUsedError;
+  List<String> get med_status => throw _privateConstructorUsedError;
   List<DateTime> get timeTaken => throw _privateConstructorUsedError;
   List<String> get timeToTake => throw _privateConstructorUsedError;
 
@@ -202,7 +202,7 @@ abstract class $HistoryDataCopyWith<$Res> {
   @useResult
   $Res call(
       {String pillId,
-      String med_status,
+      List<String> med_status,
       List<DateTime> timeTaken,
       List<String> timeToTake});
 }
@@ -233,7 +233,7 @@ class _$HistoryDataCopyWithImpl<$Res, $Val extends HistoryData>
       med_status: null == med_status
           ? _value.med_status
           : med_status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       timeTaken: null == timeTaken
           ? _value.timeTaken
           : timeTaken // ignore: cast_nullable_to_non_nullable
@@ -256,7 +256,7 @@ abstract class _$$_HistoryDataCopyWith<$Res>
   @useResult
   $Res call(
       {String pillId,
-      String med_status,
+      List<String> med_status,
       List<DateTime> timeTaken,
       List<String> timeToTake});
 }
@@ -283,9 +283,9 @@ class __$$_HistoryDataCopyWithImpl<$Res>
           : pillId // ignore: cast_nullable_to_non_nullable
               as String,
       med_status: null == med_status
-          ? _value.med_status
+          ? _value._med_status
           : med_status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       timeTaken: null == timeTaken
           ? _value._timeTaken
           : timeTaken // ignore: cast_nullable_to_non_nullable
@@ -303,10 +303,11 @@ class __$$_HistoryDataCopyWithImpl<$Res>
 class _$_HistoryData implements _HistoryData {
   const _$_HistoryData(
       {required this.pillId,
-      required this.med_status,
+      required final List<String> med_status,
       required final List<DateTime> timeTaken,
       required final List<String> timeToTake})
-      : _timeTaken = timeTaken,
+      : _med_status = med_status,
+        _timeTaken = timeTaken,
         _timeToTake = timeToTake;
 
   factory _$_HistoryData.fromJson(Map<String, dynamic> json) =>
@@ -314,8 +315,14 @@ class _$_HistoryData implements _HistoryData {
 
   @override
   final String pillId;
+  final List<String> _med_status;
   @override
-  final String med_status;
+  List<String> get med_status {
+    if (_med_status is EqualUnmodifiableListView) return _med_status;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_med_status);
+  }
+
   final List<DateTime> _timeTaken;
   @override
   List<DateTime> get timeTaken {
@@ -343,8 +350,8 @@ class _$_HistoryData implements _HistoryData {
         (other.runtimeType == runtimeType &&
             other is _$_HistoryData &&
             (identical(other.pillId, pillId) || other.pillId == pillId) &&
-            (identical(other.med_status, med_status) ||
-                other.med_status == med_status) &&
+            const DeepCollectionEquality()
+                .equals(other._med_status, _med_status) &&
             const DeepCollectionEquality()
                 .equals(other._timeTaken, _timeTaken) &&
             const DeepCollectionEquality()
@@ -356,7 +363,7 @@ class _$_HistoryData implements _HistoryData {
   int get hashCode => Object.hash(
       runtimeType,
       pillId,
-      med_status,
+      const DeepCollectionEquality().hash(_med_status),
       const DeepCollectionEquality().hash(_timeTaken),
       const DeepCollectionEquality().hash(_timeToTake));
 
@@ -377,7 +384,7 @@ class _$_HistoryData implements _HistoryData {
 abstract class _HistoryData implements HistoryData {
   const factory _HistoryData(
       {required final String pillId,
-      required final String med_status,
+      required final List<String> med_status,
       required final List<DateTime> timeTaken,
       required final List<String> timeToTake}) = _$_HistoryData;
 
@@ -387,7 +394,7 @@ abstract class _HistoryData implements HistoryData {
   @override
   String get pillId;
   @override
-  String get med_status;
+  List<String> get med_status;
   @override
   List<DateTime> get timeTaken;
   @override

@@ -86,7 +86,7 @@ class HomepageController extends GetxController {
                       historyList.add(HistoryData(
                         pillId: reminderList.last.uid,
                         timeTaken: [],
-                        med_status: '',
+                        med_status: [],
                         timeToTake: reminderList.last.pillsInterval,
                       ));
                       pillsTaken.value += historyList.last.timeTaken.length;
@@ -95,7 +95,7 @@ class HomepageController extends GetxController {
                     historyList.add(HistoryData(
                         pillId: reminderList.last.uid,
                         timeTaken: [],
-                        med_status: '',
+                        med_status: [],
                         timeToTake: reminderList.last.pillsInterval));
                     pillsTaken.value = 0;
                     pillsToTake.value += reminderList.last.pillsInterval.length;
@@ -134,7 +134,7 @@ class HomepageController extends GetxController {
                         HistoryData(
                           pillId: reminderList.last.uid,
                           timeTaken: [],
-                          med_status: '',
+                          med_status: [],
                           timeToTake: reminderList.last.pillsInterval,
                         ),
                       );
@@ -145,7 +145,7 @@ class HomepageController extends GetxController {
                       HistoryData(
                         pillId: reminderList.last.uid,
                         timeTaken: [],
-                        med_status: '',
+                        med_status: [],
                         timeToTake: reminderList.last.pillsInterval,
                       ),
                     );
@@ -200,7 +200,7 @@ class HomepageController extends GetxController {
                         historyList.add(HistoryData(
                           pillId: reminderList.last.uid,
                           timeTaken: [],
-                          med_status: '',
+                          med_status: [],
                           timeToTake: reminderList.last.pillsInterval,
                         ));
                         pillsTaken.value += historyList.last.timeTaken.length;
@@ -209,7 +209,7 @@ class HomepageController extends GetxController {
                       historyList.add(HistoryData(
                           pillId: reminderList.last.uid,
                           timeTaken: [],
-                          med_status: '',
+                          med_status: [],
                           timeToTake: reminderList.last.pillsInterval));
                       pillsTaken.value = 0;
                       pillsToTake.value +=
@@ -249,7 +249,7 @@ class HomepageController extends GetxController {
                           HistoryData(
                             pillId: reminderList.last.uid,
                             timeTaken: [],
-                            med_status: '',
+                            med_status: [],
                             timeToTake: reminderList.last.pillsInterval,
                           ),
                         );
@@ -260,7 +260,7 @@ class HomepageController extends GetxController {
                         HistoryData(
                           pillId: reminderList.last.uid,
                           timeTaken: [],
-                          med_status: '',
+                          med_status: [],
                           timeToTake: reminderList.last.pillsInterval,
                         ),
                       );
@@ -559,7 +559,7 @@ class HomepageController extends GetxController {
                   pillId: reminderList[pillIndex.value].uid,
                   timeToTake: reminderList[pillIndex.value].pillsInterval,
                   timeTaken: [DateTime.now()],
-                  med_status: 'Y',
+                  med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
                 ),
               );
               historyModel = historyModel.copyWith(historyData: list);
@@ -574,14 +574,17 @@ class HomepageController extends GetxController {
               if (historyData.timeTaken.length < historyData.timeToTake.length) {
                 HistoryData historyDataTemp = historyData;
                 List<DateTime> tempTimeTaken = [];
+                List<String> tempStatus = [];
                 List<HistoryData> list = [];
                 list.addAll(historyModel.historyData);
+                tempStatus.addAll(historyDataTemp.med_status);
                 tempTimeTaken.addAll(historyDataTemp.timeTaken);
                 tempTimeTaken.add(DateTime.now());
+                tempStatus.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L',);
                 list[index] = HistoryData(
                   pillId: historyModel.historyData[index].pillId,
                   timeTaken: tempTimeTaken,
-                  med_status: 'Y',
+                  med_status: tempStatus,
                   timeToTake: historyModel.historyData[index].timeToTake,
                 );
                 HistoryModel tempHistory = HistoryModel(
@@ -617,7 +620,7 @@ class HomepageController extends GetxController {
                 pillId: reminderList[pillIndex.value].uid,
                 timeToTake: reminderList[pillIndex.value].pillsInterval,
                 timeTaken: [DateTime.now()],
-                med_status: 'Y',
+                med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
               ),
             ]);
             await FirebaseFireStore.to.uploadHistoryData(

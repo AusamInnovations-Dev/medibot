@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
 
@@ -9,8 +10,11 @@ import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 import '../../../models/history_model/history_model.dart';
 import '../../../models/pills_models/pills_model.dart';
@@ -75,7 +79,8 @@ class HistoryController extends GetxController {
             for (var time in reminder.pillsDuration) {
               totalPillsDosage.value += reminder.pillsInterval.length;
               DateTime date = DateTime.parse(time);
-              if (date.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+              if (date.isAfter(DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day))) {
                 upComingDosage.value += reminder.pillsInterval.length;
                 log('upcoming in individuals : ${reminder.pillsInterval.length}');
                 log('Total upcoming : ${upComingDosage.value}');
@@ -85,21 +90,34 @@ class HistoryController extends GetxController {
             log('Else part');
             DateTime date1 = DateTime.parse(reminder.pillsDuration.first);
             DateTime date2 = DateTime.parse(reminder.pillsDuration.last);
-            totalPillsDosage.value += reminder.pillsInterval.length * (date2.difference(date1).inDays + 1);
-            if (date1.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)) && date2.isAfter(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+            totalPillsDosage.value += reminder.pillsInterval.length *
+                (date2.difference(date1).inDays + 1);
+            if (date1.isBefore(DateTime(DateTime.now().year,
+                    DateTime.now().month, DateTime.now().day)) &&
+                date2.isAfter(DateTime(DateTime.now().year,
+                    DateTime.now().month, DateTime.now().day))) {
               log('upcoming in range 1: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays}');
-              upComingDosage.value += reminder.pillsInterval.length * (date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays);
+              upComingDosage.value += reminder.pillsInterval.length *
+                  (date2
+                      .difference(DateTime(DateTime.now().year,
+                          DateTime.now().month, DateTime.now().day))
+                      .inDays);
               log('Total upcoming : ${upComingDosage.value}');
             } else if (date2.isAfter(DateTime(DateTime.now().year,
                 DateTime.now().month, DateTime.now().day))) {
               log('upcoming in range 2: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays}');
               log('Before upcoming : ${upComingDosage.value}');
-              upComingDosage.value += reminder.pillsInterval.length * (date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays);
+              upComingDosage.value += reminder.pillsInterval.length *
+                  (date2
+                      .difference(DateTime(DateTime.now().year,
+                          DateTime.now().month, DateTime.now().day))
+                      .inDays);
               log('After upcoming : ${upComingDosage.value}');
             } else if (date1.isAfter(DateTime(DateTime.now().year,
                 DateTime.now().month, DateTime.now().day))) {
               log('upcoming in range 3: ${reminder.pillsInterval.length} : ${date2.difference(date1).inDays}');
-              upComingDosage.value += reminder.pillsInterval.length * (date2.difference(date1).inDays);
+              upComingDosage.value += reminder.pillsInterval.length *
+                  (date2.difference(date1).inDays);
               log('Total upcoming : ${upComingDosage.value}');
             }
           }
@@ -188,7 +206,9 @@ class HistoryController extends GetxController {
     if (historyList.isNotEmpty) {
       for (var element in historyList) {
         log('Hello I am In at : $date');
-        if (element.userId.trim() == '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'.trim()) {
+        if (element.userId.trim() ==
+            '${date.year}:${date.month < 10 ? '0${date.month}' : date.month}:${date.day < 10 ? '0${date.day}' : date.day}'
+                .trim()) {
           historyItem = element;
           break;
         }
@@ -270,12 +290,12 @@ class HistoryController extends GetxController {
         }
       }
     }
-    log('This is all today reminder: $todayReminder');
     return todayReminder;
   }
 
   checkForAllHistory() {
-    List<PillsModel> todayReminder = todayReminders(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
+    List<PillsModel> todayReminder = todayReminders(DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day));
     log('This is the todays reminder: $todayReminder');
     for (var reminder in todayReminder) {
       for (var interval in reminder.pillsInterval) {
@@ -291,176 +311,23 @@ class HistoryController extends GetxController {
       }
     }
 
-    for(var history in historyList){
-      for(var pill in history.historyData){
+    for (var history in historyList) {
+      for (var pill in history.historyData) {
         totalTakenPillsDosage.value += pill.timeTaken.length;
       }
-      log(history.userId.substring(0,4));
-      log(history.userId.substring(5,7));
-      log(history.userId.substring(8,10));
+      log(history.userId.substring(0, 4));
+      log(history.userId.substring(5, 7));
+      log(history.userId.substring(8, 10));
     }
-
   }
 
-  Future<void> exportToPdf(DateTime startDate, DateTime endDate) async {
-    generatingPdf.value = true;
-    Rx<double> progress = 0.0.obs;
-    var totalDays = endDate.difference(startDate).inDays+1;
-    showDialog(
-      context: Get.context!,
-      barrierDismissible: false,
-      traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
-      builder: (context) => WillPopScope(
-        onWillPop: () async => false,
-        child: Obx(
-          () => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            contentPadding: EdgeInsets.zero,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomTextField(
-                  text: "Generating your file \nplease wait...",
-                  fontFamily: 'Sansation',
-                  size: 16.sp,
-                  maxLines: 2,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-                SizedBox(height: 13.h,),
-                SizedBox(
-                  height: 7.h,
-                  child: LinearProgressIndicator(
-                    value: progress.value/totalDays,
-                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(30.r),
-                    color: const Color(0xff041c50),
-                  ),
-                ),
-                SizedBox(height: 5.h,),
-                CustomTextField(
-                  text: "Progress: ${progress.value/totalDays*100} %",
-                  fontFamily: 'Sansation',
-                  size: 10.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-    DateTime currentDate = startDate;
-    List<String> header = ['Medicine', 'Time Scheduled', 'Status'];
-    List<List<String>> historyData = [];
-    while (currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate)) {
-      List<PillsModel> currentReminder = todayReminders(currentDate);
-      var selectedHistory = await FirebaseFireStore.to.getHistoryDataByDay('${currentDate.year}:${currentDate.month < 10 ? '0${currentDate.month}' : currentDate.month}:${currentDate.day < 10 ? '0${currentDate.day}' : currentDate.day}');
-      HistoryModel? historyModel;
-      historyData.add(['Date: ${currentDate.year}/${currentDate.month}/${currentDate.day}' ,'', '']);
-      if (currentReminder.isEmpty) {
-        historyData.add(['No Pill was Scheduled this day' ,'', '']);
-      } else {
-        if (selectedHistory == null) {
-          for (var reminder in currentReminder) {
-            for (var interval in reminder.pillsInterval) {
-              historyData.add([reminder.pillName, interval, DateTime.now().isBefore(currentDate) ? 'Upcoming' : 'Missed']);
-            }
-          }
-        } else {
-          historyModel = HistoryModel.fromJson(selectedHistory.data() as Map<String, dynamic>);
-          for (var reminder in currentReminder) {
-            HistoryData? history;
-            for (var historyData in historyModel.historyData) {
-              if (historyData.pillId == reminder.uid) {
-                history = historyData;
-                break;
-              }
-            }
-            for (var interval in reminder.pillsInterval) {
-              if (history == null) {
-                historyData.add([reminder.pillName, interval, DateTime.now().isBefore(currentDate) ? 'Upcoming' : 'Missed']);
-              } else {
-                var difference = 60;
-                var nextIndex = reminder.pillsInterval.indexOf(interval) + 1;
-                if (nextIndex < reminder.pillsInterval.length) {
-                  difference = DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day,
-                    int.parse(reminder.pillsInterval[nextIndex].substring(0, 2)),
-                    int.parse(reminder.pillsInterval[nextIndex].substring(5, 7)),)
-                      .difference(
-                        DateTime(
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day,
-                          int.parse(interval.substring(0, 2)),
-                          int.parse(interval.substring(5, 7)),
-                        ),
-                      )
-                      .inMinutes;
-                }
-                var diff = history.timeTaken.any((element1) =>
-                    element1
-                            .difference(DateTime(
-                                currentDate.year,
-                                currentDate.month,
-                                currentDate.day,
-                                int.parse(interval.substring(0, 2)),
-                                int.parse(interval.substring(5, 7))))
-                            .inMinutes <=
-                        difference / 2 &&
-                    element1
-                            .difference(DateTime(
-                                currentDate.year,
-                                currentDate.month,
-                                currentDate.day,
-                                int.parse(interval.substring(0, 2)),
-                                int.parse(interval.substring(5, 7))))
-                            .inMinutes >=
-                        -30);
-                if (diff) {
-                  historyData.add([reminder.pillName, interval, 'Taken']);
-                } else {
-                  historyData.add([reminder.pillName, interval, DateTime.now().isBefore(currentDate) ? 'Upcoming' :  DateTime.now().isAtSameMomentAs(currentDate) ? 'Under Progress' :  'Missed']);
-                }
-              }
-            }
-          }
-        }
-      }
-      progress.value++;
-      currentDate = currentDate.add(const Duration(days: 1));
-      // log('Day: $currentDate');
-    }
-    generatingPdf.value = false;
-    Get.back();
-    await saveAndLaunchFile(header, historyData);
-  }
-
-  Future<void> saveAndLaunchFile(List<String> header, List<List<String>> historyData) async {
-    try{
-      List<List<String>> headerAndDataList = [];
-      headerAndDataList.add(header);
-      for (var dataRow in historyData) {
-        headerAndDataList.add(dataRow);
-      }
-      String csvData = const ListToCsvConverter().convert(headerAndDataList);
-      DateTime now = DateTime.now();
-      final formattedData = DateFormat('MM-dd-yyyy').format(now);
-      final bytes = utf8.encode(csvData);
-      Uint8List bytes2 = Uint8List.fromList(bytes);
+  Future<void> saveAndLaunchFile(bytes) async {
+    try {
       final xFile = await FileSaver.instance.saveAs(
-        name: 'medibot_history_$formattedData',
-        bytes: bytes2,
-        ext: 'csv',
-        mimeType: MimeType.csv,
+        name: 'medibot_history',
+        bytes: bytes,
+        ext: 'pdf',
+        mimeType: MimeType.pdf,
       );
       if (xFile != null) {
         checkAndRequestStoragePermission(xFile);
@@ -490,7 +357,7 @@ class HistoryController extends GetxController {
           colorText: Colors.black,
         );
       }
-    }catch(err){
+    } catch (err) {
       log(err.toString());
       Get.snackbar(
         "MediBot",
@@ -512,8 +379,292 @@ class HistoryController extends GetxController {
     if (await Permission.storage.request().isGranted) {
       log('Permission granted');
       Share.shareFiles([xFile]);
-    } else {
+    } else {}
+  }
 
+  Future<void> exportOptions() async {
+    showModalBottomSheet(
+      context: Get.context!,
+      backgroundColor: Theme.of(Get.context!).colorScheme.primaryContainer,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      builder: (context) => Container(
+        margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 280.w,
+                  child: CustomTextField(
+                    text: "Select History Interval for Download",
+                    fontFamily: 'Sansation',
+                    size: 20.sp,
+                    maxLines: 2,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30.w,
+            ),
+            SfDateRangePicker(
+              view: DateRangePickerView.month,
+              cancelText: 'Cancel',
+              viewSpacing: 30.w,
+              rangeSelectionColor: const Color(0xff041c50),
+              selectionMode: DateRangePickerSelectionMode.range,
+              showActionButtons: true,
+              enablePastDates: false,
+              todayHighlightColor: const Color(0xff041c50),
+              selectionShape: DateRangePickerSelectionShape.rectangle,
+              monthCellStyle: DateRangePickerMonthCellStyle(
+                cellDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                todayTextStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15.sp,
+                ),
+                textStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15.sp,
+                ),
+                todayCellDecoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(5.r),
+                  border: Border.all(
+                    color: const Color(0xff041c50),
+                  ),
+                ),
+              ),
+              endRangeSelectionColor: const Color(0xff041c50),
+              startRangeSelectionColor: const Color(0xff041c50),
+              selectionRadius: 15.r,
+              selectionTextStyle: const TextStyle(
+                color: Colors.white,
+              ),
+              rangeTextStyle: const TextStyle(color: Colors.white),
+              onCancel: () => Navigator.pop(context),
+              onSubmit: (value) async {
+                if (value is PickerDateRange) {
+                  final DateTime rangeStartDate = value.startDate!;
+                  final DateTime rangeEndDate = value.endDate!;
+                  Get.back();
+                  await exportToPdf(rangeStartDate, rangeEndDate);
+                }
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> exportToPdf(DateTime startDate, DateTime endDate) async {
+    generatingPdf.value = true;
+    Rx<double> progress = 0.0.obs;
+    var totalDays = endDate.difference(startDate).inDays + 1;
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: Obx(
+          () => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            contentPadding: EdgeInsets.zero,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomTextField(
+                  text: "Generating your file \nplease wait...",
+                  fontFamily: 'Sansation',
+                  size: 16.sp,
+                  maxLines: 2,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+                SizedBox(
+                  height: 13.h,
+                ),
+                SizedBox(
+                  height: 7.h,
+                  child: LinearProgressIndicator(
+                    value: progress.value / totalDays,
+                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(30.r),
+                    color: const Color(0xff041c50),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                CustomTextField(
+                  text: "Progress: ${(progress.value / totalDays * 100).toStringAsPrecision(4)} %",
+                  fontFamily: 'Sansation',
+                  size: 10.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  overflow: TextOverflow.visible,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    DateTime currentDate = startDate;
+    final PdfDocument document = PdfDocument();
+    final PdfPage page = document.pages.add();
+    final PdfGrid grid = PdfGrid();
+    PdfGridRow row = grid.rows.add();
+    grid.columns.add(count: 2);
+    while (currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate)) {
+      List<PillsModel> currentReminder = todayReminders(currentDate);
+      var selectedHistory = await FirebaseFireStore.to.getHistoryDataByDay('${currentDate.year}:${currentDate.month < 10 ? '0${currentDate.month}' : currentDate.month}:${currentDate.day < 10 ? '0${currentDate.day}' : currentDate.day}');
+      HistoryModel? historyModel;
+      row = grid.rows.add();
+      row.cells[0].value = DateFormat('dd MMM yyyy').format(currentDate);
+      row.cells[1].value = '';
+      if (currentReminder.isEmpty) {
+        row = grid.rows.add();
+        row.cells[0].value = 'No reminders are scheduled for this date';
+        row.cells[1].value = '';
+      } else {
+        if (selectedHistory == null) {
+          for (var reminder in currentReminder) {
+            row = grid.rows.add();
+            row.cells[0].value = 'Slot';
+            row.cells[1].value = '${reminder.slot}';
+            row = grid.rows.add();
+            row.cells[0].value = 'Pill Name';
+            row.cells[1].value = reminder.pillName;
+            row = grid.rows.add();
+            row.cells[0].value = 'Dosage';
+            row.cells[1].value = reminder.dosage;
+            row = grid.rows.add();
+            row.cells[0].value = 'Intervals';
+            row.cells[1].value = '${reminder.pillsInterval.length}';
+            row = grid.rows.add();
+            row.cells[0].value = 'Scheduled Time';
+            row.cells[1].value = '${reminder.pillsInterval}';
+            row = grid.rows.add();
+            row.cells[0].value = 'Pill Taken Time';
+            row.cells[1].value = '';
+            if (currentDate.isAtSameMomentAs(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+              row = grid.rows.add();
+              row.cells[0].value = 'Status';
+              row.cells[1].value = 'Pending';
+            } else {
+              row = grid.rows.add();
+              row.cells[0].value = 'Status';
+              row.cells[1].value = currentDate.isAfter(DateTime.now())
+                  ? 'Upcoming Medicines'
+                  : 'Missed every medicine';
+            }
+          }
+        } else {
+          historyModel = HistoryModel.fromJson(
+              selectedHistory.data() as Map<String, dynamic>);
+          for (var reminder in currentReminder) {
+            HistoryData? history;
+            for (var historyData in historyModel.historyData) {
+              if (historyData.pillId == reminder.uid) {
+                history = historyData;
+                break;
+              }
+            }
+            if (history != null) {
+              var list = history.timeTaken.map((e) => DateFormat('hh:mm a').format(e));
+              row = grid.rows.add();
+              row.cells[0].value = 'Slot';
+              row.cells[1].value = '${reminder.slot}';
+              row = grid.rows.add();
+              row.cells[0].value = 'Pill Name';
+              row.cells[1].value = reminder.pillName;
+              row = grid.rows.add();
+              row.cells[0].value = 'Dosage';
+              row.cells[1].value = reminder.dosage;
+              row = grid.rows.add();
+              row.cells[0].value = 'Intervals';
+              row.cells[1].value = '${reminder.pillsInterval.length}';
+              row = grid.rows.add();
+              row.cells[0].value = 'Scheduled Time';
+              row.cells[1].value = '${reminder.pillsInterval}';
+              row = grid.rows.add();
+              row.cells[0].value = 'Pill Taken Time';
+              row.cells[1].value = '$list';
+              if (currentDate.isAtSameMomentAs(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+                row = grid.rows.add();
+                row.cells[0].value = 'Status';
+                row.cells[1].value = 'Pending';
+              } else {
+                row = grid.rows.add();
+                row.cells[0].value = 'Status';
+                row.cells[1].value = list.length == history.timeToTake.length
+                    ? 'Taken All Medicines'
+                    : 'Partially Taken medicines';
+              }
+            } else {
+              row = grid.rows.add();
+              row.cells[0].value = 'Slot';
+              row.cells[1].value = '${reminder.slot}';
+              row = grid.rows.add();
+              row.cells[0].value = 'Pill Name';
+              row.cells[1].value = reminder.pillName;
+              row = grid.rows.add();
+              row.cells[0].value = 'Dosage';
+              row.cells[1].value = reminder.dosage;
+              row = grid.rows.add();
+              row.cells[0].value = 'Intervals';
+              row.cells[1].value = '${reminder.pillsInterval.length}';
+              row = grid.rows.add();
+              row.cells[0].value = 'Scheduled Time';
+              row.cells[1].value = '${reminder.pillsInterval}';
+              row = grid.rows.add();
+              row.cells[0].value = 'Pill Taken Time';
+              row.cells[1].value = '';
+              row = grid.rows.add();
+              row.cells[0].value = 'Status';
+              row.cells[1].value = currentDate.isAtSameMomentAs(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))
+                  ? 'Pending'
+                  : 'Missed every medicine';
+            }
+          }
+        }
+      }
+      progress.value++;
+      currentDate = currentDate.add(const Duration(days: 1));
     }
+    generatingPdf.value = false;
+    Get.back();
+    grid.draw(
+      page: page,
+      bounds: Rect.fromLTWH(
+        0,
+        0,
+        page.getClientSize().width, page.getClientSize().height,
+      ),
+    );
+    List<int> bytes = await document.save();
+    Uint8List bytes2 = Uint8List.fromList(bytes);
+    await saveAndLaunchFile(bytes2);
   }
 }

@@ -23,7 +23,9 @@ Map<String, dynamic> _$$_HistoryModelToJson(_$_HistoryModel instance) =>
 _$_HistoryData _$$_HistoryDataFromJson(Map<String, dynamic> json) =>
     _$_HistoryData(
       pillId: json['pillId'] as String,
-      med_status: json['med_status'] as String,
+      med_status: (json['med_status'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       timeTaken: (json['timeTaken'] as List<dynamic>)
           .map((e) => DateTime.parse(e as String))
           .toList(),
