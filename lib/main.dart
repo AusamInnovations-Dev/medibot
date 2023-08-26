@@ -51,7 +51,7 @@ void main() async {
     if(receivedAction.buttonKeyPressed == 'Taken'){
       var data = await FirebaseFireStore.to.getPillReminder(receivedAction.payload!['pillId']!);
       PillsModel pill = PillsModel.fromJson(data.docs.first.data());
-      var pillInterval = '';
+      var pillInterval = receivedAction.payload!['interval']?? '';
       var hours = int.parse(receivedAction.payload!['interval']!.substring(0, 2));
       var minutes = int.parse(receivedAction.payload!['interval']!.substring(3, 5));
       if(pillInterval != ''){
@@ -71,12 +71,21 @@ void main() async {
           if (index == null) {
             List<HistoryData> list = [];
             list.addAll(historyModel.historyData);
+            List<String> timeTaken = [];
+            List<String> status = [];
+            for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+              timeTaken.add('00HH:00MM');
+              status.add('M');
+            }
+            timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+            status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L');
+
             list.add(
               HistoryData(
                 pillId: pill.uid,
                 timeToTake: pill.pillsInterval,
-                med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
-                timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
+                timeTaken: timeTaken,
+                med_status: status,
               ),
             );
             historyModel = historyModel.copyWith(historyData: list);
@@ -93,6 +102,10 @@ void main() async {
               tempStatus.addAll(historyDataTemp.med_status);
               list.addAll(historyModel.historyData);
               tempTimeTaken.addAll(historyDataTemp.timeTaken);
+              for(int i=tempTimeTaken.length; i<pill.pillsInterval.indexOf(pillInterval); i++){
+                tempTimeTaken.add('00HH:00MM');
+                tempStatus.add('M');
+              }
               tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
               tempStatus.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L',);
               list[index] = HistoryData(
@@ -112,12 +125,20 @@ void main() async {
             }
           }
         } else {
+          List<String> timeTaken = [];
+          List<String> status = [];
+          for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+            timeTaken.add('00HH:00MM');
+            status.add('M');
+          }
+          timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+          status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L');
           HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
             HistoryData(
               pillId: pill.uid,
               timeToTake: pill.pillsInterval,
-              timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
-              med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
+              timeTaken: timeTaken,
+              med_status: status,
             ),
           ]);
           await FirebaseFireStore.to.uploadHistoryData(
@@ -134,7 +155,7 @@ void main() async {
       var pillInterval = '';
       for (var interval in pill.pillsInterval) {
         var nextIndex = pill.pillsInterval.indexOf(interval) + 1;
-        var diff = 60;
+        var diff = 180;
         if(nextIndex < pill.pillsInterval.length){
           diff = DateTime(
             DateTime.now().year,
@@ -153,7 +174,7 @@ void main() async {
           ).inMinutes;
         }
         if(diff >= 180){
-          diff = 60;
+          diff = 180;
         }
         if (DateTime.now().difference(
             DateTime(

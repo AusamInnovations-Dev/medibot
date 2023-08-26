@@ -391,7 +391,7 @@ class HomePage extends GetView<HomepageController> {
                                                   color: Colors.black,
                                                   size: 13.sp,
                                                   fontWeight: FontWeight.w700,
-                                                  text: "History",
+                                                  text: "Adherence Report",
                                                   maxLines: 2,
                                                 ),
                                               ),

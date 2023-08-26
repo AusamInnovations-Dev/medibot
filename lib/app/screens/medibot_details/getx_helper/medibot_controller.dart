@@ -76,7 +76,6 @@ class   MedibotController extends GetxController {
           }
           slot1remainingDay.value = difference;
         } else if (slot1.last.isRange) {
-          log('remaining day slot 1: ${slot1.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
           slot1remainingDay.value = DateTime.parse(slot1.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
           if(slot1remainingDay.value < 0){
             slot1remainingDay.value = 0;
@@ -95,7 +94,6 @@ class   MedibotController extends GetxController {
           }
           slot2remainingDay.value = difference;
         } else if (slot2.last.isRange) {
-          log('remaining day: ${slot2.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
           slot2remainingDay.value = DateTime.parse(slot2.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
         }
         break;
@@ -111,7 +109,6 @@ class   MedibotController extends GetxController {
           }
           slot3remainingDay.value = difference;
         } else if (slot3.last.isRange) {
-          log('remaining day: ${slot3.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
           slot3remainingDay.value = DateTime.parse(slot3.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
         }
         break;
@@ -127,7 +124,6 @@ class   MedibotController extends GetxController {
           }
           slot4remainingDay.value = difference;
         } else if (slot4.last.isRange) {
-          log('remaining day: ${slot4.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
           slot4remainingDay.value = DateTime.parse(slot4.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
         }
         break;
@@ -143,7 +139,6 @@ class   MedibotController extends GetxController {
           }
           slot5remainingDay.value = difference;
         } else if (slot5.last.isRange) {
-          log('remaining day: ${slot5.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
           slot5remainingDay.value = DateTime.parse(slot5.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
         }
         break;
@@ -159,7 +154,6 @@ class   MedibotController extends GetxController {
           }
           slot6remainingDay.value = difference;
         } else if (slot6.last.isRange) {
-          log('remaining day: ${slot6.last.pillsDuration.last} and ${DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)}');
           slot6remainingDay.value = DateTime.parse(slot6.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
         }
         break;

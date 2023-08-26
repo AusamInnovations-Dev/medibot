@@ -38,10 +38,8 @@ class SetReminderController extends GetxController {
         pillsTime.removeRange(1, pillsTime.length);
         timeIntervals.removeRange(1, timeIntervals.length);
       }
-      log(timeIntervals.toString());
     } else if (interval.value == 'Twice a Day (12 Hours)') {
       if(timeIntervals.length > 2){
-        log('Hello removing pills');
         pillsTime.removeRange(2, pillsTime.length);
         timeIntervals.removeRange(2, timeIntervals.length);
       }else if(timeIntervals.length == 1){
@@ -55,7 +53,6 @@ class SetReminderController extends GetxController {
           'period': 'PM'
         });
       }
-      log(timeIntervals.toString());
     } else if (interval.value == 'Thrice a Day (8 Hours)') {
       if(pillsTime.length > 3){
         pillsTime.removeRange(3, pillsTime.length);
@@ -93,14 +90,12 @@ class SetReminderController extends GetxController {
           hour: 24,
           minute: 00,
         ));
-        log(pillsTime.toString());
         timeIntervals.add({
           'hour': '12 H',
           'minute': '00 M',
           'period': 'AM'
         });
       }
-      log(timeIntervals.toString());
     }
   }
 
@@ -108,7 +103,6 @@ class SetReminderController extends GetxController {
   gererateCustomTimeInterval() {
     timeIntervals.clear();
     pillsTime.clear();
-    log('Hello : $timeIntervals');
     pillsTime.add(const TimeOfDay(
       hour: 8,
       minute: 00,
@@ -133,7 +127,6 @@ class SetReminderController extends GetxController {
   }
 
   addHourlyTimeInterval() {
-    log('Here Printing');
     switch(hourlyInterval.value) {
       case '01 H':
         pillsTime.add(TimeOfDay(
@@ -170,7 +163,6 @@ class SetReminderController extends GetxController {
         break;
 
       case '03 H':
-        log(hourlyInterval.value);
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+3,
           minute: 00,
@@ -188,7 +180,6 @@ class SetReminderController extends GetxController {
         break;
 
       case '04 H':
-        log(hourlyInterval.value);
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+4,
           minute: 00,
@@ -206,12 +197,10 @@ class SetReminderController extends GetxController {
         break;
 
       case '06 H':
-        log(hourlyInterval.value);
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+6,
           minute: 00,
         ));
-        log('This is adding data : ${pillsTime.last.hour}');
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
           'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',

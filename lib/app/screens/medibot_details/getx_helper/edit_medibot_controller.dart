@@ -92,10 +92,8 @@ class EditMedibotController extends GetxController{
         pillsTime.removeRange(1, pillsTime.length);
         timeIntervals.removeRange(1, timeIntervals.length);
       }
-      log(timeIntervals.toString());
     } else if (interval.value == 'Twice a Day (12 Hours)') {
       if(timeIntervals.length > 2){
-        log('Hello removing pills');
         pillsTime.removeRange(2, pillsTime.length);
         timeIntervals.removeRange(2, timeIntervals.length);
       }else if(timeIntervals.length == 1){
@@ -109,7 +107,6 @@ class EditMedibotController extends GetxController{
           'period': 'PM'
         });
       }
-      log(timeIntervals.toString());
     } else if (interval.value == 'Thrice a Day (8 Hours)') {
       if(pillsTime.length > 3){
         pillsTime.removeRange(3, pillsTime.length);
@@ -147,21 +144,18 @@ class EditMedibotController extends GetxController{
           hour: 24,
           minute: 00,
         ));
-        log(pillsTime.toString());
         timeIntervals.add({
           'hour': '12 H',
           'minute': '00 M',
           'period': 'AM'
         });
       }
-      log(timeIntervals.toString());
     }
   }
 
   gererateCustomTimeInterval() {
     timeIntervals.clear();
     pillsTime.clear();
-    log('Hello : $timeIntervals');
     pillsTime.add(const TimeOfDay(
       hour: 8,
       minute: 00,
@@ -186,7 +180,6 @@ class EditMedibotController extends GetxController{
   }
 
   addHourlyTimeInterval() {
-    log('Here Printing');
     switch(hourlyInterval.value) {
       case '01 H':
         pillsTime.add(TimeOfDay(
@@ -223,7 +216,6 @@ class EditMedibotController extends GetxController{
         break;
 
       case '03 H':
-        log(hourlyInterval.value);
         pillsTime.add(TimeOfDay(
           hour: pillsTime.last.hour+3,
           minute: 00,

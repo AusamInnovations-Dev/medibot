@@ -41,41 +41,36 @@ class HistoryDetailsController extends GetxController {
       for (var reminder in todayReminders) {
         for (var element in reminder.pillsInterval) {
           if(int.parse(element.substring(0,2)) < 12){
-            log('Hello 8 and 12');
             morning.add(
               {
                 'pillName': reminder.pillName,
-                'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
               }
             );
           }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
-            log('Hello 16');
             afternoon.add(
                 {
                   'pillName': reminder.pillName,
-                  'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                  'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
                 }
             );
           }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
-            log('Hello 19');
             evening.add(
                 {
                   'pillName': reminder.pillName,
-                  'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                  'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
                 }
             );
           }else{
-            log('Hello 20');
             night.add(
                 {
                   'pillName': reminder.pillName,
-                  'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                  'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
                 }
             );
           }
         }
       }
-      log('$morning : $afternoon : $evening : $night');
     } else {
       historyModel = HistoryModel.fromJson(selectedHistory.data() as Map<String, dynamic>);
       for(var reminder in todayReminders){
@@ -86,7 +81,6 @@ class HistoryDetailsController extends GetxController {
             break;
           }
         }
-        log('This is history pill : $history');
         if(reminder.inMedibot){
           if(history != null){
             for(int i=0; i<reminder.pillsInterval.length; i++){
@@ -188,34 +182,35 @@ class HistoryDetailsController extends GetxController {
                 }
               }
             }
+
           }else {
             for (var element in reminder.pillsInterval) {
               if(int.parse(element.substring(0,2)) < 12){
                 morning.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
                     }
                 );
               }else if(int.parse(element.substring(0,2)) >= 12 && int.parse(element.substring(0,2)) < 16){
                 afternoon.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
                     }
                 );
               }else if(int.parse(element.substring(0,2)) >= 16 && int.parse(element.substring(0,2)) <=19){
                 evening.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
                     }
                 );
               }else{
                 night.add(
                     {
                       'pillName': reminder.pillName,
-                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Under process' : 'Missed'
+                      'schedule' : isUpcoming.value ? 'Upcoming' : itsToday.value ? 'Pending' : 'Missed'
                     }
                 );
               }
@@ -257,7 +252,7 @@ class HistoryDetailsController extends GetxController {
           }else{
             for(int i=0; i<reminder.pillsInterval.length; i++){
               if(i < history.timeTaken.length){
-                if(int.parse(history.timeTaken[i].substring(0,2)) < 12){
+                if(int.parse(history.timeToTake[i].substring(0,2)) < 12){
                   if(!isUpcoming.value){
                     morning.add(
                         {
@@ -273,7 +268,7 @@ class HistoryDetailsController extends GetxController {
                         }
                     );
                   }
-                }else if(int.parse(history.timeTaken[i].substring(0,2)) >= 12 && int.parse(history.timeTaken[i].substring(0,2)) < 16){
+                }else if(int.parse(history.timeToTake[i].substring(0,2)) >= 12 && int.parse(history.timeToTake[i].substring(0,2)) < 16){
                   if(!isUpcoming.value){
                     afternoon.add(
                         {
@@ -289,7 +284,7 @@ class HistoryDetailsController extends GetxController {
                         }
                     );
                   }
-                }else if(int.parse(history.timeTaken[i].substring(0,2)) >= 16 && int.parse(history.timeTaken[i].substring(0,2)) <=19){
+                }else if(int.parse(history.timeToTake[i].substring(0,2)) >= 16 && int.parse(history.timeToTake[i].substring(0,2)) <=19){
                   if(!isUpcoming.value){
                     evening.add(
                         {

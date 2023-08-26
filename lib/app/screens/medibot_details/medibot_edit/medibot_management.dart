@@ -222,8 +222,8 @@ class MedibotManagement extends GetView<EditMedibotController> {
                                     controller.pillName[index].text = suggestion as String;
                                   },
                                   suggestionsCallback: (String pattern) {
-                                    return SampleMedicine.sampleMedicines
-                                        .where((element) => element.startsWith(pattern));
+                                    return SampleMedicine.sampleMedicines.where((element) => element.toLowerCase().startsWith(pattern.toLowerCase()));
+
                                   },
                                 ),
                               ),

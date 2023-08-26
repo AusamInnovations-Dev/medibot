@@ -16,7 +16,7 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
 
-    private val CHANNEL = "medibotChannel"
+    private val CHANNEL = "MedibotChannel"
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
@@ -50,10 +50,9 @@ class MainActivity: FlutterActivity() {
                 wifiManager.disconnect()
                 wifiManager.enableNetwork(networkId, true)
                 wifiManager.reconnect()
-                    return wifiManager.connectionInfo.rssi.toString()
+                    return wifiManager.connectionInfo.ipAddress.toString()
                 }
             }else {
-                Log.d("ssid", "onReceive: ${wifiManager.connectionInfo.rssi}")
                 return "false"
             }
         }else {
@@ -62,18 +61,3 @@ class MainActivity: FlutterActivity() {
         return "false"
     }
 }
-
-//class WifiStateReceiver : BroadcastReceiver() {
-//    override fun onReceive(context: Context?, intent: Intent?) {
-//        if (intent?.action == WifiManager.NETWORK_STATE_CHANGED_ACTION) {
-//            val networkInfo = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
-//            if (networkInfo?.isConnected == true) {
-//                val wifiManager = context?.applicationContext?.getSystemService(Context.WIFI_SERVICE) as WifiManager
-//                val wifiInfo: WifiInfo? = wifiManager.connectionInfo
-//                val ssid = wifiInfo?.ssid
-//                Log.d("ssid", "onReceive: $ssid")
-//                // Handle the SSID (null indicates a hidden network)
-//            }
-//        }
-//    }
-//}

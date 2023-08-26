@@ -26,7 +26,6 @@ class HomepageController extends GetxController {
   @override
   Future<void> onInit() async {
     haveInternet.value = await InternetService().checkInternetSourceStatus();
-    log(DateTime.now().toIso8601String());
     if (DateTime.now().hour <= 11) {
       greeting.value = 'Good Morning';
     } else if (DateTime.now().hour >= 12 && DateTime.now().hour < 16) {
@@ -36,12 +35,9 @@ class HomepageController extends GetxController {
     } else {
       greeting.value = 'Good Night';
     }
-    log(haveInternet.value.toString());
     if(haveInternet.value){
-      log('Hello');
       await getUserData();
     }
-    log('Pills : ${pillsTaken.value} , ${pillsToTake.value}');
     super.onInit();
   }
 
@@ -52,10 +48,9 @@ class HomepageController extends GetxController {
       var pillsReminder = FirebaseFireStore.to.getAllPillsReminder();
       Stream<QuerySnapshot<Map<String, dynamic>>>? medibotPillsReminder;
       if (UserStore.to.profile.medibotDetail.isNotEmpty) {
-        log('fetching data $medibotPillsReminder');
         medibotPillsReminder = FirebaseFireStore.to.getAllMedibotPills();
       }else{
-        log('non Medibot : ${UserStore.to.profile.medibotDetail}');
+
       }
 
       pillsReminder.listen((snapshot) {
@@ -163,20 +158,17 @@ class HomepageController extends GetxController {
           }
         }
         if (medibotPillsReminder == null) {
-          log('false this ');
           loadingUserData.value = false;
           log('This is the history list: $historyList');
           log('This is the reminder list: $reminderList');
         }
       });
       if (medibotPillsReminder != null) {
-        log('Fetching Medibot');
         medibotPillsReminder.listen((snapshot) {
           for (var pill in snapshot.docChanges) {
             switch (pill.type) {
               case DocumentChangeType.added:
                 PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
-                log('This is the Medibot: ${pill.doc.data()}');
                 if (pillsModel.isIndividual) {
                   List<DateTime> dates = pillsModel.pillsDuration
                       .map((e) => DateTime.parse(e))
@@ -280,7 +272,6 @@ class HomepageController extends GetxController {
           log('This is the history list: $historyList');
           log('This is the reminder list: $reminderList');
           loadingUserData.value = false;
-          log('HEllo falsing loading : ${loadingUserData.value}');
         });
       }
     }catch(err){
@@ -316,9 +307,8 @@ class HomepageController extends GetxController {
     if(reminderList.isNotEmpty){
       for (var interval in reminderList[pillIndex.value].pillsInterval) {
         var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
-        var diff = 60;
+        var diff = 180;
         if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
-          log(reminderList[pillIndex.value].pillsInterval.toString());
           diff = DateTime(
             DateTime.now().year,
             DateTime.now().month,
@@ -337,7 +327,7 @@ class HomepageController extends GetxController {
         }
         log('This is the difference : $diff');
         if(diff >= 180){
-          diff = 60;
+          diff = 180;
         }
         if (DateTime.now().difference(
             DateTime(
@@ -348,7 +338,6 @@ class HomepageController extends GetxController {
               int.parse(interval.substring(5, 7)),
             )
         ).inMinutes <= diff/2) {
-          log('This is interval $interval');
           if(UserStore.to.skipPills.any((pill) => pill['pillId'] == reminderList[pillIndex.value].uid && pill['pillInterval'] == interval && DateTime.parse(pill['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
 
           }else{
@@ -374,13 +363,12 @@ class HomepageController extends GetxController {
                       .inMinutes >=
                       -diff/2)) {
               } else {
-                log('Interval is : $interval');
                 if (int.parse(interval.substring(0, 2)) == 12) {
                   return '${interval.substring(0, 2)} : ${interval.substring(5, 7)} PM';
                 } else if (int.parse(interval.substring(0, 2)) > 12) {
                   int diff = int.parse(interval.substring(0, 2)) - 12;
                   if (diff > 9) {
-                    return '$diff : ${interval.substring(5, 7)} PM';
+                    return '$diff : ${interval.substring(5, 7)} ${(int.parse(interval.substring(0, 2)) - 12) == 12 ? 'AM' : 'PM'}';
                   } else {
                     return '0$diff : ${interval.substring(5, 7)} PM';
                   }
@@ -398,7 +386,7 @@ class HomepageController extends GetxController {
               } else if (int.parse(interval.substring(0, 2)) > 12) {
                 int diff = int.parse(interval.substring(0, 2)) - 12;
                 if (diff > 9) {
-                  return '$diff : ${interval.substring(5, 7)} PM';
+                  return '$diff : ${interval.substring(5, 7)} ${(int.parse(interval.substring(0, 2)) - 12) == 12 ? 'AM' : 'PM'}';
                 } else {
                   return '0$diff : ${interval.substring(5, 7)} PM';
                 }
@@ -421,7 +409,7 @@ class HomepageController extends GetxController {
     if(reminderList.isNotEmpty){
       for (var interval in reminderList[pillIndex.value].pillsInterval) {
         var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
-        var diff = 60;
+        var diff = 180;
         if(nextIndex < reminderList[pillIndex.value].pillsInterval.length){
           diff = DateTime(
             DateTime.now().year,
@@ -440,7 +428,7 @@ class HomepageController extends GetxController {
           ).inMinutes;
         }
         if(diff >= 180){
-          diff = 60;
+          diff = 180;
         }
         if (DateTime.now().difference(
             DateTime(
@@ -508,7 +496,6 @@ class HomepageController extends GetxController {
       } else {
         var hours = int.parse(checkDueTime().substring(0, 2));
         var minutes = int.parse(checkDueTime().substring(3, 5));
-        log('$hours : $minutes');
         var diff = DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes;
         log('This is difference: $diff');
         if (diff <= -30 && DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).isAfter(DateTime.now())) {
@@ -543,12 +530,20 @@ class HomepageController extends GetxController {
             if (index == null) {
               List<HistoryData> list = [];
               list.addAll(historyModel.historyData);
+              List<String> timeTaken = [];
+              List<String> status = [];
+              for(int i=0; i<reminderList[pillIndex.value].pillsInterval.indexOf('${checkDueTime().substring(0, 2)}HH:${checkDueTime().substring(3,5)}MM'); i++){
+                timeTaken.add('00HH:00MM');
+                status.add('M');
+              }
+              timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+              status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L');
               list.add(
                 HistoryData(
                   pillId: reminderList[pillIndex.value].uid,
                   timeToTake: reminderList[pillIndex.value].pillsInterval,
-                  timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
-                  med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
+                  timeTaken: timeTaken,
+                  med_status: status,
                 ),
               );
               historyModel = historyModel.copyWith(historyData: list);
@@ -568,6 +563,10 @@ class HomepageController extends GetxController {
                 list.addAll(historyModel.historyData);
                 tempStatus.addAll(historyDataTemp.med_status);
                 tempTimeTaken.addAll(historyDataTemp.timeTaken);
+                for(int i=tempTimeTaken.length; i<reminderList[pillIndex.value].pillsInterval.indexOf('${checkDueTime().substring(0, 2)}HH:${checkDueTime().substring(3,5)}MM'); i++){
+                  tempTimeTaken.add('00HH:00MM');
+                  tempStatus.add('M');
+                }
                 tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
                 tempStatus.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L',);
                 list[index] = HistoryData(
@@ -604,12 +603,20 @@ class HomepageController extends GetxController {
               }
             }
           } else {
+            List<String> timeTaken = [];
+            List<String> status = [];
+            for(int i=0; i<reminderList[pillIndex.value].pillsInterval.indexOf('${checkDueTime().substring(0, 2)}HH:${checkDueTime().substring(3,5)}MM'); i++){
+              timeTaken.add('00HH:00MM');
+              status.add('M');
+            }
+            timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+            status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L');
             HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
               HistoryData(
                 pillId: reminderList[pillIndex.value].uid,
                 timeToTake: reminderList[pillIndex.value].pillsInterval,
-                timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
-                med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
+                timeTaken: timeTaken,
+                med_status: status,
               ),
             ]);
             await FirebaseFireStore.to.uploadHistoryData(

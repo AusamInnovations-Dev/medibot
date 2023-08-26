@@ -107,16 +107,12 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<UserModel?> getUserByPhone(String phoneNumber) async {
-    log('Phone number: $phoneNumber');
     final doc = await fireStore
         .collection("Users")
         .where('phoneNumber', isEqualTo: phoneNumber.trim())
         .get();
-    log('This is the doc : ${doc.docs}');
     if (doc.docs.isNotEmpty) {
       UserModel userModel = UserModel.fromJson(doc.docs.first.data());
-      // await UserStore.to.saveProfile(userModel.uid);
-      log('THis is the user: $userModel');
       return userModel;
     } else {
       return null;
@@ -128,11 +124,8 @@ class FirebaseFireStore extends GetxController {
         .collection("Users")
         .where('email', isEqualTo: email.trim())
         .get();
-    log('This is the doc email: ${doc.docs}');
     if (doc.docs.isNotEmpty) {
       UserModel userModel = UserModel.fromJson(doc.docs.first.data());
-      // await UserStore.to.saveProfile(userModel.uid);
-      log('THis is the user: $userModel');
       return userModel;
     } else {
       return null;
@@ -206,23 +199,19 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<void> updatePillsData(PillsModel pillsModel) async {
-    log('hello in updating');
     await fireStore
         .collection('pillsReminder')
         .doc(pillsModel.uid)
         .update(pillsModel.toJson());
-    log('hello in updating');
   }
 
   Future<void> updateMedibotData(PillsModel pillsModel) async {
-    log('hello in updating');
     await fireStore
         .collection('medibot')
         .doc(UserStore.to.profile.medibotDetail)
         .collection('pillsReminder')
         .doc(pillsModel.uid)
         .update(pillsModel.toJson());
-    log('hello in updating');
   }
 
   Future<void> uploadHistoryData(

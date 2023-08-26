@@ -17,8 +17,6 @@ class ViewPillsController extends GetxController {
 
   calculateInterval() {
     pillIntervals.clear();
-    log(pill.first.pillsInterval.toString());
-
     for(var interval in pill.first.pillsInterval){
       if(interval.substring(0, 2) == '00' && interval.substring(5, 7) == '00'){
 

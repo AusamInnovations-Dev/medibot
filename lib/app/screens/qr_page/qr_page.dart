@@ -19,138 +19,139 @@ class Qrcode extends GetView<QrController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            CustomTextField(
-              text: "MediBot",
-              fontFamily: 'Sansation',
-              size: 34.sp,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
+            Container(
+              margin: EdgeInsets.only(right: 5.w, left: 10.w, top: 20.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomTextField(
+                    text: "MediBot",
+                    fontFamily: 'Sansation',
+                    size: 34.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                  SvgPicture.asset(
+                    "assets/images/cylinder.svg",
+                    height: 90.h,
+                  ),
+                ],
+              ),
             ),
-            SvgPicture.asset(
-              "assets/images/cylinder.svg",
-              height: 90.h,
-            ),
-          ],
-        ),
-        toolbarHeight: 80.h,
-      ),
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: CustomBox(
-            boxHeight: 370.h,
-            boxWidth: 264.w,
-            margin: const EdgeInsets.symmetric(horizontal: 48),
-            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
-            topRight: Radius.circular(17.r),
-            bottomLeft: Radius.circular(17.r),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 10.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 3.w),
-                        child: CustomTextField(
-                          size: 13.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          text: "Have a physical device? Scan QR",
-                        ),
-                      ),
-                      Obx(
-                        () => CustomBox(
-                          boxHeight: 200.h,
-                          boxWidth: 232.w,
-                          boxShadow: const [],
-                          body: controller.isScanning.value ?
-                          MobileScanner(
-                            onDetect: (BarcodeCapture barcodes) {
-                              var data = barcodes.raw;
-
-                              log('This is the qr code data : $data');
-                              controller.onScanQrCode(data);
-                            },
-                          ) : const Center(
-                            child: CircularProgressIndicator(
-                              color: Color(0xff041c50),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              alignment: Alignment.center,
+              child: CustomBox(
+                boxHeight: 370.h,
+                boxWidth: 264.w,
+                margin: const EdgeInsets.symmetric(horizontal: 48),
+                padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
+                topRight: Radius.circular(17.r),
+                bottomLeft: Radius.circular(17.r),
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(bottom: 3.w),
+                            child: CustomTextField(
+                              size: 13.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              text: "Have a physical device? Scan QR",
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                ForwardButton(
-                  width: 235.w,
-                  text: 'Continue',
-                  padding: EdgeInsets.symmetric(vertical: 8.w),
-                  iconSize: 18.h,
-                  onPressed: () async {
-                    // await controller.onScanQrCode();
-                  },
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await controller.onSkip();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(MediaQuery.of(context).size.width, 0),
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10.h,
-                      // horizontal: 100.w,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(17.r),
-                    ),
-                  ),
-                  child: Obx(
-                    () => !controller.uploadingData.value
-                        ? CustomTextField(
-                            text: "No thanks, Skip",
-                            fontFamily: 'Sansation',
-                            size: 13.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
+                          Obx(
+                            () => CustomBox(
+                              boxHeight: 200.h,
+                              boxWidth: 232.w,
+                              boxShadow: const [],
+                              body: controller.isScanning.value ?
+                              MobileScanner(
+                                onDetect: (BarcodeCapture barcodes) {
+                                  var data = barcodes.raw;
+                                  controller.onScanQrCode(data);
+                                },
+                              ) : const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color(0xff041c50),
+                                ),
+                              ),
+                            ),
                           )
-                        : Container(
-                            alignment: Alignment.center,
-                            height: 13.h,
-                            width: 13.h,
-                            child: const CircularProgressIndicator(),
-                          ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 7),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.toNamed(RoutePaths.createUser);
-                    },
-                    child: Text(
-                      "Purchase Device",
-                      style: TextStyle(
-                        fontFamily: 'Sansation',
-                        fontSize: 13.sp,
-                        decoration: TextDecoration.underline,
+                        ],
                       ),
                     ),
-                  ),
-                )
-              ],
+                    ForwardButton(
+                      width: 235.w,
+                      text: 'Continue',
+                      padding: EdgeInsets.symmetric(vertical: 8.w),
+                      iconSize: 18.h,
+                      onPressed: () async {
+                        // await controller.onScanQrCode();
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await controller.onSkip();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(MediaQuery.of(context).size.width, 0),
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          // horizontal: 100.w,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(17.r),
+                        ),
+                      ),
+                      child: Obx(
+                        () => !controller.uploadingData.value
+                            ? CustomTextField(
+                                text: "No thanks, Skip",
+                                fontFamily: 'Sansation',
+                                size: 13.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                height: 13.h,
+                                width: 13.h,
+                                child: const CircularProgressIndicator(),
+                              ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 7),
+                      child: GestureDetector(
+                        // onTap: () {
+                        //   Get.toNamed(RoutePaths.createUser);
+                        // },
+                        child: Text(
+                          "Purchase Device",
+                          style: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 13.sp,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
       bottomNavigationBar: Row(

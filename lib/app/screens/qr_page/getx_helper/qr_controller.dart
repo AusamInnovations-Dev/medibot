@@ -26,7 +26,7 @@ class QrController extends GetxController {
           uploadingData.value = false;
           Get.snackbar(
             "MediBot",
-            "Some error occurred",
+            "Please make sure that your wifi is turned on",
             icon: const Icon(
               Icons.crisis_alert_outlined,
               color: Colors.black,

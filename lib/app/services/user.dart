@@ -70,7 +70,6 @@ class UserStore extends GetxController {
     if(availableUsers.isNotEmpty){
       users.addAll(availableUsers);
     }
-    log('This is the available users list: $users');
   }
 
   Future<void> addUsers(uid) async {
@@ -100,7 +99,6 @@ class UserStore extends GetxController {
       if (uid.isNotEmpty) {
         _profile(await FirebaseFireStore.to.getUser(uid));
       }
-      log('user data: $_profile');
       _isLogin.value = true;
       if(Get.currentRoute != RoutePaths.splashScreen && profile.userStatus == AuthStatus.newUser ){
         Get.offAllNamed(RoutePaths.userInformation);
@@ -115,7 +113,6 @@ class UserStore extends GetxController {
     await StorageService.to.setString(userIdKey, profile);
     await getProfile();
     uid = profile;
-    log("data is saved: ${_profile.value}");
   }
 
   Future<void> onLogout() async {

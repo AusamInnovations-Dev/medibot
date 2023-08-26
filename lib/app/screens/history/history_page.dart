@@ -25,7 +25,7 @@ class HistoryPage extends GetView<HistoryController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomTextField(
-                      text: "History",
+                      text: "Adherence Report",
                       fontFamily: 'Sansation',
                       size: 23.sp,
                       fontWeight: FontWeight.w700,
@@ -261,7 +261,7 @@ class HistoryPage extends GetView<HistoryController> {
                           ),
                           child: CustomTextField(
                             fontWeight: FontWeight.bold,
-                            text: "Export as PDF",
+                            text: "Download report as PDF",
                             color: Colors.black,
                             size: 13.sp,
                           ),

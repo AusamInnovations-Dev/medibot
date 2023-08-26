@@ -25,9 +25,7 @@ class SampleMedicine {
     'Mg',
     'Table Spoon',
     'Tea Spoon',
-    'Others',
     'Drops',
-    'Capsule',
     'ml',
   ];
 
@@ -40,5 +38,5 @@ class SampleMedicine {
     '45 M',
   ];
 
-  static List<String> medicineCategory = ['Tablet', 'Syrup', 'Eye Drop', 'Ointment', 'Injection'];
+  static List<String> medicineCategory = ['Tablet', 'Syrup', 'Eye Drop', 'Ointment', 'Injection', 'Capsule', 'Others'];
 }

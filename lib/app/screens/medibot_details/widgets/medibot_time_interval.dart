@@ -303,7 +303,6 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
                                   Theme.of(context).colorScheme.primary,
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
-                                log('hello');
                                 controller.timeIntervals[index]['minute'] =
                                     value;
                                 controller.pillsTime[index] = TimeOfDay(

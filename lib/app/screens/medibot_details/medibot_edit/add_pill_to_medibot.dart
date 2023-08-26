@@ -35,21 +35,86 @@ class AddPill extends GetView<AddMedibotPill> {
           );
         }else{
           if(controller.durationDates.isNotEmpty){
-            if (await controller.uploadMedibotPills()) {
-              Get.back();
-              Get.snackbar(
-                "Pills Reminder",
-                "Pills is added to your Medibot.",
-                icon: const Icon(
-                  Icons.check_sharp,
-                  color: Colors.black,
+            showDialog(
+              context: Get.context!,
+              barrierDismissible: false,
+              traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+              builder: (context) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: const Color(0xffA9CBFF),
-                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-                colorText: Colors.black,
-              );
-            }
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                contentPadding: EdgeInsets.zero,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 180.w,
+                      child: CustomTextField(
+                        text: "Are you sure you want to add this reminder",
+                        fontFamily: 'Sansation',
+                        size: 15.sp,
+                        maxLines: 2,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13.h,
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: CustomTextField(
+                            text: "No",
+                            fontFamily: 'Sansation',
+                            size: 13.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                        SizedBox(width: 20.w),
+                        GestureDetector(
+                          onTap: () async {
+                            Get.back();
+                            if (await controller.uploadMedibotPills()) {
+                              Get.back();
+                              Get.snackbar(
+                                "Pills Reminder",
+                                "Pills is added to your Medibot.",
+                                icon: const Icon(
+                                  Icons.check_sharp,
+                                  color: Colors.black,
+                                ),
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: const Color(0xffA9CBFF),
+                                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                                colorText: Colors.black,
+                              );
+                            }
+                          },
+                          child: CustomTextField(
+                            text: "Yes",
+                            fontFamily: 'Sansation',
+                            size: 13.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
           } else {
             Get.snackbar(
               "Pills Reminder",
@@ -218,8 +283,8 @@ class AddPill extends GetView<AddMedibotPill> {
                         controller.pillName.text = suggestion as String;
                       },
                       suggestionsCallback: (String pattern) {
-                        return SampleMedicine.sampleMedicines
-                            .where((element) => element.startsWith(pattern));
+                        return SampleMedicine.sampleMedicines.where((element) => element.toLowerCase().startsWith(pattern.toLowerCase()));
+
                       },
                     ),
                   ),

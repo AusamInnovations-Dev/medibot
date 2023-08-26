@@ -75,7 +75,7 @@ class ScreenDecoration extends StatelessWidget {
                     iconSize: 22.h,
                     onPressed: onbottomButtonPressed ??
                         () {
-                          log('Hello');
+
                         },
                   ),
                 )

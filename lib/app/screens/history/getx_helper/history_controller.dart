@@ -53,7 +53,6 @@ class HistoryController extends GetxController {
     }
     if (history != null) {
       for (var history in history.docs) {
-        log(history.data().toString());
         historyList.add(HistoryModel.fromJson(history.data()));
       }
     }
@@ -82,12 +81,9 @@ class HistoryController extends GetxController {
               if (date.isAfter(DateTime(DateTime.now().year,
                   DateTime.now().month, DateTime.now().day))) {
                 upComingDosage.value += reminder.pillsInterval.length;
-                log('upcoming in individuals : ${reminder.pillsInterval.length}');
-                log('Total upcoming : ${upComingDosage.value}');
               }
             }
           } else {
-            log('Else part');
             DateTime date1 = DateTime.parse(reminder.pillsDuration.first);
             DateTime date2 = DateTime.parse(reminder.pillsDuration.last);
             totalPillsDosage.value += reminder.pillsInterval.length *
@@ -305,7 +301,7 @@ class HistoryController extends GetxController {
             DateTime.now().day,
             int.parse(interval.substring(0, 2)),
             int.parse(interval.substring(5, 7))))) {
-          log(interval);
+          log('This is the reminders of today: $interval and pill : ${reminder.pillName}');
           todayRemainingPills.value++;
         }
       }
@@ -313,12 +309,12 @@ class HistoryController extends GetxController {
 
     for (var history in historyList) {
       for (var pill in history.historyData) {
-        totalTakenPillsDosage.value += pill.timeTaken.length;
+        totalTakenPillsDosage.value += pill.med_status.where((element) => element == 'Y' || element == 'L').length;
       }
-      log(history.userId.substring(0, 4));
-      log(history.userId.substring(5, 7));
-      log(history.userId.substring(8, 10));
     }
+
+    log('This is the taken count : ${totalTakenPillsDosage.value}');
+    log('This is the remaining count: ${todayRemainingPills.value}');
   }
 
   Future<void> saveAndLaunchFile(bytes) async {
@@ -375,9 +371,7 @@ class HistoryController extends GetxController {
   }
 
   void checkAndRequestStoragePermission(xFile) async {
-    log('Checking permsiion');
     if (await Permission.storage.request().isGranted) {
-      log('Permission granted');
       Share.shareFiles([xFile]);
     } else {}
   }
