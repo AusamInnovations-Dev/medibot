@@ -221,7 +221,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                   children: [
                     CustomTextField(
                       fontWeight: FontWeight.w700,
-                      text: "Quantity",
+                      text: "Stock",
                       color: Colors.black,
                       size: 15.sp,
                       textAlign: TextAlign.start,

@@ -416,7 +416,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                   children: [
                     CustomTextField(
                       fontWeight: FontWeight.w400,
-                      text: "Quantity *",
+                      text: "Stock *",
                       color: Colors.black,
                       size: 15.sp,
                       textAlign: TextAlign.start,

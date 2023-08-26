@@ -91,7 +91,7 @@ class HistoryDetailsController extends GetxController {
           if(history != null){
             for(int i=0; i<reminder.pillsInterval.length; i++){
               if(i < history.timeTaken.length){
-                if(history.timeTaken[i].hour < 12){
+                if(int.parse(history.timeTaken[i].substring(0,2)) < 12){
                   if(!isUpcoming.value){
                     morning.add(
                         {
@@ -107,7 +107,7 @@ class HistoryDetailsController extends GetxController {
                         }
                     );
                   }
-                }else if(history.timeTaken[i].hour >= 12 && history.timeTaken[i].hour < 16){
+                }else if(int.parse(history.timeTaken[i].substring(0,2)) >= 12 && int.parse(history.timeTaken[i].substring(0,2)) < 16){
                   if(!isUpcoming.value){
                     afternoon.add(
                         {
@@ -123,7 +123,7 @@ class HistoryDetailsController extends GetxController {
                         }
                     );
                   }
-                }else if(history.timeTaken[i].hour >= 16 && history.timeTaken[i].hour <=19){
+                }else if(int.parse(history.timeTaken[i].substring(0,2)) >= 16 && int.parse(history.timeTaken[i].substring(0,2)) <=19){
                   if(!isUpcoming.value){
                     evening.add(
                         {
@@ -257,7 +257,7 @@ class HistoryDetailsController extends GetxController {
           }else{
             for(int i=0; i<reminder.pillsInterval.length; i++){
               if(i < history.timeTaken.length){
-                if(history.timeTaken[i].hour < 12){
+                if(int.parse(history.timeTaken[i].substring(0,2)) < 12){
                   if(!isUpcoming.value){
                     morning.add(
                         {
@@ -273,7 +273,7 @@ class HistoryDetailsController extends GetxController {
                         }
                     );
                   }
-                }else if(history.timeTaken[i].hour >= 12 && history.timeTaken[i].hour < 16){
+                }else if(int.parse(history.timeTaken[i].substring(0,2)) >= 12 && int.parse(history.timeTaken[i].substring(0,2)) < 16){
                   if(!isUpcoming.value){
                     afternoon.add(
                         {
@@ -289,7 +289,7 @@ class HistoryDetailsController extends GetxController {
                         }
                     );
                   }
-                }else if(history.timeTaken[i].hour >= 16 && history.timeTaken[i].hour <=19){
+                }else if(int.parse(history.timeTaken[i].substring(0,2)) >= 16 && int.parse(history.timeTaken[i].substring(0,2)) <=19){
                   if(!isUpcoming.value){
                     evening.add(
                         {

@@ -167,9 +167,6 @@ class   MedibotController extends GetxController {
   }
 
   modifySlotPill(pill) {
-
-    //TODO: Have to do some modifications in the edit part of the Medibot pills after confirming with the client
-
     switch(pill['slot']) {
       case 1:
         int changeIndex = slot1.indexWhere((element) => element.uid == pill['uid']);
@@ -289,6 +286,35 @@ class   MedibotController extends GetxController {
           pillsQuantity: modifiedRemainder.pillsQuantity,
           request: modifiedRemainder.request,
         );
+        break;
+    }
+  }
+
+  Future<void> deletePill(String uid, int index, int slot) async {
+    await FirebaseFireStore.to.deletePill(uid);
+    switch(slot){
+      case 1:
+        slot1.removeAt(index);
+        break;
+
+      case 2:
+        slot2.removeAt(index);
+        break;
+
+      case 3:
+        slot3.removeAt(index);
+        break;
+
+      case 4:
+        slot4.removeAt(index);
+        break;
+
+      case 5:
+        slot5.removeAt(index);
+        break;
+
+      case 6:
+        slot6.removeAt(index);
         break;
     }
   }

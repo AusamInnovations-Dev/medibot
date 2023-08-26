@@ -128,7 +128,7 @@ class AddMedibotPill extends GetxController {
     timeIntervals.add({
       'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
       'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-      'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+      'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
     });
   }
 
@@ -143,7 +143,7 @@ class AddMedibotPill extends GetxController {
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
           'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
         });
         if(pillsTime.last.hour+1 >= 24){
           increasePossible.value = false;
@@ -160,7 +160,7 @@ class AddMedibotPill extends GetxController {
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
           'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
         });
         if(pillsTime.last.hour+2 >= 24){
           increasePossible.value = false;
@@ -178,7 +178,7 @@ class AddMedibotPill extends GetxController {
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
           'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
         });
         if(pillsTime.last.hour+3 >= 24){
           increasePossible.value = false;
@@ -196,7 +196,7 @@ class AddMedibotPill extends GetxController {
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
           'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
         });
         if(pillsTime.last.hour+4 >= 24){
           increasePossible.value = false;
@@ -215,7 +215,7 @@ class AddMedibotPill extends GetxController {
         timeIntervals.add({
           'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
           'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.last.hour >= 12 ? 'PM' : 'AM'
+          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
         });
         if(pillsTime.last.hour+6 >= 24){
           increasePossible.value = false;
@@ -243,7 +243,7 @@ class AddMedibotPill extends GetxController {
       var hour = interval['hour'] as String;
       var minute = interval['minute'] as String;
       intervalsInString.add(
-          '${interval['period'] == 'AM' ? hour.substring(0,2) : int.parse(hour.substring(0,2)) == 12 ? hour.substring(0,2) :  int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM'
+          '${interval['period'] == 'AM' ? hour.substring(0,2) == '12' ? int.parse(hour.substring(0,2))+12 : hour.substring(0,2) : int.parse(hour.substring(0,2)) == 12 ? hour.substring(0,2) :  int.parse(hour.substring(0,2)) + 12}HH:${minute.substring(0,2)}MM'
       );
     }
 

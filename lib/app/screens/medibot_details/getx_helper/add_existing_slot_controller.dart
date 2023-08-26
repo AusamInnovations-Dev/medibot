@@ -38,7 +38,7 @@ class AddExistingSlotController extends GetxController {
           {
             'hour': '${int.parse(interval.substring(0, 2)) >= 12 ? (int.parse(interval.substring(0, 2)) - 12) <= 9 ? '0${int.parse(interval.substring(0, 2)) - 12}' : int.parse(interval.substring(0, 2)) - 12 : interval.substring(0, 2)} H',
             'minute': '${interval.substring(5, 7)} M',
-            'period': int.parse(interval.substring(0, 2)) >= 12 ? "PM" : "AM",
+            'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
           },
         );
       }

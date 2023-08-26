@@ -382,4 +382,13 @@ class FirebaseFireStore extends GetxController {
         .set({'ssId' : 'ssId', 'password' : 'password'});
     return await fireStore.collection('medibot').doc(docId).get();
   }
+
+  Future<void> deletePill(String uid) async {
+    await fireStore
+        .collection('medibot')
+        .doc(UserStore.to.profile.medibotDetail)
+        .collection('pillsReminder')
+        .doc(uid)
+        .update({'userId': ''});
+  }
 }

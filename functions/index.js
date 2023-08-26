@@ -62,7 +62,6 @@ exports.uploadHistoryData = functions.https.onRequest(async (req, res) => {
         for (let i in pill.docs) {
             let reminder = pill.docs[i].data();
             let userId = pill.docs[i].data();
-
             var todayHistory = await db.collection('History').doc(userId['userId']).collection('history_data').doc(docId).get();
             if (todayHistory.exists) {
                 console.log('Adding existing');

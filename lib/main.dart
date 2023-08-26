@@ -76,7 +76,7 @@ void main() async {
                 pillId: pill.uid,
                 timeToTake: pill.pillsInterval,
                 med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
-                timeTaken: [DateTime.now()],
+                timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
               ),
             );
             historyModel = historyModel.copyWith(historyData: list);
@@ -87,13 +87,13 @@ void main() async {
           } else {
             if (historyData.timeTaken.length < historyData.timeToTake.length) {
               HistoryData historyDataTemp = historyData;
-              List<DateTime> tempTimeTaken = [];
+              List<String> tempTimeTaken = [];
               List<HistoryData> list = [];
               List<String> tempStatus = [];
               tempStatus.addAll(historyDataTemp.med_status);
               list.addAll(historyModel.historyData);
               tempTimeTaken.addAll(historyDataTemp.timeTaken);
-              tempTimeTaken.add(DateTime.now());
+              tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
               tempStatus.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L',);
               list[index] = HistoryData(
                 pillId: historyModel.historyData[index].pillId,
@@ -116,7 +116,7 @@ void main() async {
             HistoryData(
               pillId: pill.uid,
               timeToTake: pill.pillsInterval,
-              timeTaken: [DateTime.now()],
+              timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
               med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
             ),
           ]);

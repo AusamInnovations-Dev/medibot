@@ -592,7 +592,7 @@ class HistoryController extends GetxController {
               }
             }
             if (history != null) {
-              var list = history.timeTaken.map((e) => DateFormat('hh:mm a').format(e));
+              var list = history.timeTaken.map((e) => DateFormat('hh:mm a').format(DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day, int.parse(e.substring(0,2)),  int.parse(e.substring(5,7)))));
               row = grid.rows.add();
               row.cells[0].value = 'Slot';
               row.cells[1].value = '${reminder.slot}';

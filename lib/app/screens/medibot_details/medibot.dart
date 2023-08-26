@@ -109,8 +109,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                               Get.toNamed(
                                                 RoutePaths.addPillInExistingSlot,
                                                 arguments: {
-                                                  'pillModel':
-                                                      controller.slot1.first,
+                                                  'pillModel': controller.slot1.first,
                                                 },
                                               );
                                             },
@@ -197,25 +196,110 @@ class MedibotDetail extends GetView<MedibotController> {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    CustomTextField(
-                                                      fontWeight: FontWeight.w400,
-                                                      size: 17.sp,
-                                                      text: 'Medicine Type: ',
-                                                      color: Colors.black,
-                                                      maxLines: 1,
+                                                    Row(
+                                                      children: [
+                                                        CustomTextField(
+                                                          fontWeight: FontWeight.w400,
+                                                          size: 17.sp,
+                                                          text: 'Medicine Type: ',
+                                                          color: Colors.black,
+                                                          maxLines: 1,
+                                                        ),
+                                                        Container(
+                                                          constraints: BoxConstraints(
+                                                              maxWidth: 120.w,
+                                                              minWidth: 10.w
+                                                          ),
+                                                          child: CustomTextField(
+                                                            fontWeight: FontWeight.w400,
+                                                            size: 17.sp,
+                                                            text: controller.slot1[index].medicineCategory,
+                                                            color: Colors.black,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    Container(
-                                                      constraints: BoxConstraints(
-                                                          maxWidth: 200.w,
-                                                          minWidth: 10.w
-                                                      ),
-                                                      child: CustomTextField(
-                                                        fontWeight: FontWeight.w400,
-                                                        size: 17.sp,
-                                                        text: controller.slot1[index].medicineCategory,
-                                                        color: Colors.black,
-                                                        maxLines: 1,
-                                                      ),
+                                                    IconButton(
+                                                      color: Colors.red,
+                                                      onPressed: () {
+                                                        showDialog(
+                                                          context: Get.context!,
+                                                          barrierDismissible: false,
+                                                          traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                                                          builder: (context) => WillPopScope(
+                                                            onWillPop: () async => false,
+                                                            child: Obx(
+                                                                  () => AlertDialog(
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.r),
+                                                                ),
+                                                                backgroundColor: Theme.of(context).colorScheme.primary,
+                                                                contentPadding: EdgeInsets.zero,
+                                                                title: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  mainAxisSize: MainAxisSize.min,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width: 180.w,
+                                                                      child: CustomTextField(
+                                                                        text: "Do you want to remove ${controller.slot1[index].pillName}",
+                                                                        fontFamily: 'Sansation',
+                                                                        size: 15.sp,
+                                                                        maxLines: 2,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 13.h,
+                                                                    ),
+
+                                                                    Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                                      children: [
+                                                                        GestureDetector(
+                                                                          onTap: () {
+                                                                            Get.back();
+                                                                          },
+                                                                          child: CustomTextField(
+                                                                            text: "No",
+                                                                            fontFamily: 'Sansation',
+                                                                            size: 13.sp,
+                                                                            fontWeight: FontWeight.w400,
+                                                                            color: Colors.black,
+                                                                            overflow: TextOverflow.visible,
+                                                                          ),
+                                                                        ),
+                                                                        SizedBox(width: 20.w),
+                                                                        GestureDetector(
+                                                                          onTap: (){
+                                                                            controller.deletePill(controller.slot1[index].uid, index, 1);
+                                                                            Get.back();
+                                                                          },
+                                                                          child: CustomTextField(
+                                                                            text: "Yes",
+                                                                            fontFamily: 'Sansation',
+                                                                            size: 13.sp,
+                                                                            fontWeight: FontWeight.w400,
+                                                                            color: Colors.black,
+                                                                            overflow: TextOverflow.visible,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.delete,
+                                                        // color: Colors.white,
+                                                        size: 20.h,
+                                                      )
                                                     ),
                                                   ],
                                                 ),
@@ -414,24 +498,108 @@ class MedibotDetail extends GetView<MedibotController> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CustomTextField(
-                                                fontWeight: FontWeight.w400,
-                                                size: 17.sp,
-                                                text: 'Medicine Type: ',
-                                                color: Colors.black,
-                                                maxLines: 1,
+                                              Row(
+                                                children: [
+                                                  CustomTextField(
+                                                    fontWeight: FontWeight.w400,
+                                                    size: 17.sp,
+                                                    text: 'Medicine Type: ',
+                                                    color: Colors.black,
+                                                    maxLines: 1,
+                                                  ),
+                                                  Container(
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: 120.w,
+                                                        minWidth: 10.w
+                                                    ),
+                                                    child: CustomTextField(
+                                                      fontWeight: FontWeight.w400,
+                                                      size: 17.sp,
+                                                      text: controller.slot2[index].medicineCategory,
+                                                      color: Colors.black,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 200.w,
-                                                    minWidth: 10.w
-                                                ),
-                                                child: CustomTextField(
-                                                  fontWeight: FontWeight.w400,
-                                                  size: 17.sp,
-                                                  text: controller.slot2[index].medicineCategory,
-                                                  color: Colors.black,
-                                                  maxLines: 1,
+                                              IconButton(
+                                                color: Colors.red,
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: Get.context!,
+                                                    barrierDismissible: false,
+                                                    traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                                                    builder: (context) => WillPopScope(
+                                                      onWillPop: () async => false,
+                                                      child: Obx(
+                                                            () => AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(20.r),
+                                                          ),
+                                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                                          contentPadding: EdgeInsets.zero,
+                                                          title: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: CustomTextField(
+                                                                  text: "Do you want to remove ${controller.slot2[index].pillName}",
+                                                                  fontFamily: 'Sansation',
+                                                                  size: 15.sp,
+                                                                  maxLines: 2,
+                                                                  fontWeight: FontWeight.w600,
+                                                                  color: Colors.black,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 13.h,
+                                                              ),
+
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "No",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 20.w),
+                                                                  GestureDetector(
+                                                                    onTap: (){
+                                                                      controller.deletePill(controller.slot2[index].uid, index, 2);
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "Yes",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 20.h,
                                                 ),
                                               ),
                                             ],
@@ -631,24 +799,107 @@ class MedibotDetail extends GetView<MedibotController> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CustomTextField(
-                                                fontWeight: FontWeight.w400,
-                                                size: 17.sp,
-                                                text: 'Medicine Type: ',
-                                                color: Colors.black,
-                                                maxLines: 1,
+                                              Row(
+                                                children: [
+                                                  CustomTextField(
+                                                    fontWeight: FontWeight.w400,
+                                                    size: 17.sp,
+                                                    text: 'Medicine Type: ',
+                                                    color: Colors.black,
+                                                    maxLines: 1,
+                                                  ),
+                                                  Container(
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: 120.w,
+                                                        minWidth: 10.w
+                                                    ),
+                                                    child: CustomTextField(
+                                                      fontWeight: FontWeight.w400,
+                                                      size: 17.sp,
+                                                      text: controller.slot3[index].medicineCategory,
+                                                      color: Colors.black,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 200.w,
-                                                    minWidth: 10.w
-                                                ),
-                                                child: CustomTextField(
-                                                  fontWeight: FontWeight.w400,
-                                                  size: 17.sp,
-                                                  text: controller.slot3[index].medicineCategory,
-                                                  color: Colors.black,
-                                                  maxLines: 1,
+                                              IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: Get.context!,
+                                                    barrierDismissible: false,
+                                                    traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                                                    builder: (context) => WillPopScope(
+                                                      onWillPop: () async => false,
+                                                      child: Obx(
+                                                            () => AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(20.r),
+                                                          ),
+                                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                                          contentPadding: EdgeInsets.zero,
+                                                          title: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: CustomTextField(
+                                                                  text: "Do you want to remove ${controller.slot3[index].pillName}",
+                                                                  fontFamily: 'Sansation',
+                                                                  size: 15.sp,
+                                                                  maxLines: 2,
+                                                                  fontWeight: FontWeight.w600,
+                                                                  color: Colors.black,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 13.h,
+                                                              ),
+
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "No",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 20.w),
+                                                                  GestureDetector(
+                                                                    onTap: (){
+                                                                      controller.deletePill(controller.slot3[index].uid, index, 3);
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "Yes",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 20.h,
                                                 ),
                                               ),
                                             ],
@@ -848,24 +1099,107 @@ class MedibotDetail extends GetView<MedibotController> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CustomTextField(
-                                                fontWeight: FontWeight.w400,
-                                                size: 17.sp,
-                                                text: 'Medicine Type: ',
-                                                color: Colors.black,
-                                                maxLines: 1,
+                                              Row(
+                                                children: [
+                                                  CustomTextField(
+                                                    fontWeight: FontWeight.w400,
+                                                    size: 17.sp,
+                                                    text: 'Medicine Type: ',
+                                                    color: Colors.black,
+                                                    maxLines: 1,
+                                                  ),
+                                                  Container(
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: 120.w,
+                                                        minWidth: 10.w
+                                                    ),
+                                                    child: CustomTextField(
+                                                      fontWeight: FontWeight.w400,
+                                                      size: 17.sp,
+                                                      text: controller.slot4[index].medicineCategory,
+                                                      color: Colors.black,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 200.w,
-                                                    minWidth: 10.w
-                                                ),
-                                                child: CustomTextField(
-                                                  fontWeight: FontWeight.w400,
-                                                  size: 17.sp,
-                                                  text: controller.slot4[index].medicineCategory,
-                                                  color: Colors.black,
-                                                  maxLines: 1,
+                                              IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: Get.context!,
+                                                    barrierDismissible: false,
+                                                    traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                                                    builder: (context) => WillPopScope(
+                                                      onWillPop: () async => false,
+                                                      child: Obx(
+                                                            () => AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(20.r),
+                                                          ),
+                                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                                          contentPadding: EdgeInsets.zero,
+                                                          title: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: CustomTextField(
+                                                                  text: "Do you want to remove ${controller.slot4[index].pillName}",
+                                                                  fontFamily: 'Sansation',
+                                                                  size: 15.sp,
+                                                                  maxLines: 2,
+                                                                  fontWeight: FontWeight.w600,
+                                                                  color: Colors.black,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 13.h,
+                                                              ),
+
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "No",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 20.w),
+                                                                  GestureDetector(
+                                                                    onTap: (){
+                                                                      controller.deletePill(controller.slot4[index].uid, index, 4);
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "Yes",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 20.h,
                                                 ),
                                               ),
                                             ],
@@ -1065,24 +1399,107 @@ class MedibotDetail extends GetView<MedibotController> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CustomTextField(
-                                                fontWeight: FontWeight.w400,
-                                                size: 17.sp,
-                                                text: 'Medicine Type: ',
-                                                color: Colors.black,
-                                                maxLines: 1,
+                                              Row(
+                                                children: [
+                                                  CustomTextField(
+                                                    fontWeight: FontWeight.w400,
+                                                    size: 17.sp,
+                                                    text: 'Medicine Type: ',
+                                                    color: Colors.black,
+                                                    maxLines: 1,
+                                                  ),
+                                                  Container(
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: 120.w,
+                                                        minWidth: 10.w
+                                                    ),
+                                                    child: CustomTextField(
+                                                      fontWeight: FontWeight.w400,
+                                                      size: 17.sp,
+                                                      text: controller.slot5[index].medicineCategory,
+                                                      color: Colors.black,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 200.w,
-                                                    minWidth: 10.w
-                                                ),
-                                                child: CustomTextField(
-                                                  fontWeight: FontWeight.w400,
-                                                  size: 17.sp,
-                                                  text: controller.slot5[index].medicineCategory,
-                                                  color: Colors.black,
-                                                  maxLines: 1,
+                                              IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: Get.context!,
+                                                    barrierDismissible: false,
+                                                    traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                                                    builder: (context) => WillPopScope(
+                                                      onWillPop: () async => false,
+                                                      child: Obx(
+                                                            () => AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(20.r),
+                                                          ),
+                                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                                          contentPadding: EdgeInsets.zero,
+                                                          title: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: CustomTextField(
+                                                                  text: "Do you want to remove ${controller.slot5[index].pillName}",
+                                                                  fontFamily: 'Sansation',
+                                                                  size: 15.sp,
+                                                                  maxLines: 2,
+                                                                  fontWeight: FontWeight.w600,
+                                                                  color: Colors.black,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 13.h,
+                                                              ),
+
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "No",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 20.w),
+                                                                  GestureDetector(
+                                                                    onTap: (){
+                                                                      controller.deletePill(controller.slot5[index].uid, index, 5);
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "Yes",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 20.h,
                                                 ),
                                               ),
                                             ],
@@ -1282,24 +1699,107 @@ class MedibotDetail extends GetView<MedibotController> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CustomTextField(
-                                                fontWeight: FontWeight.w400,
-                                                size: 17.sp,
-                                                text: 'Medicine Type: ',
-                                                color: Colors.black,
-                                                maxLines: 1,
+                                              Row(
+                                                children: [
+                                                  CustomTextField(
+                                                    fontWeight: FontWeight.w400,
+                                                    size: 17.sp,
+                                                    text: 'Medicine Type: ',
+                                                    color: Colors.black,
+                                                    maxLines: 1,
+                                                  ),
+                                                  Container(
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: 120.w,
+                                                        minWidth: 10.w
+                                                    ),
+                                                    child: CustomTextField(
+                                                      fontWeight: FontWeight.w400,
+                                                      size: 17.sp,
+                                                      text: controller.slot6[index].medicineCategory,
+                                                      color: Colors.black,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 200.w,
-                                                    minWidth: 10.w
-                                                ),
-                                                child: CustomTextField(
-                                                  fontWeight: FontWeight.w400,
-                                                  size: 17.sp,
-                                                  text: controller.slot6[index].medicineCategory,
-                                                  color: Colors.black,
-                                                  maxLines: 1,
+                                              IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: Get.context!,
+                                                    barrierDismissible: false,
+                                                    traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                                                    builder: (context) => WillPopScope(
+                                                      onWillPop: () async => false,
+                                                      child: Obx(
+                                                            () => AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(20.r),
+                                                          ),
+                                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                                          contentPadding: EdgeInsets.zero,
+                                                          title: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: CustomTextField(
+                                                                  text: "Do you want to remove ${controller.slot6[index].pillName}",
+                                                                  fontFamily: 'Sansation',
+                                                                  size: 15.sp,
+                                                                  maxLines: 2,
+                                                                  fontWeight: FontWeight.w600,
+                                                                  color: Colors.black,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 13.h,
+                                                              ),
+
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "No",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 20.w),
+                                                                  GestureDetector(
+                                                                    onTap: (){
+                                                                      controller.deletePill(controller.slot6[index].uid, index, 6);
+                                                                      Get.back();
+                                                                    },
+                                                                    child: CustomTextField(
+                                                                      text: "Yes",
+                                                                      fontFamily: 'Sansation',
+                                                                      size: 13.sp,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      color: Colors.black,
+                                                                      overflow: TextOverflow.visible,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 20.h,
                                                 ),
                                               ),
                                             ],

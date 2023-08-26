@@ -422,7 +422,7 @@ class AddPill extends GetView<AddMedibotPill> {
                     children: [
                       CustomTextField(
                         fontWeight: FontWeight.w400,
-                        text: "Total Number of Tablets *",
+                        text: "Stock *",
                         color: Colors.black,
                         size: 15.sp,
                         textAlign: TextAlign.start,

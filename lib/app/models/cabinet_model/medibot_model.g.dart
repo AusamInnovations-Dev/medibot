@@ -11,7 +11,7 @@ _$_MedibotModel _$$_MedibotModelFromJson(Map<String, dynamic> json) =>
       uid: json['uid'] as String,
       pillName: json['pillName'] as String,
       interval:
-          (json['interval'] as List<dynamic>).map((e) => e as String).toList(),
+      (json['interval'] as List<dynamic>).map((e) => e as String).toList(),
       remainingPills: json['remainingPills'] as int,
       remainingDays: json['remainingDays'] as int,
     );

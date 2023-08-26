@@ -304,21 +304,8 @@ class HomepageController extends GetxController {
     if (historyList.isEmpty || historyList[pillIndex.value].timeTaken.isEmpty) {
       return false;
     }
-    for (var time in historyList[pillIndex.value].timeToTake) {
-      var date = DateTime(
-          DateTime.now().year,
-          DateTime.now().month,
-          DateTime.now().day,
-          int.parse(time.substring(0, 2)),
-          int.parse(time.substring(5, 7)));
-      var diff = historyList[pillIndex.value]
-          .timeTaken
-          .last
-          .difference(date)
-          .inMinutes;
-      if (diff >= -30 && diff <= 30) {
-        return true;
-      }
+    if (historyList[pillIndex.value].med_status.last == 'Y') {
+      return true;
     }
     return false;
   }
@@ -366,7 +353,8 @@ class HomepageController extends GetxController {
 
           }else{
             if (historyList.isNotEmpty) {
-              if (historyList[pillIndex.value].timeTaken.any((element) =>
+              List<DateTime> timeTaken = historyList[pillIndex.value].timeTaken.map((e) => DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day, int.parse(e.substring(0,2)),  int.parse(e.substring(5,7)))).toList();
+              if (timeTaken.any((element) =>
               element
                   .difference(DateTime(
                   DateTime.now().year,
@@ -467,7 +455,8 @@ class HomepageController extends GetxController {
 
           }else{
             if (historyList.isNotEmpty) {
-              if (historyList[pillIndex.value].timeTaken.any((element) =>
+              List<DateTime> timeTaken = historyList[pillIndex.value].timeTaken.map((e) => DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day, int.parse(e.substring(0,2)),  int.parse(e.substring(5,7)))).toList();
+              if (timeTaken.any((element) =>
               element
                   .difference(DateTime(
                   DateTime.now().year,
@@ -558,7 +547,7 @@ class HomepageController extends GetxController {
                 HistoryData(
                   pillId: reminderList[pillIndex.value].uid,
                   timeToTake: reminderList[pillIndex.value].pillsInterval,
-                  timeTaken: [DateTime.now()],
+                  timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
                   med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
                 ),
               );
@@ -573,13 +562,13 @@ class HomepageController extends GetxController {
             } else {
               if (historyData.timeTaken.length < historyData.timeToTake.length) {
                 HistoryData historyDataTemp = historyData;
-                List<DateTime> tempTimeTaken = [];
+                List<String> tempTimeTaken = [];
                 List<String> tempStatus = [];
                 List<HistoryData> list = [];
                 list.addAll(historyModel.historyData);
                 tempStatus.addAll(historyDataTemp.med_status);
                 tempTimeTaken.addAll(historyDataTemp.timeTaken);
-                tempTimeTaken.add(DateTime.now());
+                tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
                 tempStatus.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L',);
                 list[index] = HistoryData(
                   pillId: historyModel.historyData[index].pillId,
@@ -619,7 +608,7 @@ class HomepageController extends GetxController {
               HistoryData(
                 pillId: reminderList[pillIndex.value].uid,
                 timeToTake: reminderList[pillIndex.value].pillsInterval,
-                timeTaken: [DateTime.now()],
+                timeTaken: ['${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}'],
                 med_status: [DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L'],
               ),
             ]);
