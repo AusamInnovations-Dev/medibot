@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -208,7 +209,7 @@ void main() async {
   Get.put<ApiClient>(ApiClient());
   Get.put<FirebaseFireStore>(FirebaseFireStore());
   Get.put<NotificationService>(NotificationService());
-  tz.initializeTimeZones();
+  initializeDateFormatting();
   await Get.putAsync<StorageService>(() => StorageService().init());
   Get.put<UserStore>(UserStore());
   runApp(const MyApp());

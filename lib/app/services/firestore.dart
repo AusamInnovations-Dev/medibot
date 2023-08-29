@@ -380,4 +380,11 @@ class FirebaseFireStore extends GetxController {
         .doc(uid)
         .update({'userId': ''});
   }
+
+  Future<void> deleteReminderPill(String uid) async {
+    await fireStore
+        .collection('pillsReminder')
+        .doc(uid)
+        .update({'userId': ''});
+  }
 }

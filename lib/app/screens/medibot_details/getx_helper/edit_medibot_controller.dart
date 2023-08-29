@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../models/pills_models/pills_model.dart';
 import '../../../services/firestore.dart';
@@ -172,10 +173,16 @@ class EditMedibotController extends GetxController{
       hour: 8,
       minute: 00,
     ));
+    String hour, minute, period;
+    String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+    hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+    minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+    period = date.substring(6,8);
+    log('This is the interval : $hour, $minute, $period');
     timeIntervals.add({
-      'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-      'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-      'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
+      'hour': '$hour H',
+      'minute': '$minute M',
+      'period': period,
     });
   }
 
@@ -186,16 +193,22 @@ class EditMedibotController extends GetxController{
           hour: pillsTime.last.hour+1,
           minute: 00,
         ));
+        String hour, minute, period;
+        String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        period = date.substring(6,8);
+        log('This is the interval : $hour, $minute, $period');
         timeIntervals.add({
-          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
+          'hour': '$hour H',
+          'minute': '$minute M',
+          'period': period,
         });
-        if(pillsTime.last.hour+1 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
+        // if(pillsTime.last.hour+1 >= 24){
+        //   increasePossible.value = false;
+        // }else{
+        //   increasePossible.value = true;
+        // }
         break;
 
       case '02 H':
@@ -203,16 +216,22 @@ class EditMedibotController extends GetxController{
           hour: pillsTime.last.hour+2,
           minute: 00,
         ));
+        String hour, minute, period;
+        String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        period = date.substring(6,8);
+        log('This is the interval : $hour, $minute, $period');
         timeIntervals.add({
-          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
+          'hour': '$hour H',
+          'minute': '$minute M',
+          'period': period,
         });
-        if(pillsTime.last.hour+2 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
+        // if(pillsTime.last.hour+2 >= 24){
+        //   increasePossible.value = false;
+        // }else{
+        //   increasePossible.value = true;
+        // }
         break;
 
       case '03 H':
@@ -220,16 +239,22 @@ class EditMedibotController extends GetxController{
           hour: pillsTime.last.hour+3,
           minute: 00,
         ));
+        String hour, minute, period;
+        String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        period = date.substring(6,8);
+        log('This is the interval : $hour, $minute, $period');
         timeIntervals.add({
-          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
+          'hour': '$hour H',
+          'minute': '$minute M',
+          'period': period,
         });
-        if(pillsTime.last.hour+3 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
+        // if(pillsTime.last.hour+3 >= 24){
+        //   increasePossible.value = false;
+        // }else{
+        //   increasePossible.value = true;
+        // }
         break;
 
       case '04 H':
@@ -238,16 +263,22 @@ class EditMedibotController extends GetxController{
           hour: pillsTime.last.hour+4,
           minute: 00,
         ));
+        String hour, minute, period;
+        String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        period = date.substring(6,8);
+        log('This is the interval : $hour, $minute, $period');
         timeIntervals.add({
-          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
+          'hour': '$hour H',
+          'minute': '$minute M',
+          'period': period,
         });
-        if(pillsTime.last.hour+4 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
+        // if(pillsTime.last.hour+4 >= 24){
+        //   increasePossible.value = false;
+        // }else{
+        //   increasePossible.value = true;
+        // }
         break;
 
       case '06 H':
@@ -257,16 +288,22 @@ class EditMedibotController extends GetxController{
           minute: 00,
         ));
         log('This is adding data : ${pillsTime.last.hour}');
+        String hour, minute, period;
+        String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        period = date.substring(6,8);
+        log('This is the interval : $hour, $minute, $period');
         timeIntervals.add({
-          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': int.parse(interval.substring(0, 2)) > 12 && int.parse(interval.substring(0, 2)) != 24? "PM" : int.parse(interval.substring(0, 2)) == 12 ? "PM" : "AM",
+          'hour': '$hour H',
+          'minute': '$minute M',
+          'period': period,
         });
-        if(pillsTime.last.hour+6 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
+        // if(pillsTime.last.hour+6 >= 24){
+        //   increasePossible.value = false;
+        // }else{
+        //   increasePossible.value = true;
+        // }
         break;
     }
   }

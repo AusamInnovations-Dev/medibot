@@ -13,6 +13,7 @@ import 'package:medibot/app/screens/user_settings/edit_profile.dart';
 import 'package:medibot/app/screens/user_settings/edit%20_emergency_info_settings.dart';
 import 'package:medibot/app/screens/user_settings/get_helper/user_setting_binding.dart';
 import 'package:medibot/app/screens/user_settings/user_settings.dart';
+import 'package:medibot/app/screens/view_reminders/view_reminders.dart';
 import 'package:medibot/main.dart';
 
 import '../screens/auth_screen/set_up_profile/caretaker_info.dart';
@@ -39,6 +40,7 @@ import '../screens/history/history_details_page.dart';
 import '../screens/history/history_page.dart';
 import '../screens/home_screen/getx_helper/home_page_binding.dart';
 import '../screens/reminder/getx_helper/set_reminder_binding.dart';
+import '../screens/view_reminders/getx_helper/view_binding.dart';
 
 class RouteHelper {
   static List<GetPage> routes = [
@@ -151,6 +153,12 @@ class RouteHelper {
       name: RoutePaths.viewslot,
       page: () => const ViewSlot(),
       binding: ViewPillsBinding(),
+    ),
+
+    GetPage(
+      name: RoutePaths.viewReminders,
+      page: () => const ViewReminders(),
+      binding: ViewBinding(),
     ),
   ];
 }

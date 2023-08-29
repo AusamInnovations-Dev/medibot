@@ -37,8 +37,7 @@ class TimeInterval extends GetView<SetReminderController> {
                       CustomDropDown(
                         boxWidth: 68.w,
                         boxHeight: 30.h,
-                        value:
-                            controller.timeIntervals[index]['hour'] as String,
+                        value: controller.timeIntervals[index]['hour'] as String,
                         margin: EdgeInsets.symmetric(
                           vertical: 2.h,
                         ),
@@ -213,9 +212,7 @@ class TimeInterval extends GetView<SetReminderController> {
                               onTap: () {
                                 controller.removeHourlyTimeInterval(index);
                               },
-                              child: index ==
-                                          controller.timeIntervals.length - 1 &&
-                                      index != 0
+                              child: index == controller.timeIntervals.length - 1 && index != 0
                                   ? CustomBox(
                                       offset: 0,
                                       color:
@@ -249,10 +246,8 @@ class TimeInterval extends GetView<SetReminderController> {
                               margin: EdgeInsets.symmetric(
                                 vertical: 2.h,
                               ),
-                              value: controller.timeIntervals[index]['hour']
-                                  as String,
-                              dropDownColor:
-                                  Theme.of(context).colorScheme.primary,
+                              value: controller.timeIntervals[index]['hour'] as String,
+                              dropDownColor: Theme.of(context).colorScheme.primary,
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
                                 controller.timeIntervals[index]['hour'] = value;

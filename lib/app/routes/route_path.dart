@@ -29,4 +29,6 @@ class RoutePaths {
 
   static String availableUsers = '/availableUsers';
 
+  static String viewReminders = '/viewReminders';
+
 }

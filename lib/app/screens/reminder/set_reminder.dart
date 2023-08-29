@@ -549,9 +549,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            if (controller.pillQuantity.value != 10) {
-                              controller.pillQuantity.value++;
-                            }
+                            controller.pillQuantity.value++;
                           },
                           child: CustomBox(
                             borders: Border.all(
