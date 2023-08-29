@@ -52,7 +52,7 @@ class AddPill extends GetView<AddMedibotPill> {
                     SizedBox(
                       width: 180.w,
                       child: CustomTextField(
-                        text: "Are you sure you want to add this reminder",
+                        text: "Are you sure you want to add your reminder in this slot",
                         fontFamily: 'Sansation',
                         size: 15.sp,
                         maxLines: 2,
@@ -153,6 +153,64 @@ class AddPill extends GetView<AddMedibotPill> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                DropdownButtonFormField(
+                  isDense: true,
+                  dropdownColor: Theme.of(context).colorScheme.primary,
+                  focusColor: Theme.of(context).colorScheme.primary,
+                  style: TextStyle(
+                    fontFamily: 'Sansation',
+                    fontSize: 15.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).colorScheme.primary,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    filled: true,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    hintText: 'Slot *',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Sansation',
+                      fontSize: 15.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  items: controller.availableSlot
+                      .map((element) => DropdownMenuItem(
+                    value: element,
+                    child: SizedBox(
+                      width: 100.w,
+                      child: Text(
+                        element.toString(),
+                        style: TextStyle(
+                          fontFamily: 'Sansation',
+                          fontSize: 15.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  )).toList(),
+                  onChanged: (value) {
+                    controller.slot.value = value!;
+                  },
+                ),
+                SizedBox(height: 15.h),
                 DropdownButtonFormField(
                   isDense: true,
                   dropdownColor: Theme.of(context).colorScheme.primary,

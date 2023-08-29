@@ -17,6 +17,8 @@ class AddMedibotPill extends GetxController {
   String dosage = 'Select Dosage';
   Rx<String> medicineCategory = 'Select Category'.obs;
   Rx<String> interval = 'Once a Day (24 Hours)'.obs;
+  RxList<int> availableSlot = <int>[].obs;
+  Rx<int> slot = 0.obs;
   Rx<String> hourlyInterval = '01 H'.obs;
   List<TimeOfDay> pillsTime = [
     const TimeOfDay(
@@ -33,6 +35,24 @@ class AddMedibotPill extends GetxController {
   ].obs;
 
   RxList<DateTime> durationDates = <DateTime>[].obs;
+
+  @override
+  void onInit(){
+    if(Get.find<MedibotController>().slot1.isEmpty){
+      availableSlot.add(1);
+    }else if(Get.find<MedibotController>().slot2.isEmpty){
+      availableSlot.add(2);
+    }else if(Get.find<MedibotController>().slot3.isEmpty){
+      availableSlot.add(3);
+    }else if(Get.find<MedibotController>().slot4.isEmpty){
+      availableSlot.add(4);
+    }else if(Get.find<MedibotController>().slot5.isEmpty){
+      availableSlot.add(5);
+    }else if(Get.find<MedibotController>().slot6.isEmpty){
+      availableSlot.add(6);
+    }
+    super.onInit();
+  }
 
   selectingTimeIntervals() {
     if (interval.value == 'Once a Day (24 Hours)') {
@@ -268,8 +288,7 @@ class AddMedibotPill extends GetxController {
     }
 
     try {
-      var controller = Get.find<MedibotController>();
-      if(controller.slot1.isEmpty){
+      if(slot.value == 1){
         var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
@@ -287,7 +306,7 @@ class AddMedibotPill extends GetxController {
           slot: 1,
         ));
         return isUploaded;
-      }else if(controller.slot2.isEmpty){
+      }else if(slot.value == 2){
         var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
@@ -305,7 +324,7 @@ class AddMedibotPill extends GetxController {
           slot: 2,
         ));
         return isUploaded;
-      }else if(controller.slot3.isEmpty){
+      }else if(slot.value == 3){
         var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
@@ -323,7 +342,7 @@ class AddMedibotPill extends GetxController {
           slot: 3,
         ));
         return isUploaded;
-      }else if(controller.slot4.isEmpty){
+      }else if(slot.value == 4){
         var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
@@ -341,7 +360,7 @@ class AddMedibotPill extends GetxController {
           slot: 4,
         ));
         return isUploaded;
-      }else if(controller.slot5.isEmpty){
+      }else if(slot.value == 5){
         var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,
@@ -359,7 +378,7 @@ class AddMedibotPill extends GetxController {
           slot: 5,
         ));
         return isUploaded;
-      } else if(controller.slot6.isEmpty){
+      } else if(slot.value == 6){
         var isUploaded = await FirebaseFireStore.to.uploadMedibotPills(PillsModel(
           uid: '',
           pillName: pillName.text,

@@ -50,7 +50,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                   SizedBox(
                     width: 180.w,
                     child: CustomTextField(
-                      text: "Are you sure you want to add this reminder",
+                      text: "Are you sure you want to add in this existing slot",
                       fontFamily: 'Sansation',
                       size: 15.sp,
                       maxLines: 2,

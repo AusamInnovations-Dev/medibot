@@ -8,7 +8,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
-
 class NotificationService extends GetxController {
   final FlutterLocalNotificationsPlugin localNotifications = FlutterLocalNotificationsPlugin();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -27,7 +26,7 @@ class NotificationService extends GetxController {
 
   initPermission() async {
     NotificationSettings settings =
-        await messaging.requestPermission(alert: true, sound: true, provisional: true, carPlay: true, criticalAlert: false, badge: true, announcement: false);
+    await messaging.requestPermission(alert: true, sound: true, provisional: true, carPlay: true, criticalAlert: false, badge: true, announcement: false);
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       log('User Granted Permission');
