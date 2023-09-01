@@ -317,7 +317,7 @@ class NotificationService extends GetxController {
       PillsModel pill = PillsModel.fromJson(data.docs.first.data());
       var pillInterval = receivedAction.payload!['interval']?? '';
       var hours = int.parse(receivedAction.payload!['interval']!.substring(0, 2));
-      var minutes = int.parse(receivedAction.payload!['interval']!.substring(3, 5));
+      var minutes = int.parse(receivedAction.payload!['interval']!.substring(5, 7));
       if(pillInterval != ''){
         String docId = "${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}";
         var dayHistory = await FirebaseFireStore.to.getHistoryDataByDay(docId);
@@ -409,6 +409,7 @@ class NotificationService extends GetxController {
             historyModel,
             docId,
           );
+          await FirebaseFireStore.to.decreaseQuantity(pill.uid, int.parse(pill.pillsQuantity)-1);
         }
       }
     }else if(receivedAction.buttonKeyPressed == 'Missed'){

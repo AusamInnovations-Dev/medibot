@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medibot/app/models/history_model/history_model.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 import 'package:medibot/app/services/firestore.dart';
@@ -552,6 +553,20 @@ class HomepageController extends GetxController {
                 historyModel,
                 docId,
               );
+              AwesomeNotifications().dismiss(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day,
+                    hours,
+                    minutes,
+                  ).hashCode
+              );
+              if(reminderList[pillIndex.value].inMedibot){
+                await FirebaseFireStore.to.decreaseMedibotPillQuantity(reminderList[pillIndex.value].uid, int.parse(reminderList[pillIndex.value].pillsQuantity)-1);
+              }else{
+                await FirebaseFireStore.to.decreaseQuantity(reminderList[pillIndex.value].uid, int.parse(reminderList[pillIndex.value].pillsQuantity)-1);
+              }
               historyList[pillIndex.value] = historyModel.historyData.firstWhere((element) => element.pillId == reminderList[pillIndex.value].uid);
               pillsTaken.value++;
               isTaking.value = false;
@@ -584,6 +599,20 @@ class HomepageController extends GetxController {
                   tempHistory,
                   docId,
                 );
+                AwesomeNotifications().dismiss(
+                    DateTime(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      hours,
+                      minutes,
+                    ).hashCode
+                );
+                if(reminderList[pillIndex.value].inMedibot){
+                  await FirebaseFireStore.to.decreaseMedibotPillQuantity(reminderList[pillIndex.value].uid, int.parse(reminderList[pillIndex.value].pillsQuantity)-1);
+                }else{
+                  await FirebaseFireStore.to.decreaseQuantity(reminderList[pillIndex.value].uid, int.parse(reminderList[pillIndex.value].pillsQuantity)-1);
+                }
                 historyList[pillIndex.value] = tempHistory.historyData.firstWhere((element) => element.pillId == reminderList[pillIndex.value].uid);
                 pillsTaken.value++;
                 isTaking.value = false;
@@ -624,6 +653,20 @@ class HomepageController extends GetxController {
               historyModel,
               docId,
             );
+            AwesomeNotifications().dismiss(
+                DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  hours,
+                  minutes,
+                ).hashCode
+            );
+            if(reminderList[pillIndex.value].inMedibot){
+              await FirebaseFireStore.to.decreaseMedibotPillQuantity(reminderList[pillIndex.value].uid, int.parse(reminderList[pillIndex.value].pillsQuantity)-1);
+            }else{
+              await FirebaseFireStore.to.decreaseQuantity(reminderList[pillIndex.value].uid, int.parse(reminderList[pillIndex.value].pillsQuantity)-1);
+            }
             historyList[pillIndex.value] = historyModel.historyData.firstWhere((element) => element.pillId == reminderList[pillIndex.value].uid);
             pillsTaken.value++;
             isTaking.value = false;
@@ -715,6 +758,7 @@ class HomepageController extends GetxController {
               historyModel,
               docId,
             );
+            isSkipping.value = false;
           } else {
             if (historyData.timeTaken.length < historyData.timeToTake.length) {
               HistoryData historyDataTemp = historyData;
@@ -740,6 +784,16 @@ class HomepageController extends GetxController {
                 userId: historyModel.userId,
                 historyData: list,
               );
+              AwesomeNotifications().dismiss(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day,
+                    int.parse(pillInterval.substring(0,2)),
+                    int.parse(pillInterval.substring(5,7)),
+                  ).hashCode
+              );
+              isSkipping.value = false;
               await FirebaseFireStore.to.uploadHistoryData(
                 tempHistory,
                 docId,
@@ -763,12 +817,43 @@ class HomepageController extends GetxController {
               med_status: status,
             ),
           ]);
+          AwesomeNotifications().dismiss(
+              DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                DateTime.now().day,
+                int.parse(pillInterval.substring(0,2)),
+                int.parse(pillInterval.substring(5,7)),
+              ).hashCode
+          );
+          isSkipping.value = false;
           await FirebaseFireStore.to.uploadHistoryData(
             historyModel,
             docId,
           );
         }
       }
+    }
+  }
+
+  findLastTaken() {
+    if(historyList.isEmpty){
+      return '--/--';
+    }else if(historyList[pillIndex.value].timeTaken.isEmpty){
+      return '--/--';
+    } else if(historyList[pillIndex.value].med_status.any((element) => element != 'M')){
+      int index = historyList[pillIndex.value].med_status.lastIndexWhere((element) => element != 'M');
+      return DateFormat('hh:mm a').format(
+        DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+            int.parse(historyList[pillIndex.value].timeTaken[index].substring(0,2)),
+            int.parse(historyList[pillIndex.value].timeTaken[index].substring(5,7)),
+        )
+      );
+    }else{
+      return '--/--';
     }
   }
 }

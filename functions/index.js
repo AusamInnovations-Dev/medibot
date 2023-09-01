@@ -93,26 +93,30 @@ exports.uploadHistoryData = functions.https.onRequest(async (req, res) => {
                         .doc(docId)
                         .set(history);
                 } else {
-                    var list = [];
-                    list.push(...history['historyData']);
-                    var timeList = historyData['timeTaken'];
-                    timeList.push(req.body['Med_taken_time']);
-                    var statusList = historyData['med_status'];
-                    statusList.push(req.body['med_status']);
-                    list[index] = {
-                        "pillId": reminder['uid'],
-                        "timeTaken": timeList,
-                        "timeToTake": list[index]['timeToTake'],
-                        "med_status": statusList
-                    };
-                    await db.collection("History")
-                        .doc(userId['userId'])
-                        .collection('history_data')
-                        .doc(docId)
-                        .set({
-                            "userId": docId,
-                            "historyData": list
-                        });
+                    if (pill.pillsInterval.indexOf(req.body['Med_time_to_take']) == historyData['timeTaken'].length - 1) {
+
+                    } else {
+                        var list = [];
+                        list.push(...history['historyData']);
+                        var timeList = historyData['timeTaken'];
+                        timeList.push(req.body['Med_taken_time']);
+                        var statusList = historyData['med_status'];
+                        statusList.push(req.body['med_status']);
+                        list[index] = {
+                            "pillId": reminder['uid'],
+                            "timeTaken": timeList,
+                            "timeToTake": list[index]['timeToTake'],
+                            "med_status": statusList
+                        };
+                        await db.collection("History")
+                            .doc(userId['userId'])
+                            .collection('history_data')
+                            .doc(docId)
+                            .set({
+                                "userId": docId,
+                                "historyData": list
+                            });
+                    }
                 }
             } else {
                 console.log('Giving history here');

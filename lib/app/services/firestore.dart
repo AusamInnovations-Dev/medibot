@@ -387,4 +387,20 @@ class FirebaseFireStore extends GetxController {
         .doc(uid)
         .update({'userId': ''});
   }
+
+  decreaseQuantity(uid, quantity) async {
+    await fireStore
+        .collection('pillsReminder')
+        .doc(uid)
+        .update({'pillsQuantity': '$quantity'});
+  }
+
+  decreaseMedibotPillQuantity(uid, quantity) async {
+    await fireStore
+        .collection('medibot')
+        .doc(UserStore.to.profile.medibotDetail)
+        .collection('pillsReminder')
+        .doc(uid)
+        .update({'pillsQuantity': '$quantity'});
+  }
 }

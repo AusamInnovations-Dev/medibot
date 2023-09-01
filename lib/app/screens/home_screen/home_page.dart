@@ -117,25 +117,10 @@ class HomePage extends GetView<HomepageController> {
                                                       ),
                                                       Obx(
                                                         () => CustomTextField(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          text: controller
-                                                                  .historyList
-                                                                  .isEmpty
-                                                              ? '--/--'
-                                                              : controller
-                                                                      .historyList[controller
-                                                                          .pillIndex
-                                                                          .value]
-                                                                      .timeTaken
-                                                                      .isEmpty
-                                                                  ? '--/--'
-                                                                  : "${int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(0,2)) > 12 ? (int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(0,2)) - 12) > 9 ? int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(0,2)) - 12 : '0${int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(0,2)) - 12}' : int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(0,2))}:${int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(5,7)) > 9 ? int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(5,7)) : '0${int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(5,7))}'} ${int.parse(controller.historyList[controller.pillIndex.value].timeTaken.last.substring(0,2)) > 12 ? 'PM' : 'AM'}",
+                                                          fontWeight: FontWeight.bold,
+                                                          text: controller.findLastTaken(),
                                                           size: 15.sp,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .secondary,
+                                                          color: Theme.of(context).colorScheme.secondary,
                                                         ),
                                                       ),
                                                       CustomTextField(
