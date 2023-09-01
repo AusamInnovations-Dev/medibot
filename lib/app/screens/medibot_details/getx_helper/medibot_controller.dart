@@ -95,6 +95,9 @@ class   MedibotController extends GetxController {
           slot2remainingDay.value = difference;
         } else if (slot2.last.isRange) {
           slot2remainingDay.value = DateTime.parse(slot2.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
+          if(slot2remainingDay.value < 0){
+            slot2remainingDay.value = 0;
+          }
         }
         break;
 
@@ -110,6 +113,9 @@ class   MedibotController extends GetxController {
           slot3remainingDay.value = difference;
         } else if (slot3.last.isRange) {
           slot3remainingDay.value = DateTime.parse(slot3.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
+          if(slot3remainingDay.value < 0){
+            slot3remainingDay.value = 0;
+          }
         }
         break;
 
@@ -125,6 +131,9 @@ class   MedibotController extends GetxController {
           slot4remainingDay.value = difference;
         } else if (slot4.last.isRange) {
           slot4remainingDay.value = DateTime.parse(slot4.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
+          if(slot4remainingDay.value < 0){
+            slot4remainingDay.value = 0;
+          }
         }
         break;
 
@@ -140,6 +149,9 @@ class   MedibotController extends GetxController {
           slot5remainingDay.value = difference;
         } else if (slot5.last.isRange) {
           slot5remainingDay.value = DateTime.parse(slot5.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
+          if(slot5remainingDay.value < 0){
+            slot5remainingDay.value = 0;
+          }
         }
         break;
 
@@ -155,6 +167,9 @@ class   MedibotController extends GetxController {
           slot6remainingDay.value = difference;
         } else if (slot6.last.isRange) {
           slot6remainingDay.value = DateTime.parse(slot6.last.pillsDuration.last).difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays+1;
+          if(slot6remainingDay.value < 0){
+            slot6remainingDay.value = 0;
+          }
         }
         break;
     }

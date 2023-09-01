@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medibot/app/sampledata/medicines.dart';
 import 'package:medibot/app/widgets/box_field.dart';
 
@@ -46,6 +47,25 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
                         focusColor: Theme.of(context).colorScheme.primary,
                         onChange: (value) {
                           controller.timeIntervals[index]['hour'] = value;
+                          if(index == 0 && controller.timeIntervals.length > 1){
+                            for(var i = 1; i < controller.timeIntervals.length; i++){
+                              String time = controller.timeIntervals[i-1]['hour'].toString();
+                              controller.pillsTime[i] = TimeOfDay(
+                                hour: controller.interval.value == 'Twice a Day (12 Hours)' ? int.parse(time.substring(0,2))+12 : int.parse(time.substring(0,2))+8,
+                                minute: 00,
+                              );
+                              String hour, minute, period;
+                              String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                              hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                              period = date.substring(6,8);
+                              log('This is the interval : $hour,$period');
+                              controller.timeIntervals[i] = {
+                                'hour': '$hour H',
+                                'minute': controller.timeIntervals[i]['minute']!,
+                                'period': period,
+                              };
+                            }
+                          }
                         },
                         items: SampleMedicine.hours
                             .map(
@@ -170,7 +190,6 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
                 focusColor: Theme.of(context).colorScheme.primary,
                 onChange: (value) {
                   controller.hourlyInterval.value = value;
-                  controller.checkIfIncreasePossible();
                 },
                 items: ['01 H', '02 H', '03 H', '04 H', '06 H']
                     .map(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medibot/app/widgets/custom_text_view.dart';
 
 import '../../../widgets/background_screen_decoration.dart';
@@ -166,18 +167,31 @@ class ViewSlot extends GetView<ViewPillsController> {
                               itemCount: controller.pillIntervals.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
+                              itemBuilder: (context, index1) {
+                                var pillIntervals = [];
+                                for(var interval in controller.pillIntervals){
+                                  String hour, minute, period;
+                                  String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(interval.substring(0,2)), int.parse(interval.substring(5,7))));
+                                  hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(interval.substring(0,2)), int.parse(interval.substring(5,7))));
+                                  minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, int.parse(interval.substring(0,2)), int.parse(interval.substring(5,7))));
+                                  period = date.substring(6,8);
+                                  pillIntervals.add({
+                                    'hour': '$hour H',
+                                    'minute': '$minute M',
+                                    'period': period,
+                                  });
+                                }
                                 return Container(
                                   margin: EdgeInsets.symmetric(vertical: 4.h),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    CrossAxisAlignment.center,
                                     children: [
                                       CustomTextView(
                                         boxHeight: 32.h,
                                         boxWidth: 59.w,
-                                        Text: controller.pillIntervals[index]['hour'],
+                                        Text: pillIntervals[index1]['hour'],
                                         textAlign: TextAlign.center,
                                       ),
                                       SizedBox(
@@ -195,7 +209,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                       CustomTextView(
                                         boxHeight: 32.h,
                                         boxWidth: 65.w,
-                                        Text: controller.pillIntervals[index]['minute'],
+                                        Text: pillIntervals[index1]['minute'],
                                         textAlign: TextAlign.center,
                                       ),
                                       SizedBox(
@@ -204,7 +218,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                       CustomTextView(
                                         boxHeight: 32.h,
                                         boxWidth: 59.w,
-                                        Text: controller.pillIntervals[index]['period'],
+                                        Text: pillIntervals[index1]['period'],
                                         textAlign: TextAlign.center,
                                       ),
                                     ],

@@ -8,6 +8,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
+import '../models/history_model/history_model.dart';
+import 'firestore.dart';
+
 class NotificationService extends GetxController {
   final FlutterLocalNotificationsPlugin localNotifications = FlutterLocalNotificationsPlugin();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -95,7 +98,13 @@ class NotificationService extends GetxController {
             ).toIso8601String());
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                  id: math.Random().nextInt(100000),
+                  id: DateTime(
+                    currentDate.year,
+                    currentDate.month,
+                    currentDate.day,
+                    int.parse(interval.substring(0, 2)),
+                    int.parse(interval.substring(5, 7)),
+                  ).hashCode,
                   channelKey: 'medibot_channel',
                   title: 'MediBot',
                   payload: {'pillId': pillsModel.uid, 'interval': interval},
@@ -107,14 +116,14 @@ class NotificationService extends GetxController {
                   key: 'Taken',
                   label: 'Taken',
                   color: Colors.green,
-                  actionType: ActionType.DismissAction,
+                  actionType: ActionType.Default,
                   showInCompactView: true,
                 ),
                 NotificationActionButton(
                   key: 'Missed',
                   label: 'Missed',
                   color: Colors.red,
-                  actionType: ActionType.DismissAction,
+                  actionType: ActionType.Default,
                   showInCompactView: true,
                 ),
               ],
@@ -150,7 +159,13 @@ class NotificationService extends GetxController {
             log('Scheduling1');
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                id: math.Random().nextInt(100000),
+                id: DateTime(
+                  individualDuration.year,
+                  individualDuration.month,
+                  individualDuration.day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7)),
+                ).hashCode,
                 channelKey: 'medibot_channel',
                 title: 'MediBot',
                 payload: {'pillId': pillsModel.uid, 'interval': interval},
@@ -164,14 +179,14 @@ class NotificationService extends GetxController {
                   key: 'Taken',
                   label: 'Taken',
                   color: Colors.green,
-                  actionType: ActionType.DismissAction,
+                  actionType: ActionType.Default,
                   showInCompactView: true,
                 ),
                 NotificationActionButton(
                   key: 'Missed',
                   label: 'Missed',
                   color: Colors.red,
-                  actionType: ActionType.DismissAction,
+                  actionType: ActionType.Default,
                   showInCompactView: true,
                 ),
               ],
@@ -188,6 +203,310 @@ class NotificationService extends GetxController {
               ),
             );
           }
+        }
+      }
+    }
+  }
+
+  @pragma("vm:entry-point")
+  static Future <void> onDismissActionReceivedMethod(ReceivedAction receivedAction) async {
+    var data = await FirebaseFireStore.to.getPillReminder(receivedAction.payload!['pillId']!);
+    PillsModel pill = PillsModel.fromJson(data.docs.first.data());
+    var pillInterval = receivedAction.payload!['interval']?? '';
+    if(pillInterval != ''){
+      String docId = "${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}";
+      var dayHistory = await FirebaseFireStore.to.getHistoryDataByDay(docId);
+      if (dayHistory != null) {
+        HistoryModel historyModel = HistoryModel.fromJson(dayHistory.data() as Map<String, dynamic>);
+        late HistoryData historyData;
+        int? index;
+        for (var pills in historyModel.historyData) {
+          if (pills.pillId == pill.uid) {
+            historyData = pills;
+            index = historyModel.historyData.indexOf(pills);
+            break;
+          }
+        }
+        if (index == null) {
+          List<HistoryData> list = [];
+          list.addAll(historyModel.historyData);
+          List<String> timeTaken = [];
+          List<String> status = [];
+          for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+            timeTaken.add('00HH:00MM');
+            status.add('M');
+          }
+          timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+          status.add('M');
+
+          list.add(
+            HistoryData(
+              pillId: pill.uid,
+              timeToTake: pill.pillsInterval,
+              timeTaken: timeTaken,
+              med_status: status,
+            ),
+          );
+          historyModel = historyModel.copyWith(historyData: list);
+          await FirebaseFireStore.to.uploadHistoryData(
+            historyModel,
+            docId,
+          );
+        } else {
+          if (historyData.timeTaken.length < historyData.timeToTake.length) {
+            HistoryData historyDataTemp = historyData;
+            List<String> tempTimeTaken = [];
+            List<HistoryData> list = [];
+            List<String> tempStatus = [];
+            tempStatus.addAll(historyDataTemp.med_status);
+            list.addAll(historyModel.historyData);
+            tempTimeTaken.addAll(historyDataTemp.timeTaken);
+            for(int i=tempTimeTaken.length; i<pill.pillsInterval.indexOf(pillInterval); i++){
+              tempTimeTaken.add('00HH:00MM');
+              tempStatus.add('M');
+            }
+            tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+            tempStatus.add('M');
+            list[index] = HistoryData(
+              pillId: historyModel.historyData[index].pillId,
+              timeTaken: tempTimeTaken,
+              med_status: tempStatus,
+              timeToTake: historyModel.historyData[index].timeToTake,
+            );
+            HistoryModel tempHistory = HistoryModel(
+              userId: historyModel.userId,
+              historyData: list,
+            );
+            await FirebaseFireStore.to.uploadHistoryData(
+              tempHistory,
+              docId,
+            );
+          }
+        }
+      } else {
+        List<String> timeTaken = [];
+        List<String> status = [];
+        for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+          timeTaken.add('00HH:00MM');
+          status.add('M');
+        }
+        timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+        status.add('M');
+        HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
+          HistoryData(
+            pillId: pill.uid,
+            timeToTake: pill.pillsInterval,
+            timeTaken: timeTaken,
+            med_status: status,
+          ),
+        ]);
+        await FirebaseFireStore.to.uploadHistoryData(
+          historyModel,
+          docId,
+        );
+      }
+    }
+  }
+
+  @pragma("vm:entry-point")
+  static Future <void> onActionReceivedMethod(ReceivedAction receivedAction) async {
+    log('Message sent via notification input 1 : "${receivedAction.buttonKeyPressed}"');
+    if(receivedAction.buttonKeyPressed == 'Taken'){
+      log('Marking as taken');
+      var data = await FirebaseFireStore.to.getPillReminder(receivedAction.payload!['pillId']!);
+      PillsModel pill = PillsModel.fromJson(data.docs.first.data());
+      var pillInterval = receivedAction.payload!['interval']?? '';
+      var hours = int.parse(receivedAction.payload!['interval']!.substring(0, 2));
+      var minutes = int.parse(receivedAction.payload!['interval']!.substring(3, 5));
+      if(pillInterval != ''){
+        String docId = "${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}";
+        var dayHistory = await FirebaseFireStore.to.getHistoryDataByDay(docId);
+        if (dayHistory != null) {
+          HistoryModel historyModel = HistoryModel.fromJson(dayHistory.data() as Map<String, dynamic>);
+          late HistoryData historyData;
+          int? index;
+          for (var pills in historyModel.historyData) {
+            if (pills.pillId == pill.uid) {
+              historyData = pills;
+              index = historyModel.historyData.indexOf(pills);
+              break;
+            }
+          }
+          if (index == null) {
+            List<HistoryData> list = [];
+            list.addAll(historyModel.historyData);
+            List<String> timeTaken = [];
+            List<String> status = [];
+            for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+              timeTaken.add('00HH:00MM');
+              status.add('M');
+            }
+            timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+            status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L');
+
+            list.add(
+              HistoryData(
+                pillId: pill.uid,
+                timeToTake: pill.pillsInterval,
+                timeTaken: timeTaken,
+                med_status: status,
+              ),
+            );
+            historyModel = historyModel.copyWith(historyData: list);
+            await FirebaseFireStore.to.uploadHistoryData(
+              historyModel,
+              docId,
+            );
+          } else {
+            if (historyData.timeTaken.length < historyData.timeToTake.length) {
+              HistoryData historyDataTemp = historyData;
+              List<String> tempTimeTaken = [];
+              List<HistoryData> list = [];
+              List<String> tempStatus = [];
+              tempStatus.addAll(historyDataTemp.med_status);
+              list.addAll(historyModel.historyData);
+              tempTimeTaken.addAll(historyDataTemp.timeTaken);
+              for(int i=tempTimeTaken.length; i<pill.pillsInterval.indexOf(pillInterval); i++){
+                tempTimeTaken.add('00HH:00MM');
+                tempStatus.add('M');
+              }
+              tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+              tempStatus.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L',);
+              list[index] = HistoryData(
+                pillId: historyModel.historyData[index].pillId,
+                timeTaken: tempTimeTaken,
+                med_status: tempStatus,
+                timeToTake: historyModel.historyData[index].timeToTake,
+              );
+              HistoryModel tempHistory = HistoryModel(
+                userId: historyModel.userId,
+                historyData: list,
+              );
+              await FirebaseFireStore.to.uploadHistoryData(
+                tempHistory,
+                docId,
+              );
+            }
+          }
+        } else {
+          List<String> timeTaken = [];
+          List<String> status = [];
+          for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+            timeTaken.add('00HH:00MM');
+            status.add('M');
+          }
+          timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+          status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L');
+          HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
+            HistoryData(
+              pillId: pill.uid,
+              timeToTake: pill.pillsInterval,
+              timeTaken: timeTaken,
+              med_status: status,
+            ),
+          ]);
+          await FirebaseFireStore.to.uploadHistoryData(
+            historyModel,
+            docId,
+          );
+        }
+      }
+    }else if(receivedAction.buttonKeyPressed == 'Missed'){
+      log('Marking as Messed');
+      var data = await FirebaseFireStore.to.getPillReminder(receivedAction.payload!['pillId']!);
+      PillsModel pill = PillsModel.fromJson(data.docs.first.data());
+      var pillInterval = receivedAction.payload!['interval']?? '';
+      if(pillInterval != ''){
+        String docId = "${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}";
+        var dayHistory = await FirebaseFireStore.to.getHistoryDataByDay(docId);
+        if (dayHistory != null) {
+          HistoryModel historyModel = HistoryModel.fromJson(dayHistory.data() as Map<String, dynamic>);
+          late HistoryData historyData;
+          int? index;
+          for (var pills in historyModel.historyData) {
+            if (pills.pillId == pill.uid) {
+              historyData = pills;
+              index = historyModel.historyData.indexOf(pills);
+              break;
+            }
+          }
+          if (index == null) {
+            List<HistoryData> list = [];
+            list.addAll(historyModel.historyData);
+            List<String> timeTaken = [];
+            List<String> status = [];
+            for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+              timeTaken.add('00HH:00MM');
+              status.add('M');
+            }
+            timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+            status.add('M');
+
+            list.add(
+              HistoryData(
+                pillId: pill.uid,
+                timeToTake: pill.pillsInterval,
+                timeTaken: timeTaken,
+                med_status: status,
+              ),
+            );
+            historyModel = historyModel.copyWith(historyData: list);
+            await FirebaseFireStore.to.uploadHistoryData(
+              historyModel,
+              docId,
+            );
+          } else {
+            if (historyData.timeTaken.length < historyData.timeToTake.length) {
+              HistoryData historyDataTemp = historyData;
+              List<String> tempTimeTaken = [];
+              List<HistoryData> list = [];
+              List<String> tempStatus = [];
+              tempStatus.addAll(historyDataTemp.med_status);
+              list.addAll(historyModel.historyData);
+              tempTimeTaken.addAll(historyDataTemp.timeTaken);
+              for(int i=tempTimeTaken.length; i<pill.pillsInterval.indexOf(pillInterval); i++){
+                tempTimeTaken.add('00HH:00MM');
+                tempStatus.add('M');
+              }
+              tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+              tempStatus.add('M');
+              list[index] = HistoryData(
+                pillId: historyModel.historyData[index].pillId,
+                timeTaken: tempTimeTaken,
+                med_status: tempStatus,
+                timeToTake: historyModel.historyData[index].timeToTake,
+              );
+              HistoryModel tempHistory = HistoryModel(
+                userId: historyModel.userId,
+                historyData: list,
+              );
+              await FirebaseFireStore.to.uploadHistoryData(
+                tempHistory,
+                docId,
+              );
+            }
+          }
+        } else {
+          List<String> timeTaken = [];
+          List<String> status = [];
+          for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+            timeTaken.add('00HH:00MM');
+            status.add('M');
+          }
+          timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+          status.add('M');
+          HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
+            HistoryData(
+              pillId: pill.uid,
+              timeToTake: pill.pillsInterval,
+              timeTaken: timeTaken,
+              med_status: status,
+            ),
+          ]);
+          await FirebaseFireStore.to.uploadHistoryData(
+            historyModel,
+            docId,
+          );
         }
       }
     }

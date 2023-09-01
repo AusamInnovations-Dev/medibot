@@ -347,8 +347,7 @@ class HomePage extends GetView<HomepageController> {
                                               Get.toNamed(RoutePaths.newreminder);
                                             },
                                             child: CustomBox(
-                                              boxHeight: 90.h,
-                                              boxWidth: 140.w,
+boxHeight: 70.h,                                              boxWidth: 140.w,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
                                               ),
@@ -378,8 +377,9 @@ class HomePage extends GetView<HomepageController> {
                                               Get.toNamed(RoutePaths.historyPage);
                                             },
                                             child: CustomBox(
-                                              boxHeight: 90.h,
+                                              boxHeight: 70.h,
                                               boxWidth: 140.w,
+                                              color: Theme.of(context).colorScheme.secondary,
                                               margin: EdgeInsets.symmetric(horizontal: 5.w),
                                               padding: EdgeInsets.symmetric(
                                                 horizontal: 20.w,
@@ -430,8 +430,9 @@ class HomePage extends GetView<HomepageController> {
                                               }
                                             },
                                             child: CustomBox(
-                                              boxHeight: 90.h,
+                                              boxHeight: 70.h,
                                               boxWidth: 140.w,
+                                              color: Theme.of(context).colorScheme.secondary,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
                                               ),
@@ -461,8 +462,7 @@ class HomePage extends GetView<HomepageController> {
                                               Get.toNamed(RoutePaths.userSetting);
                                             },
                                             child: CustomBox(
-                                              boxHeight: 90.h,
-                                              boxWidth: 140.w,
+boxHeight: 70.h,                                              boxWidth: 140.w,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
                                               ),
@@ -505,7 +505,7 @@ class HomePage extends GetView<HomepageController> {
                                       ),
                                       topLeft: Radius.circular(17.r),
                                       bottomRight: Radius.circular(17.r),
-                                      boxHeight: 58.h,
+                                      boxHeight: 70.h,
                                       boxWidth: 140.w,
                                       body: Align(
                                         alignment: Alignment.center,
@@ -525,8 +525,9 @@ class HomePage extends GetView<HomepageController> {
                                       Get.toNamed(RoutePaths.viewReminders);
                                     },
                                     child: CustomBox(
-                                      boxHeight: 58.h,
+                                      boxHeight: 70.h,
                                       boxWidth: 140.w,
+                                      color: Theme.of(context).colorScheme.secondary,
                                       margin: EdgeInsets.symmetric(
                                         horizontal: 5.w,
                                       ),

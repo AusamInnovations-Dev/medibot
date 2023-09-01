@@ -7,6 +7,7 @@ import 'package:medibot/app/screens/reminder/widgets/time_interval.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 import '../../sampledata/medicines.dart';
 import '../../widgets/box_field.dart';
+import '../../widgets/custom_input.dart';
 import '../../widgets/text_field.dart';
 import 'widgets/select_duration.dart';
 
@@ -33,86 +34,101 @@ class SetReminderScreen extends GetView<SetReminderController> {
               colorText: Colors.black,
             );
           } else {
-            showDialog(
-              context: Get.context!,
-              barrierDismissible: false,
-              traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
-              builder: (context) => AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r),
+            if(int.tryParse(controller.pillQuantity.text) == null){
+              Get.snackbar(
+                "Pills Reminder",
+                "Please enter a valid stock quantity",
+                icon: const Icon(
+                  Icons.crisis_alert,
+                  color: Colors.black,
                 ),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                contentPadding: EdgeInsets.zero,
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 180.w,
-                      child: CustomTextField(
-                        text: "Are you sure you want to add this reminder",
-                        fontFamily: 'Sansation',
-                        size: 15.sp,
-                        maxLines: 2,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: const Color(0xffA9CBFF),
+                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                colorText: Colors.black,
+              );
+            }else{
+              showDialog(
+                context: Get.context!,
+                barrierDismissible: false,
+                traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                builder: (context) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  contentPadding: EdgeInsets.zero,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 180.w,
+                        child: CustomTextField(
+                          text: "Are you sure you want to add this reminder",
+                          fontFamily: 'Sansation',
+                          size: 15.sp,
+                          maxLines: 2,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 13.h,
-                    ),
+                      SizedBox(
+                        height: 13.h,
+                      ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: CustomTextField(
-                            text: "No",
-                            fontFamily: 'Sansation',
-                            size: 13.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            overflow: TextOverflow.visible,
-                          ),
-                        ),
-                        SizedBox(width: 20.w),
-                        GestureDetector(
-                          onTap: () async {
-                            Get.back();
-                            if (await controller.uploadPillsReminderData() != '') {
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
                               Get.back();
-                              Get.snackbar(
-                                "Pills Reminder",
-                                "Your pill is scheduled successfully",
-                                icon: const Icon(
-                                  Icons.check_sharp,
-                                  color: Colors.black,
-                                ),
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: const Color(0xffA9CBFF),
-                                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-                                colorText: Colors.black,
-                              );
-                            }
-                          },
-                          child: CustomTextField(
-                            text: "Yes",
-                            fontFamily: 'Sansation',
-                            size: 13.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            overflow: TextOverflow.visible,
+                            },
+                            child: CustomTextField(
+                              text: "No",
+                              fontFamily: 'Sansation',
+                              size: 13.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                              overflow: TextOverflow.visible,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          SizedBox(width: 20.w),
+                          GestureDetector(
+                            onTap: () async {
+                              Get.back();
+                              if (await controller.uploadPillsReminderData() != '') {
+                                Get.back();
+                                Get.snackbar(
+                                  "Pills Reminder",
+                                  "Your pill is scheduled successfully",
+                                  icon: const Icon(
+                                    Icons.check_sharp,
+                                    color: Colors.black,
+                                  ),
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: const Color(0xffA9CBFF),
+                                  margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                                  colorText: Colors.black,
+                                );
+                              }
+                            },
+                            child: CustomTextField(
+                              text: "Yes",
+                              fontFamily: 'Sansation',
+                              size: 13.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           }
         } else {
           Get.snackbar(
@@ -494,8 +510,11 @@ class SetReminderScreen extends GetView<SetReminderController> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            if (controller.pillQuantity.value != 1) {
-                              controller.pillQuantity.value--;
+                            if(controller.pillQuantity.text.isEmpty){
+                              controller.pillQuantity.text = '1';
+                            }
+                            if (int.parse(controller.pillQuantity.text) > 1) {
+                              controller.pillQuantity.text = (int.parse(controller.pillQuantity.text) - 1).toString();
                             }
                           },
                           child: CustomBox(
@@ -504,8 +523,8 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             ),
                             offset: 0,
                             color: Theme.of(context).colorScheme.primary,
-                            boxHeight: 29.h,
-                            boxWidth: 35.w,
+                            boxHeight: 30.h,
+                            boxWidth: 40.w,
                             topLeft: Radius.circular(4.r),
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
@@ -520,13 +539,12 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             boxShadow: const [],
                           ),
                         ),
-                        Obx(
-                          () => CustomBox(
+                        CustomBox(
                             borders: Border.all(
                               color: Colors.black26,
                             ),
                             offset: 0,
-                            boxHeight: 29.h,
+                            boxHeight: 35.h,
                             boxWidth: 240.w,
                             topLeft: Radius.circular(4.r),
                             topRight: Radius.circular(4.r),
@@ -536,20 +554,48 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             body: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CustomTextField(
-                                  size: 17.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                  text: controller.pillQuantity.value.toString(),
-                                )
+                                Container(
+                                  height: 35.h,
+                                  width: 230.w,
+                                  decoration: BoxDecoration(
+                                    color:  Theme.of(context).colorScheme.primary,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(7.r),
+                                      topRight: Radius.circular(7.r),
+                                      bottomLeft: Radius.circular(7.r),
+                                      bottomRight: Radius.circular(7.r),
+                                    ),
+                                  ),
+                                  padding:  EdgeInsets.symmetric(horizontal: 5.w),
+                                  child: TextFormField(
+                                    controller: controller.pillQuantity,
+                                    cursorColor: Colors.black,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    textAlignVertical: TextAlignVertical.bottom,
+                                    style: const TextStyle(fontSize: 17),
+                                    decoration: const InputDecoration(
+                                      hintStyle: TextStyle(fontSize: 17,),
+                                      hintText: '',
+                                      border: InputBorder.none,
+                                    ),
+                                    onChanged: (val){
+                                      if (int.parse(controller.pillQuantity.text) < 0 || val == '') {
+                                        controller.pillQuantity.text = '1';
+                                      }
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                             boxShadow: const [],
                           ),
-                        ),
                         GestureDetector(
                           onTap: () {
-                            controller.pillQuantity.value++;
+                            if(controller.pillQuantity.text.isEmpty){
+                              controller.pillQuantity.text = '1';
+                            }
+                            controller.pillQuantity.text = (int.parse(controller.pillQuantity.text) + 1).toString();
                           },
                           child: CustomBox(
                             borders: Border.all(
@@ -557,8 +603,8 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             ),
                             offset: 0,
                             color: Theme.of(context).colorScheme.primary,
-                            boxHeight: 29.h,
-                            boxWidth: 35.w,
+                            boxHeight: 30.h,
+                            boxWidth: 40.w,
                             topLeft: Radius.circular(4.r),
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),

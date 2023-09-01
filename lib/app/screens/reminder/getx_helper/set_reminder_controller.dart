@@ -23,7 +23,7 @@ class SetReminderController extends GetxController {
       minute: 00,
     )
   ];
-  Rx<int> pillQuantity = 1.obs;
+  TextEditingController pillQuantity = TextEditingController(text: '0');
   Rx<bool> isRange = false.obs;
   Rx<bool> isIndividual = false.obs;
   Rx<bool> increasePossible = true.obs;
@@ -278,7 +278,7 @@ class SetReminderController extends GetxController {
         interval: interval.value,
         isIndividual: isIndividual.value,
         isRange: isRange.value,
-        pillsQuantity: pillQuantity.value.toString(),
+        pillsQuantity: pillQuantity.text,
         pillsInterval: intervalsInString,
         inMedibot: false,
         pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
@@ -296,7 +296,7 @@ class SetReminderController extends GetxController {
          interval: interval.value,
          isIndividual: isIndividual.value,
          isRange: isRange.value,
-         pillsQuantity: pillQuantity.value.toString(),
+         pillsQuantity: pillQuantity.text,
          pillsInterval: intervalsInString,
          inMedibot: false,
          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),

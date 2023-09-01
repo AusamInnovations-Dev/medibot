@@ -26,7 +26,7 @@ class AddMedibotPill extends GetxController {
       minute: 00,
     )
   ];
-  Rx<int> pillQuantity = 1.obs;
+  TextEditingController pillQuantity = TextEditingController(text: '0');
   Rx<bool> isRange = false.obs;
   Rx<bool> isIndividual = false.obs;
   Rx<bool> increasePossible = true.obs;
@@ -40,15 +40,20 @@ class AddMedibotPill extends GetxController {
   void onInit(){
     if(Get.find<MedibotController>().slot1.isEmpty){
       availableSlot.add(1);
-    }else if(Get.find<MedibotController>().slot2.isEmpty){
+    }
+    if(Get.find<MedibotController>().slot2.isEmpty){
       availableSlot.add(2);
-    }else if(Get.find<MedibotController>().slot3.isEmpty){
+    }
+    if(Get.find<MedibotController>().slot3.isEmpty){
       availableSlot.add(3);
-    }else if(Get.find<MedibotController>().slot4.isEmpty){
+    }
+    if(Get.find<MedibotController>().slot4.isEmpty){
       availableSlot.add(4);
-    }else if(Get.find<MedibotController>().slot5.isEmpty){
+    }
+    if(Get.find<MedibotController>().slot5.isEmpty){
       availableSlot.add(5);
-    }else if(Get.find<MedibotController>().slot6.isEmpty){
+    }
+    if(Get.find<MedibotController>().slot6.isEmpty){
       availableSlot.add(6);
     }
     super.onInit();
@@ -274,7 +279,6 @@ class AddMedibotPill extends GetxController {
   removeHourlyTimeInterval(index) {
     timeIntervals.removeAt(index);
     pillsTime.removeAt(index);
-    checkIfIncreasePossible();
   }
 
   Future<bool> uploadMedibotPills() async {
@@ -299,7 +303,7 @@ class AddMedibotPill extends GetxController {
           inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
-          pillsQuantity: pillQuantity.value.toString(),
+          pillsQuantity: pillQuantity.text,
           pillsInterval: intervalsInString,
           pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
           request: 1,
@@ -317,7 +321,7 @@ class AddMedibotPill extends GetxController {
           inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
-          pillsQuantity: pillQuantity.value.toString(),
+          pillsQuantity: pillQuantity.text,
           pillsInterval: intervalsInString,
           pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
           request: 1,
@@ -335,7 +339,7 @@ class AddMedibotPill extends GetxController {
           inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
-          pillsQuantity: pillQuantity.value.toString(),
+          pillsQuantity: pillQuantity.text,
           pillsInterval: intervalsInString,
           pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
           request: 1,
@@ -353,7 +357,7 @@ class AddMedibotPill extends GetxController {
           inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
-          pillsQuantity: pillQuantity.value.toString(),
+          pillsQuantity: pillQuantity.text,
           pillsInterval: intervalsInString,
           pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
           request: 1,
@@ -371,7 +375,7 @@ class AddMedibotPill extends GetxController {
           inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
-          pillsQuantity: pillQuantity.value.toString(),
+          pillsQuantity: pillQuantity.text,
           pillsInterval: intervalsInString,
           pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
           request: 1,
@@ -389,7 +393,7 @@ class AddMedibotPill extends GetxController {
           inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
-          pillsQuantity: pillQuantity.value.toString(),
+          pillsQuantity: pillQuantity.text,
           pillsInterval: intervalsInString,
           pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
           request: 1,
@@ -414,51 +418,6 @@ class AddMedibotPill extends GetxController {
     } catch (err) {
       log(err.toString());
       return false;
-    }
-  }
-
-  void checkIfIncreasePossible() {
-    switch(hourlyInterval.value) {
-      case '01 H':
-        if(pillsTime.last.hour+1 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
-        break;
-
-      case '02 H':
-        if(pillsTime.last.hour+2 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
-        break;
-
-      case '03 H':
-
-        if(pillsTime.last.hour+3 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
-        break;
-
-      case '04 H':
-        if(pillsTime.last.hour+4 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
-        break;
-
-      case '06 H':
-        if(pillsTime.last.hour+6 >= 24){
-          increasePossible.value = false;
-        }else{
-          increasePossible.value = true;
-        }
-        break;
     }
   }
 

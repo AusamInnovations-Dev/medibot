@@ -35,86 +35,116 @@ class AddPill extends GetView<AddMedibotPill> {
           );
         }else{
           if(controller.durationDates.isNotEmpty){
-            showDialog(
-              context: Get.context!,
-              barrierDismissible: false,
-              traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
-              builder: (context) => AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r),
+            if(controller.slot.value == 0){
+              Get.snackbar(
+                "Pills Reminder",
+                "Please select the slot",
+                icon: const Icon(
+                  Icons.crisis_alert,
+                  color: Colors.black,
                 ),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                contentPadding: EdgeInsets.zero,
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 180.w,
-                      child: CustomTextField(
-                        text: "Are you sure you want to add your reminder in this slot",
-                        fontFamily: 'Sansation',
-                        size: 15.sp,
-                        maxLines: 2,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: const Color(0xffA9CBFF),
+                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                colorText: Colors.black,
+              );
+            }else{
+              if(controller.pillQuantity.text.isEmpty){
+                Get.snackbar(
+                  "Pills Reminder",
+                  "Please enter a valid stock quantity",
+                  icon: const Icon(
+                    Icons.crisis_alert,
+                    color: Colors.black,
+                  ),
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: const Color(0xffA9CBFF),
+                  margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                  colorText: Colors.black,
+                );
+              }else{
+                showDialog(
+                  context: Get.context!,
+                  barrierDismissible: false,
+                  traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
-                    SizedBox(
-                      height: 13.h,
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    contentPadding: EdgeInsets.zero,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Get.back();
-                          },
+                        SizedBox(
+                          width: 180.w,
                           child: CustomTextField(
-                            text: "No",
+                            text: "Remember to add these pills in the Medibot as well to successfully add this reminder.",
                             fontFamily: 'Sansation',
-                            size: 13.sp,
-                            fontWeight: FontWeight.w400,
+                            size: 15.sp,
+                            maxLines: 2,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black,
-                            overflow: TextOverflow.visible,
                           ),
                         ),
-                        SizedBox(width: 20.w),
-                        GestureDetector(
-                          onTap: () async {
-                            Get.back();
-                            if (await controller.uploadMedibotPills()) {
-                              Get.back();
-                              Get.snackbar(
-                                "Pills Reminder",
-                                "Pills is added to your Medibot.",
-                                icon: const Icon(
-                                  Icons.check_sharp,
-                                  color: Colors.black,
-                                ),
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: const Color(0xffA9CBFF),
-                                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-                                colorText: Colors.black,
-                              );
-                            }
-                          },
-                          child: CustomTextField(
-                            text: "Yes",
-                            fontFamily: 'Sansation',
-                            size: 13.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            overflow: TextOverflow.visible,
-                          ),
+                        SizedBox(
+                          height: 13.h,
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: CustomTextField(
+                                text: "No",
+                                fontFamily: 'Sansation',
+                                size: 13.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                                overflow: TextOverflow.visible,
+                              ),
+                            ),
+                            SizedBox(width: 20.w),
+                            GestureDetector(
+                              onTap: () async {
+                                Get.back();
+                                if (await controller.uploadMedibotPills()) {
+                                  Get.back();
+                                  Get.snackbar(
+                                    "Pills Reminder",
+                                    "Pills is added to your Medibot.",
+                                    icon: const Icon(
+                                      Icons.check_sharp,
+                                      color: Colors.black,
+                                    ),
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: const Color(0xffA9CBFF),
+                                    margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                                    colorText: Colors.black,
+                                  );
+                                }
+                              },
+                              child: CustomTextField(
+                                text: "Yes",
+                                fontFamily: 'Sansation',
+                                size: 13.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                                overflow: TextOverflow.visible,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            );
+                  ),
+                );
+              }
+            }
           } else {
             Get.snackbar(
               "Pills Reminder",
@@ -155,6 +185,7 @@ class AddPill extends GetView<AddMedibotPill> {
               children: [
                 DropdownButtonFormField(
                   isDense: true,
+                  autofocus: true,
                   dropdownColor: Theme.of(context).colorScheme.primary,
                   focusColor: Theme.of(context).colorScheme.primary,
                   style: TextStyle(
@@ -182,7 +213,8 @@ class AddPill extends GetView<AddMedibotPill> {
                         color: Colors.black26,
                       ),
                     ),
-                    hintText: 'Slot *',
+                    enabled: true,
+                    prefixText: 'Slot ',
                     hintStyle: TextStyle(
                       fontFamily: 'Sansation',
                       fontSize: 15.sp,
@@ -300,7 +332,7 @@ class AddPill extends GetView<AddMedibotPill> {
                               color: Colors.black26,
                             ),
                           ),
-                          hintText: controller.medicineCategory.value != 'Select Category *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
+                          hintText: controller.medicineCategory.value != 'Select Medicine *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
                           hintStyle: TextStyle(
                             fontFamily: 'Sansation',
                             fontSize: 16.sp,
@@ -558,8 +590,11 @@ class AddPill extends GetView<AddMedibotPill> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if (controller.pillQuantity.value != 1) {
-                                controller.pillQuantity.value--;
+                              if(controller.pillQuantity.text.isEmpty){
+                                controller.pillQuantity.text = '1';
+                              }
+                              if (int.parse(controller.pillQuantity.text) > 1) {
+                                controller.pillQuantity.text = (int.parse(controller.pillQuantity.text) - 1).toString();
                               }
                             },
                             child: CustomBox(
@@ -568,8 +603,8 @@ class AddPill extends GetView<AddMedibotPill> {
                               ),
                               offset: 0,
                               color: Theme.of(context).colorScheme.primary,
-                              boxHeight: 29.h,
-                              boxWidth: 35.w,
+                              boxHeight: 30.h,
+                              boxWidth: 40.w,
                               topLeft: Radius.circular(4.r),
                               topRight: Radius.circular(4.r),
                               bottomLeft: Radius.circular(4.r),
@@ -584,37 +619,63 @@ class AddPill extends GetView<AddMedibotPill> {
                               boxShadow: const [],
                             ),
                           ),
-                          Obx(
-                            () => CustomBox(
-                              borders: Border.all(
-                                color: Colors.black26,
-                              ),
-                              offset: 0,
-                              boxHeight: 29.h,
-                              boxWidth: 240.w,
-                              topLeft: Radius.circular(4.r),
-                              topRight: Radius.circular(4.r),
-                              bottomLeft: Radius.circular(4.r),
-                              bottomRight: Radius.circular(4.r),
-                              color: Theme.of(context).colorScheme.primary,
-                              body: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CustomTextField(
-                                    size: 17.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    text: controller.pillQuantity.value
-                                        .toString(),
-                                  )
-                                ],
-                              ),
-                              boxShadow: const [],
+                          CustomBox(
+                            borders: Border.all(
+                              color: Colors.black26,
                             ),
+                            offset: 0,
+                            boxHeight: 35.h,
+                            boxWidth: 240.w,
+                            topLeft: Radius.circular(4.r),
+                            topRight: Radius.circular(4.r),
+                            bottomLeft: Radius.circular(4.r),
+                            bottomRight: Radius.circular(4.r),
+                            color: Theme.of(context).colorScheme.primary,
+                            body: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 35.h,
+                                  width: 230.w,
+                                  decoration: BoxDecoration(
+                                    color:  Theme.of(context).colorScheme.primary,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(7.r),
+                                      topRight: Radius.circular(7.r),
+                                      bottomLeft: Radius.circular(7.r),
+                                      bottomRight: Radius.circular(7.r),
+                                    ),
+                                  ),
+                                  padding:  EdgeInsets.symmetric(horizontal: 5.w),
+                                  child: TextFormField(
+                                    controller: controller.pillQuantity,
+                                    cursorColor: Colors.black,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    textAlignVertical: TextAlignVertical.bottom,
+                                    style: const TextStyle(fontSize: 17),
+                                    decoration: const InputDecoration(
+                                      hintStyle: TextStyle(fontSize: 17,),
+                                      hintText: '',
+                                      border: InputBorder.none,
+                                    ),
+                                    onChanged: (val){
+                                      if (int.parse(controller.pillQuantity.text) < 0 || val == '') {
+                                        controller.pillQuantity.text = '1';
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            boxShadow: const [],
                           ),
                           GestureDetector(
                             onTap: () {
-                              controller.pillQuantity.value++;
+                              if(controller.pillQuantity.text.isEmpty){
+                                controller.pillQuantity.text = '1';
+                              }
+                              controller.pillQuantity.text = (int.parse(controller.pillQuantity.text) + 1).toString();
                             },
                             child: CustomBox(
                               borders: Border.all(
@@ -622,8 +683,8 @@ class AddPill extends GetView<AddMedibotPill> {
                               ),
                               offset: 0,
                               color: Theme.of(context).colorScheme.primary,
-                              boxHeight: 29.h,
-                              boxWidth: 35.w,
+                              boxHeight: 30.h,
+                              boxWidth: 40.w,
                               topLeft: Radius.circular(4.r),
                               topRight: Radius.circular(4.r),
                               bottomLeft: Radius.circular(4.r),
@@ -637,7 +698,7 @@ class AddPill extends GetView<AddMedibotPill> {
                               ),
                               boxShadow: const [],
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ],
