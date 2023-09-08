@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +9,6 @@ import '../../widgets/backward_button.dart';
 import '../../widgets/box_field.dart';
 import '../../widgets/forward_button.dart';
 import '../../widgets/text_field.dart';
-import 'package:medibot/app/routes/route_path.dart';
 
 class Qrcode extends GetView<QrController> {
   const Qrcode({Key? key}) : super(key: key);

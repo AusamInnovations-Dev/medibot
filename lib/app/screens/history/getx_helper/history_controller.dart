@@ -1,16 +1,12 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csv/csv.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -133,10 +129,8 @@ class HistoryController extends GetxController {
               reminderList.add(pillsModel);
               break;
             case DocumentChangeType.modified:
-              // TODO: Handle this case.
               break;
             case DocumentChangeType.removed:
-              // TODO: Handle this case.
               break;
           }
         }

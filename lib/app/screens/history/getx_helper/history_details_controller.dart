@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:medibot/app/models/history_model/history_model.dart';

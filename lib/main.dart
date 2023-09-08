@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,8 +13,6 @@ import 'package:medibot/app/API/api_client.dart';
 import 'package:medibot/app/services/firestore.dart';
 import 'package:medibot/app/services/storage.dart';
 import 'package:medibot/app/services/user.dart';
-import 'app/models/history_model/history_model.dart';
-import 'app/models/pills_models/pills_model.dart';
 import 'app/routes/route_path.dart';
 import 'app/routes/routes.dart';
 import 'app/services/notification_service.dart';

@@ -208,6 +208,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                           fontWeight: FontWeight.w700,
                         ),
                         controller: controller.pillName,
+                        cursorColor: Colors.black,
                         decoration: InputDecoration(
                           fillColor: Theme.of(context).colorScheme.primary,
                           focusColor: Theme.of(context).colorScheme.primary,
@@ -286,6 +287,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                         width: 120.w,
                         child: TextFormField(
                           keyboardType: TextInputType.number,
+                          cursorColor: Colors.black,
                           style: TextStyle(
                             fontFamily: 'Sansation',
                             fontSize: 15.sp,

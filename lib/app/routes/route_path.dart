@@ -31,4 +31,9 @@ class RoutePaths {
 
   static String viewReminders = '/viewReminders';
 
+  static String viewPrescriptions = '/viewPrescriptions';
+  static String addPrescriptions = '/addPrescriptions';
+
+  static String viewOptions = '/viewOptions';
+
 }

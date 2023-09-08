@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
 import '../../routes/route_path.dart';
+import '../../services/user.dart';
 import '../../widgets/text_field.dart';
 import 'getx_helper/medibot_controller.dart';
 
@@ -13,6 +14,28 @@ class MedibotDetail extends GetView<MedibotController> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
+      bottomButtonText: 'Pair Device',
+      onbottomButtonPressed: () {
+        if (UserStore.to.profile.medibotDetail == '') {
+          Get.toNamed(RoutePaths.qrScan);
+        } else {
+          Get.snackbar(
+            "Medibot",
+            "Your application is already connected to the device",
+            icon: const Icon(
+              Icons.person,
+              color: Colors.black,
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xffA9CBFF),
+            margin: EdgeInsets.symmetric(
+              vertical: 10.h,
+              horizontal: 10.w,
+            ),
+            colorText: Colors.black,
+          );
+        }
+      },
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

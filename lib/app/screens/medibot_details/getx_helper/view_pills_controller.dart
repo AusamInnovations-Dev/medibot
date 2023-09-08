@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';

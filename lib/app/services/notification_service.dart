@@ -83,7 +83,7 @@ class NotificationService extends GetxController {
             currentDate.month,
             currentDate.day,
             int.parse(interval.substring(0, 2)),
-            int.parse(interval.substring(5, 7)),
+            int.parse(interval.substring(5, 7))-15,
           ));
           log('$isAfter at $currentDate : $interval');
           if (isAfter) {
@@ -94,17 +94,11 @@ class NotificationService extends GetxController {
               currentDate.month,
               currentDate.day,
               int.parse(interval.substring(0, 2)),
-              int.parse(interval.substring(5, 7)),
+              int.parse(interval.substring(5, 7))-15,
             ).toIso8601String());
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                  id: DateTime(
-                    currentDate.year,
-                    currentDate.month,
-                    currentDate.day,
-                    int.parse(interval.substring(0, 2)),
-                    int.parse(interval.substring(5, 7)),
-                  ).hashCode,
+                  id: math.Random().nextInt(100000),
                   channelKey: 'medibot_channel',
                   title: 'MediBot',
                   payload: {'pillId': pillsModel.uid, 'interval': interval},
@@ -123,7 +117,7 @@ class NotificationService extends GetxController {
                   key: 'Missed',
                   label: 'Missed',
                   color: Colors.red,
-                  actionType: ActionType.Default,
+                  actionType: ActionType.DismissAction,
                   showInCompactView: true,
                 ),
               ],
@@ -133,7 +127,7 @@ class NotificationService extends GetxController {
                   currentDate.month,
                   currentDate.day,
                   int.parse(interval.substring(0, 2)),
-                  int.parse(interval.substring(5, 7)),
+                  int.parse(interval.substring(5, 7))-15,
                 ),
                 allowWhileIdle: true,
                 preciseAlarm: true,
@@ -152,20 +146,14 @@ class NotificationService extends GetxController {
               individualDuration.month,
               individualDuration.day,
               int.parse(interval.substring(0, 2)),
-              int.parse(interval.substring(5, 7)),
+              int.parse(interval.substring(5, 7))-15,
             ),
           );
           if (isAfter) {
             log('Scheduling1');
             await AwesomeNotifications().createNotification(
               content: NotificationContent(
-                id: DateTime(
-                  individualDuration.year,
-                  individualDuration.month,
-                  individualDuration.day,
-                  int.parse(interval.substring(0, 2)),
-                  int.parse(interval.substring(5, 7)),
-                ).hashCode,
+                id: math.Random().nextInt(100000),
                 channelKey: 'medibot_channel',
                 title: 'MediBot',
                 payload: {'pillId': pillsModel.uid, 'interval': interval},
@@ -186,7 +174,7 @@ class NotificationService extends GetxController {
                   key: 'Missed',
                   label: 'Missed',
                   color: Colors.red,
-                  actionType: ActionType.Default,
+                  actionType: ActionType.DismissAction,
                   showInCompactView: true,
                 ),
               ],
@@ -196,7 +184,7 @@ class NotificationService extends GetxController {
                   individualDuration.month,
                   individualDuration.day,
                   int.parse(interval.substring(0, 2)),
-                  int.parse(interval.substring(5, 7)),
+                  int.parse(interval.substring(5, 7))-15,
                 ),
                 allowWhileIdle: true,
                 preciseAlarm: true,
@@ -253,7 +241,9 @@ class NotificationService extends GetxController {
             docId,
           );
         } else {
-          if (historyData.timeTaken.length < historyData.timeToTake.length) {
+          if(pill.pillsInterval.indexOf(pillInterval) == historyData.timeTaken.length-1){
+
+          }else if (historyData.timeTaken.length < historyData.timeToTake.length) {
             HistoryData historyDataTemp = historyData;
             List<String> tempTimeTaken = [];
             List<HistoryData> list = [];
@@ -342,8 +332,7 @@ class NotificationService extends GetxController {
               status.add('M');
             }
             timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
-            status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 60 ? 'Y' : 'L');
-
+            status.add(DateTime.now().difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes)).inMinutes < 30 ? 'Y' : 'L');
             list.add(
               HistoryData(
                 pillId: pill.uid,
@@ -358,7 +347,9 @@ class NotificationService extends GetxController {
               docId,
             );
           } else {
-            if (historyData.timeTaken.length < historyData.timeToTake.length) {
+            if (pill.pillsInterval.indexOf(pillInterval) == historyData.timeTaken.length-1) {
+
+            }else if (historyData.timeTaken.length < historyData.timeToTake.length) {
               HistoryData historyDataTemp = historyData;
               List<String> tempTimeTaken = [];
               List<HistoryData> list = [];
@@ -386,6 +377,7 @@ class NotificationService extends GetxController {
                 tempHistory,
                 docId,
               );
+              await FirebaseFireStore.to.decreaseQuantity(pill.uid, int.parse(pill.pillsQuantity)-1);
             }
           }
         } else {
@@ -442,7 +434,6 @@ class NotificationService extends GetxController {
             }
             timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
             status.add('M');
-
             list.add(
               HistoryData(
                 pillId: pill.uid,
@@ -457,7 +448,9 @@ class NotificationService extends GetxController {
               docId,
             );
           } else {
-            if (historyData.timeTaken.length < historyData.timeToTake.length) {
+            if(pill.pillsInterval.indexOf(pillInterval) == historyData.timeTaken.length-1){
+
+            }else if (historyData.timeTaken.length < historyData.timeToTake.length) {
               HistoryData historyDataTemp = historyData;
               List<String> tempTimeTaken = [];
               List<HistoryData> list = [];

@@ -6,7 +6,6 @@ import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
 import '../../../sampledata/medicines.dart';
 import '../../../widgets/box_field.dart';
-import '../../../widgets/custom_input.dart';
 import '../../../widgets/text_field.dart';
 import '../getx_helper/edit_medibot_controller.dart';
 import '../widgets/medibot_edit_time_interval.dart';
@@ -161,6 +160,7 @@ class MedibotManagement extends GetView<EditMedibotController> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700,
                                     ),
+                                    cursorColor: Colors.black,
                                     controller: controller.pillName[index],
                                     decoration: InputDecoration(
                                       fillColor: Theme.of(context).colorScheme.primary,
@@ -243,6 +243,7 @@ class MedibotManagement extends GetView<EditMedibotController> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.w700,
                                       ),
+                                      cursorColor: Colors.black,
                                       controller: controller.dosageController[index],
                                       decoration: InputDecoration(
                                         fillColor: Theme.of(context).colorScheme.primary,
@@ -444,8 +445,11 @@ class MedibotManagement extends GetView<EditMedibotController> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (controller.pillQuantity.value != 1) {
-                                  controller.pillQuantity.value--;
+                                if(controller.pillQuantity.text.isEmpty){
+                                  controller.pillQuantity.text = '1';
+                                }
+                                if (int.parse(controller.pillQuantity.text) > 1) {
+                                  controller.pillQuantity.text = (int.parse(controller.pillQuantity.text) - 1).toString();
                                 }
                               },
                               child: CustomBox(
@@ -454,8 +458,8 @@ class MedibotManagement extends GetView<EditMedibotController> {
                                 ),
                                 offset: 0,
                                 color: Theme.of(context).colorScheme.primary,
-                                boxHeight: 29.h,
-                                boxWidth: 35.w,
+                                boxHeight: 30.h,
+                                boxWidth: 40.w,
                                 topLeft: Radius.circular(4.r),
                                 topRight: Radius.circular(4.r),
                                 bottomLeft: Radius.circular(4.r),
@@ -470,39 +474,63 @@ class MedibotManagement extends GetView<EditMedibotController> {
                                 boxShadow: const [],
                               ),
                             ),
-                            Obx(
-                                  () => CustomBox(
-                                borders: Border.all(
-                                  color: Colors.black26,
-                                ),
-                                offset: 0,
-                                boxHeight: 29.h,
-                                boxWidth: 240.w,
-                                topLeft: Radius.circular(4.r),
-                                topRight: Radius.circular(4.r),
-                                bottomLeft: Radius.circular(4.r),
-                                bottomRight: Radius.circular(4.r),
-                                color: Theme.of(context).colorScheme.primary,
-                                body: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CustomTextField(
-                                      size: 17.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w400,
-                                      text: controller.pillQuantity.value
-                                          .toString(),
-                                    )
-                                  ],
-                                ),
-                                boxShadow: const [],
+                            CustomBox(
+                              borders: Border.all(
+                                color: Colors.black26,
                               ),
+                              offset: 0,
+                              boxHeight: 35.h,
+                              boxWidth: 220.w,
+                              topLeft: Radius.circular(4.r),
+                              topRight: Radius.circular(4.r),
+                              bottomLeft: Radius.circular(4.r),
+                              bottomRight: Radius.circular(4.r),
+                              color: Theme.of(context).colorScheme.primary,
+                              body: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 35.h,
+                                    width: 210.w,
+                                    decoration: BoxDecoration(
+                                      color:  Theme.of(context).colorScheme.primary,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(7.r),
+                                        topRight: Radius.circular(7.r),
+                                        bottomLeft: Radius.circular(7.r),
+                                        bottomRight: Radius.circular(7.r),
+                                      ),
+                                    ),
+                                    padding:  EdgeInsets.symmetric(horizontal: 5.w),
+                                    child: TextFormField(
+                                      controller: controller.pillQuantity,
+                                      cursorColor: Colors.black,
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      textAlignVertical: TextAlignVertical.bottom,
+                                      style: const TextStyle(fontSize: 17),
+                                      decoration: const InputDecoration(
+                                        hintStyle: TextStyle(fontSize: 17,),
+                                        hintText: '',
+                                        border: InputBorder.none,
+                                      ),
+                                      onChanged: (val){
+                                        if (int.parse(controller.pillQuantity.text) < 0 || val == '') {
+                                          controller.pillQuantity.text = '1';
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              boxShadow: const [],
                             ),
                             GestureDetector(
                               onTap: () {
-                                if (controller.pillQuantity.value != 10) {
-                                  controller.pillQuantity.value++;
+                                if(controller.pillQuantity.text.isEmpty){
+                                  controller.pillQuantity.text = '1';
                                 }
+                                controller.pillQuantity.text = (int.parse(controller.pillQuantity.text) + 1).toString();
                               },
                               child: CustomBox(
                                 borders: Border.all(
@@ -510,8 +538,8 @@ class MedibotManagement extends GetView<EditMedibotController> {
                                 ),
                                 offset: 0,
                                 color: Theme.of(context).colorScheme.primary,
-                                boxHeight: 29.h,
-                                boxWidth: 35.w,
+                                boxHeight: 30.h,
+                                boxWidth: 40.w,
                                 topLeft: Radius.circular(4.r),
                                 topRight: Radius.circular(4.r),
                                 bottomLeft: Radius.circular(4.r),
@@ -525,7 +553,7 @@ class MedibotManagement extends GetView<EditMedibotController> {
                                 ),
                                 boxShadow: const [],
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ],

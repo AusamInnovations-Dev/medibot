@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -326,10 +325,37 @@ class HomepageController extends GetxController {
               int.parse(interval.substring(5, 7)),
             ),
           ).inMinutes;
+        }else if(nextIndex-2 < reminderList[pillIndex.value].pillsInterval.length && (nextIndex-2) >= 0){
+          diff = DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex-2].substring(0, 2)),
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex-2].substring(5, 7)),
+          ).difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            ),
+          ).inMinutes;
         }
-        log('This is the difference : $diff');
+        log('This is the difference : $diff with $interval and ${DateTime.now().difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            )
+        ).inMinutes}');
         if(diff >= 180){
           diff = 180;
+        }
+        if(diff < 0){
+          diff = -diff;
         }
         if (DateTime.now().difference(
             DateTime(
@@ -339,32 +365,29 @@ class HomepageController extends GetxController {
               int.parse(interval.substring(0, 2)),
               int.parse(interval.substring(5, 7)),
             )
-        ).inMinutes <= diff/2) {
+        ).inMinutes <= diff/2 && diff > 0) {
+          log('hello $interval');
           if(UserStore.to.skipPills.any((pill) => pill['pillId'] == reminderList[pillIndex.value].uid && pill['pillInterval'] == interval && DateTime.parse(pill['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))){
 
           }else{
             if (historyList.isNotEmpty) {
               List<DateTime> timeTaken = historyList[pillIndex.value].timeTaken.map((e) => DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day, int.parse(e.substring(0,2)),  int.parse(e.substring(5,7)))).toList();
-              if (timeTaken.any((element) =>
-              element
-                  .difference(DateTime(
+              log(timeTaken.toString());
+              if(timeTaken.any((element) =>
+              element.difference(DateTime(
                   DateTime.now().year,
                   DateTime.now().month,
                   DateTime.now().day,
                   int.parse(interval.substring(0, 2)),
                   int.parse(interval.substring(5, 7))))
-                  .inMinutes <=
-                  diff/2 &&
-                  element
-                      .difference(DateTime(
-                      DateTime.now().year,
-                      DateTime.now().month,
-                      DateTime.now().day,
-                      int.parse(interval.substring(0, 2)),
-                      int.parse(interval.substring(5, 7))))
-                      .inMinutes >=
-                      -diff/2)) {
-              } else {
+                  .inMinutes <= diff/2 && element.difference(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7))))
+                  .inMinutes >= -diff/2)){
+              }else{
                 if (int.parse(interval.substring(0, 2)) == 12) {
                   return '${interval.substring(0, 2)} : ${interval.substring(5, 7)} PM';
                 } else if (int.parse(interval.substring(0, 2)) > 12) {
@@ -428,9 +451,29 @@ class HomepageController extends GetxController {
               int.parse(interval.substring(5, 7)),
             ),
           ).inMinutes;
+        }else if(nextIndex-2 < reminderList[pillIndex.value].pillsInterval.length && (nextIndex-2) >= 0){
+          diff = DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex-2].substring(0, 2)),
+            int.parse(reminderList[pillIndex.value].pillsInterval[nextIndex-2].substring(5, 7)),
+          ).difference(
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+              int.parse(interval.substring(0, 2)),
+              int.parse(interval.substring(5, 7)),
+            ),
+          ).inMinutes;
         }
+        log('This is the difference : $diff with $interval');
         if(diff >= 180){
           diff = 180;
+        }
+        if(diff < 0){
+          diff = -diff;
         }
         if (DateTime.now().difference(
             DateTime(
@@ -440,32 +483,28 @@ class HomepageController extends GetxController {
               int.parse(interval.substring(0, 2)),
               int.parse(interval.substring(5, 7)),
             )
-        ).inMinutes <= diff/2) {
+        ).inMinutes <= diff/2 && diff > 0) {
           if(UserStore.to.skipPills.any((pill) => pill['pillId'] == reminderList[pillIndex.value].uid && pill['pillInterval'] == interval && DateTime.parse(pill['pillDuration']) == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
 
           }else{
             if (historyList.isNotEmpty) {
               List<DateTime> timeTaken = historyList[pillIndex.value].timeTaken.map((e) => DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day, int.parse(e.substring(0,2)),  int.parse(e.substring(5,7)))).toList();
-              if (timeTaken.any((element) =>
-              element
-                  .difference(DateTime(
+              log(timeTaken.toString());
+              if(timeTaken.any((element) =>
+              element.difference(DateTime(
                   DateTime.now().year,
                   DateTime.now().month,
                   DateTime.now().day,
                   int.parse(interval.substring(0, 2)),
                   int.parse(interval.substring(5, 7))))
-                  .inMinutes <=
-                  diff/2 &&
-                  element
-                      .difference(DateTime(
-                      DateTime.now().year,
-                      DateTime.now().month,
-                      DateTime.now().day,
-                      int.parse(interval.substring(0, 2)),
-                      int.parse(interval.substring(5, 7))))
-                      .inMinutes >=
-                      -diff/2)) {
-              } else {
+                  .inMinutes <= diff/2 && element.difference(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  int.parse(interval.substring(0, 2)),
+                  int.parse(interval.substring(5, 7))))
+                  .inMinutes >= -diff/2)){
+              }else {
                 return '${interval.substring(0, 2)}:${interval.substring(5, 7)}';
               }
             } else {
@@ -735,7 +774,6 @@ class HomepageController extends GetxController {
             }
             timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
             status.add('M');
-
             list.add(
               HistoryData(
                 pillId: pill.uid,
@@ -745,22 +783,15 @@ class HomepageController extends GetxController {
               ),
             );
             historyModel = historyModel.copyWith(historyData: list);
-            AwesomeNotifications().dismiss(
-              DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                int.parse(pillInterval.substring(0,2)),
-                int.parse(pillInterval.substring(5,7)),
-              ).hashCode
-            );
             await FirebaseFireStore.to.uploadHistoryData(
               historyModel,
               docId,
             );
             isSkipping.value = false;
           } else {
-            if (historyData.timeTaken.length < historyData.timeToTake.length) {
+            if(pill.pillsInterval.indexOf(pillInterval) == historyData.timeTaken.length-1){
+
+            }else if (historyData.timeTaken.length < historyData.timeToTake.length) {
               HistoryData historyDataTemp = historyData;
               List<String> tempTimeTaken = [];
               List<HistoryData> list = [];
@@ -783,15 +814,6 @@ class HomepageController extends GetxController {
               HistoryModel tempHistory = HistoryModel(
                 userId: historyModel.userId,
                 historyData: list,
-              );
-              AwesomeNotifications().dismiss(
-                  DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day,
-                    int.parse(pillInterval.substring(0,2)),
-                    int.parse(pillInterval.substring(5,7)),
-                  ).hashCode
               );
               isSkipping.value = false;
               await FirebaseFireStore.to.uploadHistoryData(
@@ -817,15 +839,6 @@ class HomepageController extends GetxController {
               med_status: status,
             ),
           ]);
-          AwesomeNotifications().dismiss(
-              DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                int.parse(pillInterval.substring(0,2)),
-                int.parse(pillInterval.substring(5,7)),
-              ).hashCode
-          );
           isSkipping.value = false;
           await FirebaseFireStore.to.uploadHistoryData(
             historyModel,

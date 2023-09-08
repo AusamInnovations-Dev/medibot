@@ -253,6 +253,7 @@ class AddPill extends GetView<AddMedibotPill> {
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
                   ),
+
                   decoration: InputDecoration(
                     fillColor: Theme.of(context).colorScheme.primary,
                     focusColor: Theme.of(context).colorScheme.primary,
@@ -312,6 +313,7 @@ class AddPill extends GetView<AddMedibotPill> {
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
                         ),
+                        cursorColor: Colors.black,
                         controller: controller.pillName,
                         decoration: InputDecoration(
                           fillColor: Theme.of(context).colorScheme.primary,
@@ -394,6 +396,7 @@ class AddPill extends GetView<AddMedibotPill> {
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
                           ),
+                          cursorColor: Colors.black,
                           controller: controller.dosageController,
                           decoration: InputDecoration(
                             fillColor: Theme.of(context).colorScheme.primary,
@@ -625,7 +628,7 @@ class AddPill extends GetView<AddMedibotPill> {
                             ),
                             offset: 0,
                             boxHeight: 35.h,
-                            boxWidth: 240.w,
+                            boxWidth: 220.w,
                             topLeft: Radius.circular(4.r),
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
@@ -636,7 +639,7 @@ class AddPill extends GetView<AddMedibotPill> {
                               children: [
                                 Container(
                                   height: 35.h,
-                                  width: 230.w,
+                                  width: 210.w,
                                   decoration: BoxDecoration(
                                     color:  Theme.of(context).colorScheme.primary,
                                     borderRadius: BorderRadius.only(

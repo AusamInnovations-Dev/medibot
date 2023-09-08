@@ -332,7 +332,8 @@ class HomePage extends GetView<HomepageController> {
                                               Get.toNamed(RoutePaths.newreminder);
                                             },
                                             child: CustomBox(
-boxHeight: 70.h,                                              boxWidth: 140.w,
+                                              boxHeight: 70.h,
+                                              boxWidth: 140.w,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
                                               ),
@@ -394,25 +395,7 @@ boxHeight: 70.h,                                              boxWidth: 140.w,
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              if (UserStore.to.profile.medibotDetail == '') {
-                                                Get.snackbar(
-                                                  "Medibot",
-                                                  "Please link with a Medibot for using this feature",
-                                                  icon: const Icon(
-                                                    Icons.person,
-                                                    color: Colors.black,
-                                                  ),
-                                                  snackPosition: SnackPosition.BOTTOM,
-                                                  backgroundColor: const Color(0xffA9CBFF),
-                                                  margin: EdgeInsets.symmetric(
-                                                    vertical: 10.h,
-                                                    horizontal: 10.w,
-                                                  ),
-                                                  colorText: Colors.black,
-                                                );
-                                              } else {
-                                                Get.toNamed(RoutePaths.medibotdetail);
-                                              }
+                                              Get.toNamed(RoutePaths.medibotdetail);
                                             },
                                             child: CustomBox(
                                               boxHeight: 70.h,
@@ -444,24 +427,25 @@ boxHeight: 70.h,                                              boxWidth: 140.w,
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Get.toNamed(RoutePaths.userSetting);
+                                              Get.toNamed(RoutePaths.viewReminders);
                                             },
                                             child: CustomBox(
-boxHeight: 70.h,                                              boxWidth: 140.w,
+                                              boxHeight: 70.h,
+                                              boxWidth: 140.w,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
                                               ),
                                               padding: EdgeInsets.symmetric(
-                                                horizontal: 26.w,
+                                                horizontal: 15.w,
                                               ),
                                               body: Align(
                                                 alignment: Alignment.center,
                                                 child: CustomTextField(
                                                   textAlign: TextAlign.center,
                                                   color: Colors.black,
-                                                  size: 13.sp,
+                                                  size: 12.sp,
                                                   fontWeight: FontWeight.w700,
-                                                  text: "User Settings",
+                                                  text: "View Reminders",
                                                   maxLines: 2,
                                                 ),
                                               ),
@@ -481,7 +465,7 @@ boxHeight: 70.h,                                              boxWidth: 140.w,
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(RoutePaths.qrScan);
+                                      Get.toNamed(RoutePaths.viewOptions);
                                     },
                                     child: CustomBox(
                                       margin: EdgeInsets.symmetric(
@@ -499,7 +483,7 @@ boxHeight: 70.h,                                              boxWidth: 140.w,
                                           color: Colors.black,
                                           size: 13.sp,
                                           fontWeight: FontWeight.w700,
-                                          text: "Pair Device",
+                                          text: "Prescription",
                                           maxLines: 2,
                                         ),
                                       ),
@@ -507,7 +491,7 @@ boxHeight: 70.h,                                              boxWidth: 140.w,
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(RoutePaths.viewReminders);
+                                      Get.toNamed(RoutePaths.userSetting);
                                     },
                                     child: CustomBox(
                                       boxHeight: 70.h,
@@ -526,7 +510,7 @@ boxHeight: 70.h,                                              boxWidth: 140.w,
                                           color: Colors.black,
                                           size: 13.sp,
                                           fontWeight: FontWeight.w700,
-                                          text: "View Reminders",
+                                          text: "User Settings",
                                           maxLines: 2,
                                         ),
                                       ),

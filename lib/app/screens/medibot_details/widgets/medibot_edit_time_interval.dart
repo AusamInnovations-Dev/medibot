@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medibot/app/sampledata/medicines.dart';
 import 'package:medibot/app/screens/medibot_details/getx_helper/edit_medibot_controller.dart';
 import 'package:medibot/app/widgets/box_field.dart';
@@ -19,8 +20,7 @@ class MedibotEditTimeInterval extends GetView<EditMedibotController> {
   Widget build(BuildContext context) {
     if (interval != 'Custom') {
       if (interval != 'Hourly') {
-        return Obx(
-              () => MediaQuery.removePadding(
+        return Obx(() => MediaQuery.removePadding(
             context: context,
             removeTop: true,
             child: ListView.builder(
@@ -46,6 +46,25 @@ class MedibotEditTimeInterval extends GetView<EditMedibotController> {
                         focusColor: Theme.of(context).colorScheme.primary,
                         onChange: (value) {
                           controller.timeIntervals[index]['hour'] = value;
+                          if(index == 0 && controller.timeIntervals.length > 1){
+                            for(var i = 1; i < controller.timeIntervals.length; i++){
+                              String time = controller.timeIntervals[i-1]['hour'].toString();
+                              controller.pillsTime[i] = TimeOfDay(
+                                hour: controller.interval.value == 'Twice a Day (12 Hours)' ? int.parse(time.substring(0,2))+12 : int.parse(time.substring(0,2)) >= 24 ? int.parse(time.substring(0,2))-24+8 : int.parse(time.substring(0,2))+8,
+                                minute: 00,
+                              );
+                              String hour, period;
+                              String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                              hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                              period = date.substring(6,8);
+                              log('This is the interval : $hour,$period, $date, $time');
+                              controller.timeIntervals[i] = {
+                                'hour': '$hour H',
+                                'minute': controller.timeIntervals[i]['minute']!,
+                                'period': int.parse(value.substring(0,2)) >= 8 && i == 2 ? 'AM' : 'PM',
+                              };
+                            }
+                          }
                         },
                         items: SampleMedicine.hours
                             .map(

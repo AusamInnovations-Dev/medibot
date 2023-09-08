@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:medibot/app/models/pills_models/pills_model.dart';
 
 import '../models/history_model/history_model.dart';
+import '../models/prescription_model/prescription_model.dart';
 import '../models/user_model/user_model.dart';
 import 'user.dart';
 
@@ -403,4 +404,24 @@ class FirebaseFireStore extends GetxController {
         .doc(uid)
         .update({'pillsQuantity': '$quantity'});
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllPrescriptions() {
+    return fireStore
+        .collection('prescription')
+        .where('userId', isEqualTo: UserStore.to.uid)
+        .snapshots();
+  }
+
+  addPrescription(PrescriptionModel prescription) async {
+    var docId = fireStore
+        .collection('prescription')
+        .doc().id;
+
+    await fireStore
+        .collection('prescription')
+        .doc(docId)
+        .set(prescription.copyWith(uid: docId).toJson());
+  }
+
 }
+

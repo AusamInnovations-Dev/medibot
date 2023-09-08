@@ -7,7 +7,6 @@ import 'package:medibot/app/screens/reminder/widgets/time_interval.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 import '../../sampledata/medicines.dart';
 import '../../widgets/box_field.dart';
-import '../../widgets/custom_input.dart';
 import '../../widgets/text_field.dart';
 import 'widgets/select_duration.dart';
 
@@ -232,6 +231,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                         fontWeight: FontWeight.w700,
                       ),
                       controller: controller.pillName,
+                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).colorScheme.primary,
                         focusColor: Theme.of(context).colorScheme.primary,
@@ -251,7 +251,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             color: Colors.black26,
                           ),
                         ),
-                        hintText: controller.medicineCategory.value != 'Select Category *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
+                        hintText: controller.medicineCategory.value != 'Select Medicine *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
                         hintStyle: TextStyle(
                           fontFamily: 'Sansation',
                           fontSize: 16.sp,
@@ -311,6 +311,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
                           ),
+                          cursorColor: Colors.black,
                           controller: controller.dosageController,
                           decoration: InputDecoration(
                             fillColor: Theme.of(context).colorScheme.primary,
@@ -545,7 +546,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             ),
                             offset: 0,
                             boxHeight: 35.h,
-                            boxWidth: 240.w,
+                            boxWidth: 220.w,
                             topLeft: Radius.circular(4.r),
                             topRight: Radius.circular(4.r),
                             bottomLeft: Radius.circular(4.r),
@@ -556,7 +557,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                               children: [
                                 Container(
                                   height: 35.h,
-                                  width: 230.w,
+                                  width: 210.w,
                                   decoration: BoxDecoration(
                                     color:  Theme.of(context).colorScheme.primary,
                                     borderRadius: BorderRadius.only(

@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +20,7 @@ class EditMedibotController extends GetxController{
 
   List<TimeOfDay> pillsTime = [];
   Rx<bool> increasePossible = true.obs;
-  Rx<int> pillQuantity = 1.obs;
+  TextEditingController pillQuantity = TextEditingController();
   RxList<Map<String, Object>> timeIntervals = <Map<String, Object>>[].obs;
 
   @override
@@ -29,7 +28,7 @@ class EditMedibotController extends GetxController{
     pill = Get.arguments['pill'];
     remainingDay = Get.arguments['remainingDays'];
     interval.value = pill.first.interval;
-    pillQuantity.value = int.parse(pill.first.pillsQuantity);
+    pillQuantity.text = pill.first.pillsQuantity;
     for(var reminder in pill){
       pillName.add(TextEditingController(text: reminder.pillName));
       dosageController.add(TextEditingController(text: ''));
@@ -64,7 +63,7 @@ class EditMedibotController extends GetxController{
         await FirebaseFireStore.to.updateMedibotData(
             pill[i].copyWith(
               interval: interval.value,
-              pillsQuantity: pillQuantity.value.toString(),
+              pillsQuantity: pillQuantity.text,
               pillsInterval: intervalsInString,
               pillName: pillName[i].text,
               dosage: dosageController[i].text+dosage[i],
@@ -75,7 +74,7 @@ class EditMedibotController extends GetxController{
         await FirebaseFireStore.to.updateMedibotData(
             pill[i].copyWith(
               interval: interval.value,
-              pillsQuantity: pillQuantity.value.toString(),
+              pillsQuantity: pillQuantity.text,
               pillsInterval: intervalsInString,
               pillName: pillName[i].text,
               medicineCategory: medicineCategory[i],
