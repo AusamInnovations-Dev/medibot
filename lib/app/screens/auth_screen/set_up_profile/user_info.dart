@@ -100,6 +100,7 @@ class UserInfo extends GetView<SetUpProfileController> {
                               boxWidth: 232.w,
                               hintText: "",
                               fontTheme: 'Sansation',
+                              type: TextInputType.number,
                               textController: controller.ageController,
                             )
                           ],
@@ -142,8 +143,7 @@ class UserInfo extends GetView<SetUpProfileController> {
                                     fontWeight: FontWeight.w500,
                                     textsize: 8.sp,
                                     onPressed: () async {
-                                      controller.locationController.text =
-                                          await controller.getCurrentLocation();
+                                      controller.locationController.text = await controller.getCurrentLocation();
                                     },
                                   ),
                                 )
@@ -193,10 +193,25 @@ class UserInfo extends GetView<SetUpProfileController> {
                         padding: EdgeInsets.symmetric(vertical: 9.w),
                         iconSize: 18.h,
                         onPressed: () {
-                          if (controller.haveCaretaker.value) {
-                            Get.toNamed(RoutePaths.caretakerInformation);
-                          } else {
-                            Get.toNamed(RoutePaths.emergencyInformation);
+                          if(int.tryParse(controller.ageController.text) == null){
+                            Get.snackbar(
+                              "User Settings",
+                              "PLease enter valid age",
+                              icon: const Icon(
+                                Icons.crisis_alert,
+                                color: Colors.black,
+                              ),
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: const Color(0xffA9CBFF),
+                              margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                              colorText: Colors.black,
+                            );
+                          }else{
+                            if (controller.haveCaretaker.value) {
+                              Get.toNamed(RoutePaths.caretakerInformation);
+                            } else {
+                              Get.toNamed(RoutePaths.emergencyInformation);
+                            }
                           }
                         },
                       )

@@ -6,6 +6,7 @@ import 'package:medibot/app/screens/user_settings/get_helper/user_setting_contro
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
 import '../../routes/route_path.dart';
+import '../../services/user.dart';
 import '../../widgets/box_field.dart';
 import '../../widgets/custom_input.dart';
 import '../../widgets/custom_input_button.dart';
@@ -17,6 +18,11 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.emergencynameController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyName);
+    controller.emergencylocationController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyAddress);
+    controller.emergencycontactController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyPhone);
+    controller.emergencyrelationController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyRelation);
+
     return ScreenDecoration(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -122,8 +128,8 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                             boxHeight: 36.h,
                             boxWidth: 172.w,
                             hintText: "",
-                            textController:
-                                controller.emergencycontactController,
+                            type: TextInputType.number,
+                            textController: controller.emergencycontactController,
                             fontTheme: 'Sansation',
                           ),
                           InputButton(
@@ -172,7 +178,22 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 20.h,
                   onPressed: () {
-                    controller.updateEmergencyContact();
+                    if(int.tryParse(controller.emergencycontactController.text) == null || controller.emergencycontactController.text.length != 10){
+                      Get.snackbar(
+                        "User Settings ",
+                        "Please remove unwanted characters in phone number",
+                        icon: const Icon(
+                          Icons.crisis_alert,
+                          color: Colors.black,
+                        ),
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: const Color(0xffA9CBFF),
+                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                        colorText: Colors.black,
+                      );
+                    }else{
+                      controller.updateEmergencyContact();
+                    }
                   },
                 ),
               ],

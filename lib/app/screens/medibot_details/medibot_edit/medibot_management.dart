@@ -346,7 +346,15 @@ class MedibotManagement extends GetView<EditMedibotController> {
                       },
                     ),
                   ),
-                  Container(
+                  controller.pill.first.slot != 6 ? CustomTextField(
+                    fontWeight: FontWeight.w400,
+                    text: "Interval",
+                    color: Colors.black,
+                    size: 15.sp,
+                    textAlign: TextAlign.start,
+                  ): Container(),
+                  controller.pill.first.slot != 6 ? SizedBox(height: 10.h,): Container(),
+                  controller.pill.first.slot != 6 ? Container(
                     margin: EdgeInsets.only(bottom: 20.h, right: 5.w),
                     child: DropdownButtonFormField(
                       value: controller.interval.value,
@@ -419,7 +427,7 @@ class MedibotManagement extends GetView<EditMedibotController> {
                         }
                       },
                     ),
-                  ),
+                  ): Container(),
                   Obx(
                         () => MedibotEditTimeInterval(
                       interval: controller.interval.value,

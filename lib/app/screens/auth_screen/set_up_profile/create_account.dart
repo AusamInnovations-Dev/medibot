@@ -73,6 +73,7 @@ class CreateAccount extends GetView<AuthController> {
                             boxHeight: 35.h,
                             boxWidth: 265.w,
                             hintText: "",
+                            type: TextInputType.number,
                             textController: controller.phoneController,
                             fontTheme: 'Sansation',
                           ),

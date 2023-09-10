@@ -173,6 +173,7 @@ class HomePage extends GetView<HomepageController> {
                                                         : controller.reminderList[controller.pillIndex.value].pillName,
                                                     color: Colors.black,
                                                     size: 18.sp,
+                                                    maxLines: 1,
                                                   ),
                                                 ),
                                                 CustomTextField(
@@ -329,7 +330,25 @@ class HomePage extends GetView<HomepageController> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              Get.toNamed(RoutePaths.newreminder);
+                                              if(UserStore.to.profile.medibotDetail.isEmpty){
+                                                Get.toNamed(RoutePaths.newreminder);
+                                              }else{
+                                                Get.snackbar(
+                                                  "Medibot",
+                                                  "Please user Medibot to add Medicines",
+                                                  icon: const Icon(
+                                                    Icons.person,
+                                                    color: Colors.black,
+                                                  ),
+                                                  snackPosition: SnackPosition.BOTTOM,
+                                                  backgroundColor: const Color(0xffA9CBFF),
+                                                  margin: EdgeInsets.symmetric(
+                                                    vertical: 10.h,
+                                                    horizontal: 10.w,
+                                                  ),
+                                                  colorText: Colors.black,
+                                                );
+                                              }
                                             },
                                             child: CustomBox(
                                               boxHeight: 70.h,
@@ -414,7 +433,7 @@ class HomePage extends GetView<HomepageController> {
                                                   color: Colors.black,
                                                   size: 13.sp,
                                                   fontWeight: FontWeight.w700,
-                                                  text: "Medibot Details",
+                                                  text: "Medibot",
                                                   maxLines: 2,
                                                 ),
                                               ),
@@ -445,7 +464,7 @@ class HomePage extends GetView<HomepageController> {
                                                   color: Colors.black,
                                                   size: 12.sp,
                                                   fontWeight: FontWeight.w700,
-                                                  text: "View Reminders",
+                                                  text: "View Prescription",
                                                   maxLines: 2,
                                                 ),
                                               ),
@@ -465,7 +484,7 @@ class HomePage extends GetView<HomepageController> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(RoutePaths.viewOptions);
+                                      Get.toNamed(RoutePaths.qrScan);
                                     },
                                     child: CustomBox(
                                       margin: EdgeInsets.symmetric(
@@ -483,7 +502,7 @@ class HomePage extends GetView<HomepageController> {
                                           color: Colors.black,
                                           size: 13.sp,
                                           fontWeight: FontWeight.w700,
-                                          text: "Prescription",
+                                          text: "Pair Device",
                                           maxLines: 2,
                                         ),
                                       ),

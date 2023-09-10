@@ -92,6 +92,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
                       length: 6,
                       obscureText: false,
                       animationType: AnimationType.none,
+                      keyboardType: TextInputType.number,
                       cursorColor: Colors.black,
                       enableActiveFill: true,
                       pinTheme: PinTheme(

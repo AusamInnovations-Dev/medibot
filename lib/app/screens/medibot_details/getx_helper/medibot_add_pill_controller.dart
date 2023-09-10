@@ -17,7 +17,7 @@ class AddMedibotPill extends GetxController {
   String dosage = 'Select Dosage';
   Rx<String> medicineCategory = 'Select Category'.obs;
   Rx<String> interval = 'Once a Day (24 Hours)'.obs;
-  RxList<int> availableSlot = <int>[].obs;
+  RxList<String> availableSlot = <String>[].obs;
   Rx<int> slot = 0.obs;
   Rx<String> hourlyInterval = '01 H'.obs;
   List<TimeOfDay> pillsTime = [
@@ -30,31 +30,31 @@ class AddMedibotPill extends GetxController {
   Rx<bool> isRange = false.obs;
   Rx<bool> isIndividual = false.obs;
   Rx<bool> increasePossible = true.obs;
-  RxList<Map<String, Object>> timeIntervals = <Map<String, Object>>[
-    {'hour': '08 H', 'minute': '00 M', 'period': 'AM'}
-  ].obs;
+    RxList<Map<String, Object>> timeIntervals = <Map<String, Object>>[
+      {'hour': '08 H', 'minute': '00 M', 'period': 'AM'}
+    ].obs;
 
   RxList<DateTime> durationDates = <DateTime>[].obs;
 
   @override
   void onInit(){
     if(Get.find<MedibotController>().slot1.isEmpty){
-      availableSlot.add(1);
+      availableSlot.add('Slot 1');
     }
     if(Get.find<MedibotController>().slot2.isEmpty){
-      availableSlot.add(2);
+      availableSlot.add('Slot 2');
     }
     if(Get.find<MedibotController>().slot3.isEmpty){
-      availableSlot.add(3);
+      availableSlot.add('Slot 3');
     }
     if(Get.find<MedibotController>().slot4.isEmpty){
-      availableSlot.add(4);
+      availableSlot.add('Slot 4');
     }
     if(Get.find<MedibotController>().slot5.isEmpty){
-      availableSlot.add(5);
+      availableSlot.add('Slot 5');
     }
     if(Get.find<MedibotController>().slot6.isEmpty){
-      availableSlot.add(6);
+      availableSlot.add('Slot 6 (SOS)');
     }
     super.onInit();
   }
@@ -170,17 +170,17 @@ class AddMedibotPill extends GetxController {
         hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
         minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
         period = date.substring(6,8);
-        log('This is the interval : $hour, $minute, $period');
+        log('This is the interval : ${pillsTime.last}');
         timeIntervals.add({
           'hour': '$hour H',
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+1 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '02 H':
@@ -199,11 +199,11 @@ class AddMedibotPill extends GetxController {
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+2 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 12){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '03 H':
@@ -222,11 +222,11 @@ class AddMedibotPill extends GetxController {
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+3 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 8){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '04 H':
@@ -245,11 +245,11 @@ class AddMedibotPill extends GetxController {
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+4 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 6){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '06 H':
@@ -257,16 +257,22 @@ class AddMedibotPill extends GetxController {
           hour: pillsTime.last.hour+6,
           minute: 00,
         ));
+        String hour, minute, period;
+        String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        period = date.substring(6,8);
+        log('This is the interval : $hour, $minute, $period');
         timeIntervals.add({
-          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.last.hour > 12 && pillsTime.last.hour != 24? "PM" : pillsTime.last.hour == 12 ? "PM" : "AM",
+          'hour': '$hour H',
+          'minute': '$minute M',
+          'period': period,
         });
-        // if(pillsTime.last.hour+6 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 4){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
     }
   }
@@ -389,13 +395,13 @@ class AddMedibotPill extends GetxController {
           dosage: dosageController.text+dosage,
           medicineCategory: medicineCategory.value,
           userId: UserStore.to.uid,
-          interval: interval.value,
+          interval: '',
           inMedibot: true,
           isIndividual: isIndividual.value,
           isRange: isRange.value,
           pillsQuantity: pillQuantity.text,
-          pillsInterval: intervalsInString,
-          pillsDuration: durationDates.map((e) => e.toIso8601String()).toList(),
+          pillsInterval: [],
+          pillsDuration: [],
           request: 1,
           slot: 6,
         ));

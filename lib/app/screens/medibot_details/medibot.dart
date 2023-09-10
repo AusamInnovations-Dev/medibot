@@ -14,27 +14,10 @@ class MedibotDetail extends GetView<MedibotController> {
   @override
   Widget build(BuildContext context) {
     return ScreenDecoration(
-      bottomButtonText: 'Pair Device',
+      bottomButtonText: 'Add Medicine to Medibot',
+
       onbottomButtonPressed: () {
-        if (UserStore.to.profile.medibotDetail == '') {
-          Get.toNamed(RoutePaths.qrScan);
-        } else {
-          Get.snackbar(
-            "Medibot",
-            "Your application is already connected to the device",
-            icon: const Icon(
-              Icons.person,
-              color: Colors.black,
-            ),
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: const Color(0xffA9CBFF),
-            margin: EdgeInsets.symmetric(
-              vertical: 10.h,
-              horizontal: 10.w,
-            ),
-            colorText: Colors.black,
-          );
-        }
+        Get.toNamed(RoutePaths.addpillmedibot);
       },
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -320,7 +303,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                       },
                                                       icon: Icon(
                                                         Icons.delete,
-                                                        // color: Colors.white,
+                                                        color: Colors.red,
                                                         size: 20.h,
                                                       )
                                                     ),
@@ -623,6 +606,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                 icon: Icon(
                                                   Icons.delete,
                                                   size: 20.h,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ],
@@ -923,6 +907,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                 icon: Icon(
                                                   Icons.delete,
                                                   size: 20.h,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ],
@@ -1223,6 +1208,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                 icon: Icon(
                                                   Icons.delete,
                                                   size: 20.h,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ],
@@ -1523,6 +1509,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                 icon: Icon(
                                                   Icons.delete,
                                                   size: 20.h,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ],
@@ -1608,7 +1595,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                     CustomTextField(
                                       fontWeight: FontWeight.w700,
                                       size: 17.sp,
-                                      text: "Slot 6",
+                                      text: "Slot 6 (SOS)",
                                       color: Colors.black,
                                     ),
                                     ElevatedButton(
@@ -1649,59 +1636,6 @@ class MedibotDetail extends GetView<MedibotController> {
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 10.h,),
-                                RichText(
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 17.sp,
-                                      fontFamily: 'Sansation',
-                                      color: Colors.black,
-                                    ),
-                                    children: [
-                                      const TextSpan(
-                                        text: 'Remaining Pills ',
-                                      ),
-                                      TextSpan(
-                                        text: '    ${controller.slot6.first.pillsQuantity}',
-                                        style: const TextStyle(
-                                          color: Colors.green,
-                                          fontWeight:
-                                          FontWeight.bold,
-                                          fontFamily: 'Sansation',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5.h,),
-                                RichText(
-                                  maxLines: 1,
-                                  textAlign: TextAlign.start,
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 17.sp,
-                                      fontFamily: 'Sansation',
-                                      color: Colors.black,
-                                    ),
-                                    children: [
-                                      const TextSpan(
-                                        text: 'Remaining Days ',
-                                      ),
-                                      TextSpan(
-                                        text:
-                                        '   ${controller.slot6remainingDay.value}',
-                                        style: const TextStyle(
-                                          color: Colors.red,
-                                          fontWeight:
-                                          FontWeight.bold,
-                                          fontFamily: 'Sansation',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
                                 MediaQuery.removePadding(
                                   context: context,
                                   removeTop: true,
@@ -1714,11 +1648,9 @@ class MedibotDetail extends GetView<MedibotController> {
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(height: 10.h,),
                                           const Divider(
                                             color: Colors.black26,
                                           ),
-                                          SizedBox(height: 5.h,),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
@@ -1823,6 +1755,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                 icon: Icon(
                                                   Icons.delete,
                                                   size: 20.h,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ],
@@ -1877,32 +1810,6 @@ class MedibotDetail extends GetView<MedibotController> {
                     ),
                   ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 95.w, vertical: 30.h),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(150.w, 20.h),
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                padding: EdgeInsets.symmetric(
-                  vertical: 1.h,
-                  //horizontal: 100.w,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(2.r),
-                ),
-              ),
-              onPressed: () {
-                Get.toNamed(RoutePaths.addpillmedibot);
-              },
-              child: CustomTextField(
-                fontWeight: FontWeight.bold,
-                text: "Add Pills to Medibot",
-                size: 12.sp,
-                color: Colors.black,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          )
         ],
       ),
     );

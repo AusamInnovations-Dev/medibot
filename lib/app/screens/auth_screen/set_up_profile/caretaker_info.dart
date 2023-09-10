@@ -100,8 +100,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                             boxWidth: 167.w,
                             hintText: "",
                             fontTheme: 'Sansation',
-                            textController:
-                                controller.caretakerlocationController,
+                            textController: controller.caretakerlocationController,
                           ),
                           Obx(
                             () => InputButton(
@@ -146,6 +145,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                             boxWidth: 167.w,
                             hintText: "",
                             fontTheme: 'Sansation',
+                            type: TextInputType.number,
                             textController: controller.caretakerphoneController,
                           ),
                           InputButton(
@@ -170,7 +170,22 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 18.h,
                   onPressed: () {
-                    Get.toNamed(RoutePaths.emergencyInformation);
+                    if(int.tryParse(controller.caretakerphoneController.text) == null || controller.caretakerphoneController.text.length != 10){
+                      Get.snackbar(
+                        "User Settings ",
+                        "Please remove unwanted characters in phone number",
+                        icon: const Icon(
+                          Icons.crisis_alert,
+                          color: Colors.black,
+                        ),
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: const Color(0xffA9CBFF),
+                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                        colorText: Colors.black,
+                      );
+                    }else{
+                      Get.toNamed(RoutePaths.emergencyInformation);
+                    }
                   },
                 )
               ],

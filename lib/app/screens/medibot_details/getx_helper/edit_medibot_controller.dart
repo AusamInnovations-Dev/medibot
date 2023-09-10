@@ -62,9 +62,9 @@ class EditMedibotController extends GetxController{
       if(dosage[i] != 'Select Dosage' && dosageController[i].text.isNotEmpty){
         await FirebaseFireStore.to.updateMedibotData(
             pill[i].copyWith(
-              interval: interval.value,
+              interval: pill.first.slot != 6 ? interval.value : '',
               pillsQuantity: pillQuantity.text,
-              pillsInterval: intervalsInString,
+              pillsInterval: pill.first.slot != 6 ? intervalsInString : [],
               pillName: pillName[i].text,
               dosage: dosageController[i].text+dosage[i],
               medicineCategory: medicineCategory[i],
@@ -73,9 +73,9 @@ class EditMedibotController extends GetxController{
       }else{
         await FirebaseFireStore.to.updateMedibotData(
             pill[i].copyWith(
-              interval: interval.value,
+              interval: pill.first.slot != 6 ? interval.value : '',
               pillsQuantity: pillQuantity.text,
-              pillsInterval: intervalsInString,
+              pillsInterval: pill.first.slot != 6 ? intervalsInString: [],
               pillName: pillName[i].text,
               medicineCategory: medicineCategory[i],
             )

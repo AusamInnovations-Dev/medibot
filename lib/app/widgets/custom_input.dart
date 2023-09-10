@@ -10,6 +10,7 @@ class CustomInputField extends StatelessWidget {
   final Radius? topr;
   final Radius? bottoml;
   final Radius? bottomr;
+  final TextInputType? type;
   final bool? obsecure;
 
   final TextEditingController? textController;
@@ -19,6 +20,7 @@ class CustomInputField extends StatelessWidget {
       required this.hintText,
       this.obsecure,
       this.topl,
+      this.type = TextInputType.text,
       this.topr,
       this.bottoml,
       this.bottomr,
@@ -46,6 +48,7 @@ class CustomInputField extends StatelessWidget {
         controller: textController,
         cursorColor: Colors.black,
         obscureText: obsecure?? false,
+        keyboardType: type,
         style: TextStyle(fontFamily: fontTheme, fontSize: 17),
         decoration: InputDecoration(
           hintStyle: TextStyle(fontSize: 17, fontFamily: fontTheme),

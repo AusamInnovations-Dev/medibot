@@ -144,17 +144,17 @@ class SetReminderController extends GetxController {
         hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
         minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
         period = date.substring(6,8);
-        log('This is the interval : $hour, $minute, $period');
+        log('This is the interval : ${pillsTime.last}');
         timeIntervals.add({
           'hour': '$hour H',
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+1 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 24){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '02 H':
@@ -173,11 +173,11 @@ class SetReminderController extends GetxController {
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+2 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 12){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '03 H':
@@ -196,11 +196,11 @@ class SetReminderController extends GetxController {
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+3 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 8){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '04 H':
@@ -219,11 +219,11 @@ class SetReminderController extends GetxController {
           'minute': '$minute M',
           'period': period,
         });
-        // if(pillsTime.last.hour+4 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 6){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
 
       case '06 H':
@@ -231,16 +231,22 @@ class SetReminderController extends GetxController {
           hour: pillsTime.last.hour+6,
           minute: 00,
         ));
+        String hour, minute, period;
+        String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        minute = DateFormat('mm').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, pillsTime.last.hour, pillsTime.last.minute));
+        period = date.substring(6,8);
+        log('This is the interval : $hour, $minute, $period');
         timeIntervals.add({
-          'hour': '${pillsTime.last.hour > 12 ? (pillsTime.last.hour-12) > 9? (pillsTime.last.hour-12) : '0${pillsTime.last.hour-12}' : pillsTime.last.hour > 9? pillsTime.last.hour : '0${pillsTime.last.hour}'} H',
-          'minute': '${pillsTime.last.minute <= 9 ? '0${pillsTime.last.minute}' : pillsTime.last.minute} M',
-          'period': pillsTime.last.hour > 12 && pillsTime.last.hour != 24? "PM" : pillsTime.last.hour == 12 ? "PM" : "AM",
+          'hour': '$hour H',
+          'minute': '$minute M',
+          'period': period,
         });
-        // if(pillsTime.last.hour+6 >= 24){
-        //   increasePossible.value = false;
-        // }else{
-        //   increasePossible.value = true;
-        // }
+        if(timeIntervals.length == 4){
+          increasePossible.value = false;
+        }else{
+          increasePossible.value = true;
+        }
         break;
     }
   }

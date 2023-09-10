@@ -145,6 +145,7 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                                   boxWidth: 180.w,
                                   hintText: "",
                                   fontTheme: 'Sansation',
+                                  type: TextInputType.number,
                                   textController: controller.emergencycontactController,
                                 ),
                                 InputButton(
@@ -196,8 +197,23 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                             padding: EdgeInsets.symmetric(vertical: 9.w),
                             iconSize: 18.h,
                             onPressed: () async {
-                              await controller.updateUserData();
-                              Get.toNamed(RoutePaths.qrScan);
+                              if(int.tryParse(controller.emergencycontactController.text) == null || controller.emergencycontactController.text.length != 10){
+                                Get.snackbar(
+                                  "User Settings ",
+                                  "Please remove unwanted characters in phone number",
+                                  icon: const Icon(
+                                    Icons.crisis_alert,
+                                    color: Colors.black,
+                                  ),
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: const Color(0xffA9CBFF),
+                                  margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                                  colorText: Colors.black,
+                                );
+                              }else{
+                                await controller.updateUserData();
+                                Get.toNamed(RoutePaths.qrScan);
+                              }
                             },
                           ) : const Center(child: CircularProgressIndicator(),),
                         ),

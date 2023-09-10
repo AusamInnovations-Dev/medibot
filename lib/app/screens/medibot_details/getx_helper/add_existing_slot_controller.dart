@@ -27,9 +27,6 @@ class AddExistingSlotController extends GetxController {
 
   calculateInterval() {
     pillIntervals.clear();
-    log(pill.pillsInterval.first);
-    log('${pill.pillsInterval.first.substring(0, 2)} ${pill.pillsInterval.first.substring(5, 7)}');
-
     for (var interval in pill.pillsInterval) {
       if (interval.substring(0, 2) == '00' &&
           interval.substring(5, 7) == '00') {
@@ -216,13 +213,13 @@ class AddExistingSlotController extends GetxController {
             dosage: dosageController.text + dosage,
             medicineCategory: medicineCategory.value,
             userId: UserStore.to.uid,
-            interval: pill.interval,
+            interval: '',
             inMedibot: true,
-            isIndividual: pill.isIndividual,
-            isRange: pill.isRange,
+            isIndividual: false,
+            isRange: false,
             pillsQuantity: pill.pillsQuantity,
-            pillsInterval: pill.pillsInterval,
-            pillsDuration: pill.pillsDuration,
+            pillsInterval: [],
+            pillsDuration: [],
             request: 1,
             slot: pill.slot,
           ));

@@ -115,8 +115,7 @@ class UserSetting extends GetView<UserSettingController> {
                     Get.toNamed(RoutePaths.availableUsers);
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        Size(MediaQuery.of(context).size.width * 0.9, 0),
+                    minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 0),
                     backgroundColor: const Color(0xffE1EDFF),
                     padding: EdgeInsets.symmetric(
                       vertical: 13.h,

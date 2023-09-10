@@ -79,7 +79,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 2.h,),
+                                  SizedBox(height: 5.h,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -117,15 +117,16 @@ class ViewSlot extends GetView<ViewPillsController> {
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
+                      SizedBox(height: 10.h,),
                       CustomTextView(
                         boxHeight: 36.h,
-                        boxWidth: 329.w,
+                        boxWidth: 326.w,
                         Text: controller.pill.first.slot.toString(),
                       )
                     ],
                   ),
                 ),
-                Container(
+                controller.pill.first.slot != 6 ? Container(
                   padding: EdgeInsets.symmetric(vertical: 8.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,8 +147,8 @@ class ViewSlot extends GetView<ViewPillsController> {
                       )
                     ],
                   ),
-                ),
-                Container(
+                ) : Container(),
+                controller.pill.first.slot != 6 ? Container(
                   padding: EdgeInsets.only(bottom: 10.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,7 +230,8 @@ class ViewSlot extends GetView<ViewPillsController> {
                       )
                     ],
                   ),
-                ),
+                ) : Container(),
+                SizedBox(height: 10.h,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -243,27 +245,24 @@ class ViewSlot extends GetView<ViewPillsController> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    Center(
-                      child: CustomTextView(
-                        boxHeight: 36.h,
-                        boxWidth: 250.w,
-                        Text: controller.pill.first.pillsQuantity,
-                        textAlign: TextAlign.center,
-                      ),
+                    CustomTextView(
+                      boxHeight: 36.h,
+                      boxWidth: 326.w,
+                      Text: controller.pill.first.pillsQuantity,
                     )
                   ],
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
-                CustomTextField(
+                controller.pill.first.slot != 6 ? CustomTextField(
                   fontWeight: FontWeight.w700,
                   text: "Duration",
                   color: Colors.black,
                   size: 15.sp,
                   textAlign: TextAlign.start,
-                ),
-                Column(
+                ) : Container(),
+                controller.pill.first.slot != 6 ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
@@ -387,7 +386,7 @@ class ViewSlot extends GetView<ViewPillsController> {
                       ),
                     ),
                   ],
-                ),
+                ) : Container(),
               ],
             ),
           ),

@@ -379,7 +379,7 @@ class FirebaseFireStore extends GetxController {
         .doc(UserStore.to.profile.medibotDetail)
         .collection('pillsReminder')
         .doc(uid)
-        .update({'userId': ''});
+        .delete();
   }
 
   Future<void> deleteReminderPill(String uid) async {

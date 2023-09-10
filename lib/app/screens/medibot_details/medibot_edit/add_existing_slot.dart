@@ -48,12 +48,11 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    width: 180.w,
+                    width: 250.w,
                     child: CustomTextField(
-                      text: "Are you sure you want to add in this existing slot",
+                      text: "Are you sure you want to add one more medicine in the same slot?",
                       fontFamily: 'Sansation',
                       size: 15.sp,
-                      maxLines: 2,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                     ),
@@ -395,7 +394,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                 ),
                 //Have to complete layout
                 Container(
-                  padding: EdgeInsets.only(bottom: 5.h, top: 5.h),
+                  padding: EdgeInsets.only(bottom: 5.h,),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -407,15 +406,16 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
+                      SizedBox(height: 5.h,),
                       CustomTextView(
                         boxHeight: 36.h,
-                        boxWidth: 329.w,
+                        boxWidth: double.infinity,
                         Text: controller.pill.slot.toString(),
                       )
                     ],
                   ),
                 ),
-                Container(
+                controller.pill.slot != 6 ? Container(
                   padding: EdgeInsets.symmetric(vertical: 8.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,8 +435,8 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                       )
                     ],
                   ),
-                ),
-                Container(
+                ) : Container(),
+                controller.pill.slot != 6 ? Container(
                   padding: EdgeInsets.only(bottom: 10.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,26 +507,25 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                       )
                     ],
                   ),
-                ),
+                ) : Container(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomTextField(
                       fontWeight: FontWeight.w700,
-                      text: "Quantity",
+                      text: "Stock",
                       color: Colors.black,
                       size: 15.sp,
                       textAlign: TextAlign.start,
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 8.h,
                     ),
                     Center(
                       child: CustomTextView(
                         boxHeight: 36.h,
-                        boxWidth: 250.w,
+                        boxWidth: double.infinity,
                         Text: controller.pill.pillsQuantity,
-                        textAlign: TextAlign.center,
                       ),
                     )
                   ],
@@ -534,17 +533,17 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                 SizedBox(
                   height: 15.h,
                 ),
-                CustomTextField(
+                controller.pill.slot != 6 ? CustomTextField(
                   fontWeight: FontWeight.w700,
                   text: "Duration",
                   color: Colors.black,
                   size: 15.sp,
                   textAlign: TextAlign.start,
-                ),
+                ): Container(),
                 SizedBox(
                   height: 7.h,
                 ),
-                Column(
+                controller.pill.slot != 6 ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
@@ -599,7 +598,7 @@ class AddPillInExistingSlot extends GetView<AddExistingSlotController> {
                       ),
                     ),
                   ],
-                ),
+                ) : Container(),
               ],
             ),
           ),

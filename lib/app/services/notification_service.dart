@@ -346,6 +346,7 @@ class NotificationService extends GetxController {
               historyModel,
               docId,
             );
+            await FirebaseFireStore.to.decreaseQuantity(pill.uid, int.parse(pill.pillsQuantity)-1);
           } else {
             if (pill.pillsInterval.indexOf(pillInterval) == historyData.timeTaken.length-1) {
 

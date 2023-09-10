@@ -14,7 +14,7 @@ class CustomTextField extends StatelessWidget {
   this.fontFamily = 'Sansation',
   this.textAlign = TextAlign.start,
   this.color=const Color(0xff00c2cb),
-  this.maxLines = 1,
+  this.maxLines = 10,
   required this.fontWeight,
   required this.text,
   this.overflow=TextOverflow.ellipsis,

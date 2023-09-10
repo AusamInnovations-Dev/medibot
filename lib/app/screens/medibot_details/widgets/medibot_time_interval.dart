@@ -189,6 +189,16 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
                 dropDownColor: Theme.of(context).colorScheme.primary,
                 focusColor: Theme.of(context).colorScheme.primary,
                 onChange: (value) {
+                  controller.increasePossible.value = true;
+                  controller.timeIntervals.value = [
+                    {'hour': '08 H', 'minute': '00 M', 'period': 'AM'}
+                  ];
+                  controller.pillsTime = [
+                    const TimeOfDay(
+                      hour: 08,
+                      minute: 00,
+                    )
+                  ];
                   controller.hourlyInterval.value = value;
                 },
                 items: ['01 H', '02 H', '03 H', '04 H', '06 H']
@@ -232,11 +242,10 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
                               onTap: () {
                                 controller.removeHourlyTimeInterval(index);
                               },
-                              child: index == controller.timeIntervals.length - 1 && index != 0
+                              child: index != 0
                                   ? CustomBox(
                                       offset: 0,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(context).colorScheme.primary,
                                       boxHeight: 29.h,
                                       topLeft: Radius.circular(4.r),
                                       topRight: Radius.circular(4.r),
@@ -266,17 +275,34 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
                               margin: EdgeInsets.symmetric(
                                 vertical: 2.h,
                               ),
-                              value: controller.timeIntervals[index]['hour']
-                                  as String,
-                              dropDownColor:
-                                  Theme.of(context).colorScheme.primary,
+                              value: controller.timeIntervals[index]['hour'] as String,
+                              dropDownColor: Theme.of(context).colorScheme.primary,
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
                                 controller.timeIntervals[index]['hour'] = value;
                                 controller.pillsTime[index] = TimeOfDay(
-                                  hour: int.parse(value.substring(0, 2)),
+                                  hour: int.parse(value.substring(0,2)),
                                   minute: controller.pillsTime[index].minute,
                                 );
+                                if(index == 0 && controller.timeIntervals.length > 1){
+                                  for(var i = 1; i < controller.timeIntervals.length; i++){
+                                    int time = controller.pillsTime[i-1].hour;
+                                    controller.pillsTime[i] = TimeOfDay(
+                                      hour: time >= 24 ? time+int.parse(controller.hourlyInterval.value.substring(0,2))-24 : time+int.parse(controller.hourlyInterval.value.substring(0,2)),
+                                      minute: 00,
+                                    );
+                                    String hour, period;
+                                    String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                                    hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                                    period = date.substring(6,8);
+                                    log('This is the interval : $hour,$period, $date, $time');
+                                    controller.timeIntervals[i] = {
+                                      'hour': '$hour H',
+                                      'minute': controller.timeIntervals[i]['minute']!,
+                                      'period': period,
+                                    };
+                                  }
+                                }
                               },
                               items: SampleMedicine.hours
                                   .map(

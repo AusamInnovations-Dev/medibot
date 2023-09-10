@@ -175,8 +175,7 @@ class TimeInterval extends GetView<SetReminderController> {
           ),
         );
       } else {
-        return Obx(
-          () => Column(
+        return Obx(() => Column(
             children: [
               CustomDropDown(
                 boxWidth: 100.w,
@@ -188,27 +187,36 @@ class TimeInterval extends GetView<SetReminderController> {
                 dropDownColor: Theme.of(context).colorScheme.primary,
                 focusColor: Theme.of(context).colorScheme.primary,
                 onChange: (value) {
+                  controller.increasePossible.value = true;
+                  controller.timeIntervals.value = [
+                    {'hour': '08 H', 'minute': '00 M', 'period': 'AM'}
+                  ];
+                  controller.pillsTime = [
+                    const TimeOfDay(
+                      hour: 08,
+                      minute: 00,
+                    )
+                  ];
                   controller.hourlyInterval.value = value;
-                  controller.checkIfIncreasePossible();
                 },
                 items: ['01 H', '02 H', '03 H', '04 H', '06 H']
                     .map(
                       (element) => DropdownMenuItem(
-                        value: element,
-                        child: SizedBox(
-                          width: 32.w,
-                          child: Text(
-                            element,
-                            style: TextStyle(
-                              fontFamily: 'Sansation',
-                              fontSize: 13.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                    value: element,
+                    child: SizedBox(
+                      width: 32.w,
+                      child: Text(
+                        element,
+                        style: TextStyle(
+                          fontFamily: 'Sansation',
+                          fontSize: 13.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    )
+                    ),
+                  ),
+                )
                     .toList(),
               ),
               MediaQuery.removePadding(
@@ -216,7 +224,7 @@ class TimeInterval extends GetView<SetReminderController> {
                 removeTop: true,
                 removeLeft: true,
                 child: Obx(
-                  () => ListView.builder(
+                      () => ListView.builder(
                     shrinkWrap: true,
                     itemCount: controller.timeIntervals.length,
                     physics: const NeverScrollableScrollPhysics(),
@@ -232,30 +240,29 @@ class TimeInterval extends GetView<SetReminderController> {
                               onTap: () {
                                 controller.removeHourlyTimeInterval(index);
                               },
-                              child: index == controller.timeIntervals.length - 1 && index != 0
+                              child: index != 0
                                   ? CustomBox(
-                                      offset: 0,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      boxHeight: 29.h,
-                                      topLeft: Radius.circular(4.r),
-                                      topRight: Radius.circular(4.r),
-                                      bottomLeft: Radius.circular(4.r),
-                                      bottomRight: Radius.circular(4.r),
-                                      body: CustomTextField(
-                                        color: Colors.black,
-                                        textAlign: TextAlign.center,
-                                        text: '-',
-                                        fontWeight: FontWeight.w400,
-                                        size: 25.sp,
-                                      ),
-                                      boxWidth: 33.w,
-                                      boxShadow: const [],
-                                    )
+                                offset: 0,
+                                color: Theme.of(context).colorScheme.primary,
+                                boxHeight: 29.h,
+                                topLeft: Radius.circular(4.r),
+                                topRight: Radius.circular(4.r),
+                                bottomLeft: Radius.circular(4.r),
+                                bottomRight: Radius.circular(4.r),
+                                body: CustomTextField(
+                                  color: Colors.black,
+                                  textAlign: TextAlign.center,
+                                  text: '-',
+                                  fontWeight: FontWeight.w400,
+                                  size: 25.sp,
+                                ),
+                                boxWidth: 33.w,
+                                boxShadow: const [],
+                              )
                                   : SizedBox(
-                                      height: 29.h,
-                                      width: 33.w,
-                                    ),
+                                height: 29.h,
+                                width: 33.w,
+                              ),
                             ),
                             SizedBox(
                               width: 10.w,
@@ -272,28 +279,47 @@ class TimeInterval extends GetView<SetReminderController> {
                               onChange: (value) {
                                 controller.timeIntervals[index]['hour'] = value;
                                 controller.pillsTime[index] = TimeOfDay(
-                                  hour: int.parse(value.substring(0, 2)),
+                                  hour: int.parse(value.substring(0,2)),
                                   minute: controller.pillsTime[index].minute,
                                 );
+                                if(index == 0 && controller.timeIntervals.length > 1){
+                                  for(var i = 1; i < controller.timeIntervals.length; i++){
+                                    int time = controller.pillsTime[i-1].hour;
+                                    controller.pillsTime[i] = TimeOfDay(
+                                      hour: time >= 24 ? time+int.parse(controller.hourlyInterval.value.substring(0,2))-24 : time+int.parse(controller.hourlyInterval.value.substring(0,2)),
+                                      minute: 00,
+                                    );
+                                    String hour, period;
+                                    String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                                    hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                                    period = date.substring(6,8);
+                                    log('This is the interval : $hour,$period, $date, $time');
+                                    controller.timeIntervals[i] = {
+                                      'hour': '$hour H',
+                                      'minute': controller.timeIntervals[i]['minute']!,
+                                      'period': period,
+                                    };
+                                  }
+                                }
                               },
                               items: SampleMedicine.hours
                                   .map(
                                     (element) => DropdownMenuItem(
-                                      value: element,
-                                      child: SizedBox(
-                                        width: 32.w,
-                                        child: Text(
-                                          element,
-                                          style: TextStyle(
-                                            fontFamily: 'Sansation',
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
+                                  value: element,
+                                  child: SizedBox(
+                                    width: 32.w,
+                                    child: Text(
+                                      element,
+                                      style: TextStyle(
+                                        fontFamily: 'Sansation',
+                                        fontSize: 13.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  )
+                                  ),
+                                ),
+                              )
                                   .toList(),
                             ),
                             SizedBox(
@@ -315,9 +341,9 @@ class TimeInterval extends GetView<SetReminderController> {
                                 vertical: 2.h,
                               ),
                               value: controller.timeIntervals[index]['minute']
-                                  as String,
+                              as String,
                               dropDownColor:
-                                  Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.primary,
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
                                 controller.timeIntervals[index]['minute'] =
@@ -330,21 +356,21 @@ class TimeInterval extends GetView<SetReminderController> {
                               items: SampleMedicine.minute
                                   .map(
                                     (element) => DropdownMenuItem(
-                                      value: element,
-                                      child: SizedBox(
-                                        width: 32.w,
-                                        child: Text(
-                                          element,
-                                          style: TextStyle(
-                                            fontFamily: 'Sansation',
-                                            fontSize: 12.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
+                                  value: element,
+                                  child: SizedBox(
+                                    width: 32.w,
+                                    child: Text(
+                                      element,
+                                      style: TextStyle(
+                                        fontFamily: 'Sansation',
+                                        fontSize: 12.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  )
+                                  ),
+                                ),
+                              )
                                   .toList(),
                             ),
                             SizedBox(
@@ -356,10 +382,8 @@ class TimeInterval extends GetView<SetReminderController> {
                               margin: EdgeInsets.symmetric(
                                 vertical: 2.h,
                               ),
-                              value: controller.timeIntervals[index]['period']
-                                  as String,
-                              dropDownColor:
-                                  Theme.of(context).colorScheme.primary,
+                              value: controller.timeIntervals[index]['period'] as String,
+                              dropDownColor: Theme.of(context).colorScheme.primary,
                               focusColor: Theme.of(context).colorScheme.primary,
                               onChange: (value) {
                                 controller.timeIntervals[index]['period'] =
@@ -368,64 +392,60 @@ class TimeInterval extends GetView<SetReminderController> {
                               items: ['AM', 'PM']
                                   .map(
                                     (element) => DropdownMenuItem(
-                                      value: element,
-                                      child: SizedBox(
-                                        width: 30.w,
-                                        child: Text(
-                                          element,
-                                          style: TextStyle(
-                                            fontFamily: 'Sansation',
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
+                                  value: element,
+                                  child: SizedBox(
+                                    width: 30.w,
+                                    child: Text(
+                                      element,
+                                      style: TextStyle(
+                                        fontFamily: 'Sansation',
+                                        fontSize: 13.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  )
+                                  ),
+                                ),
+                              )
                                   .toList(),
                             ),
                             SizedBox(
                               width: 10.w,
                             ),
                             Obx(
-                              () => controller.increasePossible.value
+                                  () => controller.increasePossible.value
                                   ? GestureDetector(
-                                      onTap: () {
-                                        controller.addHourlyTimeInterval();
-                                      },
-                                      child: index ==
-                                              controller.timeIntervals.length -
-                                                  1
-                                          ? CustomBox(
-                                              offset: 0,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              boxHeight: 29.h,
-                                              topLeft: Radius.circular(4.r),
-                                              topRight: Radius.circular(4.r),
-                                              bottomLeft: Radius.circular(4.r),
-                                              bottomRight: Radius.circular(4.r),
-                                              body: CustomTextField(
-                                                color: Colors.black,
-                                                textAlign: TextAlign.center,
-                                                text: '+',
-                                                fontWeight: FontWeight.w400,
-                                                size: 25.sp,
-                                              ),
-                                              boxWidth: 33.w,
-                                              boxShadow: const [],
-                                            )
-                                          : SizedBox(
-                                              height: 29.h,
-                                              width: 33.w,
-                                            ),
-                                    )
+                                onTap: () {
+                                  controller.addHourlyTimeInterval();
+                                },
+                                child: index == controller.timeIntervals.length - 1
+                                    ? CustomBox(
+                                  offset: 0,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  boxHeight: 29.h,
+                                  topLeft: Radius.circular(4.r),
+                                  topRight: Radius.circular(4.r),
+                                  bottomLeft: Radius.circular(4.r),
+                                  bottomRight: Radius.circular(4.r),
+                                  body: CustomTextField(
+                                    color: Colors.black,
+                                    textAlign: TextAlign.center,
+                                    text: '+',
+                                    fontWeight: FontWeight.w400,
+                                    size: 25.sp,
+                                  ),
+                                  boxWidth: 33.w,
+                                  boxShadow: const [],
+                                )
+                                    : SizedBox(
+                                  height: 29.h,
+                                  width: 33.w,
+                                ),
+                              )
                                   : SizedBox(
-                                      height: 29.h,
-                                      width: 33.w,
-                                    ),
+                                height: 29.h,
+                                width: 33.w,
+                              ),
                             ),
                           ],
                         ),
