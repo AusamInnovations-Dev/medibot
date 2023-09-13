@@ -47,8 +47,8 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                 height: MediaQuery.of(context).size.height * 0.65,
                 alignment: Alignment.center,
                 child: CustomBox(
-                  boxHeight: 353.h,
-                  boxWidth: 324.w,
+                  boxHeight: MediaQuery.of(context).size.height * 0.5,
+                  boxWidth: MediaQuery.of(context).size.width * 0.8,
                   margin: const EdgeInsets.symmetric(horizontal: 38),
                   padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
                   topRight: Radius.circular(17.r),
@@ -200,7 +200,7 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                               if(int.tryParse(controller.emergencycontactController.text) == null || controller.emergencycontactController.text.length != 10){
                                 Get.snackbar(
                                   "User Settings ",
-                                  "Please remove unwanted characters in phone number",
+                                  "Please enter a valid phone number",
                                   icon: const Icon(
                                     Icons.crisis_alert,
                                     color: Colors.black,

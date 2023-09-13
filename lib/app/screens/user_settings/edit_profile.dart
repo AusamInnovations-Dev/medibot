@@ -41,8 +41,8 @@ class UserProfile extends GetView<UserSettingController> {
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
             topLeft: Radius.circular(17.r),
             bottomRight: Radius.circular(17.r),
-            boxHeight: 380.h,
-            boxWidth: 310.w,
+            boxHeight: MediaQuery.of(context).size.height * 0.5,
+            boxWidth: MediaQuery.of(context).size.width * 0.86,
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -42,86 +42,27 @@ class HistoryController extends GetxController {
 
   getUserData() async {
     var history = await FirebaseFireStore.to.getHistoryData();
-    var pillsReminder = FirebaseFireStore.to.getAllPillsReminder();
+    Stream<QuerySnapshot<Map<String, dynamic>>>? pillsReminder;
     Stream<QuerySnapshot<Map<String, dynamic>>>? medibotPillsReminder;
     if (UserStore.to.profile.medibotDetail.isNotEmpty) {
       medibotPillsReminder = FirebaseFireStore.to.getAllMedibotPills();
+    }else{
+      pillsReminder = FirebaseFireStore.to.getAllPillsReminder();
     }
     if (history != null) {
       for (var history in history.docs) {
         historyList.add(HistoryModel.fromJson(history.data()));
       }
     }
-    pillsReminder.listen((snapshot) {
-      for (var pill in snapshot.docChanges) {
-        switch (pill.type) {
-          case DocumentChangeType.added:
-            PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
-            reminderList.add(pillsModel);
-            break;
-          case DocumentChangeType.modified:
-            // TODO: Handle this case.
-            break;
-          case DocumentChangeType.removed:
-            // TODO: Handle this case.
-            break;
-        }
-      }
-      if (medibotPillsReminder == null) {
-        totalPillsDosage.value = 0;
-        for (var reminder in reminderList) {
-          if (reminder.isIndividual) {
-            for (var time in reminder.pillsDuration) {
-              totalPillsDosage.value += reminder.pillsInterval.length;
-              DateTime date = DateTime.parse(time);
-              if (date.isAfter(DateTime(DateTime.now().year,
-                  DateTime.now().month, DateTime.now().day))) {
-                upComingDosage.value += reminder.pillsInterval.length;
-              }
-            }
-          } else {
-            DateTime date1 = DateTime.parse(reminder.pillsDuration.first);
-            DateTime date2 = DateTime.parse(reminder.pillsDuration.last);
-            totalPillsDosage.value += reminder.pillsInterval.length *
-                (date2.difference(date1).inDays + 1);
-            if (date1.isBefore(DateTime(DateTime.now().year,
-                    DateTime.now().month, DateTime.now().day)) &&
-                date2.isAfter(DateTime(DateTime.now().year,
-                    DateTime.now().month, DateTime.now().day))) {
-              log('upcoming in range 1: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays}');
-              upComingDosage.value += reminder.pillsInterval.length *
-                  (date2
-                      .difference(DateTime(DateTime.now().year,
-                          DateTime.now().month, DateTime.now().day))
-                      .inDays);
-              log('Total upcoming : ${upComingDosage.value}');
-            } else if (date2.isAfter(DateTime(DateTime.now().year,
-                DateTime.now().month, DateTime.now().day))) {
-              log('upcoming in range 2: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays}');
-              log('Before upcoming : ${upComingDosage.value}');
-              upComingDosage.value += reminder.pillsInterval.length *
-                  (date2
-                      .difference(DateTime(DateTime.now().year,
-                          DateTime.now().month, DateTime.now().day))
-                      .inDays);
-              log('After upcoming : ${upComingDosage.value}');
-            } else if (date1.isAfter(DateTime(DateTime.now().year,
-                DateTime.now().month, DateTime.now().day))) {
-              log('upcoming in range 3: ${reminder.pillsInterval.length} : ${date2.difference(date1).inDays}');
-              upComingDosage.value += reminder.pillsInterval.length *
-                  (date2.difference(date1).inDays);
-              log('Total upcoming : ${upComingDosage.value}');
-            }
-          }
-        }
-        checkForAllHistory();
-        log('Total reminders : ${totalPillsDosage.value}');
-        log('Total history : ${historyList.first.toJson()}');
-        log('Total upcoming : ${upComingDosage.value}');
-      }
-    });
     if (medibotPillsReminder != null) {
       medibotPillsReminder.listen((snapshot) {
+        reminderList.clear();
+        historyList.clear();
+        totalTakenPillsDosage = 0.obs;
+        todayRemainingPills = 0.obs;
+        totalPillsDosage = 0.obs;
+        upComingDosage = 0.obs;
+        daysMissed = 0.obs;
         for (var pill in snapshot.docChanges) {
           switch (pill.type) {
             case DocumentChangeType.added:
@@ -147,7 +88,7 @@ class HistoryController extends GetxController {
                 log('Total upcoming : ${upComingDosage.value}');
               }
             }
-          } else {
+          } else if(reminder.isRange){
             log('Else part');
             DateTime date1 = DateTime.parse(reminder.pillsDuration.first);
             DateTime date2 = DateTime.parse(reminder.pillsDuration.last);
@@ -187,6 +128,82 @@ class HistoryController extends GetxController {
         log('Total reminders : ${totalPillsDosage.value}');
         log('Total history : $historyList');
         log('Total upcoming : ${upComingDosage.value}');
+      });
+    }else if(pillsReminder != null){
+      pillsReminder.listen((snapshot) {
+        reminderList.clear();
+        historyList.clear();
+        totalTakenPillsDosage = 0.obs;
+        todayRemainingPills = 0.obs;
+        totalPillsDosage = 0.obs;
+        upComingDosage = 0.obs;
+        daysMissed = 0.obs;
+        for (var pill in snapshot.docChanges) {
+          switch (pill.type) {
+            case DocumentChangeType.added:
+              PillsModel pillsModel = PillsModel.fromJson(pill.doc.data()!);
+              reminderList.add(pillsModel);
+              break;
+            case DocumentChangeType.modified:
+            // TODO: Handle this case.
+              break;
+            case DocumentChangeType.removed:
+            // TODO: Handle this case.
+              break;
+          }
+        }
+        if (medibotPillsReminder == null) {
+          totalPillsDosage.value = 0;
+          for (var reminder in reminderList) {
+            if (reminder.isIndividual) {
+              for (var time in reminder.pillsDuration) {
+                totalPillsDosage.value += reminder.pillsInterval.length;
+                DateTime date = DateTime.parse(time);
+                if (date.isAfter(DateTime(DateTime.now().year,
+                    DateTime.now().month, DateTime.now().day))) {
+                  upComingDosage.value += reminder.pillsInterval.length;
+                }
+              }
+            } else if(reminder.isRange){
+              DateTime date1 = DateTime.parse(reminder.pillsDuration.first);
+              DateTime date2 = DateTime.parse(reminder.pillsDuration.last);
+              totalPillsDosage.value += reminder.pillsInterval.length *
+                  (date2.difference(date1).inDays + 1);
+              if (date1.isBefore(DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day)) &&
+                  date2.isAfter(DateTime(DateTime.now().year,
+                      DateTime.now().month, DateTime.now().day))) {
+                log('upcoming in range 1: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays}');
+                upComingDosage.value += reminder.pillsInterval.length *
+                    (date2
+                        .difference(DateTime(DateTime.now().year,
+                        DateTime.now().month, DateTime.now().day))
+                        .inDays);
+                log('Total upcoming : ${upComingDosage.value}');
+              } else if (date2.isAfter(DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day))) {
+                log('upcoming in range 2: ${reminder.pillsInterval.length} : ${date2.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays}');
+                log('Before upcoming : ${upComingDosage.value}');
+                upComingDosage.value += reminder.pillsInterval.length *
+                    (date2
+                        .difference(DateTime(DateTime.now().year,
+                        DateTime.now().month, DateTime.now().day))
+                        .inDays);
+                log('After upcoming : ${upComingDosage.value}');
+              } else if (date1.isAfter(DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day))) {
+                log('upcoming in range 3: ${reminder.pillsInterval.length} : ${date2.difference(date1).inDays}');
+                upComingDosage.value += reminder.pillsInterval.length *
+                    (date2.difference(date1).inDays);
+                log('Total upcoming : ${upComingDosage.value}');
+              }
+            }
+          }
+          checkForAllHistory();
+          log('Total reminders : ${totalPillsDosage.value}');
+          log('Total history : ${historyList.first.toJson()}');
+          log('Total upcoming : ${upComingDosage.value}');
+        }
       });
     }
   }
@@ -233,7 +250,7 @@ class HistoryController extends GetxController {
           if (dates.contains(DateTime(date.year, date.month, date.day))) {
             return 'NoPillsTaken';
           }
-        } else {
+        } else if(reminder.isRange){
           List<DateTime> dates =
               reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
           bool isAt =
@@ -261,7 +278,7 @@ class HistoryController extends GetxController {
         if (dates.contains(DateTime(date.year, date.month, date.day))) {
           todayReminder.add(reminder);
         }
-      } else {
+      } else if(reminder.isRange){
         List<DateTime> dates =
             reminder.pillsDuration.map((e) => DateTime.parse(e)).toList();
 

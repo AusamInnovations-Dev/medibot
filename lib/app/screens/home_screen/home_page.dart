@@ -50,8 +50,8 @@ class HomePage extends GetView<HomepageController> {
                                     topRight: Radius.circular(10.r),
                                     bottomLeft: Radius.circular(10.r),
                                     bottomRight: Radius.circular(10.r),
-                                    boxHeight: 263.h,
-                                    boxWidth: 290.w,
+                                    boxHeight: MediaQuery.of(context).size.height * 0.4,
+                                    boxWidth: MediaQuery.of(context).size.width * 0.81,
                                     body: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -153,10 +153,13 @@ class HomePage extends GetView<HomepageController> {
                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r),
                                                 ),
                                               ),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Get.toNamed(RoutePaths.viewReminders);
+
+                                              },
                                               child: CustomTextField(
                                                 fontWeight: FontWeight.bold,
-                                                text: "Edit",
+                                                text: "View",
                                                 color: Colors.black,
                                                 size: 13.sp,
                                               ),
@@ -351,8 +354,8 @@ class HomePage extends GetView<HomepageController> {
                                               }
                                             },
                                             child: CustomBox(
-                                              boxHeight: 70.h,
-                                              boxWidth: 140.w,
+                                              boxHeight: MediaQuery.of(context).size.height * 0.1,
+                                              boxWidth: MediaQuery.of(context).size.width * 0.4,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
                                               ),
@@ -382,8 +385,8 @@ class HomePage extends GetView<HomepageController> {
                                               Get.toNamed(RoutePaths.historyPage);
                                             },
                                             child: CustomBox(
-                                              boxHeight: 70.h,
-                                              boxWidth: 140.w,
+                                              boxHeight: MediaQuery.of(context).size.height * 0.1,
+                                              boxWidth: MediaQuery.of(context).size.width * 0.4,
                                               color: Theme.of(context).colorScheme.secondary,
                                               margin: EdgeInsets.symmetric(horizontal: 5.w),
                                               padding: EdgeInsets.symmetric(
@@ -408,7 +411,7 @@ class HomePage extends GetView<HomepageController> {
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(left: 10.w, right: 10.w),
+                                      margin: EdgeInsets.only(left: 10.w, right: 5.w),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
@@ -417,8 +420,8 @@ class HomePage extends GetView<HomepageController> {
                                               Get.toNamed(RoutePaths.medibotdetail);
                                             },
                                             child: CustomBox(
-                                              boxHeight: 70.h,
-                                              boxWidth: 140.w,
+                                              boxHeight: MediaQuery.of(context).size.height * 0.1,
+                                              boxWidth: MediaQuery.of(context).size.width * 0.4,
                                               color: Theme.of(context).colorScheme.secondary,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
@@ -449,8 +452,8 @@ class HomePage extends GetView<HomepageController> {
                                               Get.toNamed(RoutePaths.viewReminders);
                                             },
                                             child: CustomBox(
-                                              boxHeight: 70.h,
-                                              boxWidth: 140.w,
+                                              boxHeight: MediaQuery.of(context).size.height * 0.1,
+                                              boxWidth: MediaQuery.of(context).size.width * 0.4,
                                               margin: EdgeInsets.symmetric(
                                                 horizontal: 5.w,
                                               ),
@@ -493,8 +496,8 @@ class HomePage extends GetView<HomepageController> {
                                       ),
                                       topLeft: Radius.circular(17.r),
                                       bottomRight: Radius.circular(17.r),
-                                      boxHeight: 70.h,
-                                      boxWidth: 140.w,
+                                      boxHeight: MediaQuery.of(context).size.height * 0.1,
+                                      boxWidth: MediaQuery.of(context).size.width * 0.4,
                                       body: Align(
                                         alignment: Alignment.center,
                                         child: CustomTextField(
@@ -513,8 +516,8 @@ class HomePage extends GetView<HomepageController> {
                                       Get.toNamed(RoutePaths.userSetting);
                                     },
                                     child: CustomBox(
-                                      boxHeight: 70.h,
-                                      boxWidth: 140.w,
+                                      boxHeight: MediaQuery.of(context).size.height * 0.1,
+                                      boxWidth: MediaQuery.of(context).size.width * 0.4,
                                       color: Theme.of(context).colorScheme.secondary,
                                       margin: EdgeInsets.symmetric(
                                         horizontal: 5.w,

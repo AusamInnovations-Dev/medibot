@@ -28,10 +28,22 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  text: "Edit Emergency",
+                  fontFamily: 'Sansation',
+                  size: 23.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ]),
           CustomBox(
-            boxHeight: 367.h,
-            boxWidth: 302.w,
-            margin: EdgeInsets.symmetric(vertical: 45.h, horizontal: 40.w),
+            boxHeight: MediaQuery.of(context).size.height * 0.52,
+            boxWidth: MediaQuery.of(context).size.width * 0.86,
+            margin: EdgeInsets.symmetric(vertical: 45.h, horizontal: 20.w),
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
             topRight: Radius.circular(17.r),
             bottomLeft: Radius.circular(17.r),
@@ -54,7 +66,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                       ),
                       CustomInputField(
                         boxHeight: 36.h,
-                        boxWidth: 240.w,
+                        boxWidth: 280.w,
                         textController: controller.emergencynameController,
                         hintText: "",
                         fontTheme: 'Sansation',
@@ -83,7 +95,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                             topr: Radius.zero,
                             bottomr: Radius.zero,
                             boxHeight: 36.h,
-                            boxWidth: 172.w,
+                            boxWidth: 210.w,
                             hintText: "",
                             textController:
                                 controller.emergencylocationController,
@@ -126,7 +138,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                             topr: Radius.zero,
                             bottomr: Radius.zero,
                             boxHeight: 36.h,
-                            boxWidth: 172.w,
+                            boxWidth: 210.w,
                             hintText: "",
                             type: TextInputType.number,
                             textController: controller.emergencycontactController,
@@ -165,7 +177,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                       CustomInputField(
                         boxHeight: 36.h,
                         textController: controller.emergencyrelationController,
-                        boxWidth: 240.w,
+                        boxWidth: 280.w,
                         hintText: "",
                         fontTheme: 'Sansation',
                       )
@@ -181,7 +193,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                     if(int.tryParse(controller.emergencycontactController.text) == null || controller.emergencycontactController.text.length != 10){
                       Get.snackbar(
                         "User Settings ",
-                        "Please remove unwanted characters in phone number",
+                        "Please enter a valid phone number",
                         icon: const Icon(
                           Icons.crisis_alert,
                           color: Colors.black,

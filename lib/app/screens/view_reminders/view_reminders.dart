@@ -1,15 +1,11 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medibot/app/screens/view_reminders/getx_helper/view_controller.dart';
 
-import '../../routes/route_path.dart';
 import '../../services/user.dart';
 import '../../widgets/background_screen_decoration.dart';
-import '../../widgets/box_field.dart';
-import '../../widgets/custom_text_view.dart';
 import '../../widgets/text_field.dart';
 
 class ViewReminders extends GetView<ViewController> {
@@ -487,11 +483,8 @@ class ViewReminders extends GetView<ViewController> {
                                     physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
-                                      var days = 0;
                                       if(controller.slot6[index].isRange){
-                                        days = DateTime.parse(controller.slot6[index].pillsDuration[1]).difference(DateTime.parse(controller.slot6[index].pillsDuration[0])).inDays+1;
                                       }else {
-                                        days = controller.slot6[index].pillsDuration.length;
                                       }
                                       var prescription = '${controller.slot6[index].medicineCategory} ${controller.slot6[index].pillName} ${controller.slot6[index].dosage}';
                                       return Column(

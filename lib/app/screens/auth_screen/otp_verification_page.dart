@@ -47,7 +47,7 @@ class OtpVerificationScreen extends GetView<AuthController> {
           width: MediaQuery.of(context).size.width,
           child: CustomBox(
             boxHeight: 250.h,
-            boxWidth: 170.w,
+            boxWidth: MediaQuery.of(context).size.height * 0.8,
             margin: const EdgeInsets.symmetric(horizontal: 30),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
             topRight: Radius.circular(17.r),

@@ -44,8 +44,8 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: CustomBox(
-            boxHeight: 320.h,
-            boxWidth: 272.w,
+            boxHeight: MediaQuery.of(context).size.height * 0.48,
+            boxWidth: MediaQuery.of(context).size.width * 0.8,
             margin: const EdgeInsets.symmetric(horizontal: 40),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
             topRight: Radius.circular(17.r),
@@ -97,7 +97,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                             topr: Radius.zero,
                             bottomr: Radius.zero,
                             boxHeight: 36.h,
-                            boxWidth: 167.w,
+                            boxWidth: 175.w,
                             hintText: "",
                             fontTheme: 'Sansation',
                             textController: controller.caretakerlocationController,
@@ -142,7 +142,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                             topr: Radius.zero,
                             bottomr: Radius.zero,
                             boxHeight: 36.h,
-                            boxWidth: 167.w,
+                            boxWidth: 175.w,
                             hintText: "",
                             fontTheme: 'Sansation',
                             type: TextInputType.number,
@@ -173,7 +173,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                     if(int.tryParse(controller.caretakerphoneController.text) == null || controller.caretakerphoneController.text.length != 10){
                       Get.snackbar(
                         "User Settings ",
-                        "Please remove unwanted characters in phone number",
+                        "Please enter a valid phone number",
                         icon: const Icon(
                           Icons.crisis_alert,
                           color: Colors.black,

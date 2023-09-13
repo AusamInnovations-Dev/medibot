@@ -44,8 +44,8 @@ class CaretakerSettings extends GetView<UserSettingController> {
             padding: EdgeInsets.only(left: 12.w, top: 20.h, right: 12.w),
             topLeft: Radius.circular(17.r),
             bottomRight: Radius.circular(17.r),
-            boxHeight: 350.h,
-            boxWidth: 302.w,
+            boxHeight: MediaQuery.of(context).size.height * 0.51,
+            boxWidth: MediaQuery.of(context).size.width * 0.86,
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -159,7 +159,7 @@ class CaretakerSettings extends GetView<UserSettingController> {
                           if(int.tryParse(controller.caretakerphoneController.text) == null || controller.caretakerphoneController.text.length != 10){
                             Get.snackbar(
                               "User Settings ",
-                              "Please remove unwanted characters in phone number",
+                              "Please enter a valid phone number",
                               icon: const Icon(
                                 Icons.crisis_alert,
                                 color: Colors.black,

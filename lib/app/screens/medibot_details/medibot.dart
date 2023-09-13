@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:medibot/app/widgets/background_screen_decoration.dart';
 
 import '../../routes/route_path.dart';
-import '../../services/user.dart';
 import '../../widgets/text_field.dart';
 import 'getx_helper/medibot_controller.dart';
 
@@ -313,7 +312,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     SizedBox(
-                                                      width: 200.w,
+                                                      width: 140.w,
                                                       child: CustomTextField(
                                                         fontWeight: FontWeight.w400,
                                                         size: 17.sp,
@@ -324,7 +323,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                                     ),
                                                     Container(
                                                       constraints: BoxConstraints(
-                                                        maxWidth: 100.w,
+                                                        maxWidth: 180.w,
                                                         minWidth: 10.w
                                                       ),
                                                       child: CustomTextField(
@@ -615,7 +614,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(
-                                                width: 200.w,
+                                                width: 140.w,
                                                 child: CustomTextField(
                                                   fontWeight: FontWeight.w400,
                                                   size: 17.sp,
@@ -626,7 +625,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                               ),
                                               Container(
                                                 constraints: BoxConstraints(
-                                                    maxWidth: 100.w,
+                                                    maxWidth: 180.w,
                                                     minWidth: 10.w
                                                 ),
                                                 child: CustomTextField(
@@ -916,7 +915,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(
-                                                width: 200.w,
+                                                width: 140.w,
                                                 child: CustomTextField(
                                                   fontWeight: FontWeight.w400,
                                                   size: 17.sp,
@@ -927,7 +926,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                               ),
                                               Container(
                                                 constraints: BoxConstraints(
-                                                    maxWidth: 100.w,
+                                                    maxWidth: 180.w,
                                                     minWidth: 10.w
                                                 ),
                                                 child: CustomTextField(
@@ -1217,7 +1216,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(
-                                                width: 200.w,
+                                                width: 140.w,
                                                 child: CustomTextField(
                                                   fontWeight: FontWeight.w400,
                                                   size: 17.sp,
@@ -1228,7 +1227,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                               ),
                                               Container(
                                                 constraints: BoxConstraints(
-                                                    maxWidth: 100.w,
+                                                    maxWidth: 180.w,
                                                     minWidth: 10.w
                                                 ),
                                                 child: CustomTextField(
@@ -1518,7 +1517,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(
-                                                width: 200.w,
+                                                width: 140.w,
                                                 child: CustomTextField(
                                                   fontWeight: FontWeight.w400,
                                                   size: 17.sp,
@@ -1529,7 +1528,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                               ),
                                               Container(
                                                 constraints: BoxConstraints(
-                                                    maxWidth: 100.w,
+                                                    maxWidth: 180.w,
                                                     minWidth: 10.w
                                                 ),
                                                 child: CustomTextField(
@@ -1764,7 +1763,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(
-                                                width: 200.w,
+                                                width: 140.w,
                                                 child: CustomTextField(
                                                   fontWeight: FontWeight.w400,
                                                   size: 17.sp,
@@ -1775,7 +1774,7 @@ class MedibotDetail extends GetView<MedibotController> {
                                               ),
                                               Container(
                                                 constraints: BoxConstraints(
-                                                    maxWidth: 100.w,
+                                                    maxWidth: 180.w,
                                                     minWidth: 10.w
                                                 ),
                                                 child: CustomTextField(

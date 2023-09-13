@@ -54,7 +54,7 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
                                 hour: controller.interval.value == 'Twice a Day (12 Hours)' ? int.parse(time.substring(0,2))+12 : int.parse(time.substring(0,2)) >= 24 ? int.parse(time.substring(0,2))-24+8 : int.parse(time.substring(0,2))+8,
                                 minute: 00,
                               );
-                              String hour, minute, period;
+                              String hour, period;
                               String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
                               hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
                               period = date.substring(6,8);
@@ -176,288 +176,287 @@ class MedibotTimeInterval extends GetView<AddMedibotPill> {
           ),
         );
       } else {
-        return Obx(
-          () => Column(
-            children: [
-              CustomDropDown(
-                boxWidth: 100.w,
-                boxHeight: 30.h,
-                margin: EdgeInsets.symmetric(
-                  vertical: 2.h,
-                ),
-                value: controller.hourlyInterval.value,
-                dropDownColor: Theme.of(context).colorScheme.primary,
-                focusColor: Theme.of(context).colorScheme.primary,
-                onChange: (value) {
-                  controller.increasePossible.value = true;
-                  controller.timeIntervals.value = [
-                    {'hour': '08 H', 'minute': '00 M', 'period': 'AM'}
-                  ];
-                  controller.pillsTime = [
-                    const TimeOfDay(
-                      hour: 08,
-                      minute: 00,
-                    )
-                  ];
-                  controller.hourlyInterval.value = value;
-                },
-                items: ['01 H', '02 H', '03 H', '04 H', '06 H']
-                    .map(
-                      (element) => DropdownMenuItem(
-                        value: element,
-                        child: SizedBox(
-                          width: 32.w,
-                          child: Text(
-                            element,
-                            style: TextStyle(
-                              fontFamily: 'Sansation',
-                              fontSize: 13.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
+        return Obx(() => Column(
+          children: [
+            CustomDropDown(
+              boxWidth: 100.w,
+              boxHeight: 30.h,
+              margin: EdgeInsets.symmetric(
+                vertical: 2.h,
               ),
-              MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                removeLeft: true,
-                child: Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.timeIntervals.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 5.h,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                controller.removeHourlyTimeInterval(index);
-                              },
-                              child: index != 0
-                                  ? CustomBox(
-                                      offset: 0,
-                                      color: Theme.of(context).colorScheme.primary,
-                                      boxHeight: 29.h,
-                                      topLeft: Radius.circular(4.r),
-                                      topRight: Radius.circular(4.r),
-                                      bottomLeft: Radius.circular(4.r),
-                                      bottomRight: Radius.circular(4.r),
-                                      body: CustomTextField(
-                                        color: Colors.black,
-                                        textAlign: TextAlign.center,
-                                        text: '-',
-                                        fontWeight: FontWeight.w400,
-                                        size: 25.sp,
-                                      ),
-                                      boxWidth: 33.w,
-                                      boxShadow: const [],
-                                    )
-                                  : SizedBox(
-                                height: 29.h,
-                                width: 33.w,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            CustomDropDown(
-                              boxWidth: 68.w,
-                              boxHeight: 30.h,
-                              margin: EdgeInsets.symmetric(
-                                vertical: 2.h,
-                              ),
-                              value: controller.timeIntervals[index]['hour'] as String,
-                              dropDownColor: Theme.of(context).colorScheme.primary,
-                              focusColor: Theme.of(context).colorScheme.primary,
-                              onChange: (value) {
-                                controller.timeIntervals[index]['hour'] = value;
-                                controller.pillsTime[index] = TimeOfDay(
-                                  hour: int.parse(value.substring(0,2)),
-                                  minute: controller.pillsTime[index].minute,
-                                );
-                                if(index == 0 && controller.timeIntervals.length > 1){
-                                  for(var i = 1; i < controller.timeIntervals.length; i++){
-                                    int time = controller.pillsTime[i-1].hour;
-                                    controller.pillsTime[i] = TimeOfDay(
-                                      hour: time >= 24 ? time+int.parse(controller.hourlyInterval.value.substring(0,2))-24 : time+int.parse(controller.hourlyInterval.value.substring(0,2)),
-                                      minute: 00,
-                                    );
-                                    String hour, period;
-                                    String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
-                                    hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
-                                    period = date.substring(6,8);
-                                    log('This is the interval : $hour,$period, $date, $time');
-                                    controller.timeIntervals[i] = {
-                                      'hour': '$hour H',
-                                      'minute': controller.timeIntervals[i]['minute']!,
-                                      'period': period,
-                                    };
-                                  }
-                                }
-                              },
-                              items: SampleMedicine.hours
-                                  .map(
-                                    (element) => DropdownMenuItem(
-                                      value: element,
-                                      child: SizedBox(
-                                        width: 32.w,
-                                        child: Text(
-                                          element,
-                                          style: TextStyle(
-                                            fontFamily: 'Sansation',
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            CustomTextField(
-                              fontWeight: FontWeight.w700,
-                              text: ':',
-                              size: 20.sp,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            CustomDropDown(
-                              boxWidth: 68.w,
-                              boxHeight: 30.h,
-                              margin: EdgeInsets.symmetric(
-                                vertical: 2.h,
-                              ),
-                              value: controller.timeIntervals[index]['minute']
-                                  as String,
-                              dropDownColor:
-                                  Theme.of(context).colorScheme.primary,
-                              focusColor: Theme.of(context).colorScheme.primary,
-                              onChange: (value) {
-                                controller.timeIntervals[index]['minute'] =
-                                    value;
-                                controller.pillsTime[index] = TimeOfDay(
-                                  hour: controller.pillsTime[index].hour,
-                                  minute: int.parse(value.substring(0, 2)),
-                                );
-                              },
-                              items: SampleMedicine.minute
-                                  .map(
-                                    (element) => DropdownMenuItem(
-                                      value: element,
-                                      child: SizedBox(
-                                        width: 32.w,
-                                        child: Text(
-                                          element,
-                                          style: TextStyle(
-                                            fontFamily: 'Sansation',
-                                            fontSize: 12.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            CustomDropDown(
-                              boxWidth: 68.w,
-                              boxHeight: 30.h,
-                              margin: EdgeInsets.symmetric(
-                                vertical: 2.h,
-                              ),
-                              value: controller.timeIntervals[index]['period'] as String,
-                              dropDownColor: Theme.of(context).colorScheme.primary,
-                              focusColor: Theme.of(context).colorScheme.primary,
-                              onChange: (value) {
-                                controller.timeIntervals[index]['period'] =
-                                    value;
-                              },
-                              items: ['AM', 'PM']
-                                  .map(
-                                    (element) => DropdownMenuItem(
-                                      value: element,
-                                      child: SizedBox(
-                                        width: 30.w,
-                                        child: Text(
-                                          element,
-                                          style: TextStyle(
-                                            fontFamily: 'Sansation',
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Obx(
-                              () => controller.increasePossible.value
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        controller.addHourlyTimeInterval();
-                                      },
-                                      child: index == controller.timeIntervals.length - 1
-                                          ? CustomBox(
-                                              offset: 0,
-                                              color: Theme.of(context).colorScheme.primary,
-                                              boxHeight: 29.h,
-                                              topLeft: Radius.circular(4.r),
-                                              topRight: Radius.circular(4.r),
-                                              bottomLeft: Radius.circular(4.r),
-                                              bottomRight: Radius.circular(4.r),
-                                              body: CustomTextField(
-                                                color: Colors.black,
-                                                textAlign: TextAlign.center,
-                                                text: '+',
-                                                fontWeight: FontWeight.w400,
-                                                size: 25.sp,
-                                              ),
-                                              boxWidth: 33.w,
-                                              boxShadow: const [],
-                                            )
-                                          : SizedBox(
-                                        height: 29.h,
-                                        width: 33.w,
-                                      ),
-                                    )
-                                  : SizedBox(
-                                height: 29.h,
-                                width: 33.w,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+              value: controller.hourlyInterval.value,
+              dropDownColor: Theme.of(context).colorScheme.primary,
+              focusColor: Theme.of(context).colorScheme.primary,
+              onChange: (value) {
+                controller.increasePossible.value = true;
+                controller.timeIntervals.value = [
+                  {'hour': '08 H', 'minute': '00 M', 'period': 'AM'}
+                ];
+                controller.pillsTime = [
+                  const TimeOfDay(
+                    hour: 08,
+                    minute: 00,
+                  )
+                ];
+                controller.hourlyInterval.value = value;
+              },
+              items: ['01 H', '02 H', '03 H', '04 H', '06 H']
+                  .map(
+                    (element) => DropdownMenuItem(
+                  value: element,
+                  child: SizedBox(
+                    width: 32.w,
+                    child: Text(
+                      element,
+                      style: TextStyle(
+                        fontFamily: 'Sansation',
+                        fontSize: 13.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
+              )
+                  .toList(),
+            ),
+            MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              removeLeft: true,
+              child: Obx(
+                    () => ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.timeIntervals.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: 5.h,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              controller.removeHourlyTimeInterval(index);
+                            },
+                            child: index != 0
+                                ? CustomBox(
+                              offset: 0,
+                              color: Theme.of(context).colorScheme.primary,
+                              boxHeight: 29.h,
+                              topLeft: Radius.circular(4.r),
+                              topRight: Radius.circular(4.r),
+                              bottomLeft: Radius.circular(4.r),
+                              bottomRight: Radius.circular(4.r),
+                              body: CustomTextField(
+                                color: Colors.black,
+                                textAlign: TextAlign.center,
+                                text: '-',
+                                fontWeight: FontWeight.w400,
+                                size: 25.sp,
+                              ),
+                              boxWidth: 33.w,
+                              boxShadow: const [],
+                            )
+                                : SizedBox(
+                              height: 29.h,
+                              width: 33.w,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          CustomDropDown(
+                            boxWidth: 68.w,
+                            boxHeight: 30.h,
+                            margin: EdgeInsets.symmetric(
+                              vertical: 2.h,
+                            ),
+                            value: controller.timeIntervals[index]['hour'] as String,
+                            dropDownColor: Theme.of(context).colorScheme.primary,
+                            focusColor: Theme.of(context).colorScheme.primary,
+                            onChange: (value) {
+                              controller.timeIntervals[index]['hour'] = value;
+                              controller.pillsTime[index] = TimeOfDay(
+                                hour: int.parse(value.substring(0,2)),
+                                minute: controller.pillsTime[index].minute,
+                              );
+                              if(index == 0 && controller.timeIntervals.length > 1){
+                                for(var i = 1; i < controller.timeIntervals.length; i++){
+                                  int time = controller.pillsTime[i-1].hour;
+                                  controller.pillsTime[i] = TimeOfDay(
+                                    hour: time >= 24 ? time+int.parse(controller.hourlyInterval.value.substring(0,2))-24 : time+int.parse(controller.hourlyInterval.value.substring(0,2)),
+                                    minute: 00,
+                                  );
+                                  String hour, period;
+                                  String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                                  hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
+                                  period = date.substring(6,8);
+                                  log('This is the interval : $hour,$period, $date, $time');
+                                  controller.timeIntervals[i] = {
+                                    'hour': '$hour H',
+                                    'minute': controller.timeIntervals[i]['minute']!,
+                                    'period': period,
+                                  };
+                                }
+                              }
+                            },
+                            items: SampleMedicine.hours
+                                .map(
+                                  (element) => DropdownMenuItem(
+                                value: element,
+                                child: SizedBox(
+                                  width: 32.w,
+                                  child: Text(
+                                    element,
+                                    style: TextStyle(
+                                      fontFamily: 'Sansation',
+                                      fontSize: 13.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                                .toList(),
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          CustomTextField(
+                            fontWeight: FontWeight.w700,
+                            text: ':',
+                            size: 20.sp,
+                            color: Colors.black,
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          CustomDropDown(
+                            boxWidth: 68.w,
+                            boxHeight: 30.h,
+                            margin: EdgeInsets.symmetric(
+                              vertical: 2.h,
+                            ),
+                            value: controller.timeIntervals[index]['minute']
+                            as String,
+                            dropDownColor:
+                            Theme.of(context).colorScheme.primary,
+                            focusColor: Theme.of(context).colorScheme.primary,
+                            onChange: (value) {
+                              controller.timeIntervals[index]['minute'] =
+                                  value;
+                              controller.pillsTime[index] = TimeOfDay(
+                                hour: controller.pillsTime[index].hour,
+                                minute: int.parse(value.substring(0, 2)),
+                              );
+                            },
+                            items: SampleMedicine.minute
+                                .map(
+                                  (element) => DropdownMenuItem(
+                                value: element,
+                                child: SizedBox(
+                                  width: 32.w,
+                                  child: Text(
+                                    element,
+                                    style: TextStyle(
+                                      fontFamily: 'Sansation',
+                                      fontSize: 12.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                                .toList(),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          CustomDropDown(
+                            boxWidth: 68.w,
+                            boxHeight: 30.h,
+                            margin: EdgeInsets.symmetric(
+                              vertical: 2.h,
+                            ),
+                            value: controller.timeIntervals[index]['period'] as String,
+                            dropDownColor: Theme.of(context).colorScheme.primary,
+                            focusColor: Theme.of(context).colorScheme.primary,
+                            onChange: (value) {
+                              controller.timeIntervals[index]['period'] =
+                                  value;
+                            },
+                            items: ['AM', 'PM']
+                                .map(
+                                  (element) => DropdownMenuItem(
+                                value: element,
+                                child: SizedBox(
+                                  width: 30.w,
+                                  child: Text(
+                                    element,
+                                    style: TextStyle(
+                                      fontFamily: 'Sansation',
+                                      fontSize: 13.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                                .toList(),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Obx(
+                                () => controller.increasePossible.value
+                                ? GestureDetector(
+                              onTap: () {
+                                controller.addHourlyTimeInterval();
+                              },
+                              child: index == controller.timeIntervals.length - 1
+                                  ? CustomBox(
+                                offset: 0,
+                                color: Theme.of(context).colorScheme.primary,
+                                boxHeight: 29.h,
+                                topLeft: Radius.circular(4.r),
+                                topRight: Radius.circular(4.r),
+                                bottomLeft: Radius.circular(4.r),
+                                bottomRight: Radius.circular(4.r),
+                                body: CustomTextField(
+                                  color: Colors.black,
+                                  textAlign: TextAlign.center,
+                                  text: '+',
+                                  fontWeight: FontWeight.w400,
+                                  size: 25.sp,
+                                ),
+                                boxWidth: 33.w,
+                                boxShadow: const [],
+                              )
+                                  : SizedBox(
+                                height: 29.h,
+                                width: 33.w,
+                              ),
+                            )
+                                : SizedBox(
+                              height: 29.h,
+                              width: 33.w,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
         );
       }
     } else {

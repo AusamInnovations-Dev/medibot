@@ -43,8 +43,8 @@ class SignIn extends GetView<AuthController> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: CustomBox(
-                  boxWidth: 256.w,
-                  boxHeight: 340.h,
+                  boxWidth: MediaQuery.of(context).size.width * 0.8,
+                  boxHeight: MediaQuery.of(context).size.height * 0.5,
                   margin: const EdgeInsets.symmetric(horizontal: 48),
                   padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
                   topRight: Radius.circular(17.r),
@@ -71,6 +71,7 @@ class SignIn extends GetView<AuthController> {
                               boxWidth: 265.w,
                               hintText: "",
                               fontTheme: 'Sansation',
+                              type: TextInputType.number,
                               textController: controller.phoneController,
                             ),
                           ],

@@ -53,7 +53,7 @@ class TimeInterval extends GetView<SetReminderController> {
                                 hour: controller.interval.value == 'Twice a Day (12 Hours)' ? int.parse(time.substring(0,2))+12 : int.parse(time.substring(0,2)) >= 24 ? int.parse(time.substring(0,2))-24+8 : int.parse(time.substring(0,2))+8,
                                 minute: 00,
                               );
-                              String hour, minute, period;
+                              String hour, period;
                               String date = DateFormat('hh:mm:a').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
                               hour = DateFormat('hh').format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, controller.pillsTime[i].hour, controller.pillsTime[i].minute));
                               period = date.substring(6,8);

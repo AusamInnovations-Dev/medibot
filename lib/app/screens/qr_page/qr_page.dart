@@ -44,8 +44,8 @@ class Qrcode extends GetView<QrController> {
               height: MediaQuery.of(context).size.height * 0.6,
               alignment: Alignment.center,
               child: CustomBox(
-                boxHeight: 370.h,
-                boxWidth: 264.w,
+                boxHeight: MediaQuery.of(context).size.height * 0.52,
+                boxWidth: MediaQuery.of(context).size.width * 0.8,
                 margin: const EdgeInsets.symmetric(horizontal: 48),
                 padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
                 topRight: Radius.circular(17.r),

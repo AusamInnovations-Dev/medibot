@@ -204,7 +204,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                         color: Colors.black26,
                       ),
                     ),
-                    hintText: 'Medicine Category*',
+                    hintText: 'Medicine Type*',
                     hintStyle: TextStyle(
                       fontFamily: 'Sansation',
                       fontSize: 15.sp,
@@ -266,7 +266,7 @@ class SetReminderScreen extends GetView<SetReminderController> {
                             color: Colors.black26,
                           ),
                         ),
-                        hintText: controller.medicineCategory.value != 'Select Medicine *' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
+                        hintText: controller.medicineCategory.value != 'Select Category' ? '${controller.medicineCategory.value} Name *' : 'Medicine Name *',
                         hintStyle: TextStyle(
                           fontFamily: 'Sansation',
                           fontSize: 16.sp,

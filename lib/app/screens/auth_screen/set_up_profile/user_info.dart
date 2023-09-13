@@ -48,8 +48,8 @@ class UserInfo extends GetView<SetUpProfileController> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: CustomBox(
-                  boxHeight: 350.h,
-                  boxWidth: 264.w,
+                  boxHeight: MediaQuery.of(context).size.height * 0.5,
+                  boxWidth: MediaQuery.of(context).size.width * 0.8,
                   margin: EdgeInsets.symmetric(horizontal: 42.w),
                   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
                   topRight: Radius.circular(17.r),
