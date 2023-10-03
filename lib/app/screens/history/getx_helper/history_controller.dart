@@ -431,7 +431,6 @@ class HistoryController extends GetxController {
               rangeSelectionColor: const Color(0xff041c50),
               selectionMode: DateRangePickerSelectionMode.range,
               showActionButtons: true,
-              enablePastDates: false,
               todayHighlightColor: const Color(0xff041c50),
               selectionShape: DateRangePickerSelectionShape.rectangle,
               monthCellStyle: DateRangePickerMonthCellStyle(

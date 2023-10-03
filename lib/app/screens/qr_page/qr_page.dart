@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -76,7 +78,8 @@ class Qrcode extends GetView<QrController> {
                               MobileScanner(
                                 onDetect: (BarcodeCapture barcodes) {
                                   var data = barcodes.raw;
-                                  controller.onScanQrCode(data);
+                                  log(data[0]['displayValue']);
+                                  controller.onScanQrCode(data[0]['displayValue']);
                                 },
                               ) : const Center(
                                 child: CircularProgressIndicator(
@@ -99,7 +102,11 @@ class Qrcode extends GetView<QrController> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        await controller.onSkip();
+                        if(controller.uploadingData.value){
+
+                        }else{
+                          await controller.onSkip();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(MediaQuery.of(context).size.width, 0),
@@ -112,21 +119,15 @@ class Qrcode extends GetView<QrController> {
                           borderRadius: BorderRadius.circular(17.r),
                         ),
                       ),
-                      child: Obx(
-                        () => !controller.uploadingData.value
-                            ? CustomTextField(
-                                text: "No thanks, Skip",
-                                fontFamily: 'Sansation',
-                                size: 13.sp,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              )
-                            : Container(
-                                alignment: Alignment.center,
-                                height: 13.h,
-                                width: 13.h,
-                                child: const CircularProgressIndicator(),
-                              ),
+                      child: Container(
+                        child: Text(
+                          "No Thanks, Skip",
+                          style: TextStyle(
+                            fontFamily: 'Sansation',
+                            fontSize: 13.sp,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
                     ),
                     Container(

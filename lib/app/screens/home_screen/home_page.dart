@@ -59,18 +59,13 @@ class HomePage extends GetView<HomepageController> {
                                         Padding(
                                           padding: EdgeInsets.only(top: 7.h),
                                           child: CircularPercentIndicator(
-                                            progressColor: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
+                                            progressColor: Theme.of(context).colorScheme.secondary,
                                             radius: 90.r,
                                             lineWidth: 15.0,
-                                            percent: (controller
-                                                    .pillsTaken.value /
-                                                controller.pillsToTake.value),
+                                            percent: (controller.pillsTaken.value / controller.pillsToTake.value),
                                             backgroundColor: Colors.white,
                                             center: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Container(

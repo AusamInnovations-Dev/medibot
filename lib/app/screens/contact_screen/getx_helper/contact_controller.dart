@@ -83,13 +83,13 @@ class ContactController extends GetxController {
     }
   }
 
-  void searchYourContact(value) {
+  void searchYourContact(String value) {
     loadingContact.value = true;
     selectedContacts.value = [];
     if(value.isEmpty){
       selectedContacts.value = contacts;
     }else{
-      selectedContacts.addAll(contacts.where((element) => element.displayName!.trim().startsWith(value)));
+      selectedContacts.addAll(contacts.where((element) => element.displayName!.toLowerCase().trim().startsWith(value.toLowerCase().trim())));
     }
     loadingContact.value = false;
   }

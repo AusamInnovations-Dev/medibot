@@ -312,7 +312,6 @@ class HomepageController extends GetxController {
 
   String checkDue() {
 
-    // log(UserStore.to.skipPills.toString());
     if(reminderList.isNotEmpty){
       for (var interval in reminderList[pillIndex.value].pillsInterval) {
         var nextIndex = reminderList[pillIndex.value].pillsInterval.indexOf(interval) + 1;
@@ -755,10 +754,10 @@ class HomepageController extends GetxController {
 
   Future<void> skipPill() async {
     isSkipping.value = true;
-    if(checkDueTime() == ''){
+    if(reminderList[pillIndex.value].inMedibot){
       Get.snackbar(
-        "Reminders",
-        "You don't have any pill to skip",
+        "Medibot",
+        "Please use Medibot for this feature.",
         icon: const Icon(
           Icons.crisis_alert_outlined,
           color: Colors.black,
@@ -768,28 +767,109 @@ class HomepageController extends GetxController {
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
         colorText: Colors.black,
       );
-      Future.delayed(const Duration(seconds: 1), () => isSkipping.value = false);
     }else{
-      log('Marking as Messed');
-      PillsModel pill = reminderList[pillIndex.value];
-      var pillInterval = '${checkDueTime().substring(0,2)}HH:${checkDueTime().substring(3,5)}MM';
-      if(pillInterval != ''){
-        String docId = "${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}";
-        var dayHistory = await FirebaseFireStore.to.getHistoryDataByDay(docId);
-        if (dayHistory != null) {
-          HistoryModel historyModel = HistoryModel.fromJson(dayHistory.data() as Map<String, dynamic>);
-          late HistoryData historyData;
-          int? index;
-          for (var pills in historyModel.historyData) {
-            if (pills.pillId == pill.uid) {
-              historyData = pills;
-              index = historyModel.historyData.indexOf(pills);
-              break;
+      if(checkDueTime() == ''){
+        Get.snackbar(
+          "Reminders",
+          "You don't have any pill to skip",
+          icon: const Icon(
+            Icons.crisis_alert_outlined,
+            color: Colors.black,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xffA9CBFF),
+          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          colorText: Colors.black,
+        );
+        Future.delayed(const Duration(seconds: 1), () => isSkipping.value = false);
+      }else{
+        log('Marking as Messed');
+        PillsModel pill = reminderList[pillIndex.value];
+        var pillInterval = '${checkDueTime().substring(0,2)}HH:${checkDueTime().substring(3,5)}MM';
+        if(pillInterval != ''){
+          String docId = "${DateTime.now().year}:${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}:${DateTime.now().day < 10 ? '0${DateTime.now().day}' : DateTime.now().day}";
+          var dayHistory = await FirebaseFireStore.to.getHistoryDataByDay(docId);
+          if (dayHistory != null) {
+            HistoryModel historyModel = HistoryModel.fromJson(dayHistory.data() as Map<String, dynamic>);
+            late HistoryData historyData;
+            int? index;
+            for (var pills in historyModel.historyData) {
+              if (pills.pillId == pill.uid) {
+                historyData = pills;
+                index = historyModel.historyData.indexOf(pills);
+                break;
+              }
             }
-          }
-          if (index == null) {
-            List<HistoryData> list = [];
-            list.addAll(historyModel.historyData);
+            if (index == null) {
+              List<HistoryData> list = [];
+              list.addAll(historyModel.historyData);
+              List<String> timeTaken = [];
+              List<String> status = [];
+              for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
+                timeTaken.add('00HH:00MM');
+                status.add('M');
+              }
+              timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+              status.add('M');
+              list.add(
+                HistoryData(
+                  pillId: pill.uid,
+                  timeToTake: pill.pillsInterval,
+                  timeTaken: timeTaken,
+                  med_status: status,
+                ),
+              );
+              historyModel = historyModel.copyWith(historyData: list);
+              await FirebaseFireStore.to.uploadHistoryData(
+                historyModel,
+                docId,
+              );
+              await UserStore.to.setSkipPills({
+                'pillId': reminderList[pillIndex.value].uid,
+                'pillInterval': '${checkDueTime().substring(0,2)}HH:${checkDueTime().substring(3, 5)}MM',
+                'pillDuration': DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toIso8601String()
+              });
+              isSkipping.value = false;
+            } else {
+              if(pill.pillsInterval.indexOf(pillInterval) == historyData.timeTaken.length-1){
+                isSkipping.value = false;
+              }else if (historyData.timeTaken.length < historyData.timeToTake.length) {
+                HistoryData historyDataTemp = historyData;
+                List<String> tempTimeTaken = [];
+                List<HistoryData> list = [];
+                List<String> tempStatus = [];
+                tempStatus.addAll(historyDataTemp.med_status);
+                list.addAll(historyModel.historyData);
+                tempTimeTaken.addAll(historyDataTemp.timeTaken);
+                for(int i=tempTimeTaken.length; i<pill.pillsInterval.indexOf(pillInterval); i++){
+                  tempTimeTaken.add('00HH:00MM');
+                  tempStatus.add('M');
+                }
+                tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
+                tempStatus.add('M');
+                list[index] = HistoryData(
+                  pillId: historyModel.historyData[index].pillId,
+                  timeTaken: tempTimeTaken,
+                  med_status: tempStatus,
+                  timeToTake: historyModel.historyData[index].timeToTake,
+                );
+                HistoryModel tempHistory = HistoryModel(
+                  userId: historyModel.userId,
+                  historyData: list,
+                );
+                isSkipping.value = false;
+                await FirebaseFireStore.to.uploadHistoryData(
+                  tempHistory,
+                  docId,
+                );
+                await UserStore.to.setSkipPills({
+                  'pillId': reminderList[pillIndex.value].uid,
+                  'pillInterval': '${checkDueTime().substring(0,2)}HH:${checkDueTime().substring(3, 5)}MM',
+                  'pillDuration': DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toIso8601String()
+                });
+              }
+            }
+          } else {
             List<String> timeTaken = [];
             List<String> status = [];
             for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
@@ -798,76 +878,25 @@ class HomepageController extends GetxController {
             }
             timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
             status.add('M');
-            list.add(
+            HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
               HistoryData(
                 pillId: pill.uid,
                 timeToTake: pill.pillsInterval,
                 timeTaken: timeTaken,
                 med_status: status,
               ),
-            );
-            historyModel = historyModel.copyWith(historyData: list);
+            ]);
+            await UserStore.to.setSkipPills({
+              'pillId': reminderList[pillIndex.value].uid,
+              'pillInterval': '${checkDueTime().substring(0,2)}HH:${checkDueTime().substring(3, 5)}MM',
+              'pillDuration': DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toIso8601String()
+            });
+            isSkipping.value = false;
             await FirebaseFireStore.to.uploadHistoryData(
               historyModel,
               docId,
             );
-            isSkipping.value = false;
-          } else {
-            if(pill.pillsInterval.indexOf(pillInterval) == historyData.timeTaken.length-1){
-              isSkipping.value = false;
-            }else if (historyData.timeTaken.length < historyData.timeToTake.length) {
-              HistoryData historyDataTemp = historyData;
-              List<String> tempTimeTaken = [];
-              List<HistoryData> list = [];
-              List<String> tempStatus = [];
-              tempStatus.addAll(historyDataTemp.med_status);
-              list.addAll(historyModel.historyData);
-              tempTimeTaken.addAll(historyDataTemp.timeTaken);
-              for(int i=tempTimeTaken.length; i<pill.pillsInterval.indexOf(pillInterval); i++){
-                tempTimeTaken.add('00HH:00MM');
-                tempStatus.add('M');
-              }
-              tempTimeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
-              tempStatus.add('M');
-              list[index] = HistoryData(
-                pillId: historyModel.historyData[index].pillId,
-                timeTaken: tempTimeTaken,
-                med_status: tempStatus,
-                timeToTake: historyModel.historyData[index].timeToTake,
-              );
-              HistoryModel tempHistory = HistoryModel(
-                userId: historyModel.userId,
-                historyData: list,
-              );
-              isSkipping.value = false;
-              await FirebaseFireStore.to.uploadHistoryData(
-                tempHistory,
-                docId,
-              );
-            }
           }
-        } else {
-          List<String> timeTaken = [];
-          List<String> status = [];
-          for(int i=0; i<pill.pillsInterval.indexOf(pillInterval); i++){
-            timeTaken.add('00HH:00MM');
-            status.add('M');
-          }
-          timeTaken.add('${DateTime.now().hour > 9 ? '${DateTime.now().hour}HH' : '0${DateTime.now().hour}HH'}:${DateTime.now().minute > 9 ? '${DateTime.now().minute}HH' : '0${DateTime.now().minute}MM'}');
-          status.add('M');
-          HistoryModel historyModel = HistoryModel(userId: docId, historyData: [
-            HistoryData(
-              pillId: pill.uid,
-              timeToTake: pill.pillsInterval,
-              timeTaken: timeTaken,
-              med_status: status,
-            ),
-          ]);
-          isSkipping.value = false;
-          await FirebaseFireStore.to.uploadHistoryData(
-            historyModel,
-            docId,
-          );
         }
       }
     }

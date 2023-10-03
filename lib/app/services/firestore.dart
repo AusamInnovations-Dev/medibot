@@ -366,10 +366,6 @@ class FirebaseFireStore extends GetxController {
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getMedibotId(String docId) async {
-    await fireStore
-        .collection('medibot')
-        .doc(docId)
-        .set({'ssId' : 'ssId', 'password' : 'password'});
     return await fireStore.collection('medibot').doc(docId).get();
   }
 
