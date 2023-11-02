@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,9 +17,12 @@ class CaretakerSettings extends GetView<UserSettingController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.caretakernameController = TextEditingController(text: UserStore.to.profile.careTaker.careTakerName);
-    controller.caretakerphoneController = TextEditingController(text: UserStore.to.profile.careTaker.caretakerPhone);
-    controller.caretakerlocationController = TextEditingController(text: UserStore.to.profile.careTaker.careTakerAddress);
+    controller.caretakernameController =
+        TextEditingController(text: UserStore.to.profile.careTaker.careTakerName);
+    controller.caretakerphoneController =
+        TextEditingController(text: UserStore.to.profile.careTaker.caretakerPhone);
+    controller.caretakerlocationController =
+        TextEditingController(text: UserStore.to.profile.careTaker.careTakerAddress);
 
     return ScreenDecoration(
       body: Column(
@@ -66,6 +68,7 @@ class CaretakerSettings extends GetView<UserSettingController> {
                       boxHeight: 39.h,
                       boxWidth: 293.w,
                       hintText: "",
+                      showSuffix: false,
                       textController: controller.caretakernameController,
                       fontTheme: 'Sansation',
                     )
@@ -91,8 +94,8 @@ class CaretakerSettings extends GetView<UserSettingController> {
                           topr: Radius.zero,
                           boxHeight: 118.h,
                           boxWidth: 210.w,
-                          textController:
-                              controller.caretakerlocationController,
+                          showSuffix: false,
+                          textController: controller.caretakerlocationController,
                           hintText: "",
                           fontTheme: 'Sansation',
                         ),
@@ -103,7 +106,8 @@ class CaretakerSettings extends GetView<UserSettingController> {
                           fontWeight: FontWeight.w500,
                           textsize: 9.sp,
                           onPressed: () async {
-                            controller.caretakerlocationController.text = await controller.getCurrentLocation();
+                            controller.caretakerlocationController.text =
+                                await controller.getCurrentLocation();
                           },
                         )
                       ],
@@ -128,6 +132,7 @@ class CaretakerSettings extends GetView<UserSettingController> {
                         children: [
                           CustomInputField(
                             bottomr: Radius.zero,
+                            showSuffix: false,
                             textController: controller.caretakerphoneController,
                             topr: Radius.zero,
                             boxHeight: 36.h,
@@ -143,8 +148,10 @@ class CaretakerSettings extends GetView<UserSettingController> {
                             fontWeight: FontWeight.w500,
                             textsize: 9.sp,
                             onPressed: () async {
-                              var contact = await Get.toNamed(RoutePaths.contactPage);
-                              controller.caretakerphoneController.text = contact['contact'];
+                              var contact =
+                                  await Get.toNamed(RoutePaths.contactPage);
+                              controller.caretakerphoneController.text =
+                                  contact['contact'];
                             },
                           )
                         ],
@@ -156,7 +163,11 @@ class CaretakerSettings extends GetView<UserSettingController> {
                         padding: EdgeInsets.symmetric(vertical: 9.w),
                         iconSize: 20.h,
                         onPressed: () {
-                          if(int.tryParse(controller.caretakerphoneController.text) == null || controller.caretakerphoneController.text.length != 10){
+                          if (int.tryParse(
+                                      controller.caretakerphoneController.text) ==
+                                  null ||
+                              controller.caretakerphoneController.text.length !=
+                                  10) {
                             Get.snackbar(
                               "User Settings ",
                               "Please enter a valid phone number",
@@ -166,10 +177,11 @@ class CaretakerSettings extends GetView<UserSettingController> {
                               ),
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: const Color(0xffA9CBFF),
-                              margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 10.w),
                               colorText: Colors.black,
                             );
-                          }else{
+                          } else {
                             controller.updateCareTaker();
                           }
                         },

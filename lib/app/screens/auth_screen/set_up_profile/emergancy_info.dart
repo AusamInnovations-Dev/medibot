@@ -73,6 +73,7 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                             CustomInputField(
                               boxHeight: 36.h,
                               boxWidth: 250.w,
+                        showSuffix: false,
                               hintText: "",
                               fontTheme: 'Sansation',
                               textController: controller.emergencynameController,
@@ -100,6 +101,7 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                                 CustomInputField(
                                   boxHeight: 36.h,
                                   boxWidth: 180.w,
+                        showSuffix: false,
                                   hintText: "",
                                   fontTheme: 'Sansation',
                                   textController: controller.emergencylocationController,
@@ -143,6 +145,7 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                                 CustomInputField(
                                   boxHeight: 36.h,
                                   boxWidth: 180.w,
+                        showSuffix: false,
                                   hintText: "",
                                   fontTheme: 'Sansation',
                                   type: TextInputType.number,
@@ -181,6 +184,7 @@ class EmergencyInfo extends GetView<SetUpProfileController> {
                             CustomInputField(
                               boxHeight: 36.h,
                               boxWidth: 240.w,
+                        showSuffix: false,
                               hintText: "",
                               fontTheme: 'Sansation',
                               textController: controller.emergencyrelationController,

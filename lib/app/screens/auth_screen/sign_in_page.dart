@@ -69,6 +69,7 @@ class SignIn extends GetView<AuthController> {
                             CustomInputField(
                               boxHeight: 35.h,
                               boxWidth: 265.w,
+                              showSuffix: false,
                               hintText: "",
                               fontTheme: 'Sansation',
                               type: TextInputType.number,
@@ -105,11 +106,14 @@ class SignIn extends GetView<AuthController> {
                             CustomInputField(
                               boxHeight: 35.h,
                               boxWidth: 265.w,
+                              showSuffix: false,
                               hintText: "",
                               fontTheme: 'Sansation',
                               textController: controller.emailController,
                             ),
-                            SizedBox(height: 8.h,),
+                            SizedBox(
+                              height: 8.h,
+                            ),
                             Container(
                               padding: EdgeInsets.only(bottom: 3.w),
                               child: CustomTextField(
@@ -122,6 +126,7 @@ class SignIn extends GetView<AuthController> {
                             CustomInputField(
                               boxHeight: 35.h,
                               boxWidth: 265.w,
+                              showSuffix: false,
                               hintText: "",
                               fontTheme: 'Sansation',
                               obsecure: true,
@@ -132,8 +137,8 @@ class SignIn extends GetView<AuthController> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-
-                          if(controller.phoneController.text.isNotEmpty && controller.emailController.text.isNotEmpty){
+                          if (controller.phoneController.text.isNotEmpty &&
+                              controller.emailController.text.isNotEmpty) {
                             Get.snackbar(
                               "Auth Error",
                               "Please select any one field to login.",
@@ -149,13 +154,14 @@ class SignIn extends GetView<AuthController> {
                               ),
                               colorText: Colors.black,
                             );
-                          }else{
-                            if(controller.phoneController.text.isNotEmpty){
-                              if (controller.validate(controller.phoneController.text)) {
+                          } else {
+                            if (controller.phoneController.text.isNotEmpty) {
+                              if (controller
+                                  .validate(controller.phoneController.text)) {
                                 if (await controller.checkUserAccountByPhone()) {
                                   await controller.handleSignInByPhone();
                                   Get.toNamed(RoutePaths.otpConfirmation);
-                                }else{
+                                } else {
                                   Get.snackbar(
                                     "Auth Error",
                                     "User doesn't exist with this phone number",
@@ -189,28 +195,29 @@ class SignIn extends GetView<AuthController> {
                                   colorText: Colors.black,
                                 );
                               }
-                            }else if(controller.emailController.text.isNotEmpty){
-                              if(await controller.checkUserAccountByMail()) {
-                                if(GetUtils.isEmail(controller.emailController.text)) {
+                            } else if (controller.emailController.text.isNotEmpty) {
+                              if (await controller.checkUserAccountByMail()) {
+                                if (GetUtils.isEmail(
+                                    controller.emailController.text)) {
                                   await controller.handleSignInByEmail();
-                                }else {
-                                    Get.snackbar(
-                                      "Auth Error",
-                                      "Please enter a valid email address",
-                                      icon: const Icon(
-                                        Icons.person,
-                                        color: Colors.black,
-                                      ),
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: const Color(0xffA9CBFF),
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10.h,
-                                        horizontal: 10.w,
-                                      ),
-                                      colorText: Colors.black,
-                                    );
+                                } else {
+                                  Get.snackbar(
+                                    "Auth Error",
+                                    "Please enter a valid email address",
+                                    icon: const Icon(
+                                      Icons.person,
+                                      color: Colors.black,
+                                    ),
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: const Color(0xffA9CBFF),
+                                    margin: EdgeInsets.symmetric(
+                                      vertical: 10.h,
+                                      horizontal: 10.w,
+                                    ),
+                                    colorText: Colors.black,
+                                  );
                                 }
-                              }else {
+                              } else {
                                 Get.snackbar(
                                   "Auth Error",
                                   "You Don't have any account with this number/email please create one.",

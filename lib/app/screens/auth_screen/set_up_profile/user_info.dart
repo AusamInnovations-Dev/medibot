@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -74,6 +73,7 @@ class UserInfo extends GetView<SetUpProfileController> {
                             CustomInputField(
                               boxHeight: 36.h,
                               boxWidth: 232.w,
+                              showSuffix: false,
                               hintText: "",
                               fontTheme: 'Sansation',
                               textController: controller.nameController,
@@ -98,6 +98,7 @@ class UserInfo extends GetView<SetUpProfileController> {
                             CustomInputField(
                               boxHeight: 36.h,
                               boxWidth: 232.w,
+                              showSuffix: false,
                               hintText: "",
                               fontTheme: 'Sansation',
                               type: TextInputType.number,
@@ -127,6 +128,7 @@ class UserInfo extends GetView<SetUpProfileController> {
                                 CustomInputField(
                                   topr: Radius.zero,
                                   bottomr: Radius.zero,
+                                  showSuffix: false,
                                   boxHeight: 36.h,
                                   boxWidth: 166.w,
                                   hintText: "",
@@ -143,7 +145,8 @@ class UserInfo extends GetView<SetUpProfileController> {
                                     fontWeight: FontWeight.w500,
                                     textsize: 8.sp,
                                     onPressed: () async {
-                                      controller.locationController.text = await controller.getCurrentLocation();
+                                      controller.locationController.text =
+                                          await controller.getCurrentLocation();
                                     },
                                   ),
                                 )
@@ -193,7 +196,7 @@ class UserInfo extends GetView<SetUpProfileController> {
                         padding: EdgeInsets.symmetric(vertical: 9.w),
                         iconSize: 18.h,
                         onPressed: () {
-                          if(int.tryParse(controller.ageController.text) == null){
+                          if (int.tryParse(controller.ageController.text) == null) {
                             Get.snackbar(
                               "User Settings",
                               "PLease enter valid age",
@@ -203,10 +206,11 @@ class UserInfo extends GetView<SetUpProfileController> {
                               ),
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: const Color(0xffA9CBFF),
-                              margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 10.w),
                               colorText: Colors.black,
                             );
-                          }else{
+                          } else {
                             if (controller.haveCaretaker.value) {
                               Get.toNamed(RoutePaths.caretakerInformation);
                             } else {

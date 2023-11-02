@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -74,18 +73,20 @@ class Qrcode extends GetView<QrController> {
                               boxHeight: 200.h,
                               boxWidth: 232.w,
                               boxShadow: const [],
-                              body: controller.isScanning.value ?
-                              MobileScanner(
-                                onDetect: (BarcodeCapture barcodes) {
-                                  var data = barcodes.raw;
-                                  log(data[0]['displayValue']);
-                                  controller.onScanQrCode(data[0]['displayValue']);
-                                },
-                              ) : const Center(
-                                child: CircularProgressIndicator(
-                                  color: Color(0xff041c50),
-                                ),
-                              ),
+                              body: controller.isScanning.value
+                                  ? MobileScanner(
+                                      onDetect: (BarcodeCapture barcodes) {
+                                        var data = barcodes.raw;
+                                        log(data[0]['displayValue']);
+                                        controller
+                                            .onScanQrCode(data[0]['displayValue']);
+                                      },
+                                    )
+                                  : const Center(
+                                      child: CircularProgressIndicator(
+                                        color: Color(0xff041c50),
+                                      ),
+                                    ),
                             ),
                           )
                         ],
@@ -102,9 +103,8 @@ class Qrcode extends GetView<QrController> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        if(controller.uploadingData.value){
-
-                        }else{
+                        if (controller.uploadingData.value) {
+                        } else {
                           await controller.onSkip();
                         }
                       },

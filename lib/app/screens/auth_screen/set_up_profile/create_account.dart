@@ -71,6 +71,7 @@ class CreateAccount extends GetView<AuthController> {
                           ),
                           CustomInputField(
                             boxHeight: 35.h,
+                            showSuffix: false,
                             boxWidth: 265.w,
                             hintText: "",
                             type: TextInputType.number,
@@ -108,11 +109,14 @@ class CreateAccount extends GetView<AuthController> {
                           CustomInputField(
                             boxHeight: 35.h,
                             boxWidth: 265.w,
+                            showSuffix: false,
                             hintText: "",
                             fontTheme: 'Sansation',
                             textController: controller.emailController,
                           ),
-                          SizedBox(height: 8.h,),
+                          SizedBox(
+                            height: 8.h,
+                          ),
                           Container(
                             padding: EdgeInsets.only(bottom: 3.w),
                             child: CustomTextField(
@@ -125,6 +129,7 @@ class CreateAccount extends GetView<AuthController> {
                           CustomInputField(
                             boxHeight: 35.h,
                             boxWidth: 265.w,
+                            showSuffix: false,
                             hintText: "",
                             fontTheme: 'Sansation',
                             obsecure: true,
@@ -139,7 +144,8 @@ class CreateAccount extends GetView<AuthController> {
                       padding: EdgeInsets.symmetric(vertical: 11.w),
                       iconSize: 18.h,
                       onPressed: () async {
-                        if(await controller.checkUserAccountByPhone() && await controller.checkUserAccountByMail()){
+                        if (await controller.checkUserAccountByPhone() &&
+                            await controller.checkUserAccountByMail()) {
                           Get.snackbar(
                             "Auth Error",
                             "User Already exist with this credentials.",
@@ -155,11 +161,13 @@ class CreateAccount extends GetView<AuthController> {
                             ),
                             colorText: Colors.black,
                           );
-                        }else {
+                        } else {
                           if (controller.validate(controller.phoneController.text)) {
                             await controller.handleSignInByPhone();
                             Get.toNamed(RoutePaths.otpConfirmation);
-                          }else if (GetUtils.isEmail(controller.emailController.text) && controller.passwordController.text.isNotEmpty) {
+                          } else if (GetUtils.isEmail(
+                                  controller.emailController.text) &&
+                              controller.passwordController.text.isNotEmpty) {
                             controller.handleSignUpByEmail();
                           } else {
                             Get.snackbar(

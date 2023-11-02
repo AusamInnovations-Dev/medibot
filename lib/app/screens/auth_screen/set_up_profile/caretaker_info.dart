@@ -71,6 +71,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                         boxHeight: 36.h,
                         boxWidth: 232.w,
                         hintText: "",
+                        showSuffix: false,
                         fontTheme: 'Sansation',
                         textController: controller.caretakernameController,
                       ),
@@ -98,6 +99,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                             bottomr: Radius.zero,
                             boxHeight: 36.h,
                             boxWidth: 175.w,
+                            showSuffix: false,
                             hintText: "",
                             fontTheme: 'Sansation',
                             textController: controller.caretakerlocationController,
@@ -112,7 +114,8 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                               fontWeight: FontWeight.w500,
                               textsize: 9.sp,
                               onPressed: () async {
-                                controller.caretakerlocationController.text =await controller.getCurrentLocation();
+                                controller.caretakerlocationController.text =
+                                    await controller.getCurrentLocation();
                               },
                             ),
                           )
@@ -142,6 +145,7 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                             topr: Radius.zero,
                             bottomr: Radius.zero,
                             boxHeight: 36.h,
+                            showSuffix: false,
                             boxWidth: 175.w,
                             hintText: "",
                             fontTheme: 'Sansation',
@@ -155,8 +159,10 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                             fontWeight: FontWeight.w500,
                             textsize: 9.sp,
                             onPressed: () async {
-                              var contact = await Get.toNamed(RoutePaths.contactPage);
-                              controller.caretakerphoneController.text = contact['contact'];
+                              var contact =
+                                  await Get.toNamed(RoutePaths.contactPage);
+                              controller.caretakerphoneController.text =
+                                  contact['contact'];
                             },
                           )
                         ],
@@ -170,7 +176,9 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 18.h,
                   onPressed: () {
-                    if(int.tryParse(controller.caretakerphoneController.text) == null || controller.caretakerphoneController.text.length != 10){
+                    if (int.tryParse(controller.caretakerphoneController.text) ==
+                            null ||
+                        controller.caretakerphoneController.text.length != 10) {
                       Get.snackbar(
                         "User Settings ",
                         "Please enter a valid phone number",
@@ -180,10 +188,11 @@ class CaretakerInfo extends GetView<SetUpProfileController> {
                         ),
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: const Color(0xffA9CBFF),
-                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                         colorText: Colors.black,
                       );
-                    }else{
+                    } else {
                       Get.toNamed(RoutePaths.emergencyInformation);
                     }
                   },

@@ -16,9 +16,12 @@ class UserProfile extends GetView<UserSettingController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.nameController = TextEditingController(text: UserStore.to.profile.username);
-    controller.addressController = TextEditingController(text: UserStore.to.profile.address);
-    controller.ageController = TextEditingController(text: UserStore.to.profile.age.toString());
+    controller.nameController =
+        TextEditingController(text: UserStore.to.profile.username);
+    controller.addressController =
+        TextEditingController(text: UserStore.to.profile.address);
+    controller.ageController =
+        TextEditingController(text: UserStore.to.profile.age.toString());
     return ScreenDecoration(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -61,6 +64,7 @@ class UserProfile extends GetView<UserSettingController> {
                     ),
                     CustomInputField(
                       boxHeight: 39.h,
+                      showSuffix: false,
                       textController: controller.nameController,
                       boxWidth: 293.w,
                       hintText: "",
@@ -86,6 +90,7 @@ class UserProfile extends GetView<UserSettingController> {
                       boxWidth: 293.w,
                       hintText: "",
                       type: TextInputType.number,
+                      showSuffix: false,
                       textController: controller.ageController,
                       fontTheme: 'Sansation',
                     )
@@ -109,6 +114,7 @@ class UserProfile extends GetView<UserSettingController> {
                       children: [
                         CustomInputField(
                           bottomr: Radius.zero,
+                          showSuffix: false,
                           textController: controller.addressController,
                           topr: Radius.zero,
                           boxHeight: 118.h,
@@ -123,7 +129,8 @@ class UserProfile extends GetView<UserSettingController> {
                           fontWeight: FontWeight.w500,
                           textsize: 9.sp,
                           onPressed: () async {
-                            controller.addressController.text = await controller.getCurrentLocation();
+                            controller.addressController.text =
+                                await controller.getCurrentLocation();
                           },
                         )
                       ],
@@ -136,7 +143,7 @@ class UserProfile extends GetView<UserSettingController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 20.h,
                   onPressed: () {
-                    if(int.tryParse(controller.ageController.text) == null){
+                    if (int.tryParse(controller.ageController.text) == null) {
                       Get.snackbar(
                         "User Settings",
                         "PLease enter valid age",
@@ -146,10 +153,11 @@ class UserProfile extends GetView<UserSettingController> {
                         ),
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: const Color(0xffA9CBFF),
-                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                         colorText: Colors.black,
                       );
-                    }else{
+                    } else {
                       controller.updateProfile();
                     }
                   },

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,10 +17,14 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.emergencynameController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyName);
-    controller.emergencylocationController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyAddress);
-    controller.emergencycontactController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyPhone);
-    controller.emergencyrelationController = TextEditingController(text: UserStore.to.profile.emergencyPerson.emergencyRelation);
+    controller.emergencynameController = TextEditingController(
+        text: UserStore.to.profile.emergencyPerson.emergencyName);
+    controller.emergencylocationController = TextEditingController(
+        text: UserStore.to.profile.emergencyPerson.emergencyAddress);
+    controller.emergencycontactController = TextEditingController(
+        text: UserStore.to.profile.emergencyPerson.emergencyPhone);
+    controller.emergencyrelationController = TextEditingController(
+        text: UserStore.to.profile.emergencyPerson.emergencyRelation);
 
     return ScreenDecoration(
       body: Column(
@@ -67,6 +70,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                       CustomInputField(
                         boxHeight: 36.h,
                         boxWidth: 280.w,
+                        showSuffix: false,
                         textController: controller.emergencynameController,
                         hintText: "",
                         fontTheme: 'Sansation',
@@ -97,8 +101,8 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                             boxHeight: 36.h,
                             boxWidth: 210.w,
                             hintText: "",
-                            textController:
-                                controller.emergencylocationController,
+                            showSuffix: false,
+                            textController: controller.emergencylocationController,
                             fontTheme: 'Sansation',
                           ),
                           InputButton(
@@ -140,6 +144,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                             boxHeight: 36.h,
                             boxWidth: 210.w,
                             hintText: "",
+                            showSuffix: false,
                             type: TextInputType.number,
                             textController: controller.emergencycontactController,
                             fontTheme: 'Sansation',
@@ -151,8 +156,10 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                             fontWeight: FontWeight.w500,
                             textsize: 9.sp,
                             onPressed: () async {
-                              var contact = await Get.toNamed(RoutePaths.contactPage);
-                              controller.emergencycontactController.text = contact['contact'];
+                              var contact =
+                                  await Get.toNamed(RoutePaths.contactPage);
+                              controller.emergencycontactController.text =
+                                  contact['contact'];
                             },
                           ),
                         ],
@@ -176,6 +183,7 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                       ),
                       CustomInputField(
                         boxHeight: 36.h,
+                        showSuffix: false,
                         textController: controller.emergencyrelationController,
                         boxWidth: 280.w,
                         hintText: "",
@@ -190,7 +198,9 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                   padding: EdgeInsets.symmetric(vertical: 9.w),
                   iconSize: 20.h,
                   onPressed: () {
-                    if(int.tryParse(controller.emergencycontactController.text) == null || controller.emergencycontactController.text.length != 10){
+                    if (int.tryParse(controller.emergencycontactController.text) ==
+                            null ||
+                        controller.emergencycontactController.text.length != 10) {
                       Get.snackbar(
                         "User Settings ",
                         "Please enter a valid phone number",
@@ -200,10 +210,11 @@ class EmergencyInfoSettings extends GetView<UserSettingController> {
                         ),
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: const Color(0xffA9CBFF),
-                        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                         colorText: Colors.black,
                       );
-                    }else{
+                    } else {
                       controller.updateEmergencyContact();
                     }
                   },
